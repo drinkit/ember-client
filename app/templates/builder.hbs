@@ -1,0 +1,40 @@
+<div id="builder-view" class="row">
+  <div class="col-xs-3">
+    <h3>Формат коктейля</h3>
+    <div id="cocktail-types-group" class="row">
+      <div class="col-xs-4">
+        <button id="long-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+      </div>
+      <div class="col-xs-4">
+        <button id="short-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+      </div>
+      <div class="col-xs-4">
+        <button id="shot-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+      </div>
+    </div>
+    <hr>
+    <h3>Дополнительные опции</h3>
+    <div id="options-group" class="row">
+        <button id="burning-option-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">горящий</button>
+        <button id="flacky-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">слоеный</button>
+        <button id="ice-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">со льдом</button>
+        <button id="official-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">официальный</button>
+        <button id="checked-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">проверенный</button>
+    </div>
+    <hr>
+    <h3>Выбор ингредиентов</h3>
+    {{#ember-chosen
+        multiple=true
+        searchContains=true
+        displaySelectedOptions=false
+        content=model.ingredients
+        optionValuePath="id"
+        optionLabelPath="name"
+        placeholderTextMultiple='Напишите ингредиент...'}}
+        <!-- {{#each model.ingredients as |ingredient|}}
+        	<option value={{ingredient.id}}>{{ingredient.name}}</option>
+        {{/each}} -->
+    {{/ember-chosen}}
+  </div>
+  <div class="col-md-9"></div>
+</div>

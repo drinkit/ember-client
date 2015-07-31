@@ -1,0 +1,28 @@
+.big-toggle-button,
+.big-toggle-button:focus {
+	width: 64px;
+	height: 64px;
+	background-color: white;
+	border-color: #BBD2C7;
+	outline: none;
+}
+
+.big-toggle-button:hover,
+.big-toggle-button.active:hover {
+	background-color: #f3f3f3;
+	border-color: #BBD2C7;
+}
+
+.big-toggle-button.active,
+.big-toggle-button.active:focus,
+.big-toggle-button.active:focus:active,
+.big-toggle-button:active.focus {
+	background-color: #cae6da;
+	border-color: #78A590;
+	outline: none;
+}
+
+.big-toggle-button:active, .big-toggle-button.active {
+   -webkit-box-shadow: none; 
+   box-shadow: none; 
+}
