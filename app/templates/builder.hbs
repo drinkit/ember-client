@@ -27,13 +27,9 @@
         multiple=true
         searchContains=true
         displaySelectedOptions=false
-        content=model.ingredients
+        content=model
         optionValuePath="id"
-        optionLabelPath="name"
-        placeholderTextMultiple='Напишите ингредиент...'}}
-        <!-- {{#each model.ingredients as |ingredient|}}
-        	<option value={{ingredient.id}}>{{ingredient.name}}</option>
-        {{/each}} -->
+        optionLabelPath="name"}}
     {{/ember-chosen}}
   </div>
   <div class="col-md-9"></div>
