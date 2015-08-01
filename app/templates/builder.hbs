@@ -23,14 +23,13 @@
     </div>
     <hr>
     <h3>Выбор ингредиентов</h3>
-    {{#ember-chosen
+    {{ember-chosen
         multiple=true
         searchContains=true
         displaySelectedOptions=false
         content=model
         optionValuePath="id"
         optionLabelPath="name"}}
-    {{/ember-chosen}}
   </div>
   <div class="col-md-9"></div>
 </div>
