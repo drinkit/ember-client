@@ -34,7 +34,7 @@ body {
 #main-frame {
 	margin-top: 20px;
 	margin-bottom: 20px;
-	width: 1024px;
+	max-width: 1024px;
 	height: 100%;
 	background: white;
 	padding: 0;
@@ -108,6 +108,7 @@ h3 {
 #builder-view {
 	padding-top: 5px;
 	margin-left: 0px;
+	margin-right: 0px;
 	border: 0 none;
 
 	h3 {
@@ -120,12 +121,12 @@ h3 {
 	}
 }
 
-#builder-view > .col-xs-3 {
+#builder-view > .col-md-3 {
 	padding-left: 0px;
 	padding-right: 0px;
 }
 
-#builder-view > .col-xs-3 > .row {
+#builder-view > .col-md-3 > .row {
 	margin-bottom: 10px;
 }
 
@@ -159,6 +160,22 @@ h3 {
 	padding-right: 15px;
 }
 
+#search-results {
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+
+	> .row {
+		padding-left: 12px;
+		padding-right: 8px;
+
+		> .col-md-6 {
+			padding: 6px 6px 6px 6px;
+		}
+	}
+}
+
 @import "big-toggle-button.scss";
 @import "option-toggle-button.scss";
 @import "chosen.scss";
+@import "recipe-box.scss";

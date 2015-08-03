@@ -9,7 +9,8 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'font-src': "'self'",
       'style-src': "'self' 'unsafe-inline'",
-      'connect-src': "'self' http://prod-drunkedguru.rhcloud.com"
+      'connect-src': "'self' http://prod-drunkedguru.rhcloud.com",
+      'img-src': "'self' http://prod-drunkedguru.rhcloud.com"
     },
     EmberENV: {
       FEATURES: {

@@ -1,0 +1,14 @@
+<div class="recipe-box">
+	<div>
+		<div>
+			{{#if recipe.thumbnailUrl}}
+				<img src={{recipe.thumbnailUrl}}>
+			{{else}}
+				<img src="/assets/emptycocktail.png">
+			{{/if}}
+			<div>
+				<span class="recipe-name-text">{{recipe.name}}</span>
+			</div>
+		</div>
+	</div>
+</div>

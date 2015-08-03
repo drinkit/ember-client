@@ -1,25 +1,25 @@
 <div id="builder-view" class="row">
-  <div class="col-xs-3">
+  <div class="col-md-3">
     <h3>Формат коктейля</h3>
     <div id="cocktail-types-group" class="row">
       <div class="col-xs-4">
-        <button id="long-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+        <button {{action 'toggleType' 1}} id="long-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
       </div>
       <div class="col-xs-4">
-        <button id="short-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+        <button {{action 'toggleType' 2}} id="short-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
       </div>
       <div class="col-xs-4">
-        <button id="shot-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+        <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
       </div>
     </div>
     <hr>
     <h3>Дополнительные опции</h3>
     <div id="options-group" class="row">
-        <button id="burning-option-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">горящий</button>
-        <button id="flacky-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">слоеный</button>
-        <button id="ice-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">со льдом</button>
-        <button id="official-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">официальный</button>
-        <button id="checked-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">проверенный</button>
+        <button {{action 'toggleOption' 1}} id="burning-option-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">горящий</button>
+        <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">слоеный</button>
+        <button {{action 'toggleOption' 2}} id="ice-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">со льдом</button>
+        <button {{action 'toggleOption' 4}} id="official-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">официальный</button>
+        <button {{action 'toggleOption' 3}} id="checked-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">проверенный</button>
     </div>
     <hr>
     <h3>Выбор ингредиентов</h3>
@@ -29,7 +29,16 @@
         displaySelectedOptions=false
         content=model
         optionValuePath="id"
-        optionLabelPath="name"}}
+        optionLabelPath="name"
+    	value=selectedIngredients
+    	action="doSearch"
+    	placeholder="Напишите ингредиент..."}}
   </div>
-  <div class="col-md-9"></div>
+  <div id="search-results" class="col-md-9">
+  	<div class="row">
+  		{{#each recipe in foundedRecipes}}
+  			{{recipe-item recipe=recipe}}
+  		{{/each}}
+  	</div>	
+  </div>
 </div>
