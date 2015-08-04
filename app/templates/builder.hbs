@@ -27,7 +27,7 @@
         multiple=true
         searchContains=true
         displaySelectedOptions=false
-        content=model
+        content=ingredients
         optionValuePath="id"
         optionLabelPath="name"
     	value=selectedIngredients
@@ -36,7 +36,7 @@
   </div>
   <div id="search-results" class="col-md-9">
   	<div class="row">
-  		{{#each recipe in foundedRecipes}}
+  		{{#each recipes as |recipe|}}
   			{{recipe-item recipe=recipe}}
   		{{/each}}
   	</div>	

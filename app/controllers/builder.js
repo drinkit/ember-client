@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-	foundedRecipes: [],
 	cocktailTypes: [],
 	cocktailOptions: [],
 	selectedIngredients: [],
@@ -19,11 +18,18 @@ export default Ember.Controller.extend({
 			}
 		}).then(function(result) {
 			result = result.map(function(item) {
-				if (item.thumbnailUrl)
+				if (item.thumbnailUrl) {
 					item.thumbnailUrl = "http://prod-drunkedguru.rhcloud.com" + item.thumbnailUrl;
+				}
+
 				return item;
 			});
-			that.set("foundedRecipes", result);
+
+			that.store.unloadAll("recipe");
+
+			result.forEach(function(item) {
+				that.store.pushPayload("recipe", {"recipe": item});
+			});
 		});
 	},
 	actions: {
