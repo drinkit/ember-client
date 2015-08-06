@@ -1,13 +1,21 @@
 <div class="recipe-box">
 	<div>
+		{{#if recipe.thumbnailUrl}}
+			<img src={{recipe.thumbnailUrl}}>
+		{{else}}
+			<img src="/assets/emptycocktail.png">
+		{{/if}}
 		<div>
-			{{#if recipe.thumbnailUrl}}
-				<img src={{recipe.thumbnailUrl}}>
-			{{else}}
-				<img src="/assets/emptycocktail.png">
-			{{/if}}
-			<div>
-				<span class="recipe-name-text">{{recipe.name}}</span>
+			<span class="recipe-name-text">{{recipe.name}}</span>
+			<div id="ingredients">
+				{{#each sortedIngredients as |ingredient|}}
+					<span class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
+				{{/each}}
+			</div>
+			<div id="tags">
+				{{#each tags as |tag|}}
+					<img src={{tag}}>
+				{{/each}}
 			</div>
 		</div>
 	</div>

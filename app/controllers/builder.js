@@ -28,7 +28,7 @@ export default Ember.Controller.extend({
 			that.store.unloadAll("recipe");
 
 			result.forEach(function(item) {
-				that.store.pushPayload("recipe", {"recipe": item});
+				that.store.push("recipe", item);
 			});
 		});
 	},

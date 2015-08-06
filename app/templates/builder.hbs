@@ -37,7 +37,7 @@
   <div id="search-results" class="col-md-9">
   	<div class="row">
   		{{#each recipes as |recipe|}}
-  			{{recipe-item recipe=recipe}}
+  			{{recipe-item recipe=recipe store=store selectedIngredients=selectedIngredients}}
   		{{/each}}
   	</div>	
   </div>
