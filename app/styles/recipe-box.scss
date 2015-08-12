@@ -36,8 +36,11 @@
 
 			> #ingredients {
 				text-align: left;
+				padding-top: 5px;
+				padding-right: 5px;
 
 				span {
+					text-align: center;
 					display: inline-block;
 					white-space: nowrap;
 					border-radius: 10px;
@@ -76,4 +79,5 @@
     color: #464077;
     font-size: 20px;
     -webkit-font-smoothing: antialiased;
+    line-height: initial;
 }

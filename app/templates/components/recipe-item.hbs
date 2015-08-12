@@ -9,7 +9,7 @@
 			<span class="recipe-name-text">{{recipe.name}}</span>
 			<div id="ingredients">
 				{{#each sortedIngredients as |ingredient|}}
-					<span class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
+					<span title="{{ingredient.tooltip}}" class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
 				{{/each}}
 			</div>
 			<div id="tags">
