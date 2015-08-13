@@ -128,6 +128,8 @@ h3 {
 #builder-view > .col-md-3 {
 	padding-left: 0px;
 	padding-right: 0px;
+	min-width: 247px;
+	max-width: 247px;
 }
 
 #builder-view > .col-md-3 .row {
@@ -181,16 +183,27 @@ h3 {
 
 .affix {
   top: 0;
-  width: 100%;
+  min-width: 247px;
+  max-width: 247px;
 }
 
 .affix-top {
-  width: 100%;
+	min-width: 247px;
+	max-width: 247px;
 }
 
 .affix-bottom {
   position: absolute;
-  width: 100%;  
+  min-width: 247px;
+  max-width: 247px;
+}
+
+@media(max-width:767px) {
+   .affix {
+     position: static;
+     width: auto;
+     top: 0;
+    }
 }
 
 @import "big-toggle-button.scss";

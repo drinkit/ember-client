@@ -2,9 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 	classNames: ["col-md-3"],
-	attributeBindings: ["dataSpy:data-spy", "dataOffsetTop:data-offset-top"],
-	dataSpy: "affix",
-	dataOffsetTop: "200",
+	dataOffsetTop: 185,
+	dataOffsetBottom: null,
 	actions: {
 		toggleOption(id) {
 			this.sendAction("toggleOption", id);
@@ -15,5 +14,14 @@ export default Ember.Component.extend({
 		doSearch() {
 			this.sendAction("doSearch");
 		}
+	},
+	didInsertElement: function() {
+	    var options = {
+	      offset: {
+	        top:    this.get('dataOffsetTop'),
+	        bottom: this.get('dataOffsetBottom')
+	      }
+	    };
+	    this.$("#filtersMenu").affix(options);
 	}
 });
