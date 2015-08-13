@@ -121,12 +121,16 @@ h3 {
 	}
 }
 
+.fixedsticky {
+	top: 0;
+}
+
 #builder-view > .col-md-3 {
 	padding-left: 0px;
 	padding-right: 0px;
 }
 
-#builder-view > .col-md-3 > .row {
+#builder-view > .col-md-3 .row {
 	margin-bottom: 10px;
 }
 
@@ -173,6 +177,20 @@ h3 {
 			padding: 6px 6px 6px 6px;
 		}
 	}
+}
+
+.affix {
+  top: 0;
+  width: 100%;
+}
+
+.affix-top {
+  width: 100%;
+}
+
+.affix-bottom {
+  position: absolute;
+  width: 100%;  
 }
 
 @import "big-toggle-button.scss";

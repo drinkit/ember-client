@@ -27,8 +27,8 @@ export default Ember.Component.extend({
 		var selectedIngredients = this.get("selectedIngredients");
 		var store = this.get("store");
 		var recipe = this.get("recipe");
-		var ingredients = recipe.get("cocktailIngredients");
-		ingredients.forEach(function(item) {
+		var cocktailIngredients = recipe.get("cocktailIngredients");
+		cocktailIngredients.forEach(function(item) {
 			var ingr = store.peekRecord("ingredient", item[0]);
 			var type = selectedIngredients.contains(ingr.get("id").toString()) ? "selected-ingredient" : "unselected-ingredient";
 			sortedIngredients.push({
@@ -63,11 +63,12 @@ export default Ember.Component.extend({
 		ingredientsWithWidths = ingredientsWithWidths.sortBy("width");
 		//
 		var newOrder = [];
+		var curRowWidth = 0;
 		var totalHeight = 0;
 		var rendererHeight = 25 + gapBetweenIngredients;
-		while (totalHeight + rendererHeight <= availableHeight && ingredientsWithWidths.length != 0)
+		while (totalHeight + rendererHeight <= availableHeight && ingredientsWithWidths.length !== 0)
 		{
-		    var curRowWidth = 0;
+		    curRowWidth = 0;
 		    var rowIsNotFilled = true;
 		    var curIngredient = ingredientsWithWidths.shift();
 		    newOrder.push(curIngredient.item);
@@ -75,7 +76,6 @@ export default Ember.Component.extend({
 		    while (rowIsNotFilled) {
 		        var maxItem = -1;
 		        var maxSize = 0;
-		        var nextIngredient = null;
 		        for (var i = 0; i < ingredientsWithWidths.length; i++) {
 		            if (curRowWidth + ingredientsWithWidths[i].width < availableWidth) {
 		                if (curRowWidth + ingredientsWithWidths[i].width > maxSize) {
@@ -86,7 +86,7 @@ export default Ember.Component.extend({
 		            }
 		        }
 
-		        if (maxItem != -1) {
+		        if (maxItem !== -1) {
 		            newOrder.push(ingredientsWithWidths[maxItem].item);
 		            curRowWidth += ingredientsWithWidths[maxItem].width + gapBetweenIngredients;
 		            ingredientsWithWidths.splice(maxItem, 1);
@@ -108,10 +108,12 @@ export default Ember.Component.extend({
 		    	tooltip: ""
 		    };
 
+		    var deletedElement;
+
 		    if (curRowWidth + dotsWidth <= availableWidth) {
 		        newOrder.push(dots);
 		    } else {
-		        var deletedElement = ingredientsWithWidths.pop();
+		        deletedElement = ingredientsWithWidths.pop();
 		        newOrder.push(dots);
 		    }
 
