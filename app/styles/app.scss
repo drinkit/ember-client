@@ -168,16 +168,32 @@ h3 {
 
 #search-results {
 	padding-top: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-left: 15px;
+	padding-right: 5px;
 
 	> .row {
-		padding-left: 12px;
-		padding-right: 8px;
+		padding-left: 0px;
+		padding-right: 0px;
+		margin-left: 0px;
+		margin-right: 0px;
 
 		> .col-md-6 {
 			padding: 6px 6px 6px 6px;
 		}
+	}
+
+	> #prevPageButton {
+		float: left;
+		margin-left: 5px;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	> #nextPageButton {
+		float: right;
+		margin-right: 5px;
+		margin-bottom: 10px;
+		margin-top: 10px;
 	}
 }
 
@@ -204,6 +220,27 @@ h3 {
      width: auto;
      top: 0;
     }
+}
+
+.btn-default, .btn-default:focus {
+	font-family: "CenturyGothic";
+	font-size: 14px;
+	font-weight: bold;
+	height: 36px;
+	color: #00ac8d;
+	border-color: #bbd2c7;
+
+	&:hover {
+		color: #00ac8d;
+		background-color: #f3f3f3;
+		border-color: #bbd2c7;
+	}
+
+	&:active, .active {
+		color: #00ac8d;
+		background-color: #cae6da;
+		border-color: #78a590;
+	}
 }
 
 @import "big-toggle-button.scss";

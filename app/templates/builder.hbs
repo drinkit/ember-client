@@ -2,9 +2,15 @@
   {{filters-menu doSearch="doSearch" toggleType="toggleType" toggleOption="toggleOption" selecedIngredients=selectedIngredients ingredients=ingredients}}
   <div id="search-results" class="col-md-9">
   	<div class="row">
-  		{{#each recipes as |recipe|}}
+  		{{#each recipesOnPage as |recipe|}}
   			{{recipe-item recipe=recipe store=store selectedIngredients=selectedIngredients}}
   		{{/each}}
-  	</div>	
+  	</div>
+    {{#if isPreviousPageExist}}
+      {{#link-to 'builder' (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default"}}Назад{{/link-to}}
+    {{/if}}
+    {{#if isNextPageExist}}
+      {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default"}}Еще коктейлей...{{/link-to}}
+    {{/if}}
   </div>
 </div>
