@@ -229,6 +229,11 @@ h3 {
 	height: 36px;
 	color: #00ac8d;
 	border-color: #bbd2c7;
+	outline: none;
+
+	.active:focus, .active.focus, &:active:focus {
+		outline: none;
+	}
 
 	&:hover {
 		color: #00ac8d;
@@ -243,7 +248,41 @@ h3 {
 	}
 }
 
+.text-button, .text-button:hover {
+	font-family: "CenturyGothic";
+	font-size: 14px;
+	text-decoration: underline;
+	cursor: pointer;
+	color: white;
+}
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#loginButton {
+	float: right;
+	margin-top: 15px;
+	margin-right: 20px;
+}
+
 @import "big-toggle-button.scss";
 @import "option-toggle-button.scss";
 @import "chosen.scss";
 @import "recipe-box.scss";
+@import "login-window.scss";
