@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  cocktailIngredients: DS.attr(),
+  ingredientsWithQuantities: DS.attr(),
   cocktailTypeId: DS.attr('number'),
   description: DS.attr('string'),
   imageUrl: DS.attr('string'),

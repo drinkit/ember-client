@@ -7,9 +7,9 @@
         <h4 class="modal-title" id="myModalLabel">Вход</h4>
       </div>
       <div class="modal-body">
-        <input class="form-control" type="email" placeholder="Электронный адрес..." />
+        {{input type="email" class="form-control" placeholder="Электронный адрес..." value=email}}
         <input class="form-control" type="password" placeholder="Пароль..." />
-        <button type="button" class="btn btn-default">Войти</button>
+        <button type="button" class="btn btn-default" {{action "login"}}>Войти</button>
       </div>
       <div class="modal-footer sn-group">
           <button type="button" class="btn btn-default">Google</button>
@@ -17,7 +17,7 @@
           <button type="button" class="btn btn-default">Facebook</button>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-default">Зарегистрироваться</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#signUpWindow">Зарегистрироваться</button>
       </div>
     </div>
   </div>

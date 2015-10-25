@@ -1,9 +1,11 @@
 import DS from 'ember-data';
 
 export default DS.RESTSerializer.extend({
-	extractArray: function(store, type, payload) {
-	    var newPayload = {};
-	    newPayload[type.modelName] = payload;
-	    return this._super(store, type, newPayload);
-	  }
+	isNewSerializerAPI: true,
+
+	normalizeArrayResponse: function(store, primaryModelClass, payload, id, requestType) {
+		var newPayload = {};
+	    newPayload[primaryModelClass.modelName] = payload;
+	    return this._super(store, primaryModelClass, newPayload, id, requestType);
+	}
 });

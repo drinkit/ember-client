@@ -27,9 +27,9 @@ export default Ember.Component.extend({
 		var selectedIngredients = this.get("selectedIngredients");
 		var store = this.get("store");
 		var recipe = this.get("recipe");
-		var cocktailIngredients = recipe.get("cocktailIngredients");
+		var cocktailIngredients = recipe.get("ingredientsWithQuantities");
 		cocktailIngredients.forEach(function(item) {
-			var ingr = store.peekRecord("ingredient", item[0]);
+			var ingr = store.peekRecord("ingredient", item.ingredientId);
 			var type = selectedIngredients.contains(ingr.get("id").toString()) ? "selected-ingredient" : "unselected-ingredient";
 			sortedIngredients.push({
 				name: ingr.get("name"),

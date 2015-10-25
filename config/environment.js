@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'emdber-drink-it',
+    modulePrefix: 'ember-drink-it',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',

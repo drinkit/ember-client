@@ -72,7 +72,7 @@ export default Ember.Controller.extend({
 			that.store.unloadAll("recipe");
 
 			result.forEach(function(item) {
-				that.store.push("recipe", item);
+				that.store.push(that.store.normalize("recipe", item));
 			});
 		});
 	},
