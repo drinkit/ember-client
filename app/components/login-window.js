@@ -2,12 +2,14 @@ import Ember from 'ember';
 import CryptoJS from 'npm:crypto-js';
 
 export default Ember.Component.extend({
-	email: "",
-	password: "",
-    authService: Ember.inject.service("auth"),
+	session: Ember.inject.service('session'),
 	actions: {
 		login() {
-			this.get("authService").setCredentials(this.get("email"), CryptoJS.SHA256("drinkit" + this.get("password")));
+			let { email, password } = this.getProperties('email', 'password');
+			this.get("session").authenticate('autheticator:digest', 
+				email, CryptoJS.SHA256(password).toString()).catch((reason) => {
+        		this.set('errorMessage', reason.error);
+      		});
 		}
 	}
 

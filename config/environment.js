@@ -22,7 +22,21 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    torii: {
+        providers: {
+          'google-api': {
+            clientId: '24577751850.apps.googleusercontent.com'
+          },
+          'facebook-api': {
+            clientId: '1528690400686454'
+          },
+          'vkontakte-api': {
+            clientId: '4425288'
+          }
+        }
+      },
   };
 
   if (environment === 'development') {
