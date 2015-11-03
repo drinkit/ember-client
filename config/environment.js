@@ -38,6 +38,11 @@ module.exports = function(environment) {
         }
       },
   };
+  
+  ENV['simple-auth'] = {
+    authorizer: 'authorizer:digest',
+    crossOriginWhitelist: ['*']
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

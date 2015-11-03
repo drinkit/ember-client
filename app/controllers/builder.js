@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    session: Ember.inject.service('session'),
 	queryParams: ["pageNumber"],
 	cocktailTypes: [],
 	cocktailOptions: [],
@@ -50,30 +51,35 @@ export default Ember.Controller.extend({
 
 	performSearch: function() {
 		var that = this;
-		Ember.$.ajax({
-			url: "http://prod-drunkedguru.rhcloud.com/rest/recipes",
-			method: "GET",
-			data: {
-				criteria: JSON.stringify({
-					ingredients: this.get("selectedIngredients"),
-					cocktailTypes: this.get("cocktailTypes"),
-					options: this.get("cocktailOptions")
-				})
-			}
-		}).then(function(result) {
-			result = result.map(function(item) {
-				if (item.thumbnailUrl) {
-					item.thumbnailUrl = "http://prod-drunkedguru.rhcloud.com" + item.thumbnailUrl;
-				}
+        this.get('session').authorize('authorizer:digest', (headerName, headerValue) => {
+            const headers = {};
+            headers[headerName] = headerValue;
+            Ember.$.ajax({
+                url: "http://prod-drunkedguru.rhcloud.com/rest/recipes",
+                method: "GET",
+                data: {
+                    criteria: JSON.stringify({
+                        ingredients: this.get("selectedIngredients"),
+                        cocktailTypes: this.get("cocktailTypes"),
+                        options: this.get("cocktailOptions")
+                    })
+                },
+                headers: headers
+            }).then(function(result) {
+                result = result.map(function(item) {
+                    if (item.thumbnailUrl) {
+                        item.thumbnailUrl = "http://prod-drunkedguru.rhcloud.com" + item.thumbnailUrl;
+                    }
 
-				return item;
-			});
+                    return item;
+                });
 
-			that.store.unloadAll("recipe");
+                that.store.unloadAll("recipe");
 
-			result.forEach(function(item) {
-				that.store.push(that.store.normalize("recipe", item));
-			});
+                result.forEach(function(item) {
+                    that.store.push(that.store.normalize("recipe", item));
+                });
+            });
 		});
 	},
 	actions: {

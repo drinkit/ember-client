@@ -1,4 +1,4 @@
-import Base from 'simple-auth/authorizers/base';  
+import Base from 'ember-simple-auth/authenticators/base';
 import Ember from 'ember';
 
 export default Base.extend({  
@@ -6,7 +6,8 @@ export default Base.extend({
     return "test-digest";
   },
 
-  authorize: function(sessionData, jqXHR) {
-  	jqXHR.setRequestHeader('Authorization', this.get('header'));
+  authorize: function(sessionData, block) {
+    console.log('authorize...');
+  	block('Authorization', this.get('header')());
   }
 });
