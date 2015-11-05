@@ -14,9 +14,12 @@ export default Ember.Service.extend({
 					ajaxRequestBody.headers = headers;
 				}
 					
+                return Ember.$.ajax(ajaxRequestBody);
 			});
-		}
+		} else {
+            return Ember.$.ajax(ajaxRequestBody);
+        }
 
-		return Ember.$.ajax(ajaxRequestBody);
+		
 	}
 });

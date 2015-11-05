@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 		login() {
 			let { email, password } = this.getProperties('email', 'password');
 			this.get("session").authenticate('autheticator:digest', 
-				email, CryptoJS.SHA256(password).toString()).catch((reason) => {
+				email, CryptoJS.SHA256("drinkIt" + password).toString()).catch((reason) => {
         		this.set('errorMessage', reason.error);
       		});
 		}
