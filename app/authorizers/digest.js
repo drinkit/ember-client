@@ -7,7 +7,7 @@ export default Base.extend({
   },
 
   authorize: function(sessionData, block) {
-    console.log('authorize...');
+    console.log(sessionData);
   	block('Authorization', this.get('header')());
   }
 });

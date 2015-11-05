@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     session: Ember.inject.service('session'),
+    ajax: Ember.inject.service('ajax'),
 	queryParams: ["pageNumber"],
 	cocktailTypes: [],
 	cocktailOptions: [],
@@ -51,10 +52,7 @@ export default Ember.Controller.extend({
 
 	performSearch: function() {
 		var that = this;
-        this.get('session').authorize('authorizer:digest', (headerName, headerValue) => {
-            const headers = {};
-            headers[headerName] = headerValue;
-            Ember.$.ajax({
+        this.get('ajax').request({
                 url: "http://prod-drunkedguru.rhcloud.com/rest/recipes",
                 method: "GET",
                 data: {
@@ -63,8 +61,7 @@ export default Ember.Controller.extend({
                         cocktailTypes: this.get("cocktailTypes"),
                         options: this.get("cocktailOptions")
                     })
-                },
-                headers: headers
+                }
             }).then(function(result) {
                 result = result.map(function(item) {
                     if (item.thumbnailUrl) {
@@ -80,7 +77,6 @@ export default Ember.Controller.extend({
                     that.store.push(that.store.normalize("recipe", item));
                 });
             });
-		});
 	},
 	actions: {
 		toggleOption(id) {
