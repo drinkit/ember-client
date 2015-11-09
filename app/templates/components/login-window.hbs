@@ -9,6 +9,9 @@
       <div class="modal-body">
         {{input type="email" class="form-control" placeholder="Электронный адрес..." value=email}}
         {{input type="password" class="form-control" placeholder="Пароль..." value=password}}
+        {{#if hasError}}
+          <span>Неправильный логин или пароль</span>
+        {{/if}}
         <button type="button" class="btn btn-default" {{action "login"}}>Войти</button>
       </div>
       <div class="modal-footer sn-group">

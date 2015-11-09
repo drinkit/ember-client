@@ -62,7 +62,7 @@ export default Ember.Controller.extend({
                         options: this.get("cocktailOptions")
                     })
                 }
-            }).then(function(result) {
+            }, function(result) {
                 result = result.map(function(item) {
                     if (item.thumbnailUrl) {
                         item.thumbnailUrl = "http://prod-drunkedguru.rhcloud.com" + item.thumbnailUrl;
