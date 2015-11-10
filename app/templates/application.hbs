@@ -4,6 +4,7 @@
     <div id="loginArea">
       {{#if isLoggedIn}}
         <span class="text-button">{{currentUser.displayName}}</span>
+        <a id="logoutButton" class="text-button" {{action 'logout'}}>Выйти</a>
       {{else}}
         <a id="loginButton" class="text-button" data-toggle="modal" data-target="#loginWindow">Войти</a>
       {{/if}}

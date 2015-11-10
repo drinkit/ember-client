@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 			var self = this;
 			this.get("session").authenticate('autheticator:digest', email, 
 				CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
-				self.sendAction("authSuccess");
+				//
 			},
 			function (reason) {
 			    //

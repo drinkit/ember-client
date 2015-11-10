@@ -19,5 +19,13 @@ export default Ember.Service.extend({
 		this.set("displayName", userInfo.displayName);
 		this.set("accessLevel", userInfo.accessLevel);
 		this.set("isLoggedIn", true);
-	}
+	},
+    
+    unsetUser: function() {
+        this.set("username", "");
+		this.set("password", "");
+		this.set("displayName", "");
+		this.set("accessLevel", -1);
+		this.set("isLoggedIn", false);
+    }
 });

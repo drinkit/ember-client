@@ -53,7 +53,7 @@ export default Ember.Controller.extend({
 	performSearch: function() {
 		var that = this;
         this.get('ajax').request({
-                url: "http://prod-drunkedguru.rhcloud.com/rest/recipes",
+                url: "/recipes",
                 method: "GET",
                 data: {
                     criteria: JSON.stringify({
