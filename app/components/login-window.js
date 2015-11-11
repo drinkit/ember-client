@@ -17,7 +17,7 @@ export default Ember.Component.extend({
 				//
 			},
 			function (reason) {
-			    //
+			    self.set('hasError', true);
 	  		});
 		}
 	}

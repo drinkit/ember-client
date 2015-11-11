@@ -11,10 +11,20 @@ export default Base.extend({
 		if (data.email && data.password) {
 			return new Ember.RSVP.Promise(function(resolve, reject) {
                 Ember.run(function() {
-                    resolve({email: data.email, password: data.password, digests: {}});
-                    self.requestUserInfo();
+                    self.get('ajax').request({
+                        url: "/users/me",
+                        method: "GET"
+                    }, function(response, digests) {
+                        resolve({email: data.email, password: data.password, digests: digests});
+                        self.get('currentUser').setUser(response);
+                        Ember.$('#loginWindow').modal('hide');
+                    }, function(xhr, status, error) {
+                        if (status === "Incorrect credentials") {
+                            reject();
+                        }
+                    }, data.email, data.password);
                 });
-			});
+            });
 		}
 	},
 
@@ -22,28 +32,24 @@ export default Base.extend({
 		var self = this;
 		return new Ember.RSVP.Promise(function(resolve, reject) {
 			Ember.run(function() {
-				resolve({email: email, password: password, digests: {}});
-                self.requestUserInfo();
+                self.get('ajax').request({
+                    url: "/users/me",
+                    method: "GET"
+                }, function(response, digests) {
+                    resolve({email: email, password: password, digests: digests});
+                    self.get('currentUser').setUser(response);
+                    Ember.$('#loginWindow').modal('hide');
+                }, function(xhr, status, error) {
+                    if (status === "Incorrect credentials") {
+                        reject();
+                    }
+                }, email, password);
 			});
 		});
 	},
 
 	invalidate: function(data) {
         this.get('currentUser').unsetUser();
-		return this._super.apply(this, arguments);  
-	},
-    
-    requestUserInfo: function() {
-        var self = this;
-        self.get('ajax').request({
-            url: "/users/me",
-            method: "GET"
-        }, function(response) {
-            self.get('currentUser').setUser(response);
-        }, function(xhr, status, error) {
-            if (status === "Incorrect credentials") {
-                // self.set('hasError', true);
-            }
-        });
-    }
+		return this._super.apply(this, arguments);
+	}
 });

@@ -7,10 +7,13 @@ export default Ember.Service.extend({
 	session: Ember.inject.service('session'),
 	digestGenerator: Ember.inject.service('digest-generator'),
 
-	request: function(ajaxRequestBody, successHandler, errorHandler) {
+	request: function(ajaxRequestBody, successHandler, errorHandler, username, password) {
         if (ajaxRequestBody.url.substring(0, 4) != 'http') {
             ajaxRequestBody.url = this.get('host') + ajaxRequestBody.url;
         }
+        
+        var curUsername = username ? username : this.get('session').get('data').authenticated.email;
+        var curPassword = password ? password : this.get('session').get('data').authenticated.password;
             
 		var self = this;
 		if (this.get('session').get('isAuthenticated')) {
@@ -25,29 +28,44 @@ export default Ember.Service.extend({
 					}
 				}
 			});
-		}
+		} else if (self.get('session').get('data').digests && self.get('session').get('data').digests[ajaxRequestBody.method]) {
+                if (ajaxRequestBody.headers) {
+                    ajaxRequestBody.headers['Authorization'] = self.get('session').get('data').digests[ajaxRequestBody.method];
+                } else {
+                    var headers = {};
+                    headers['Authorization'] = self.get('session').get('data').digests[ajaxRequestBody.method];
+                    ajaxRequestBody.headers = headers;
+                }
+        }
 
 		var promise = Ember.$.ajax(ajaxRequestBody);
 		promise.then(function(response) {
-			successHandler(response);
+			successHandler(response, self.get('session').get('data').digests);
 		}, function(xhr, status, error) {
 			if (xhr.status === 401) {
-				if (self.get('session').get('data').authenticated.email && 
-					self.get('session').get('data').authenticated.password) {
-					if (self.get('session').get('data').authenticated.digests[ajaxRequestBody.method]) {
-						self.get('session').get('data').authenticated.digests = {};
+				if (curUsername && curPassword) {
+					if (self.get('session').get('data').digests && self.get('session').get('data').digests[ajaxRequestBody.method]) {
+						self.get('session').get('data').digests = {};
 						errorHandler(xhr, "Incorrect credentials", error);
 					} else {
-						var digestHeader = self.get('digestGenerator').generateDigest(self.get('session').get('data').authenticated.email, 
-							self.get('session').get('data').authenticated.password, ajaxRequestBody.method, 
+						var digestHeader = self.get('digestGenerator').generateDigest(curUsername, 
+							curPassword, ajaxRequestBody.method, 
 							xhr.getResponseHeader("WWW-Authenticate"));
 
-						self.get('session').get('data').authenticated.digests[ajaxRequestBody.method] = digestHeader;
-						self.request(ajaxRequestBody, successHandler, errorHandler);
+                        if (self.get('session').get('data').digests) {
+                            self.get('session').get('data').digests[ajaxRequestBody.method] = digestHeader;
+                        } else {
+                            self.get('session').get('data').digests = {};
+                            self.get('session').get('data').digests[ajaxRequestBody.method] = digestHeader;
+                        }
+                            
+                            
+						self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
 					}
 
 				}
 			} else {
+                self.get('session').get('data').digests = {};
 				errorHandler(xhr, status, error);
 			}
 		});
