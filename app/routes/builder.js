@@ -10,5 +10,11 @@ export default Ember.Route.extend({
 
 	setupController: function(controller, modelHash) {
 	    controller.setProperties(modelHash);
-	}
+	},
+    
+    actions: {
+        openRecipe: function(id) {
+            this.transitionTo('recipe', id);
+        }
+    }
 });

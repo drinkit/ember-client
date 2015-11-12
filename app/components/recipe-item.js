@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+
 	classNames: ['col-md-6'],
 	typesToTags: {
 		1: "long-32.png",
@@ -143,5 +144,9 @@ export default Ember.Component.extend({
 			});
 			return tags; 
 		}
-	})
+	}),
+    
+    click: function() {
+        this.sendAction('action', this.get("recipe").get('id'));
+    }
 });
