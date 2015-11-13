@@ -64,6 +64,11 @@
 	}
 }
 
+.recipe-box:hover {
+    cursor: pointer;
+    background-color:rgba(255, 174, 0, 0.1);
+}
+
 .selected-ingredient {
 	background-color: $orange-beach;
 }
