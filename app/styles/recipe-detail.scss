@@ -1,11 +1,19 @@
 $light-grey: #cccccc;
 $dark-grey: #c0c0c0;
+$row-height: 42px;
 
 #recipeView {
 	padding-top: 10px;
 	margin-left: 0px;
 	margin-right: 0px;
 	border: 0 none;
+
+	span {
+		font-family: "CenturyGothic";
+		color: #222222;
+		font-size: 12pt;
+		-webkit-font-smoothing: antialiased;
+	}
 
 	> #imageCon {
 		padding-left: 0px;
@@ -23,6 +31,14 @@ $dark-grey: #c0c0c0;
 		text-align: center;
 	}
 
+	.description {
+		padding-left: 0px;
+
+		> div {
+			margin-top: 15px;
+		}
+	}
+
 	#recipeName {
 		font-family: "Georgia";
 		font-weight: bold;
@@ -32,12 +48,49 @@ $dark-grey: #c0c0c0;
 		text-align: center;
 		-webkit-font-smoothing: antialiased;
 	}
+	
+
+	.consistRow {
+		padding-left: 5px;
+		padding-right: 5px;
+		width: 100%;
+		height: $row-height;
+
+		#recipeConsist {
+			font-weight: bold;
+		}
+
+		#tags {
+			text-align: center;
+			height: 100%;
+			line-height: $row-height;
+		}
+
+		.leftColumn {
+			float: left;
+			clear: left;
+			height: 100%;
+		}
+
+		.rightColumn {
+			float: right;
+			clear: right;
+			height: 100%;
+		}
+
+		span {
+			line-height: $row-height;
+		}
+	}
+
+
 
 	hr {
 		background-color: $light-grey;
 		color: $light-grey;
 		height: 1px;
 		border: 0 none;
+		margin-right: 0px;
 	}
 
 	hr.darkLine {

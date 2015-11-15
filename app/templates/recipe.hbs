@@ -1,15 +1,33 @@
 <div id="recipeView" class="row">
 	<div id="imageCon" class="col-md-5">
-		<img src={{model.imageUrl}} />
+		<img src={{model.fullImageUrl}} />
 	</div>
-	<div class="col-md-7">
+	<div class="col-md-7 description">
 		<span id="recipeName">{{model.name}}</span>
 		<div>
 			<hr class="darkLine">
-			<span>Состав</span>
+			<div class="consistRow">
+				<div class="leftColumn">
+					<span id="recipeConsist">Состав</span>
+				</div>
+				<div class="rightColumn">
+					<div id="tags">
+						{{#each tags as |tag|}}
+							<img src={{tag}}>
+						{{/each}}
+					</div>
+				</div>
+			</div>
 			<hr>
 			{{#each ingredients as |ingredient|}}
-				<span>{{ingredient.name}}</span>
+				<div class="consistRow">
+					<div class="leftColumn">
+						<span>{{ingredient.name}}</span>
+					</div>
+					<div class="rightColumn">
+						<span>{{ingredient.quantity}}</span>
+					</div>
+				</div>
 				<hr>
 			{{/each}}
 		</div>

@@ -8,5 +8,11 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   options: DS.attr(),
   published: DS.attr('boolean'),
-  thumbnailUrl: DS.attr('string')
+  thumbnailUrl: DS.attr('string'),
+  fullImageUrl: Ember.computed('imageUrl', function() {
+  	return 'http://prod-drunkedguru.rhcloud.com' + this.get('imageUrl');
+  }),
+  fullThumbnailUrl: Ember.computed('thumbnailUrl', function() {
+  	return 'http://prod-drunkedguru.rhcloud.com' + this.get('thumbnailUrl');
+  }),
 });
