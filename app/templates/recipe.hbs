@@ -1,1 +1,17 @@
-{{model.name}}
+<div id="recipeView" class="row">
+	<div id="imageCon" class="col-md-5">
+		<img src={{model.imageUrl}} />
+	</div>
+	<div class="col-md-7">
+		<span id="recipeName">{{model.name}}</span>
+		<div>
+			<hr class="darkLine">
+			<span>Состав</span>
+			<hr>
+			{{#each ingredients as |ingredient|}}
+				<span>{{ingredient.name}}</span>
+				<hr>
+			{{/each}}
+		</div>
+	</div>
+</div>

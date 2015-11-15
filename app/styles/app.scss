@@ -91,6 +91,7 @@ hr {
 	margin-right: 5px;
 	height: 1px;
 	background-color: $light-green;
+	color: $light-green;
 	opacity: 0.7;
 	border: 0 none;
 }
@@ -287,3 +288,4 @@ h3 {
 @import "recipe-box.scss";
 @import "login-window.scss";
 @import "signup-window.scss";
+@import "recipe-detail.scss";

@@ -63,14 +63,6 @@ export default Ember.Controller.extend({
                     })
                 }
             }, function(result) {
-                result = result.map(function(item) {
-                    if (item.thumbnailUrl) {
-                        item.thumbnailUrl = "http://prod-drunkedguru.rhcloud.com" + item.thumbnailUrl;
-                    }
-
-                    return item;
-                });
-
                 that.store.unloadAll("recipe");
 
                 result.forEach(function(item) {
