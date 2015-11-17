@@ -11,7 +11,7 @@ $row-height: 42px;
 	span, p {
 		font-family: "CenturyGothic";
 		color: #222222;
-		font-size: 12pt;
+		font-size: 11pt;
 		-webkit-font-smoothing: antialiased;
 	}
     
@@ -26,8 +26,8 @@ $row-height: 42px;
 		padding-right: 0px;
 
 		img {
-			width: 384px;
-			height: 512px;
+			width: 386px;
+			height: 514px;
 			float: left;
 			border: 1px solid #e0e0e0;
 		}
@@ -89,13 +89,13 @@ $row-height: 42px;
 		}
 	}
 
-
-
 	hr {
 		background-color: $light-grey;
 		color: $light-grey;
 		height: 1px;
 		border: 0 none;
+        margin-top: 0px;
+        margin-bottom: 0px;
 		margin-right: 0px;
 	}
 
