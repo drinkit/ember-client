@@ -8,12 +8,18 @@ $row-height: 42px;
 	margin-right: 0px;
 	border: 0 none;
 
-	span {
+	span, p {
 		font-family: "CenturyGothic";
 		color: #222222;
 		font-size: 12pt;
 		-webkit-font-smoothing: antialiased;
 	}
+    
+    p {
+        margin-top: 30px;
+        white-space: pre-wrap;
+        text-align: justify;
+    }
 
 	> #imageCon {
 		padding-left: 0px;
