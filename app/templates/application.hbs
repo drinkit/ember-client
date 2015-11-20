@@ -1,6 +1,6 @@
 <div id="main-frame" class="container-fluid">
   <div id="page-header">
-    <img src="/assets/logo-main.png">
+    <img src="/assets/logo-main.png" {{action 'goHome'}}/>
     <div id="loginArea">
       {{#if isLoggedIn}}
         <span class="text-button">{{currentUser.displayName}}</span>

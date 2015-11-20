@@ -8,7 +8,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 	    logout: function() {
             this.get('session').invalidate();
             this.get('session').get('data').digests = {};
-	    }
+	    },
+        
+        goHome: function() {
+            this.transitionTo('/');
+        }
 	},
 
 	sessionAuthenticated: function() {
