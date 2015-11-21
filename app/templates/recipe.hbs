@@ -1,6 +1,10 @@
 <div id="recipeView" class="row">
 	<div id="imageCon" class="col-md-5">
-		<img src={{model.fullImageUrl}} />
+		{{#if recipe.thumbnailUrl}}
+			<img src={{model.fullImageUrl}}>
+		{{else}}
+			<img src="/assets/bigcocktail.png">
+		{{/if}}
 	</div>
 	<div class="col-md-7 description">
 		<span id="recipeName">{{model.name}}</span>
