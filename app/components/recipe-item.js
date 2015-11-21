@@ -31,7 +31,7 @@ export default Ember.Component.extend({
 		var cocktailIngredients = recipe.get("ingredientsWithQuantities");
 		cocktailIngredients.forEach(function(item) {
 			var ingr = store.peekRecord("ingredient", item.ingredientId);
-			var type = selectedIngredients.contains(ingr.get("id").toString()) ? "selected-ingredient" : "unselected-ingredient";
+			var type = selectedIngredients && selectedIngredients.contains(ingr.get("id").toString()) ? "selected-ingredient" : "unselected-ingredient";
 			sortedIngredients.push({
 				name: ingr.get("name"),
 				className: type
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 		var recipeNameHeight = this.$().find(".recipe-name-text").height();
 		var paddingTop = 4 + recipeNameHeight;
 		var paddingBottom = 4 + tagsHeight;
-		
+
 		var availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
 		////
 		var recipeBoxWidth = this.$().find(".recipe-box").width();
@@ -58,7 +58,7 @@ export default Ember.Component.extend({
 		var ingredientsWithWidths = [];
 
 		ingredients.forEach(function(item) {
-			ingredientsWithWidths.push({item: item, 
+			ingredientsWithWidths.push({item: item,
 				width: that.getTextWidth(item.name, "12px CenturyGothic") + 10});
 		});
 		ingredientsWithWidths = ingredientsWithWidths.sortBy("width");
@@ -142,10 +142,10 @@ export default Ember.Component.extend({
 			recipe.get("options").forEach(function(item) {
 				tags.push("/assets/tags/" + optionsToTags[item]);
 			});
-			return tags; 
+			return tags;
 		}
 	}),
-    
+
     click: function() {
         this.sendAction('action', this.get("recipe").get('id'));
     }

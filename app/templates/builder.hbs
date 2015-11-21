@@ -1,6 +1,6 @@
 <div id="builder-view" class="row">
   {{filters-menu doSearch="doSearch" toggleType="toggleType" toggleOption="toggleOption" selectedIngredients=selectedIngredients ingredients=ingredients}}
-  <div id="search-results" class="col-md-9">
+  <div class="search-results col-md-9">
   	<div class="row">
   		{{#each recipesOnPage as |recipe|}}
   			{{recipe-item recipe=recipe store=store selectedIngredients=selectedIngredients action='openRecipe'}}

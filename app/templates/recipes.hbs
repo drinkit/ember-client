@@ -1,0 +1,7 @@
+<div class="search-results" style="padding-left:0px;">
+  <div class="row">
+    {{#each recipe in recipes}}
+      {{recipe-item recipe=recipe store=store action='openRecipe'}}
+    {{/each}}
+  </div>
+</div>

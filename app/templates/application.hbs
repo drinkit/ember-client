@@ -1,24 +1,29 @@
 <div id="main-frame" class="container-fluid">
   <div id="page-header">
-    <img src="/assets/logo-main.png" {{action 'goHome'}}/>
+    {{#link-to "builder"}}
+      <img src="/assets/logo-main.png"/>
+    {{/link-to}}
     <div id="loginArea">
       {{#if isLoggedIn}}
         <span class="text-button">{{currentUser.displayName}}</span>
+        <div class="vr" style="border-color:#ffffff;height:16px;margin-top:2px;" />
         <a id="logoutButton" class="text-button" {{action 'logout'}}>Выйти</a>
       {{else}}
         <a id="loginButton" class="text-button" data-toggle="modal" data-target="#loginWindow">Войти</a>
       {{/if}}
+      {{search-by-name action="search"}}
     </div>
   </div>
   <div id="content-frame" class="container">
     <ul class="nav nav-pills">
-      <li>{{#link-to 'builder'}}Конструктор{{/link-to}}</li>
+      <li>
+        {{#link-to 'builder'}}Конструктор{{/link-to}}
+      </li>
       <li><a href="#">Мой бар</a></li>
       <li><a href="#">Админ-панель</a></li>
     </ul>
     <hr>
-    <hr>
-    {{outlet}}
+    <hr> {{outlet}}
   </div>
 </div>
 {{login-window authSuccess="authSuccess"}}
