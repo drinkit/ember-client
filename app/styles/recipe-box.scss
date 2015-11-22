@@ -7,65 +7,68 @@
 	padding-left: 0px;
 	padding-right: 0px;
 
-	> div {
-		padding-left: 0px;
-		padding-right: 0px;
-		margin-left: 0px;
-		margin-right: 0px;
-
-		> img {
-			width: 134px;
-			height: 178px;
-			float: left;
-			margin-top: 4px;
-			margin-left: 4px;
-			margin-bottom: 4px;
-			margin-right: 5px;
-			border: 1px solid #e0e0e0;
-		}
+	> a {
+		text-decoration: none;
 
 		> div {
-			text-align: center;
+			height: 100%;
+			padding-left: 0px;
+			padding-right: 0px;
+			margin-left: 0px;
+			margin-right: 0px;
 
-			> #tags {
-				position: absolute;
-				bottom: 11px;
-				height: 32px;
-				left: 150px;
+			> img {
+				width: 134px;
+				height: 178px;
+				float: left;
+				margin-top: 4px;
+				margin-left: 4px;
+				margin-bottom: 4px;
+				margin-right: 5px;
+				border: 1px solid #e0e0e0;
 			}
 
-			> #ingredients {
-				text-align: left;
-				padding-top: 5px;
-				padding-right: 5px;
+			> div {
+				text-align: center;
 
-				span {
-					text-align: center;
-					display: inline-block;
-					white-space: nowrap;
-					border-radius: 10px;
-					border: 0px;
-					height: 25px;
-					min-width: 25px;
-					padding-left: 5px;
-					padding-right: 5px;
-					padding-top: 4px;
-					padding-bottom: 5px;
-					margin-bottom: 5px;
-					line-height: normal;
-					color: #1c1c1c;
-					font-size: 12px;
-					font-family: "CenturyGothic";
-					-webkit-font-smoothing: antialiased;
+				> #tags {
+					position: absolute;
+					bottom: 11px;
+					height: 32px;
+					left: 150px;
 				}
 
+				> #ingredients {
+					text-align: left;
+					padding-top: 5px;
+					padding-right: 5px;
+
+					span {
+						text-align: center;
+						display: inline-block;
+						white-space: nowrap;
+						border-radius: 10px;
+						border: 0px;
+						height: 25px;
+						min-width: 25px;
+						padding-left: 5px;
+						padding-right: 5px;
+						padding-top: 4px;
+						padding-bottom: 5px;
+						margin-bottom: 5px;
+						line-height: normal;
+						color: #1c1c1c;
+						font-size: 12px;
+						font-family: "CenturyGothic";
+						-webkit-font-smoothing: antialiased;
+					}
+				}
 			}
 		}
 	}
 }
 
 .recipe-box:hover {
-    cursor: pointer;
     background-color:rgba(255, 174, 0, 0.1);
 }
 

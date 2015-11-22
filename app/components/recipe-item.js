@@ -144,9 +144,5 @@ export default Ember.Component.extend({
 			});
 			return tags;
 		}
-	}),
-
-    click: function() {
-        this.sendAction('action', this.get("recipe").get('id'));
-    }
+	})
 });

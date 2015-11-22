@@ -1,4 +1,5 @@
 <div class="recipe-box">
+	{{#link-to "recipe" recipe}}
 	<div>
 		{{#if recipe.thumbnailUrl}}
 			<img src={{recipe.fullThumbnailUrl}}>
@@ -19,4 +20,5 @@
 			</div>
 		</div>
 	</div>
+	{{/link-to}}
 </div>

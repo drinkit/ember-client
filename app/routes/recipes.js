@@ -9,12 +9,6 @@ export default Ember.Route.extend({
     }
   },
 
-  actions: {
-    openRecipe: function(id) {
-      this.transitionTo('recipe', id);
-    }
-  },
-
   setupController: function(controller, modelHash) {
       controller.setProperties(modelHash);
   },
@@ -22,6 +16,7 @@ export default Ember.Route.extend({
   beforeModel: function() {
     var params = this.paramsFor('recipes');
     var that = this;
+    that.store.unloadAll("recipe");
     return new Ember.RSVP.Promise(function(resolve, reject) {
       that.get('ajax').request({
           url: "/recipes",
@@ -31,8 +26,6 @@ export default Ember.Route.extend({
           }
         },
         function(response) {
-          that.store.unloadAll("recipe");
-
           response.forEach(function(item) {
             that.store.push(that.store.normalize("recipe", item));
           });

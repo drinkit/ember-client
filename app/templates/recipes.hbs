@@ -1,7 +1,13 @@
 <div class="search-results" style="padding-left:0px;">
   <div class="row">
-    {{#each recipe in recipes}}
-      {{recipe-item recipe=recipe store=store action='openRecipe'}}
+    {{#each recipesOnPage as |recipe|}}
+      {{recipe-item recipe=recipe store=store selectedIngredients=selectedIngredients}}
     {{/each}}
   </div>
+  {{#if isPreviousPageExist}}
+    {{#link-to (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default"}}Назад{{/link-to}}
+  {{/if}}
+  {{#if isNextPageExist}}
+    {{#link-to (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default"}}Еще коктейлей...{{/link-to}}
+  {{/if}}
 </div>
