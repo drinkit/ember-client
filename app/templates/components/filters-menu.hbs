@@ -2,34 +2,25 @@
   <h3>Формат коктейля</h3>
   <div id="cocktail-types-group" class="row">
     <div class="col-xs-4">
-      <button {{action 'toggleType' 1}} id="long-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+      <button {{action 'toggleType' 1}} id="long-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="лонги"></button>
     </div>
     <div class="col-xs-4">
-      <button {{action 'toggleType' 2}} id="short-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+      <button {{action 'toggleType' 2}} id="short-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="короткие"></button>
     </div>
     <div class="col-xs-4">
-      <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off"></button>
+      <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="шоты"></button>
     </div>
   </div>
   <hr>
   <h3>Дополнительные опции</h3>
   <div id="options-group" class="row">
-      <button {{action 'toggleOption' 1}} id="burning-option-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">горящий</button>
-      <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">слоеный</button>
-      <button {{action 'toggleOption' 2}} id="ice-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">со льдом</button>
-      <button {{action 'toggleOption' 4}} id="official-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">официальный</button>
-      <button {{action 'toggleOption' 3}} id="checked-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">проверенный</button>
+    <button {{action 'toggleOption' 1}} id="burning-option-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">горящий</button>
+    <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">слоеный</button>
+    <button {{action 'toggleOption' 2}} id="ice-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">со льдом</button>
+    <button {{action 'toggleOption' 4}} id="official-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="утвержденный международной ассоциацией барменов (IBA)">официальный</button>
+    <button {{action 'toggleOption' 3}} id="checked-cocktail-button" type="button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="проверенный модераторами">проверенный</button>
   </div>
   <hr>
   <h3>Выбор ингредиентов</h3>
-  {{ember-chosen
-      multiple=true
-      searchContains=true
-      displaySelectedOptions=false
-      content=ingredients
-      optionValuePath="id"
-      optionLabelPath="name"
-    value=selectedIngredients
-    action="doSearch"
-    placeholder="Напишите ингредиент..."}}
+  {{ember-chosen multiple=true searchContains=true displaySelectedOptions=false content=ingredients optionValuePath="id" optionLabelPath="name" value=selectedIngredients action="doSearch" placeholder="Напишите ингредиент..."}}
 </div>
