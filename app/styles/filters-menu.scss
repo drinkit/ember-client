@@ -1,0 +1,45 @@
+#long-cocktail-button {
+  background-image: url(/assets/long-64.png);
+}
+#short-cocktail-button {
+  background-image: url(/assets/short-64.png);
+}
+#shot-cocktail-button {
+  background-image: url(/assets/shooter-64.png);
+}
+#cocktail-types-group {
+  padding: 2px;
+  padding-left: 2px;
+  margin-left: 0;
+}
+#cocktail-types-group > .col-xs-4 {
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-right: -7px;
+  text-align: center;
+}
+#options-group {
+  text-align: center;
+  padding-right: 15px;
+}
+.affix {
+  top: 0;
+  min-width: 247px;
+  max-width: 247px;
+}
+.affix-top {
+  min-width: 247px;
+  max-width: 247px;
+}
+.affix-bottom {
+  position: absolute;
+  min-width: 247px;
+  max-width: 247px;
+}
+@media(max-width:767px) {
+  .affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+}

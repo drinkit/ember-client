@@ -23,7 +23,7 @@
     "crypto-js": "^3.1.5",
     "ember-browserify": "^1.1.1",
     "ember-chosen": "0.0.20",
-    "ember-cli": "1.13.1",
+    "ember-cli": "^1.13.13",
     "ember-cli-app-version": "0.4.0",
     "ember-cli-babel": "^5.0.0",
     "ember-cli-content-security-policy": "0.4.0",
@@ -36,9 +36,10 @@
     "ember-cli-release": "0.2.3",
     "ember-cli-sass": "^4.0.1",
     "ember-cli-uglify": "^1.0.1",
-    "ember-data": "1.13.5",
+    "ember-data": "^2.2.1",
     "ember-disable-proxy-controllers": "^1.0.0",
-    "ember-export-application-global": "^1.0.2",
-    "ember-simple-auth": "1.0.1"
+    "ember-export-application-global": "^1.0.4",
+    "ember-simple-auth": "1.0.1",
+    "oauthio-web": "^0.4.7"
   }
 }
