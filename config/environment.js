@@ -9,7 +9,7 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'font-src': "'self'",
       'style-src': "'self' 'unsafe-inline'",
-      'connect-src': "'self' http://prod-drunkedguru.rhcloud.com",
+      'connect-src': "'self' http://prod-drunkedguru.rhcloud.com https://oauth.io",
       'img-src': "'self' http://prod-drunkedguru.rhcloud.com"
     },
     EmberENV: {
@@ -24,7 +24,7 @@ module.exports = function(environment) {
       // when it is created
     }
   };
-  
+
   ENV['simple-auth'] = {
     authorizer: 'authorizer:digest',
     crossOriginWhitelist: ['*']
