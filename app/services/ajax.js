@@ -61,10 +61,10 @@ export default Ember.Service.extend({
             if (self.get('session').get('isAuthenticated')) {
               self.get('session').invalidate().then(function() {
                 self.get('session').authenticate('autheticator:digest', curUsername,
-          				curPassword, digests).then(function() {
-                    ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, 'Authorization', digests[ajaxRequestBody.method]);
-                    self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
-                  });
+                  curPassword, digests).then(function() {
+                  ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, 'Authorization', digests[ajaxRequestBody.method]);
+                  self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
+                });
               });
             } else {
               ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, 'Authorization', digests[ajaxRequestBody.method]);

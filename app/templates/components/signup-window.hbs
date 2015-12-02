@@ -14,6 +14,9 @@
         {{validated-input type="password" model=this placeholder="Пароль..." valuePath="password"}}
         {{validated-input type="password" model=this placeholder="Пароль..." valuePath="passwordConfirmation"}}
         <button type="button" class="btn btn-default" disabled={{v-get this 'isInvalid'}} {{action "register"}}>Зарегистрироваться</button>
+        {{#if hasError}}
+          <span>Такой пользователь уже существует</span>
+        {{/if}}
       </div>
       <div class="modal-footer sn-group">
         <span>Уже есть аккаунт?</span>

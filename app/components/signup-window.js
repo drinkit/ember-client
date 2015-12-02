@@ -37,31 +37,32 @@ var Validations = buildValidations({
 });
 
 export default Ember.Component.extend(Validations, {
-  ajax: Ember.inject.service(),
-  session: Ember.inject.service(),
+      ajax: Ember.inject.service(),
+      session: Ember.inject.service(),
+      signup: Ember.inject.service(),
 
-  actions: {
-    register: function() {
-      var self = this;
-      let {
-        displayName, email, password
-      } = this.getProperties('displayName', 'email', 'password');
-      this.get('ajax').request({
-        url: '/users/register',
-        method: 'POST',
-        data: {
-          email: email,
-          password: CryptoJS.SHA256("drinkIt" + password).toString(),
-          displayName: displayName
+      hasError: false,
+
+      actions: {
+        register: function() {
+          var self = this;
+          this.set("hasError", false);
+          let {
+            displayName, email, password
+          } = this.getProperties('displayName', 'email', 'password');
+          this.get('signup').register(email, password, displayName,
+            function(response) {
+              Ember.$('#signUpWindow').modal('hide');
+              self.get("session").authenticate('autheticator:digest', email,
+                CryptoJS.SHA256("drinkIt" + password).toString());
+            },
+            function(xhr, status, error) {
+              if (xhr.status === 403) {
+                self.set("hasError", true);
+              } else {
+                console.log(xhr, status, error);
+              }
+            });
         }
-      }, function(response) {
-        console.log(response);
-        Ember.$('#signUpWindow').modal('hide');
-        self.get("session").authenticate('autheticator:digest', email,
-          CryptoJS.SHA256("drinkIt" + password).toString());
-      }, function(xhr, status, error) {
-        console.log(status, error);
-      });
-    }
-  }
-});
+      }
+    });

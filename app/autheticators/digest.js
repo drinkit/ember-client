@@ -57,7 +57,7 @@ export default Base.extend({
             Ember.$('#loginWindow').modal('hide');
           }, function(xhr, status, error) {
             if (status === "Incorrect credentials") {
-              reject();
+              reject(status);
             }
           }, email, password);
         });
