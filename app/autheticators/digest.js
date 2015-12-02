@@ -66,7 +66,6 @@ export default Base.extend({
   },
 
   invalidate: function(data) {
-    this.get('currentUser').unsetUser();
     return this._super.apply(this, arguments);
   }
 });

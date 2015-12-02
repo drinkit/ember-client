@@ -3,6 +3,7 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   session: Ember.inject.service(),
+  currentUser: Ember.inject.service(),
 
   actions: {
     logout: function() {
@@ -24,6 +25,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   },
 
   sessionInvalidated: function() {
+    this.get('currentUser').unsetUser();
     console.log("logout");
   }
 });
