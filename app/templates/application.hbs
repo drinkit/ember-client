@@ -6,7 +6,7 @@
     <div id="loginArea">
       {{#if isLoggedIn}}
         <span class="text-button">{{currentUser.displayName}}</span>
-        <div class="vr" style="border-color:#ffffff;height:16px;margin-top:2px;" />
+        <div class="vr" style="border-color:#ffffff;height:16px;margin-top:2px;margin-bottom:-3px;" />
         <a id="logoutButton" class="text-button" {{action 'logout'}}>Выйти</a>
       {{else}}
         <a id="loginButton" class="text-button" data-toggle="modal" data-target="#loginWindow">Войти</a>

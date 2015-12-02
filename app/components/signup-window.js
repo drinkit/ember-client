@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import CryptoJS from 'npm:crypto-js';
 import {
   validator, buildValidations
 }
@@ -36,10 +37,31 @@ var Validations = buildValidations({
 });
 
 export default Ember.Component.extend(Validations, {
+  ajax: Ember.inject.service(),
+  session: Ember.inject.service(),
 
   actions: {
     register: function() {
-      console.log(this.get('displayName'), this.get('email'), this.get('password'));
+      var self = this;
+      let {
+        displayName, email, password
+      } = this.getProperties('displayName', 'email', 'password');
+      this.get('ajax').request({
+        url: '/users/register',
+        method: 'POST',
+        data: {
+          email: email,
+          password: CryptoJS.SHA256("drinkIt" + password).toString(),
+          displayName: displayName
+        }
+      }, function(response) {
+        console.log(response);
+        Ember.$('#signUpWindow').modal('hide');
+        self.get("session").authenticate('autheticator:digest', email,
+          CryptoJS.SHA256("drinkIt" + password).toString());
+      }, function(xhr, status, error) {
+        console.log(status, error);
+      });
     }
   }
 });
