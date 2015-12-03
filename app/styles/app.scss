@@ -114,13 +114,12 @@ h3 {
 #builder-view > .col-md-3 {
   padding-left: 0;
   padding-right: 0;
-	min-width: 247px;
+  min-width: 247px;
   max-width: 247px;
 }
 #builder-view > .col-md-3 .row {
   margin-bottom: 10px;
 }
-
 .search-results {
   padding-top: 10px;
   padding-left: 15px;
@@ -145,6 +144,11 @@ h3 {
     margin-right: 5px;
     margin-bottom: 10px;
     margin-top: 10px;
+  }
+}
+@media(max-width:767px) {
+  .search-results {
+    padding-left: 0;
   }
 }
 .btn-default,

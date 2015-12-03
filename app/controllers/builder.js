@@ -16,9 +16,9 @@ export default Ember.Controller.extend(PaginationMixin, {
       method: "GET",
       data: {
         criteria: JSON.stringify({
-          ingredients: this.get("selectedIngredients"),
-          cocktailTypes: this.get("cocktailTypes"),
-          options: this.get("cocktailOptions")
+          ingredients: this.get("selectedIngredients") || [],
+          cocktailTypes: this.get("cocktailTypes") || [],
+          options: this.get("cocktailOptions") || []
         })
       }
     }, function(result) {
