@@ -13,6 +13,14 @@ export default Ember.Component.extend({
 		},
 		doSearch() {
 			this.sendAction("doSearch");
+		},
+		clearFilters() {
+			this.$('#filtersMenu button.active').attr('aria-pressed', "false");
+			this.$('#filtersMenu button.active').button('refresh');
+			this.$('#filtersMenu button.active').removeClass('active');
+			this.$('.ember-chosen option').prop('selected', false).trigger('chosen:updated');
+			//
+			this.sendAction("clearFilters");
 		}
 	},
 	didInsertElement: function() {

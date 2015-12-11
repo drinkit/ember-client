@@ -1,24 +1,27 @@
 <div class="recipe-box">
 	{{#link-to "recipe" recipe}}
-	<div>
-		{{#if recipe.thumbnailUrl}}
-			<img src={{recipe.fullThumbnailUrl}}>
-		{{else}}
-			<img src="/assets/emptycocktail.png">
-		{{/if}}
 		<div>
-			<span class="recipe-name-text">{{recipe.name}}</span>
-			<div id="ingredients">
-				{{#each sortedIngredients as |ingredient|}}
-					<span title="{{ingredient.tooltip}}" class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
-				{{/each}}
-			</div>
-			<div id="tags">
-				{{#each tags as |tag|}}
-					<img src={{tag}}>
-				{{/each}}
+			{{#if recipe.thumbnailUrl}}
+				<img src= {{recipe.fullThumbnailUrl}}>
+			{{else}}
+				<img src="/assets/emptycocktail.png">
+			{{/if}}
+			<div>
+				{{#unless recipe.published}}
+					<span id="devMode">DEV</span>
+				{{/unless}}
+				<span class="recipe-name-text">{{recipe.name}}</span>
+				<div id="ingredients">
+					{{#each sortedIngredients as |ingredient|}}
+						<span title="{{ingredient.tooltip}}" class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
+					{{/each}}
+				</div>
+				<div id="tags">
+					{{#each tags as |tag|}}
+						<img src= {{tag}}>
+					{{/each}}
+				</div>
 			</div>
 		</div>
-	</div>
 	{{/link-to}}
 </div>

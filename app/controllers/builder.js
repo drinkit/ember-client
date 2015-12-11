@@ -2,8 +2,9 @@ import Ember from 'ember';
 import PaginationMixin from '../mixins/pagination';
 
 export default Ember.Controller.extend(PaginationMixin, {
-  session: Ember.inject.service('session'),
-  ajax: Ember.inject.service('ajax'),
+  session: Ember.inject.service(),
+  currentUser: Ember.inject.service(),
+  ajax: Ember.inject.service(),
   queryParams: ["pageNumber"],
   cocktailTypes: [],
   cocktailOptions: [],
@@ -23,9 +24,13 @@ export default Ember.Controller.extend(PaginationMixin, {
       }
     }, function(result) {
       that.store.unloadAll("recipe");
-
       result.forEach(function(item) {
-        that.store.push(that.store.normalize("recipe", item));
+        if (item.published) {
+          that.store.push(that.store.normalize("recipe", item));
+        } else if (that.get('currentUser').get('isAuthenticated')
+        && that.get('currentUser').get('accessLevel') == 0) {
+          that.store.push(that.store.normalize("recipe", item));
+        }
       });
     });
   },
@@ -59,6 +64,13 @@ export default Ember.Controller.extend(PaginationMixin, {
       },
 
       doSearch() {
+        this.performSearch();
+      },
+
+      clearFilters() {
+        this.set('cocktailTypes', []);
+        this.set('cocktailOptions', []);
+        this.set('selectedIngredients', []);
         this.performSearch();
       }
   }

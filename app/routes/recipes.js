@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   ajax: Ember.inject.service(),
+  currentUser: Ember.inject.service(),
 
   queryParams: {
     search: {
@@ -10,7 +11,7 @@ export default Ember.Route.extend({
   },
 
   setupController: function(controller, modelHash) {
-      controller.setProperties(modelHash);
+    controller.setProperties(modelHash);
   },
 
   beforeModel: function() {
@@ -27,7 +28,12 @@ export default Ember.Route.extend({
         },
         function(response) {
           response.forEach(function(item) {
-            that.store.push(that.store.normalize("recipe", item));
+            if (item.published) {
+              that.store.push(that.store.normalize("recipe", item));
+            } else if (that.get('currentUser').get('isAuthenticated')
+            && that.get('currentUser').get('accessLevel') == 0) {
+              that.store.push(that.store.normalize("recipe", item));
+            }
           });
 
           resolve();
