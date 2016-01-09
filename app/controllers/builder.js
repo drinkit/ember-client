@@ -63,7 +63,8 @@ export default Ember.Controller.extend(PaginationMixin, {
         this.performSearch();
       },
 
-      doSearch() {
+      changeIngredients(ingredients) {
+        this.set('selectedIngredients', ingredients);
         this.performSearch();
       },
 

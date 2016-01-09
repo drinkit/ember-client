@@ -22,6 +22,6 @@
   </div>
   <hr>
   <h3>Выбор ингредиентов</h3>
-  {{ember-chosen multiple=true searchContains=true displaySelectedOptions=false content=ingredients optionValuePath="id" optionLabelPath="name" value=selectedIngredients action="doSearch" placeholder="Напишите ингредиент..."}}
+  {{ember-chosen multiple=true searchContains=true content=filteredIngredients optionValuePath="id" optionLabelPath="caption" value=selectedFakeIngredients action="changeIngredients" placeholder="Напишите ингредиент..."}}
   <a {{action 'clearFilters'}} class="text-button" style="color:black;">Сбросить фильтры</a>
 </div>
