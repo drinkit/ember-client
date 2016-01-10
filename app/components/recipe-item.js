@@ -24,113 +24,116 @@ export default Ember.Component.extend({
 	    return metrics.width;
 	},
 	didInsertElement: function() {
-		var sortedIngredients = [];
-		var selectedIngredients = this.get("selectedIngredients");
-		var store = this.get("store");
-		var recipe = this.get("recipe");
-		var cocktailIngredients = recipe.get("ingredientsWithQuantities");
-		cocktailIngredients.forEach(function(item) {
-			var ingr = store.peekRecord("ingredient", item.ingredientId);
-			var type = selectedIngredients && selectedIngredients.contains(ingr.get("id").toString()) ? "selected-ingredient" : "unselected-ingredient";
-			sortedIngredients.push({
-				name: ingr.get("name"),
-				className: type
-			});
-		});
-		//
-		var gapBetweenIngredients = 5;
-		//
 		var that = this;
-		var recipeBoxHeight = this.$().find(".recipe-box").height();
-		var tagsHeight = this.$().find("#tags").height();
-		var recipeNameHeight = this.$().find(".recipe-name-text").height();
-		var paddingTop = 4 + recipeNameHeight;
-		var paddingBottom = 4 + tagsHeight;
+		Ember.run.schedule('afterRender', this, function() {
+			var sortedIngredients = [];
+			var selectedIngredients = that.get("selectedIngredients");
+			var store = that.get("store");
+			var recipe = that.get("recipe");
+			var cocktailIngredients = recipe.get("ingredientsWithQuantities");
+			cocktailIngredients.forEach(function(item) {
+				var ingr = store.peekRecord("ingredient", item.ingredientId);
+				var type = selectedIngredients && selectedIngredients.contains(ingr.get("id").toString()) ? "selected-ingredient" : "unselected-ingredient";
+				sortedIngredients.push({
+					name: ingr.get("name"),
+					className: type
+				});
+			});
+			//
+			var gapBetweenIngredients = 5;
+			//
 
-		var availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
-		////
-		var recipeBoxWidth = this.$().find(".recipe-box").width();
-		var imageWidth = 5 + 134 + 5;
-		var paddingRight = 5;
-		var availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
-		////
-		var ingredients = sortedIngredients;
-		var ingredientsWithWidths = [];
+			var recipeBoxHeight = that.$().find(".recipe-box").height();
+			var tagsHeight = that.$().find("#tags").height();
+			var recipeNameHeight = that.$().find(".recipe-name-text").height();
+			var paddingTop = 4 + recipeNameHeight;
+			var paddingBottom = 4 + tagsHeight;
 
-		ingredients.forEach(function(item) {
-			ingredientsWithWidths.push({item: item,
-				width: that.getTextWidth(item.name, "12px CenturyGothic") + 10});
+			var availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
+			////
+			var recipeBoxWidth = that.$().find(".recipe-box").width();
+			var imageWidth = 5 + 134 + 5;
+			var paddingRight = 5;
+			var availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
+			////
+			var ingredients = sortedIngredients;
+			var ingredientsWithWidths = [];
+
+			ingredients.forEach(function(item) {
+				ingredientsWithWidths.push({item: item,
+					width: that.getTextWidth(item.name, "12px CenturyGothic") + 10});
+			});
+			ingredientsWithWidths = ingredientsWithWidths.sortBy("width");
+			//
+			var newOrder = [];
+			var curRowWidth = 0;
+			var totalHeight = 0;
+			var rendererHeight = 25 + gapBetweenIngredients;
+			while (totalHeight + rendererHeight <= availableHeight && ingredientsWithWidths.length !== 0)
+			{
+			    curRowWidth = 0;
+			    var rowIsNotFilled = true;
+			    var curIngredient = ingredientsWithWidths.shift();
+			    newOrder.push(curIngredient.item);
+			    curRowWidth += curIngredient.width + gapBetweenIngredients;
+			    while (rowIsNotFilled) {
+			        var maxItem = -1;
+			        var maxSize = 0;
+			        for (var i = 0; i < ingredientsWithWidths.length; i++) {
+			            if (curRowWidth + ingredientsWithWidths[i].width < availableWidth) {
+			                if (curRowWidth + ingredientsWithWidths[i].width > maxSize) {
+			                    maxSize = curRowWidth + ingredientsWithWidths[i].width;
+			                    maxItem = i;
+			                }
+
+			            }
+			        }
+
+			        if (maxItem !== -1) {
+			            newOrder.push(ingredientsWithWidths[maxItem].item);
+			            curRowWidth += ingredientsWithWidths[maxItem].width + gapBetweenIngredients;
+			            ingredientsWithWidths.splice(maxItem, 1);
+			        } else {
+			            rowIsNotFilled = false;
+			        }
+			    }
+
+			    totalHeight += rendererHeight;
+			}
+
+			if (ingredientsWithWidths.length > 0)
+			{
+
+			    var dotsWidth = 30;
+			    var dots = {
+			    	name: "...",
+			    	className: "unselected-ingredient",
+			    	tooltip: ""
+			    };
+
+			    var deletedElement;
+
+			    if (curRowWidth + dotsWidth <= availableWidth) {
+			        newOrder.push(dots);
+			    } else {
+			        deletedElement = ingredientsWithWidths.pop();
+			        newOrder.push(dots);
+			    }
+
+			    for (var l = 0; l < ingredientsWithWidths.length; l++) {
+			        var item = ingredientsWithWidths[l];
+			        dots.tooltip += item.item.name + "\n";
+			    }
+
+			    if (deletedElement) {
+			        dots.tooltip += deletedElement.item.name;
+			    } else {
+			        dots.tooltip = dots.tooltip.slice(0, dots.tooltip.length - 1);
+			    }
+			}
+
+			that.set("sortedIngredients", newOrder);
 		});
-		ingredientsWithWidths = ingredientsWithWidths.sortBy("width");
-		//
-		var newOrder = [];
-		var curRowWidth = 0;
-		var totalHeight = 0;
-		var rendererHeight = 25 + gapBetweenIngredients;
-		while (totalHeight + rendererHeight <= availableHeight && ingredientsWithWidths.length !== 0)
-		{
-		    curRowWidth = 0;
-		    var rowIsNotFilled = true;
-		    var curIngredient = ingredientsWithWidths.shift();
-		    newOrder.push(curIngredient.item);
-		    curRowWidth += curIngredient.width + gapBetweenIngredients;
-		    while (rowIsNotFilled) {
-		        var maxItem = -1;
-		        var maxSize = 0;
-		        for (var i = 0; i < ingredientsWithWidths.length; i++) {
-		            if (curRowWidth + ingredientsWithWidths[i].width < availableWidth) {
-		                if (curRowWidth + ingredientsWithWidths[i].width > maxSize) {
-		                    maxSize = curRowWidth + ingredientsWithWidths[i].width;
-		                    maxItem = i;
-		                }
-
-		            }
-		        }
-
-		        if (maxItem !== -1) {
-		            newOrder.push(ingredientsWithWidths[maxItem].item);
-		            curRowWidth += ingredientsWithWidths[maxItem].width + gapBetweenIngredients;
-		            ingredientsWithWidths.splice(maxItem, 1);
-		        } else {
-		            rowIsNotFilled = false;
-		        }
-		    }
-
-		    totalHeight += rendererHeight;
-		}
-
-		if (ingredientsWithWidths.length > 0)
-		{
-
-		    var dotsWidth = 30;
-		    var dots = {
-		    	name: "...",
-		    	className: "unselected-ingredient",
-		    	tooltip: ""
-		    };
-
-		    var deletedElement;
-
-		    if (curRowWidth + dotsWidth <= availableWidth) {
-		        newOrder.push(dots);
-		    } else {
-		        deletedElement = ingredientsWithWidths.pop();
-		        newOrder.push(dots);
-		    }
-
-		    for (var l = 0; l < ingredientsWithWidths.length; l++) {
-		        var item = ingredientsWithWidths[l];
-		        dots.tooltip += item.item.name + "\n";
-		    }
-
-		    if (deletedElement) {
-		        dots.tooltip += deletedElement.item.name;
-		    } else {
-		        dots.tooltip = dots.tooltip.slice(0, dots.tooltip.length - 1);
-		    }
-		}
-
-		this.set("sortedIngredients", newOrder);
 	},
 	tags: Ember.computed({
     	get() {

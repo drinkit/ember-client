@@ -43,14 +43,15 @@ export default Ember.Component.extend({
     return expandedIngredients;
   }),
 
-  selectedRealIngredients: Ember.computed('selectedFakeIngredients', function(key, value) {
+  selectedRealIngredients: Ember.computed('selectedFakeIngredients', function() {
     var self = this;
-    if (arguments.length > 1) {
-      return value;
+    if (this.get('selectedFakeIngredients')) {
+      return this.get('selectedFakeIngredients').map(function(item) {
+        return self.get('filteredIngredients')[item].groupId;
+      });
+    } else {
+      return [];
     }
-    return this.get('selectedFakeIngredients').map(function(item) {
-      return self.get('filteredIngredients')[item].groupId;
-    });
   }),
 
   actions: {
@@ -84,15 +85,35 @@ export default Ember.Component.extend({
   },
   setListenerOnChosen: function() {
     var self = this;
-    this.$('.ember-chosen select').chosen().change(function() {
-      var selectedElements = self.$('.ember-chosen select').val();
-      if (selectedElements) {
+    this.$('.ember-chosen select').chosen().change(function(event, params) {
+      if (params.selected) {
+        var selectedElements = self.$('.ember-chosen select').val();
         var lastSelectedId = selectedElements.pop();
         var lastSelected = self.get('filteredIngredients')[lastSelectedId];
         var realSelected = self.findIngredientByRealId(lastSelected.groupId);
         selectedElements.push(realSelected.id);
+        var allSynonyms = self.get('filteredIngredients').filter(function(item) {
+          return item.groupId == realSelected.groupId;
+        });
+        for (var i = 0; i < allSynonyms.length; i++) {
+          if (allSynonyms[i].id != realSelected.id) {
+            self.$('.ember-chosen select option[value=' + allSynonyms[i].id + ']').prop("disabled", true);
+          }
+        }
         self.$('.ember-chosen select').val(selectedElements).trigger('chosen:updated');
+      } else {
+        var lastDeselectedId = params.deselected;
+        var lastDeselected = self.get('filteredIngredients')[lastDeselectedId];
+        var allSynonyms = self.get('filteredIngredients').filter(function(item) {
+          return item.groupId == lastDeselected.groupId;
+        });
+        for (var i = 0; i < allSynonyms.length; i++) {
+          if (allSynonyms[i] != lastDeselected.id) {
+            self.$('.ember-chosen select option[value=' + allSynonyms[i].id + ']').prop("disabled", false);
+          }
+        }
       }
+
     });
   },
   findIngredientByRealId: function(id) {
