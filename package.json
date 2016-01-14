@@ -40,6 +40,7 @@
     "ember-data": "^2.2.1",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.4",
+    "ember-metrics": "0.5.3",
     "ember-simple-auth": "1.0.1",
     "oauthio-web": "^0.4.7"
   }

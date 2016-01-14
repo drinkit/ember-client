@@ -30,6 +30,16 @@ module.exports = function(environment) {
     crossOriginWhitelist: ['*']
   };
 
+  ENV['metricsAdapters'] = [
+    {
+        name: 'GoogleAnalytics',
+        environments: ['production'],
+        config: {
+          id: 'UA-62127609-1'
+        }
+      }
+  ];
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
