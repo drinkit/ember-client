@@ -46,7 +46,7 @@ export default Ember.Route.extend({
   actions: {
     didTransition: function() {
       Ember.run.scheduleOnce('afterRender', this, () => {
-        const page = document.location.pathname;
+        const page = document.location.pathname + document.location.search;
         const title = "Поиск";
 
         Ember.get(this, 'metrics').trackPage({ page, title });
