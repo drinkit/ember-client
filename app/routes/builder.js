@@ -17,9 +17,11 @@ export default Ember.Route.extend({
 
 	actions: {
 	  didTransition: function() {
-			const page = "/#";
-      const title = "";
-			this.get('metrics').trackPage({page, title});
+			Ember.run.scheduleOnce('afterRender', this, () => {
+				const page = "/builder";
+				const title = "drinkIt";
+				this.get('metrics').trackPage({page, title});
+			});
 		}
 	}
 });

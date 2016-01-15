@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   ajax: Ember.inject.service(),
   currentUser: Ember.inject.service(),
+  metrics: Ember.inject.service(),
 
   queryParams: {
     search: {
@@ -40,6 +41,17 @@ export default Ember.Route.extend({
         });
     });
 
+  },
+
+  actions: {
+    didTransition: function() {
+      Ember.run.scheduleOnce('afterRender', this, () => {
+        const page = document.location.pathname;
+        const title = "Поиск";
+
+        Ember.get(this, 'metrics').trackPage({ page, title });
+      });
+    }
   },
 
   model: function() {
