@@ -5,10 +5,16 @@ export default Ember.Route.extend({
         return this.store.findRecord('recipe', params.recipe_id);
     },
 
-    didTransiotion: function() {
-      this._super(...arguments);
-      Ember.run.scheduleOnce('afterRender', this, () => {
-        Ember.get(this, 'metrics').trackPage({document.location.pathname, Ember.get(this, 'model').name});
-      })
+    metrics: Ember.inject.service(),
+
+    actions: {
+      didTransition: function() {
+        Ember.run.scheduleOnce('afterRender', this, () => {
+          const page = document.location.pathname;
+          const title = this.get('currentModel').get('name');
+
+          Ember.get(this, 'metrics').trackPage({ page, title });
+        });
+      }
     }
 });

@@ -9,8 +9,9 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'font-src': "'self'",
       'style-src': "'self' 'unsafe-inline'",
-      'connect-src': "'self' http://prod-drunkedguru.rhcloud.com https://oauth.io",
-      'img-src': "'self' http://prod-drunkedguru.rhcloud.com"
+      'script-src': "'self' www.google-analytics.com",
+      'connect-src': "'self' www.google-analytics.com http://prod-drunkedguru.rhcloud.com https://oauth.io",
+      'img-src': "'self' http://prod-drunkedguru.rhcloud.com www.google-analytics.com"
     },
     EmberENV: {
       FEATURES: {

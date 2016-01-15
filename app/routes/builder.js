@@ -15,10 +15,11 @@ export default Ember.Route.extend({
 	    controller.performSearch();
 	},
 
-	didTransiotion: function() {
-		this._super(...arguments);
-		Ember.run.scheduleOnce('afterRender', this, () => {
-			Ember.get(this, 'metrics').trackPage({"/#", ""});
-		})
+	actions: {
+	  didTransition: function() {
+			const page = "/#";
+      const title = "";
+			this.get('metrics').trackPage({page, title});
+		}
 	}
 });
