@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   classNames: ["col-md-3"],
   dataOffsetTop: 185,
   dataOffsetBottom: null,
+  selectedFakeIngredients: [],
 
   filteredIngredients: Ember.computed('model.ingredients', function() {
     var expandedIngredients = [];
@@ -19,7 +20,7 @@ export default Ember.Component.extend({
         description: '',
         groupId: ingredient.get('id'),
         isReal: true,
-        locked: false
+        disabled: false
       });
 
       if (ingredient.get('alias')) {
@@ -32,7 +33,7 @@ export default Ember.Component.extend({
             description: "(" + ingredient.get('name') + ")",
             groupId: ingredient.get('id'),
             isReal: false,
-            locked: false
+            disabled: false
           });
         }
       }
@@ -43,7 +44,7 @@ export default Ember.Component.extend({
     return expandedIngredients;
   }),
 
-  selectedRealIngredients: Ember.computed('selectedFakeIngredients', function() {
+  selectedRealIngredients: Ember.computed('selectedFakeIngredients.[]', function() {
     var self = this;
     if (this.get('selectedFakeIngredients')) {
       return this.get('selectedFakeIngredients').map(function(item) {
@@ -62,14 +63,47 @@ export default Ember.Component.extend({
         this.sendAction("toggleType", id);
       },
       changeIngredients(ingredients) {
-        this.set('selectedFakeIngredients', ingredients);
+        var deselected = $(this.get('selectedFakeIngredients')).not(ingredients).get();
+        var selected = $(ingredients).not(this.get('selectedFakeIngredients')).get();
+
+        if (selected.length > 0) {
+          var realSelected = this.findIngredientByRealId(selected[0].groupId);
+          var allSynonyms = this.get('filteredIngredients').filter(function(item) {
+            return item.groupId == realSelected.groupId;
+          });
+
+          for (var i = 0; i < allSynonyms.length; i++) {
+            if (allSynonyms[i].id != realSelected.id) {
+              allSynonyms[i].disabled = true;
+            }
+          }
+
+          this.set('selectedFakeIngredients', this.get('selectedFakeIngredients').concat([realSelected]));
+        } else if (deselected.length > 0) {
+          var allSynonyms = this.get('filteredIngredients').filter(function(item) {
+            return item.groupId == deselected[0].groupId;
+          });
+
+          for (var i = 0; i < allSynonyms.length; i++) {
+            if (allSynonyms[i].id != deselected[0].id) {
+              allSynonyms[i].disabled = false;
+            }
+          }
+
+          this.set('selectedFakeIngredients', ingredients);
+        }
+
         this.sendAction("changeIngredients", this.get('selectedRealIngredients'));
       },
       clearFilters() {
         this.$('#filtersMenu button.active').attr('aria-pressed', "false");
         this.$('#filtersMenu button.active').button('refresh');
         this.$('#filtersMenu button.active').removeClass('active');
-        this.$('.ember-chosen option').prop('selected', false).trigger('chosen:updated');
+        //
+        this.get('filteredIngredients').map(function(item) {
+          item.disabled = false;
+        });
+        this.set('selectedFakeIngredients', []);
         //
         this.sendAction("clearFilters");
       }
