@@ -16,7 +16,7 @@ export default Ember.Component.extend({
       expandedIngredients.push({
         id: counter,
         name: ingredient.get('name'),
-        caption: ingredient.get('name'),
+        description: '',
         groupId: ingredient.get('id'),
         isReal: true,
         locked: false
@@ -29,7 +29,7 @@ export default Ember.Component.extend({
           expandedIngredients.push({
             id: counter,
             name: synonym,
-            caption: synonym + " (" + ingredient.get('name') + ")",
+            description: "(" + ingredient.get('name') + ")",
             groupId: ingredient.get('id'),
             isReal: false,
             locked: false
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
     var self = this;
     if (this.get('selectedFakeIngredients')) {
       return this.get('selectedFakeIngredients').map(function(item) {
-        return self.get('filteredIngredients')[item].groupId;
+        return item.groupId;
       });
     } else {
       return [];
@@ -61,7 +61,8 @@ export default Ember.Component.extend({
       toggleType(id) {
         this.sendAction("toggleType", id);
       },
-      changeIngredients() {
+      changeIngredients(ingredients) {
+        this.set('selectedFakeIngredients', ingredients);
         this.sendAction("changeIngredients", this.get('selectedRealIngredients'));
       },
       clearFilters() {
