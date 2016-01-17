@@ -47,12 +47,6 @@ export default Ember.Route.extend({
 
   },
 
-  resetController: function (controller, isExiting, transition) {
-    if (isExiting) {
-      // controller.set('page', 1);
-    }
-  },
-
   actions: {
     didTransition: function() {
       Ember.run.scheduleOnce('afterRender', this, () => {

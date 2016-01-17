@@ -2,23 +2,23 @@
   <h3>Формат коктейля</h3>
   <div id="cocktail-types-group" class="row">
     <div class="col-xs-4">
-      <button {{action 'toggleType' 1}} id="long-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="лонги"></button>
+      <button {{action 'toggleType' 1}} id="long-cocktail-button" type="button" class="btn big-toggle-button  {{add-active-class isLongTypePressed}}" data-toggle="button" aria-pressed={{ isLongTypePressed }} autocomplete="off" title="лонги"></button>
     </div>
     <div class="col-xs-4">
-      <button {{action 'toggleType' 2}} id="short-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="короткие"></button>
+      <button {{action 'toggleType' 2}} id="short-cocktail-button" type="button" class="btn big-toggle-button {{add-active-class isShortTypePressed}}" data-toggle="button" aria-pressed={{ isShortTypePressed }} autocomplete="off" title="короткие"></button>
     </div>
     <div class="col-xs-4">
-      <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="шоты"></button>
+      <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button {{add-active-class isShotTypePressed}}" data-toggle="button" aria-pressed={{ isShotTypePressed }} autocomplete="off" title="шоты"></button>
     </div>
   </div>
   <hr>
   <h3>Дополнительные опции</h3>
   <div id="options-group" class="row">
-    <button {{action 'toggleOption' 1}} id="burning-option-button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">горящий</button>
-    <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">слоеный</button>
-    <button {{action 'toggleOption' 2}} id="ice-cocktail-button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off">со льдом</button>
-    <button {{action 'toggleOption' 4}} id="official-cocktail-button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="утвержденный международной ассоциацией барменов (IBA)">официальный</button>
-    <button {{action 'toggleOption' 3}} id="checked-cocktail-button" class="btn option-toggle-button" data-toggle="button" aria-pressed="false" autocomplete="off" title="проверенный модераторами">проверенный</button>
+    <button {{action 'toggleOption' 1}} id="burning-option-button" class="btn option-toggle-button {{add-active-class isBurningPressed}}" data-toggle="button" aria-pressed={{ isBurningPressed }} autocomplete="off">горящий</button>
+    <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" class="btn option-toggle-button {{add-active-class isFlackyPressed}}" data-toggle="button" aria-pressed={{ isFlackyPressed }} autocomplete="off">слоеный</button>
+    <button {{action 'toggleOption' 2}} id="ice-cocktail-button" class="btn option-toggle-button {{add-active-class isIcePressed}}" data-toggle="button" aria-pressed={{ isIcePressed }} autocomplete="off">со льдом</button>
+    <button {{action 'toggleOption' 4}} id="official-cocktail-button" class="btn option-toggle-button {{add-active-class isIBAPressed}}" data-toggle="button" aria-pressed={{ isIBAPressed }} autocomplete="off" title="утвержденный международной ассоциацией барменов (IBA)">официальный</button>
+    <button {{action 'toggleOption' 3}} id="checked-cocktail-button" class="btn option-toggle-button {{add-active-class isCheckedPressed}}" data-toggle="button" aria-pressed={{ isCheckedPressed }} autocomplete="off" title="проверенный модераторами">проверенный</button>
   </div>
   <hr>
   <h3>Выбор ингредиентов</h3>

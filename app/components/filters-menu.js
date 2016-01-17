@@ -4,7 +4,49 @@ export default Ember.Component.extend({
   classNames: ["col-md-3"],
   dataOffsetTop: 185,
   dataOffsetBottom: null,
-  selectedFakeIngredients: [],
+  selectedFakeIngredients: Ember.computed('', function() {
+    var newIngredients = [];
+
+    if (this.get('selectedIngredients')) {
+      for (var i = 0; i < this.get('selectedIngredients').length; i++) {
+        newIngredients.push(this.findIngredientByRealId(this.get('selectedIngredients')[i]));
+      }
+    }
+
+    return newIngredients;
+  }),
+
+  isBurningPressed: Ember.computed('cocktailOptions.[]', function() {
+    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(1) >= 0 : false;
+  }),
+
+  isFlackyPressed: Ember.computed('cocktailOptions.[]', function() {
+    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(5) >= 0 : false;
+  }),
+
+  isIcePressed: Ember.computed('cocktailOptions.[]', function() {
+    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(2) >= 0 : false;
+  }),
+
+  isIBAPressed: Ember.computed('cocktailOptions.[]', function() {
+    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(4) >= 0 : false;
+  }),
+
+  isCheckedPressed: Ember.computed('cocktailOptions.[]', function() {
+    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(3) >= 0 : false;
+  }),
+
+  isLongTypePressed: Ember.computed('cocktailTypes.[]', function() {
+      return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(1) >= 0 : false;
+  }),
+
+  isShortTypePressed: Ember.computed('cocktailTypes.[]', function() {
+      return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(2) >= 0 : false;
+  }),
+
+  isShotTypePressed: Ember.computed('cocktailTypes.[]', function() {
+      return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(3) >= 0 : false;
+  }),
 
   filteredIngredients: Ember.computed('model.ingredients', function() {
     var expandedIngredients = [];
@@ -116,40 +158,6 @@ export default Ember.Component.extend({
       }
     };
     this.$("#filtersMenu").affix(options);
-    this.setListenerOnChosen();
-  },
-  setListenerOnChosen: function() {
-    var self = this;
-    this.$('.ember-chosen select').chosen().change(function(event, params) {
-      if (params.selected) {
-        var selectedElements = self.$('.ember-chosen select').val();
-        var lastSelectedId = selectedElements.pop();
-        var lastSelected = self.get('filteredIngredients')[lastSelectedId];
-        var realSelected = self.findIngredientByRealId(lastSelected.groupId);
-        selectedElements.push(realSelected.id);
-        var allSynonyms = self.get('filteredIngredients').filter(function(item) {
-          return item.groupId == realSelected.groupId;
-        });
-        for (var i = 0; i < allSynonyms.length; i++) {
-          if (allSynonyms[i].id != realSelected.id) {
-            self.$('.ember-chosen select option[value=' + allSynonyms[i].id + ']').prop("disabled", true);
-          }
-        }
-        self.$('.ember-chosen select').val(selectedElements).trigger('chosen:updated');
-      } else {
-        var lastDeselectedId = params.deselected;
-        var lastDeselected = self.get('filteredIngredients')[lastDeselectedId];
-        var allSynonyms = self.get('filteredIngredients').filter(function(item) {
-          return item.groupId == lastDeselected.groupId;
-        });
-        for (var i = 0; i < allSynonyms.length; i++) {
-          if (allSynonyms[i] != lastDeselected.id) {
-            self.$('.ember-chosen select option[value=' + allSynonyms[i].id + ']').prop("disabled", false);
-          }
-        }
-      }
-
-    });
   },
   findIngredientByRealId: function(id) {
     for (var i = 0; i < this.get('filteredIngredients').length; i++) {
