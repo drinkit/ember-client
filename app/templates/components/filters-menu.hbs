@@ -25,6 +25,5 @@
   {{#power-select selected=selectedFakeIngredients searchField="name" options=filteredIngredients onchange=(action "changeIngredients") multiple=true as |ingredient|}}
     {{ingredient.name}} {{ingredient.description}}
   {{/power-select}}
-  {{!-- {{ember-chosen multiple=true searchContains=true content=filteredIngredients optionValuePath="id" optionLabelPath="caption" value=selectedFakeIngredients action="changeIngredients" placeholder="Напишите ингредиент..."}} --}}
   <a {{action 'clearFilters'}} class="text-button" style="color:black;">Сбросить фильтры</a>
 </div>

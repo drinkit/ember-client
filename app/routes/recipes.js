@@ -13,6 +13,7 @@ export default Ember.Route.extend({
 
   setupController: function(controller, modelHash) {
     controller.setProperties(modelHash);
+    controller.set('pageNumber', 0);
   },
 
   beforeModel: function() {
@@ -37,10 +38,19 @@ export default Ember.Route.extend({
             }
           });
 
+          // if (that.get('controller')) {
+          //   that.get('controller').set('pageNumber', 0);
+          // }
           resolve();
         });
     });
 
+  },
+
+  resetController: function (controller, isExiting, transition) {
+    if (isExiting) {
+      // controller.set('page', 1);
+    }
   },
 
   actions: {

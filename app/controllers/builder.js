@@ -12,6 +12,7 @@ export default Ember.Controller.extend(PaginationMixin, {
 
   performSearch: function() {
     var that = this;
+    this.set('pageNumber', 0);
     this.get('ajax').request({
       url: "/recipes",
       method: "GET",
