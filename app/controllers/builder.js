@@ -9,6 +9,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   cocktailTypes: [],
   cocktailOptions: [],
   selectedIngredients: [],
+  isSearchPerformed: false,
 
   performSearch: function() {
     var that = this;
@@ -24,6 +25,7 @@ export default Ember.Controller.extend(PaginationMixin, {
         })
       }
     }, function(result) {
+      that.set('isSearchPerformed', true);
       that.store.unloadAll("recipe");
       result.forEach(function(item) {
         if (item.published) {

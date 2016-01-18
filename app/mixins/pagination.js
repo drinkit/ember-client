@@ -5,6 +5,10 @@ export default Ember.Mixin.create({
   pageNumber: 0,
   pageSize: 16,
 
+  foundCocktails: Ember.computed('recipes.[]', function() {
+    return this.get('recipes') && this.get('recipes').get('length') > 0;
+  }),
+
   nextPageNumber: function() {
     return this.get("pageNumber") + 1;
   }.property("pageNumber", "pages"),

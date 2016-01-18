@@ -19,7 +19,7 @@ export default Ember.Route.extend({
   beforeModel: function() {
     var params = this.paramsFor('recipes');
     var that = this;
-    that.store.unloadAll("recipe");
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       that.get('ajax').request({
           url: "/recipes",
@@ -29,6 +29,7 @@ export default Ember.Route.extend({
           }
         },
         function(response) {
+          that.store.unloadAll("recipe");
           response.forEach(function(item) {
             if (item.published) {
               that.store.push(that.store.normalize("recipe", item));
