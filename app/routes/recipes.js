@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import RememberScrollMixin from '../mixins/remember-scroll';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(RememberScrollMixin, {
   ajax: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   metrics: Ember.inject.service(),

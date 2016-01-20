@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import RememberScrollMixin from '../mixins/remember-scroll';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(RememberScrollMixin, {
     model(params) {
         return this.store.findRecord('recipe', params.recipe_id);
     },
