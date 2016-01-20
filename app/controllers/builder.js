@@ -5,7 +5,6 @@ export default Ember.Controller.extend(PaginationMixin, {
   session: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   ajax: Ember.inject.service(),
-  queryParams: ["pageNumber"],
   cocktailTypes: [],
   cocktailOptions: [],
   selectedIngredients: [],
@@ -13,7 +12,6 @@ export default Ember.Controller.extend(PaginationMixin, {
 
   performSearch: function() {
     var that = this;
-    this.set('pageNumber', 0);
     this.get('ajax').request({
       url: "/recipes",
       method: "GET",
@@ -49,6 +47,7 @@ export default Ember.Controller.extend(PaginationMixin, {
         }
 
         this.set("cocktailOptions", options);
+        this.set('pageNumber', 0);
         this.performSearch();
       },
 
@@ -63,11 +62,13 @@ export default Ember.Controller.extend(PaginationMixin, {
         }
 
         this.set("cocktailTypes", types);
+        this.set('pageNumber', 0);
         this.performSearch();
       },
 
       changeIngredients(ingredients) {
         this.set('selectedIngredients', ingredients);
+        this.set('pageNumber', 0);
         this.performSearch();
       },
 
@@ -75,6 +76,7 @@ export default Ember.Controller.extend(PaginationMixin, {
         this.set('cocktailTypes', []);
         this.set('cocktailOptions', []);
         this.set('selectedIngredients', []);
+        this.set('pageNumber', 0);
         this.performSearch();
       }
   }
