@@ -59,21 +59,23 @@ body {
   font-size: 24px;
   color: $orange-beach;
   background: none;
-  padding-left: 10px;
-  padding-right: 10px;
   -webkit-font-smoothing: antialiased;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
   background: none;
 }
-.nav-pills > li > a.active,
-.nav-pills > li > a.active:hover,
-.nav-pills > li > a.active:focus {
-  background: none;
-  color: $violet;
-  padding-left: 0;
-  padding-right: 10px;
+.nav-pills {
+  > li {
+    > a {
+      padding-left: 0;
+      padding-right: 10px;
+    }
+    > a.active, a.active:hover, a.active:focus {
+      background: none;
+      color: $violet;
+    }
+  }
 }
 hr {
   position: relative;
@@ -255,4 +257,6 @@ h3 {
 @import "signup-window.scss";
 @import "recipe-detail.scss";
 @import "recipes.scss";
-@import "ember-power-select";
+@import "ember-power-select.scss";
+@import "bar.scss";
+@import "bar-category-box.scss";

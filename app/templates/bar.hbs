@@ -1,0 +1,16 @@
+<div style="padding-left:5px;padding-right:10px;padding-top:15px;">
+  {{ingredient-chooser ingredients=ingredients changeIngredients=changeIngredients needToClear=needToClear placeholder="Добавить в бар..."}}
+  <div class="container-fluid bar-container">
+    <div class="row">
+      <div id="firstBarColumn" class="col-md-6">
+        {{bar-category-box title="Крепкие алкогольные напитки"}}
+        {{bar-category-box title="Ликеры"}}
+      </div>
+      <div id="secondBarColumn" class="col-md-6">
+        {{bar-category-box title="Слабоалкогольные напитки"}}
+        {{bar-category-box title="Безалкогольные напитки"}}
+        {{bar-category-box title="Прочее"}}
+      </div>
+    </div>
+  </div>
+</div>

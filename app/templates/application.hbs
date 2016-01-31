@@ -1,7 +1,7 @@
 <div id="main-frame" class="container-fluid">
   <div id="page-header">
     {{#link-to "builder"}}
-      <img src="/assets/logo-main.png"/>
+      <img src="/assets/logo-main.png" />
     {{/link-to}}
     <div id="loginArea">
       {{#if isLoggedIn}}
@@ -19,12 +19,13 @@
       <li>
         {{#link-to 'builder'}}Конструктор{{/link-to}}
       </li>
-      <li><a href="#">Мой бар</a></li>
+      <li>
+        {{#link-to 'bar'}}Мой бар{{/link-to}}
+      </li>
       <li><a href="#">Админ-панель</a></li>
     </ul>
     <hr>
     <hr> {{outlet}}
   </div>
 </div>
-{{login-window authSuccess="authSuccess"}}
-{{signup-window}}
+{{login-window authSuccess="authSuccess"}} {{signup-window}}
