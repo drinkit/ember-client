@@ -22,8 +22,6 @@
   </div>
   <hr>
   <h3>Выбор ингредиентов</h3>
-  {{#power-select selected=selectedFakeIngredients searchField="name" options=filteredIngredients onchange=(action "changeIngredients") multiple=true as |ingredient|}}
-    {{ingredient.name}} {{ingredient.description}}
-  {{/power-select}}
+  {{ingredient-chooser placeholder="Напишите ингредиент..." ingredients=ingredients changeIngredients=changeIngredients needToClear=needToClear}}
   <a {{action 'clearFilters'}} class="text-button" style="color:black;">Сбросить фильтры</a>
 </div>

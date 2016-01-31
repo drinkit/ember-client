@@ -1,0 +1,3 @@
+{{#power-select-multiple selected=selectedFakeIngredients searchField="name" placeholder=placeholder options=filteredIngredients onchange=(action "changeIngredients") as |ingredient|}}
+  {{ingredient.name}} {{ingredient.description}}
+{{/power-select-multiple}}
