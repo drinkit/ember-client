@@ -4,6 +4,8 @@ export default Ember.Route.extend({
   metrics: Ember.inject.service(),
   currentUser: Ember.inject.service(),
 
+  titleToken: 'Мой бар',
+
   model() {
     return new Ember.RSVP.hash({
       ingredients: this.store.findAll('ingredient'),

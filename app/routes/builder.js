@@ -4,6 +4,8 @@ import RememberScrollMixin from '../mixins/remember-scroll';
 export default Ember.Route.extend(RememberScrollMixin, {
 	metrics: Ember.inject.service(),
 
+	titleToken: 'Конструктор коктейлей',
+
 	model() {
 		return new Ember.RSVP.hash({
 			ingredients: this.store.findAll('ingredient'),

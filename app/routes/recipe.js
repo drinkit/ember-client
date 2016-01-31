@@ -6,6 +6,10 @@ export default Ember.Route.extend(RememberScrollMixin, {
         return this.store.findRecord('recipe', params.recipe_id);
     },
 
+    titleToken: function(model) {
+      return model.get('name');
+    },
+
     metrics: Ember.inject.service(),
 
     actions: {

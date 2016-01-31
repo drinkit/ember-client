@@ -6,6 +6,8 @@ export default Ember.Route.extend(RememberScrollMixin, {
   currentUser: Ember.inject.service(),
   metrics: Ember.inject.service(),
 
+  titleToken: 'Результаты поиска',
+
   queryParams: {
     search: {
       refreshModel: true

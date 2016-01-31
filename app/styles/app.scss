@@ -248,15 +248,17 @@ h3 {
     font-size: 14px;
   }
 }
+
+$ember-power-select-multiple-selection-background-color: $orange-beach;
+
+@import "ember-power-select.scss";
 @import "filters-menu.scss";
 @import "big-toggle-button.scss";
 @import "option-toggle-button.scss";
-@import "chosen.scss";
 @import "recipe-box.scss";
 @import "login-window.scss";
 @import "signup-window.scss";
 @import "recipe-detail.scss";
 @import "recipes.scss";
-@import "ember-power-select.scss";
 @import "bar.scss";
 @import "bar-category-box.scss";
