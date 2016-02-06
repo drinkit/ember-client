@@ -1,17 +1,25 @@
 .bar-category-box {
   flex: 1;
   margin: 5px;
-  display: flex;
-  justify-content: center;
   background-color: white;
   border-radius: 5px;
   box-shadow: 1px 2px 8px 1px #999999;
   > span {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
     font-family: "Georgia";
     font-weight: bold;
     font-style: italic;
     font-size: 18px;
     -webkit-font-smoothing: antialiased;
     color: #78A590;
+  }
+
+  > div {
+    padding-left: 5px;
+    padding-right: 5px;
+    display: flex;
+    flex-wrap: wrap;
   }
 }

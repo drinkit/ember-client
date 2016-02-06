@@ -83,8 +83,13 @@ export default Ember.Component.extend({
 
   actions: {
     changeIngredients(ingredients) {
-      var deselected = $(this.get('selectedFakeIngredients')).not(ingredients).get();
-      var selected = $(ingredients).not(this.get('selectedFakeIngredients')).get();
+      if (ingredients instanceof Array) {
+        var deselected = $(this.get('selectedFakeIngredients')).not(ingredients).get();
+        var selected = $(ingredients).not(this.get('selectedFakeIngredients')).get();
+      } else {
+        var deselected = this.get('selectedFakeIngredients').indexOf(ingredients) >= 0 ? [ingredients] : [];
+        var selected = this.get('selectedFakeIngredients').indexOf(ingredients) == -1 ? [ingredients] : [];
+      }
 
       if (selected.length > 0) {
         var realSelected = this.findIngredientByRealId(selected[0].groupId);
@@ -110,7 +115,13 @@ export default Ember.Component.extend({
           }
         }
 
-        this.set('selectedFakeIngredients', ingredients);
+        if (ingredients instanceof Array) {
+          this.set('selectedFakeIngredients', ingredients);
+        } else {
+          var index = this.get('selectedFakeIngredients').indexOf(ingredients);
+          this.get('selectedFakeIngredients').splice(index, 1);
+          this.notifyPropertyChange('selectedFakeIngredients');
+        }
       }
 
       this.sendAction("changeIngredients", this.get('selectedRealIngredients'));

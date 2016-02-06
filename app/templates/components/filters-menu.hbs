@@ -22,6 +22,6 @@
   </div>
   <hr>
   <h3>Выбор ингредиентов</h3>
-  {{ingredient-chooser placeholder="Напишите ингредиент..." ingredients=ingredients changeIngredients=changeIngredients needToClear=needToClear}}
+  {{ingredient-chooser multiple=true placeholder="Напишите ингредиент..." ingredients=ingredients changeIngredients=changeIngredients needToClear=needToClear}}
   <a {{action 'clearFilters'}} class="text-button" style="color:black;">Сбросить фильтры</a>
 </div>

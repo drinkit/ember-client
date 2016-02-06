@@ -1,1 +1,9 @@
 <span>{{title}}</span>
+<div>
+  {{#each ingredients as |ingredient|}}
+    <span class="ember-power-select-multiple-option">
+      <span aria-label="remove element" class="ember-power-select-multiple-remove-btn">×</span>
+      {{ingredient.name}}
+    </span>
+  {{/each}}
+</div>
