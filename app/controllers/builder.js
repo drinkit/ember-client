@@ -7,7 +7,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   ajax: Ember.inject.service(),
   cocktailTypes: [],
   cocktailOptions: [],
-  selectedIngredients: [],
+  selectedIngredientsIds: [],
   isSearchPerformed: false,
 
   performSearch: function() {
@@ -17,7 +17,7 @@ export default Ember.Controller.extend(PaginationMixin, {
       method: "GET",
       data: {
         criteria: JSON.stringify({
-          ingredients: this.get("selectedIngredients") || [],
+          ingredients: this.get("selectedIngredientsIds") || [],
           cocktailTypes: this.get("cocktailTypes") || [],
           options: this.get("cocktailOptions") || []
         })
@@ -67,7 +67,10 @@ export default Ember.Controller.extend(PaginationMixin, {
       },
 
       changeIngredients(ingredients) {
-        this.set('selectedIngredients', ingredients);
+        let selectedIngredientsIds = ingredients.map(function(item) {
+          return item.groupId;
+        });
+        this.set('selectedIngredientsIds', selectedIngredientsIds);
         this.set('pageNumber', 0);
         this.performSearch();
       },
@@ -75,7 +78,7 @@ export default Ember.Controller.extend(PaginationMixin, {
       clearFilters() {
         this.set('cocktailTypes', []);
         this.set('cocktailOptions', []);
-        this.set('selectedIngredients', []);
+        this.set('selectedIngredientsIds', []);
         this.set('pageNumber', 0);
         this.performSearch();
       }

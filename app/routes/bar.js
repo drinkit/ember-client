@@ -9,7 +9,7 @@ export default Ember.Route.extend({
   model() {
     return new Ember.RSVP.hash({
       ingredients: this.store.findAll('ingredient'),
-      barItems: this.get('currentUser').get('barItems')
+      user: this.get('currentUser')
     });
   },
 

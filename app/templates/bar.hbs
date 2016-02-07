@@ -1,16 +1,31 @@
 <div style="padding-left:5px;padding-right:10px;padding-top:15px;">
-  {{ingredient-chooser multiple=false ingredients=ingredients changeIngredients="changeIngredients" needToClear=needToClear placeholder="Добавить в бар..."}}
+  {{ingredient-chooser multiple=false ingredients=ingredients changeIngredients="changeIngredients"
+  needToClear=needToClear placeholder="Добавить в бар..." selectedIngredients=selectedIngredients
+  selectedIngredientsIds=selectedIngredientsIds ingredientSelected="ingredientSelected"}}
   <div class="container-fluid bar-container">
     <div class="row">
       <div id="firstBarColumn" class="col-md-6">
-        {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits}}
-        {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors}}
+        {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits onRemoveItem=(action "ingredientRemoved")}}
+        {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors onRemoveItem=(action "ingredientRemoved")}}
       </div>
       <div id="secondBarColumn" class="col-md-6">
-        {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits}}
-        {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits}}
-        {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other}}
+        {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits onRemoveItem=(action "ingredientRemoved")}}
+        {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits onRemoveItem=(action
+        "ingredientRemoved")}}
+        {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other onRemoveItem=(action "ingredientRemoved")}}
       </div>
+    </div>
+  </div>
+  <div id="removedIngredientsContainer" class="bar-category-box">
+    <span>Закончились</span>
+    <div>
+      {{#each removedIngredients as |ingredient|}}
+        <span class="ember-power-select-multiple-option">
+          <span {{action "itemRestored" ingredient}} class="ember-power-select-multiple-remove-btn">↑</span>
+          <span {{action "itemDeleted" ingredient}} class="ember-power-select-multiple-remove-btn">×</span>
+          {{ingredient.name}}
+        </span>
+      {{/each}}
     </div>
   </div>
 </div>

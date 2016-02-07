@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   session: Ember.inject.service("session"),
 
+  id: "",
   username: "",
   password: "",
   displayName: "",
@@ -15,6 +16,7 @@ export default Ember.Service.extend({
   }.property('isLoggedIn', 'session.isAuthenticated'),
 
   setUser: function(userInfo) {
+    this.set("id", userInfo.id);
     this.set("username", userInfo.username);
     this.set("password", userInfo.password);
     this.set("displayName", userInfo.displayName);
@@ -24,6 +26,7 @@ export default Ember.Service.extend({
   },
 
   unsetUser: function() {
+    this.set("id", "");
     this.set("username", "");
     this.set("password", "");
     this.set("displayName", "");

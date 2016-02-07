@@ -2,26 +2,34 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+  selectedIngredients: [],
+  selectedIngredientsIds: [],
+
+  selectedIngredientsChanged: Ember.observer('selectedIngredients.[]', function() {
+    this.sendAction("changeIngredients", this.get('selectedIngredients'));
+  }),
+
+  selectedIngredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
+    let self = this;
+    let ingredients = this.get('selectedIngredientsIds').map(this.findIngredientByRealId, this);
+    this.get('selectedIngredients').forEach(function(item) {
+      item.disabled = false;
+    });
+    this.set('selectedIngredients', ingredients);
+    ingredients.forEach(function(item) {
+      item.disabled = true;
+    });
+  }),
+
   needToClearData: Ember.observer('needToClear', function() {
     if (this.get('needToClear')) {
       this.get('filteredIngredients').map(function(item) {
         item.disabled = false;
       });
-      this.set('selectedFakeIngredients', []);
+      this.set('selectedIngredients', []);
+      this.set('selectedIngredientsIds', []);
       this.set('needToClear', false);
     }
-  }),
-
-  selectedFakeIngredients: Ember.computed('', function() {
-    var newIngredients = [];
-
-    if (this.get('selectedIngredients')) {
-      for (var i = 0; i < this.get('selectedIngredients').length; i++) {
-        newIngredients.push(this.findIngredientByRealId(this.get('selectedIngredients')[i]));
-      }
-    }
-
-    return newIngredients;
   }),
 
   filteredIngredients: Ember.computed('model.ingredients', function() {
@@ -38,7 +46,8 @@ export default Ember.Component.extend({
         description: '',
         groupId: ingredient.get('id'),
         isReal: true,
-        disabled: false
+        disabled: false,
+        category: ingredient.get('category')
       });
 
       if (ingredient.get('alias')) {
@@ -62,17 +71,6 @@ export default Ember.Component.extend({
     return expandedIngredients;
   }),
 
-  selectedRealIngredients: Ember.computed('selectedFakeIngredients.[]', function() {
-    var self = this;
-    if (this.get('selectedFakeIngredients')) {
-      return this.get('selectedFakeIngredients').map(function(item) {
-        return item.groupId;
-      });
-    } else {
-      return [];
-    }
-  }),
-
   findIngredientByRealId: function(id) {
     for (var i = 0; i < this.get('filteredIngredients').length; i++) {
       if (this.get('filteredIngredients')[i].groupId == id && this.get('filteredIngredients')[i].isReal) {
@@ -84,11 +82,11 @@ export default Ember.Component.extend({
   actions: {
     changeIngredients(ingredients) {
       if (ingredients instanceof Array) {
-        var deselected = $(this.get('selectedFakeIngredients')).not(ingredients).get();
-        var selected = $(ingredients).not(this.get('selectedFakeIngredients')).get();
+        var deselected = $(this.get('selectedIngredients')).not(ingredients).get();
+        var selected = $(ingredients).not(this.get('selectedIngredients')).get();
       } else {
-        var deselected = this.get('selectedFakeIngredients').indexOf(ingredients) >= 0 ? [ingredients] : [];
-        var selected = this.get('selectedFakeIngredients').indexOf(ingredients) == -1 ? [ingredients] : [];
+        var deselected = this.get('selectedIngredients').indexOf(ingredients) >= 0 ? [ingredients] : [];
+        var selected = this.get('selectedIngredients').indexOf(ingredients) == -1 ? [ingredients] : [];
       }
 
       if (selected.length > 0) {
@@ -98,33 +96,34 @@ export default Ember.Component.extend({
         });
 
         for (var i = 0; i < allSynonyms.length; i++) {
-          if (allSynonyms[i].id != realSelected.id) {
+          // if (allSynonyms[i].id != realSelected.id) {
             allSynonyms[i].disabled = true;
-          }
+          // }
         }
 
-        this.set('selectedFakeIngredients', this.get('selectedFakeIngredients').concat([realSelected]));
+        this.set('selectedIngredients', this.get('selectedIngredients').concat([realSelected]));
+        this.sendAction('ingredientSelected', realSelected.groupId);
       } else if (deselected.length > 0) {
         var allSynonyms = this.get('filteredIngredients').filter(function(item) {
           return item.groupId == deselected[0].groupId;
         });
 
         for (var i = 0; i < allSynonyms.length; i++) {
-          if (allSynonyms[i].id != deselected[0].id) {
+          // if (allSynonyms[i].id != deselected[0].id) {
             allSynonyms[i].disabled = false;
-          }
+          // }
         }
 
         if (ingredients instanceof Array) {
-          this.set('selectedFakeIngredients', ingredients);
+          this.set('selectedIngredients', ingredients);
         } else {
-          var index = this.get('selectedFakeIngredients').indexOf(ingredients);
-          this.get('selectedFakeIngredients').splice(index, 1);
-          this.notifyPropertyChange('selectedFakeIngredients');
+          var index = this.get('selectedIngredients').indexOf(ingredients);
+          this.get('selectedIngredients').splice(index, 1);
+          this.notifyPropertyChange('selectedIngredients');
         }
-      }
 
-      this.sendAction("changeIngredients", this.get('selectedRealIngredients'));
+        this.sendAction('ingredientDeselected', deselected[0].groupId);
+      }
     }
   }
 });
