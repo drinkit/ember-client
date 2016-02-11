@@ -26,6 +26,22 @@ body {
   font-style: italic;
   font-weight: bold;
 }
+input[placeholder] {
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+input::-moz-placeholder {
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+input:-moz-placeholder {
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+input:-ms-input-placeholder {
+  text-overflow: ellipsis;
+  font-style: italic;
+}
 #main-frame {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -66,18 +82,43 @@ body {
   background: none;
 }
 .nav-pills {
+  float: left;
   > li {
     > a {
       padding-left: 0;
       padding-right: 10px;
     }
-    > a.active, a.active:hover, a.active:focus {
+    > a.active,
+    a.active:hover,
+    a.active:focus {
       background: none;
       color: $violet;
     }
   }
 }
+.search-by-name {
+  float: right;
+  margin-top: 8px;
+  margin-right: 10px;
+  padding-left: 4px;
+  padding-top: 4px;
+  padding-bottom: 2px;
+  font-family: "CenturyGothic";
+  > input {
+    width: 200px;
+    height: 30px;
+    padding: 2px 16px 2px 8px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+  > input:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-color: #ccc;
+  }
+}
 hr {
+  clear: both;
   position: relative;
   margin-left: 0;
   margin-top: 2px;
@@ -127,13 +168,11 @@ h3 {
   padding-top: 10px;
   padding-left: 15px;
   padding-right: 5px;
-
   > img {
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
-
   > p {
     font-size: 24px;
     font-family: "CenturyGothic";
@@ -142,7 +181,6 @@ h3 {
     margin-left: auto;
     margin-right: auto;
   }
-
   > .row {
     padding-left: 0;
     padding-right: 0;
@@ -235,22 +273,8 @@ h3 {
     margin-left: 5px;
     margin-right: 5px;
   }
-  input {
-    margin-top: 15px;
-    border-radius: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    height: 25px;
-    width: 200px;
-    font-family: "CenturyGothic";
-    font-size: 14px;
-  }
 }
-
 $ember-power-select-multiple-selection-background-color: $orange-beach;
-
 @import "ember-power-select.scss";
 @import "filters-menu.scss";
 @import "big-toggle-button.scss";

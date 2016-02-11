@@ -42,7 +42,7 @@ export default Ember.Component.extend({
       var ingredient = ingredients[i];
       expandedIngredients.push({
         id: counter,
-        name: ingredient.get('name'),
+        name: ingredient.get('name').toLowerCase(),
         description: '',
         groupId: ingredient.get('id'),
         isReal: true,
@@ -56,8 +56,8 @@ export default Ember.Component.extend({
           var synonym = ingredient.get('alias')[j];
           expandedIngredients.push({
             id: counter,
-            name: synonym,
-            description: "(" + ingredient.get('name') + ")",
+            name: synonym.toLowerCase(),
+            description: "(" + ingredient.get('name').toLowerCase() + ")",
             groupId: ingredient.get('id'),
             isReal: false,
             disabled: false

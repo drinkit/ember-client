@@ -2,7 +2,7 @@
 <div>
   {{#each ingredients as |ingredient|}}
     <span class="ember-power-select-multiple-option">
-      <span aria-label="remove element" {{action "removeItem" ingredient}} class="ember-power-select-multiple-remove-btn">↓</span>
+      <span aria-label="remove element" {{action "removeItem" ingredient}} class="ember-power-select-multiple-remove-btn arrow-btn">↓</span>
       {{ingredient.name}}
     </span>
   {{/each}}

@@ -21,5 +21,12 @@
     padding-right: 5px;
     display: flex;
     flex-wrap: wrap;
+
+    > span {
+      > span.arrow-btn {
+        padding-top: 2px;
+        font-family: sans-serif;
+      }
+    }
   }
 }

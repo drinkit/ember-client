@@ -8,7 +8,7 @@ export default Ember.Service.extend({
   password: "",
   displayName: "",
   accessLevel: -1,
-  barItems: null,
+  barItems: [],
   isLoggedIn: false,
 
   isAuthenticated: function() {
@@ -31,7 +31,7 @@ export default Ember.Service.extend({
     this.set("password", "");
     this.set("displayName", "");
     this.set("accessLevel", -1);
-    this.set("barItems", null);
+    this.set("barItems", []);
     this.set("isLoggedIn", false);
   }
 });

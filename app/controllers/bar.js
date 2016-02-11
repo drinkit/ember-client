@@ -132,9 +132,11 @@ export default Ember.Controller.extend({
 
   isIngredientActive: function(id) {
     let barItems = this.get('user').get('barItems');
-    for (var i = 0; i < barItems.length; i++) {
-      if (barItems[i].ingredientId == id) {
-        return barItems[i].active;
+    if (barItems) {
+      for (var i = 0; i < barItems.length; i++) {
+        if (barItems[i].ingredientId == id) {
+          return barItems[i].active;
+        }
       }
     }
 

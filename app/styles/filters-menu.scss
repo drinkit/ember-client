@@ -58,7 +58,7 @@
 }
 
 .ember-basic-dropdown-trigger {
-  padding-left: 4px;
+  padding-left: 8px;
   padding-top: 2px;
   padding-bottom: 2px;
   font-family: "CenturyGothic";
@@ -66,31 +66,31 @@
 
 .ember-power-select-multiple-option {
   padding-left: 2px;
+  padding-right: 5px;
   margin: 2px;
   font-size: 13px;
   font-family: "CenturyGothic";
   height: 21px;
-  color: #222222 !important;
   -webkit-font-smoothing: antialiased;
+  border-radius: 10px;
+  border: none;
+  color: white !important;
+  line-height: 19px;
 }
 
 .ember-power-select-multiple-remove-btn {
   width: 15px;
   height: 15px;
   display: inline-block;
-  line-height: 12px;
+  line-height: 13px;
   padding: 0px;
   text-align: center;
   vertical-align: text-bottom;
   color: white;
   opacity: 1 !important;
-  font-weight: bold;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .ember-power-select-multiple-remove-btn:hover {
-  background-color: $brick-red;
-  border: 1px solid $brick-red;
-  border-radius: 10px;
-  line-height: 10px;
+  color: $brick-red;
 }

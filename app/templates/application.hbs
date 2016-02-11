@@ -11,19 +11,22 @@
       {{else}}
         <a id="loginButton" class="text-button" data-toggle="modal" data-target="#loginWindow">Войти</a>
       {{/if}}
-      {{search-by-name action="search"}}
+
     </div>
   </div>
   <div id="content-frame" class="container">
-    <ul class="nav nav-pills">
-      <li>
-        {{#link-to 'builder'}}Конструктор{{/link-to}}
-      </li>
-      <li>
-        {{#link-to 'bar'}}Мой бар{{/link-to}}
-      </li>
-      <li><a href="#">Админ-панель</a></li>
-    </ul>
+    <div>
+      <ul class="nav nav-pills">
+        <li>
+          {{#link-to 'builder'}}Конструктор{{/link-to}}
+        </li>
+        <li>
+          {{#link-to 'bar'}}Мой бар{{/link-to}}
+        </li>
+        <li><a href="#">Админ-панель</a></li>
+      </ul>
+      {{search-by-name action="search"}}
+    </div>
     <hr>
     <hr> {{outlet}}
   </div>
