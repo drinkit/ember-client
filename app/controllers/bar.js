@@ -20,6 +20,8 @@ export default Ember.Controller.extend({
       ingredients = this.get('user').get('barItems').map(function(item) {
         return item.ingredientId;
       });
+    } else {
+      this.get('user').set('barItems', []);
     }
 
     Ember.run.scheduleOnce('afterRender', this, () => {

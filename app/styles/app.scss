@@ -66,9 +66,43 @@ input:-ms-input-placeholder {
   padding-left: 20px;
   padding-top: 5px;
 }
+.navbar {
+  background-color: white;
+  border: none;
+  margin-bottom: 0px;
+
+  > .container-fluid {
+    > .navbar-header {
+      > .navbar-toggle {
+        float: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    > .container-fluid {
+      padding-left: 0px;
+      padding-right: 0px;
+
+      > .navbar-collapse {
+        padding-left: 0px;
+
+        > div.ember-view {
+          > .navbar-form {
+            margin-right: -30px;
+          }
+        }
+      }
+    }
+  }
+}
 .nav li a,
 .nav li a:hover,
-.nav li a:visited {
+.nav li a:visited,
+.navbar-nav li a:hover,
+.navbar-default .navbar-nav>li>a:hover {
   font-family: Georgia;
   font-style: italic;
   font-weight: bold;
@@ -81,8 +115,7 @@ input:-ms-input-placeholder {
 .nav > li > a:focus {
   background: none;
 }
-.nav-pills {
-  float: left;
+.navbar-nav {
   > li {
     > a {
       padding-left: 0;
@@ -97,15 +130,14 @@ input:-ms-input-placeholder {
   }
 }
 .search-by-name {
-  float: right;
-  margin-top: 8px;
+  margin-left: -15px;
   margin-right: 10px;
   padding-left: 4px;
   padding-top: 4px;
   padding-bottom: 2px;
   font-family: "CenturyGothic";
   > input {
-    width: 200px;
+    width: 200px !important;
     height: 30px;
     padding: 2px 16px 2px 8px;
     box-shadow: none;
