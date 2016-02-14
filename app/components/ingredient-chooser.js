@@ -13,11 +13,11 @@ export default Ember.Component.extend({
     let self = this;
     let ingredients = this.get('selectedIngredientsIds').map(this.findIngredientByRealId, this);
     this.get('selectedIngredients').forEach(function(item) {
-      item.disabled = false;
+      Ember.set(item, 'disabled', false);
     });
     this.set('selectedIngredients', ingredients);
     ingredients.forEach(function(item) {
-      item.disabled = true;
+      Ember.set(item, 'disabled', true);
     });
   }),
 
@@ -97,7 +97,7 @@ export default Ember.Component.extend({
 
         for (var i = 0; i < allSynonyms.length; i++) {
           // if (allSynonyms[i].id != realSelected.id) {
-            allSynonyms[i].disabled = true;
+          Ember.set(allSynonyms[i], 'disabled', true);
           // }
         }
 
@@ -110,7 +110,7 @@ export default Ember.Component.extend({
 
         for (var i = 0; i < allSynonyms.length; i++) {
           // if (allSynonyms[i].id != deselected[0].id) {
-            allSynonyms[i].disabled = false;
+            Ember.set(allSynonyms[i], 'disabled', false);
           // }
         }
 
