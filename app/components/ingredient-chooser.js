@@ -12,6 +12,7 @@ export default Ember.Component.extend({
   selectedIngredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
     let self = this;
     let ingredients = this.get('selectedIngredientsIds').map(this.findIngredientByRealId, this);
+    ingredients = ingredients.filter(Boolean);
     this.get('selectedIngredients').forEach(function(item) {
       Ember.set(item, 'disabled', false);
     });

@@ -95,3 +95,10 @@
 .ember-power-select-multiple-remove-btn:hover {
   color: $brick-red;
 }
+
+#filtersMenu {
+  > a {
+    color: black;
+    display: inline-block;
+  }
+}

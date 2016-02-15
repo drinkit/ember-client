@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   classNames: ["col-md-3"],
   dataOffsetTop: 185,
   dataOffsetBottom: null,
+  currentUser: Ember.inject.service(),
 
   isBurningPressed: Ember.computed('cocktailOptions.[]', function() {
     return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(1) >= 0 : false;

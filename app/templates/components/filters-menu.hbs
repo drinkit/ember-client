@@ -23,5 +23,10 @@
   <hr>
   <h3>Выбор ингредиентов</h3>
   {{ingredient-chooser multiple=true placeholder="Напишите ингредиент..." ingredients=ingredients changeIngredients=changeIngredients needToClear=needToClear}}
-  <a {{action 'clearFilters'}} class="text-button" style="color:black;">Сбросить фильтры</a>
+  <a {{action 'clearFilters'}} class="text-button">Сбросить фильтры</a>
+  {{#if currentUser.isAuthenticated}}
+    <a {{action 'addBarAsFilter'}} class="text-button">Добавить ингредиенты из бара</a>
+  {{else}}
+    <a {{action 'addBarAsFilter'}} class="text-button disabled" title="Доступно для зарегистрированых пользователей">Добавить ингредиенты из бара</a>
+  {{/if}}
 </div>
