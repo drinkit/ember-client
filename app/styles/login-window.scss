@@ -1,31 +1,51 @@
 #loginWindow {
-	.modal-sm {
-		width: 350px;
+	.modal-title {
+		color: $violet;
+		font-family: "Georgia";
+		font-style: italic;
+		font-weight: bold;
 	}
-
-	.modal-body {
-		input {
-			width: 100%;
-			margin-bottom: 10px;
-			font-family: "CenturyGothic";
-			font-size: 14px;
-		}
-
-		button {
-			width: 100%;
-		}
-	}
-
-	.modal-footer {
-		text-align: left;
-		button {
-			width: 100%;
-		}
-	}
-
-	.modal-footer.sn-group {
-		button {
-			width: 100px;
-		}
-	}
+  .modal-sm {
+    width: 350px;
+  }
+  .modal-body {
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      font-family: "CenturyGothic";
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+    }
+  }
+  .modal-footer {
+    text-align: left;
+    button {
+      width: 100%;
+    }
+  }
+  .modal-footer.sn-group {
+    button {
+      width: 100px;
+      color: white;
+      border: none;
+      opacity: 0.8;
+    }
+    button:hover {
+      opacity: 1;
+      transition: opacity 0.25s ease-in-out;
+      -moz-transition: opacity 0.25s ease-in-out;
+      -webkit-transition: opacity 0.25s ease-in-out;
+    }
+    #googleButton {
+      background-color: #D83E31;
+    }
+    #vkButton {
+      background-color: #6281A6;
+    }
+    #fbButton {
+      background-color: #47619C;
+    }
+  }
 }

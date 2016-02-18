@@ -15,9 +15,9 @@
         <button type="button" class="btn btn-default" {{action "login"}}>Войти</button>
       </div>
       <div class="modal-footer sn-group">
-          <button type="button" class="btn btn-default" {{action "socialLogin" "google"}}>Google</button>
-          <button type="button" class="btn btn-default" {{action "socialLogin" "vk"}}>ВКонтакте</button>
-          <button type="button" class="btn btn-default" {{action "socialLogin" "facebook"}}>Facebook</button>
+          <button id="googleButton" type="button" class="btn btn-default" {{action "socialLogin" "google"}}>Google+</button>
+          <button id="vkButton" type="button" class="btn btn-default" {{action "socialLogin" "vk"}}>ВКонтакте</button>
+          <button id="fbButton" type="button" class="btn btn-default" {{action "socialLogin" "facebook"}}>Facebook</button>
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#signUpWindow">Зарегистрироваться</button>
