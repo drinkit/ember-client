@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ["col-md-3"],
+  classNames: ['col-md-3'],
   dataOffsetTop: 185,
   dataOffsetBottom: null,
   currentUser: Ember.inject.service(),
@@ -27,36 +27,44 @@ export default Ember.Component.extend({
   }),
 
   isLongTypePressed: Ember.computed('cocktailTypes.[]', function() {
-      return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(1) >= 0 : false;
+    return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(1) >= 0 : false;
   }),
 
   isShortTypePressed: Ember.computed('cocktailTypes.[]', function() {
-      return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(2) >= 0 : false;
+    return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(2) >= 0 : false;
   }),
 
   isShotTypePressed: Ember.computed('cocktailTypes.[]', function() {
-      return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(3) >= 0 : false;
+    return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(3) >= 0 : false;
   }),
 
   actions: {
     toggleOption(id) {
-        this.sendAction("toggleOption", id);
-      },
-      toggleType(id) {
-        this.sendAction("toggleType", id);
-      },
-      changeIngredients(ingredients) {
-        this.sendAction("changeIngredients", ingredients);
-      },
-      clearFilters() {
-        this.$('#filtersMenu button.active').attr('aria-pressed', "false");
-        this.$('#filtersMenu button.active').button('refresh');
-        this.$('#filtersMenu button.active').removeClass('active');
-        //
-        this.set('needToClear', true);
-        //
-        this.sendAction("clearFilters");
-      }
+      this.sendAction("toggleOption", id);
+    },
+    toggleType(id) {
+      this.sendAction("toggleType", id);
+    },
+    changeIngredients(ingredients) {
+      this.sendAction('changeIngredients', ingredients);
+    },
+    clearFilters() {
+      this.$('#filtersMenu button.active').attr('aria-pressed', 'false');
+      this.$('#filtersMenu button.active').button('refresh');
+      this.$('#filtersMenu button.active').removeClass('active');
+      //
+      this.set('needToClear', true);
+      //
+      this.sendAction('clearFilters');
+    },
+    addBarAsFilter() {
+      let barItemsIds = this.get('currentUser').get('barItems').filter(function(item) {
+        return item.active;
+      }).map(function(item) {
+        return item.ingredientId;
+      });
+      this.set('barIngredientsIds', barItemsIds);
+    }
   },
   didInsertElement: function() {
     var options = {
@@ -65,6 +73,6 @@ export default Ember.Component.extend({
         bottom: this.get('dataOffsetBottom')
       }
     };
-    this.$("#filtersMenu").affix(options);
+    this.$('#filtersMenu').affix(options);
   }
 });

@@ -11,7 +11,6 @@
       <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button {{add-active-class isShotTypePressed}}" data-toggle="button" aria-pressed={{ isShotTypePressed }} autocomplete="off" title="шоты"></button>
     </div>
   </div>
-  <hr>
   <h3>Дополнительные опции</h3>
   <div id="options-group" class="row">
     <button {{action 'toggleOption' 1}} id="burning-option-button" class="btn option-toggle-button {{add-active-class isBurningPressed}}" data-toggle="button" aria-pressed={{ isBurningPressed }} autocomplete="off">горящий</button>
@@ -20,13 +19,12 @@
     <button {{action 'toggleOption' 4}} id="official-cocktail-button" class="btn option-toggle-button {{add-active-class isIBAPressed}}" data-toggle="button" aria-pressed={{ isIBAPressed }} autocomplete="off" title="утвержденный международной ассоциацией барменов (IBA)">официальный</button>
     <button {{action 'toggleOption' 3}} id="checked-cocktail-button" class="btn option-toggle-button {{add-active-class isCheckedPressed}}" data-toggle="button" aria-pressed={{ isCheckedPressed }} autocomplete="off" title="проверенный модераторами">проверенный</button>
   </div>
-  <hr>
   <h3>Выбор ингредиентов</h3>
-  {{ingredient-chooser multiple=true placeholder="Напишите ингредиент..." ingredients=ingredients changeIngredients=changeIngredients needToClear=needToClear}}
+  {{ingredient-chooser multiple=true placeholder="Напишите ингредиент..." ingredients=ingredients selectedIngredientsIds=barIngredientsIds changeIngredients=changeIngredients needToClear=needToClear}}
   <a {{action 'clearFilters'}} class="text-button">Сбросить фильтры</a>
   {{#if currentUser.isAuthenticated}}
     <a {{action 'addBarAsFilter'}} class="text-button">Добавить ингредиенты из бара</a>
   {{else}}
-    <a {{action 'addBarAsFilter'}} class="text-button disabled" title="Доступно для зарегистрированых пользователей">Добавить ингредиенты из бара</a>
+    <a class="text-button text-button-disabled" title="Доступно для зарегистрированых пользователей">Добавить ингредиенты из бара</a>
   {{/if}}
 </div>
