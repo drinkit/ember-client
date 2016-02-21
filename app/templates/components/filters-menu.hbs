@@ -20,11 +20,11 @@
     <button {{action 'toggleOption' 3}} id="checked-cocktail-button" class="btn option-toggle-button {{add-active-class isCheckedPressed}}" data-toggle="button" aria-pressed={{ isCheckedPressed }} autocomplete="off" title="проверенный модераторами">проверенный</button>
   </div>
   <h3>Выбор ингредиентов</h3>
-  {{ingredient-chooser multiple=true placeholder="Напишите ингредиент..." ingredients=ingredients selectedIngredientsIds=barIngredientsIds changeIngredients=changeIngredients needToClear=needToClear}}
-  <a {{action 'clearFilters'}} class="text-button">Сбросить фильтры</a>
+  {{ingredient-chooser elementId="ingredientChooser" multiple=true placeholder="Напишите ингредиент..." ingredients=ingredients selectedIngredientsIds=barIngredientsIds changeIngredients=changeIngredients}}
   {{#if currentUser.isAuthenticated}}
     <a {{action 'addBarAsFilter'}} class="text-button">Добавить ингредиенты из бара</a>
   {{else}}
     <a class="text-button text-button-disabled" title="Доступно для зарегистрированых пользователей">Добавить ингредиенты из бара</a>
   {{/if}}
+  <a {{action 'clearFilters'}} class="text-button">Сбросить фильтры</a>
 </div>

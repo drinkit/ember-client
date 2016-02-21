@@ -43,7 +43,9 @@
     top: 0;
   }
 }
-
+#ingredientChooser > div {
+  overflow: auto;
+}
 .ember-power-select {
   width: 247px;
 }

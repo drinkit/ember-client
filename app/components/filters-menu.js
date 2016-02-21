@@ -53,7 +53,7 @@ export default Ember.Component.extend({
       this.$('#filtersMenu button.active').button('refresh');
       this.$('#filtersMenu button.active').removeClass('active');
       //
-      this.set('needToClear', true);
+      this.set('barIngredientsIds', []);
       //
       this.sendAction('clearFilters');
     },
@@ -74,5 +74,10 @@ export default Ember.Component.extend({
       }
     };
     this.$('#filtersMenu').affix(options);
+    const windowHeight = this.$(window).height();
+    const offsetParentY = this.$('#filtersMenu').offset().top;
+    const offsetY = this.$('#ingredientChooser').position().top;
+    console.log(windowHeight, offsetY);
+    this.$('#ingredientChooser > div').css('max-height', windowHeight - offsetY - 70);
   }
 });

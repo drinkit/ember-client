@@ -22,17 +22,6 @@ export default Ember.Component.extend({
     });
   }),
 
-  needToClearData: Ember.observer('needToClear', function() {
-    if (this.get('needToClear')) {
-      this.get('filteredIngredients').map(function(item) {
-        item.disabled = false;
-      });
-      this.set('selectedIngredients', []);
-      this.set('selectedIngredientsIds', []);
-      this.set('needToClear', false);
-    }
-  }),
-
   filteredIngredients: Ember.computed('model.ingredients', function() {
     var expandedIngredients = [];
     var fakeIngredient;
