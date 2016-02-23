@@ -7,9 +7,11 @@ export default Ember.Component.extend({
   oauthio: Ember.inject.service(),
 
   hasError: false,
+  isLogining: false,
 
   actions: {
     login() {
+      this.set('isLogining', true);
       this.set('hasError', false);
       let {
         email,
@@ -18,10 +20,11 @@ export default Ember.Component.extend({
       var self = this;
       this.get("session").authenticate('autheticator:digest', email,
         CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
-          //
+          self.set('isLogining', false);
         },
         function(reason) {
           self.set('hasError', true);
+          self.set('isLogining', false);
         });
     },
 
