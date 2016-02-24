@@ -29,8 +29,21 @@
         > #tags {
           position: absolute;
           bottom: 11px;
-          height: 32px;
           left: 150px;
+          right: 0px;
+          text-align: left;
+
+          > img {
+            width: 24px;
+            height: 24px;
+          }
+
+          @media (min-width: 768px) {
+            > img {
+              width: 32px;
+              height: 32px;
+            }
+          }
         }
         > #ingredients {
           text-align: left;
@@ -51,7 +64,12 @@
             margin-bottom: 5px;
             line-height: normal;
             color: #1c1c1c;
-            font-size: 12px;
+            font-size: 11px;
+
+            @media (min-width: 768px) {
+              font-size: 12px;
+            }
+
             font-family: "CenturyGothic";
             -webkit-font-smoothing: antialiased;
           }
@@ -74,9 +92,14 @@
   font-weight: bold;
   font-style: italic;
   color: #464077;
-  font-size: 20px;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   line-height: initial;
+}
+@media (min-width: 768px) {
+  .recipe-name-text {
+    font-size: 20px;
+  }
 }
 #devMode {
   color: red;
