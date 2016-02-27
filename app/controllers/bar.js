@@ -100,7 +100,7 @@ export default Ember.Controller.extend({
   changeIngredientActivity: function(id, active) {
     const barItems = this.get('user').get('barItems');
     for (var i = 0; i < barItems.length; i++) {
-      if (barItems[i].ingredientId == id) {
+      if (barItems[i].ingredientId === id) {
         barItems[i].active = active;
         this.get('user').notifyPropertyChange('barItems');
         return;
@@ -111,7 +111,7 @@ export default Ember.Controller.extend({
   deleteIngredient: function(id) {
     const barItems = this.get('user').get('barItems');
     for (var i = 0; i < barItems.length; i++) {
-      if (barItems[i].ingredientId == id) {
+      if (barItems[i].ingredientId === id) {
         barItems.splice(i, 1);
         this.get('user').notifyPropertyChange('barItems');
         return;
@@ -136,7 +136,7 @@ export default Ember.Controller.extend({
     let barItems = this.get('user').get('barItems');
     if (barItems) {
       for (var i = 0; i < barItems.length; i++) {
-        if (barItems[i].ingredientId == id) {
+        if (barItems[i].ingredientId === id) {
           return barItems[i].active;
         }
       }

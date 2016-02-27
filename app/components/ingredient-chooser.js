@@ -24,7 +24,6 @@ export default Ember.Component.extend({
 
   filteredIngredients: Ember.computed('model.ingredients', function() {
     var expandedIngredients = [];
-    var fakeIngredient;
     var counter = 0;
     var ingredients = this.get('ingredients').toArray();
 
@@ -69,39 +68,38 @@ export default Ember.Component.extend({
     }
   },
 
+  getAllSynonyms: function(id) {
+    return this.get('filteredIngredients').filter(function(item) {
+      return item.groupId == id;
+    });
+  },
+
   actions: {
     changeIngredients(ingredients) {
+      let selected, deselected;
       if (ingredients instanceof Array) {
-        var deselected = $(this.get('selectedIngredients')).not(ingredients).get();
-        var selected = $(ingredients).not(this.get('selectedIngredients')).get();
+        deselected = $(this.get('selectedIngredients')).not(ingredients).get();
+        selected = $(ingredients).not(this.get('selectedIngredients')).get();
       } else {
-        var deselected = this.get('selectedIngredients').indexOf(ingredients) >= 0 ? [ingredients] : [];
-        var selected = this.get('selectedIngredients').indexOf(ingredients) == -1 ? [ingredients] : [];
+        deselected = this.get('selectedIngredients').indexOf(ingredients) >= 0 ? [ingredients] : [];
+        selected = this.get('selectedIngredients').indexOf(ingredients) === -1 ? [ingredients] : [];
       }
 
       if (selected.length > 0) {
         var realSelected = this.findIngredientByRealId(selected[0].groupId);
-        var allSynonyms = this.get('filteredIngredients').filter(function(item) {
-          return item.groupId == realSelected.groupId;
-        });
+        var allSynonyms = this.getAllSynonyms(realSelected.groupId);
 
         for (var i = 0; i < allSynonyms.length; i++) {
-          // if (allSynonyms[i].id != realSelected.id) {
           Ember.set(allSynonyms[i], 'disabled', true);
-          // }
         }
 
         this.set('selectedIngredients', this.get('selectedIngredients').concat([realSelected]));
         this.sendAction('ingredientSelected', realSelected.groupId);
       } else if (deselected.length > 0) {
-        var allSynonyms = this.get('filteredIngredients').filter(function(item) {
-          return item.groupId == deselected[0].groupId;
-        });
+        var allSynonyms = this.getAllSynonyms(deselected[0].groupId);
 
         for (var i = 0; i < allSynonyms.length; i++) {
-          // if (allSynonyms[i].id != deselected[0].id) {
-            Ember.set(allSynonyms[i], 'disabled', false);
-          // }
+          Ember.set(allSynonyms[i], 'disabled', false);
         }
 
         if (ingredients instanceof Array) {

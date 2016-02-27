@@ -21,7 +21,7 @@ export default Ember.Service.extend({
     this.set("password", userInfo.password);
     this.set("displayName", userInfo.displayName);
     this.set("accessLevel", userInfo.accessLevel);
-    this.set("barItems", userInfo.barItems)
+    this.set("barItems", userInfo.barItems);
     this.set("isLoggedIn", true);
   },
 

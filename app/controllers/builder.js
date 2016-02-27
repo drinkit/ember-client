@@ -28,8 +28,7 @@ export default Ember.Controller.extend(PaginationMixin, {
       result.forEach(function(item) {
         if (item.published) {
           that.store.push(that.store.normalize("recipe", item));
-        } else if (that.get('currentUser').get('isAuthenticated')
-        && that.get('currentUser').get('accessLevel') == 0) {
+        } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('accessLevel') === 0) {
           that.store.push(that.store.normalize("recipe", item));
         }
       });
@@ -37,50 +36,50 @@ export default Ember.Controller.extend(PaginationMixin, {
   },
   actions: {
     toggleOption(id) {
-        var options = this.get("cocktailOptions");
-        var index = options.indexOf(id);
+      var options = this.get("cocktailOptions");
+      var index = options.indexOf(id);
 
-        if (index >= 0) {
-          options.splice(index, 1);
-        } else {
-          options.push(id);
-        }
-
-        this.set("cocktailOptions", options);
-        this.set('pageNumber', 0);
-        this.performSearch();
-      },
-
-      toggleType(id) {
-        var types = this.get("cocktailTypes");
-        var index = types.indexOf(id);
-
-        if (index >= 0) {
-          types.splice(index, 1);
-        } else {
-          types.push(id);
-        }
-
-        this.set("cocktailTypes", types);
-        this.set('pageNumber', 0);
-        this.performSearch();
-      },
-
-      changeIngredients(ingredients) {
-        let selectedIngredientsIds = ingredients.map(function(item) {
-          return item.groupId;
-        });
-        this.set('selectedIngredientsIds', selectedIngredientsIds);
-        this.set('pageNumber', 0);
-        this.performSearch();
-      },
-
-      clearFilters() {
-        this.set('cocktailTypes', []);
-        this.set('cocktailOptions', []);
-        this.set('selectedIngredientsIds', []);
-        this.set('pageNumber', 0);
-        this.performSearch();
+      if (index >= 0) {
+        options.splice(index, 1);
+      } else {
+        options.push(id);
       }
+
+      this.set("cocktailOptions", options);
+      this.set('pageNumber', 0);
+      this.performSearch();
+    },
+
+    toggleType(id) {
+      var types = this.get("cocktailTypes");
+      var index = types.indexOf(id);
+
+      if (index >= 0) {
+        types.splice(index, 1);
+      } else {
+        types.push(id);
+      }
+
+      this.set("cocktailTypes", types);
+      this.set('pageNumber', 0);
+      this.performSearch();
+    },
+
+    changeIngredients(ingredients) {
+      let selectedIngredientsIds = ingredients.map(function(item) {
+        return item.groupId;
+      });
+      this.set('selectedIngredientsIds', selectedIngredientsIds);
+      this.set('pageNumber', 0);
+      this.performSearch();
+    },
+
+    clearFilters() {
+      this.set('cocktailTypes', []);
+      this.set('cocktailOptions', []);
+      this.set('selectedIngredientsIds', []);
+      this.set('pageNumber', 0);
+      this.performSearch();
+    }
   }
 });

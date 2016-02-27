@@ -5,7 +5,6 @@ export default Ember.Service.extend({
   ajax: Ember.inject.service(),
 
   register: function(email, password, displayName, successHandler, errorHandler) {
-    var self = this;
     this.get('ajax').request({
       url: '/users/register',
       method: 'POST',

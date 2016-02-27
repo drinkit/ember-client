@@ -70,7 +70,7 @@ export default Ember.Component.extend(Validations, {
 
     login() {
       const self = this;
-      this.$('#signUpWindow').one('hidden.bs.modal', function(e) {
+      this.$('#signUpWindow').one('hidden.bs.modal', function() {
         self.$(document).find('#loginWindow').modal('show');
       });
       this.$('#signUpWindow').modal('hide');

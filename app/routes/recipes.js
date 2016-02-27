@@ -36,8 +36,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
           response.forEach(function(item) {
             if (item.published) {
               that.store.push(that.store.normalize("recipe", item));
-            } else if (that.get('currentUser').get('isAuthenticated')
-            && that.get('currentUser').get('accessLevel') == 0) {
+            } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('accessLevel') === 0) {
               that.store.push(that.store.normalize("recipe", item));
             }
           });
@@ -57,7 +56,10 @@ export default Ember.Route.extend(RememberScrollMixin, {
         const page = document.location.pathname + document.location.search;
         const title = "Поиск";
 
-        Ember.get(this, 'metrics').trackPage({ page, title });
+        Ember.get(this, 'metrics').trackPage({
+          page,
+          title
+        });
       });
     }
   },

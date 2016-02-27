@@ -24,7 +24,7 @@ export default Ember.Service.extend({
   },
 
   request: function(ajaxRequestBody, successHandler, errorHandler, username, password) {
-    if (ajaxRequestBody.url.substring(0, 4) != 'http') {
+    if (ajaxRequestBody.url.substring(0, 4) !== 'http') {
       ajaxRequestBody.url = this.get('host') + ajaxRequestBody.url;
     }
 

@@ -21,10 +21,10 @@ export default Ember.Service.extend({
             // yeaah!
           },
           function(error) {
-            if (error == "Incorrect credentials") {
+            if (error === "Incorrect credentials") {
               self.get('signup').register(login, password, data.name, function(response) {
                 self.get("session").authenticate('autheticator:digest', login,
-          				CryptoJS.SHA256("drinkIt" + password).toString())
+          				CryptoJS.SHA256("drinkIt" + password).toString());
               });
             }
           });

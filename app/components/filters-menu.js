@@ -77,7 +77,6 @@ export default Ember.Component.extend({
     const windowHeight = this.$(window).height();
     const offsetParentY = this.$('#filtersMenu').offset().top;
     const offsetY = this.$('#ingredientChooser').position().top;
-    console.log(windowHeight, offsetY);
     this.$('#ingredientChooser > div').css('max-height', windowHeight - offsetY - 70);
   }
 });

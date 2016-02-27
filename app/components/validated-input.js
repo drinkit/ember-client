@@ -11,7 +11,6 @@ export default Ember.Component.extend({
   classNames: ['form-group', 'has-feedback', 'validated-input'],
   classNameBindings: ['isValid:has-success', 'showErrorClass:has-error'],
   isValid: false,
-  isInvalid: false,
   model: null,
   value: null,
   rawInputValue: null,
