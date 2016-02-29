@@ -105,6 +105,43 @@
   color: red;
   position: absolute;
   display: block;
-  left: 15px;
+  left: 65px;
   top: 10px;
+}
+.views-icon-container {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  opacity: 0.7;
+
+  > img {
+    width: 16px;
+    height: 16px;
+  }
+
+  > span {
+    font-family: "CenturyGothic";
+    font-size: 13px;
+    color: #333333;
+    vertical-align: middle;
+  }
+}
+
+.rating-icon-container {
+  position: absolute;
+  top: 10px;
+  left: 100px;
+  opacity: 0.7;
+
+  > img {
+    width: 15px;
+    height: 15px;
+  }
+
+  > span {
+    font-family: "CenturyGothic";
+    font-size: 13px;
+    color: #333333;
+    vertical-align: middle;
+  }
 }
