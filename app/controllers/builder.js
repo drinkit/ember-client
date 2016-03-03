@@ -26,6 +26,7 @@ export default Ember.Controller.extend(PaginationMixin, {
       that.set('isSearchPerformed', true);
       that.store.unloadAll("recipe");
       result.forEach(function(item) {
+        item.rating = (Math.random() * (5 - 1) + 1).toFixed(1);
         if (item.published) {
           that.store.push(that.store.normalize("recipe", item));
         } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('accessLevel') === 0) {

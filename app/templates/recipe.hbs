@@ -1,10 +1,22 @@
 <div id="recipeView" class="row">
 	<div id="imageCon" class="col-md-5">
-		{{#if model.imageUrl}}
-			<img src={{model.fullImageUrl}}>
-		{{else}}
-			<img src="/assets/bigcocktail.png">
-		{{/if}}
+		<div>
+			{{#if model.imageUrl}}
+				<img src={{model.fullImageUrl}}>
+			{{else}}
+				<img src="/assets/bigcocktail.png">
+			{{/if}}
+			<div class="views-icon-container">
+				<img src="/assets/views-icon.svg">
+				<span>999</span>
+			</div>
+			<div class="rating-icon-container">
+				<div class="rating-con">
+					<div class="rating-image" style={{ratingPercentageWidth}} />
+				</div>
+				<span>{{model.rating}}</span>
+			</div>
+		</div>
 	</div>
 	<div class="col-md-7 description">
 		<span id="recipeName">{{model.name}}</span>

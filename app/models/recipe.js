@@ -10,6 +10,7 @@ export default DS.Model.extend({
   options: DS.attr(),
   published: DS.attr('boolean'),
   thumbnailUrl: DS.attr('string'),
+  rating: DS.attr('number'),
   fullImageUrl: Ember.computed('imageUrl', function() {
   	return 'http://prod-drunkedguru.rhcloud.com' + this.get('imageUrl');
   }),
