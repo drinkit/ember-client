@@ -33,7 +33,7 @@ export default Ember.Component.extend({
         id: counter,
         name: ingredient.get('name').toLowerCase(),
         description: '',
-        groupId: ingredient.get('id'),
+        groupId: Number(ingredient.get('id')),
         isReal: true,
         disabled: false,
         category: ingredient.get('category')
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
             id: counter,
             name: synonym.toLowerCase(),
             description: "(" + ingredient.get('name').toLowerCase() + ")",
-            groupId: ingredient.get('id'),
+            groupId: Number(ingredient.get('id')),
             isReal: false,
             disabled: false
           });
