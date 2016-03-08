@@ -1,23 +1,27 @@
 <div class="recipe-box">
 	{{#link-to "recipe" recipe}}
 		<div>
-			{{#if recipe.thumbnailUrl}}
-				<img src= {{recipe.fullThumbnailUrl}}>
-			{{else}}
-				<img src="/assets/emptycocktail.png">
-			{{/if}}
-			<div class="views-icon-container">
-				<img src="/assets/views-icon.svg">
-				<span>999</span>
-			</div>
-			<div class="rating-icon-container">
-				<img src="/assets/star.png">
-				<span>{{recipe.rating}}</span>
-			</div>
+			<div class="recipe-image-container">
+				<div>
+					{{#if recipe.thumbnailUrl}}
+						<img src= {{recipe.fullThumbnailUrl}}>
+					{{else}}
+						<img src="/assets/emptycocktail.png">
+					{{/if}}
+					<div class="views-icon-container">
+						<img src="/assets/views-icon.svg">
+						<span>{{recipe.views}}</span>
+					</div>
+					<div class="rating-icon-container">
+						<img src="/assets/heart.svg">
+						<span>{{recipe.likes}}</span>
+					</div>
+					{{#unless recipe.published}}
+						<span id="devMode">DEV</span>
+					{{/unless}}
+				</div>
+			</div>	
 			<div>
-				{{#unless recipe.published}}
-					<span id="devMode">DEV</span>
-				{{/unless}}
 				<span class="recipe-name-text">{{recipe.name}}</span>
 				<div id="ingredients">
 					{{#each sortedIngredients as |ingredient|}}

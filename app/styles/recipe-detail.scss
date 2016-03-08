@@ -54,23 +54,23 @@ $row-height: 42px;
         top: 10px;
         right: 20px;
         opacity: 0.7;
-        > .rating-con {
-          display: inline-block;
-          width: 105px;
-          height: 21px;
-          background-repeat: repeat-x;
-          background-image: url("/assets/empty_small_star.png");
-          > .rating-image {
-            height: 21px;
-            background-repeat: repeat-x;
-            background-image: url("/assets/full_small_star.png");
-          }
+				display: flex;
+  			align-items: center;
+				> div {
+          width: 16px;
+          height: 16px;
+					margin-right: 3px;
+					background: url(/assets/heart.svg);
+					cursor: pointer;
         }
+				> div:hover {
+					background: url(/assets/filled-heart.svg);
+				}
         > span {
           font-family: "CenturyGothic";
           font-size: 13px;
           color: #333333;
-          vertical-align: super;
+          vertical-align: middle;
         }
       }
     }
