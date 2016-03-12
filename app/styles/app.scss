@@ -3,27 +3,27 @@ $orange-beach: #FFB000;
 $violet: #464077;
 $light-green: #00AC8D;
 body {
-  background-image: url(/assets/new-pattern.jpg);
+  background-image: url("/assets/new-pattern.jpg");
   background-attachment: fixed;
   overflow-y: scroll;
   height: 100%;
 }
 @font-face {
-  src: url(/assets/fonts/CenturyGothic.ttf);
+  src: url("/assets/fonts/CenturyGothic.ttf");
   font-family: "CenturyGothic";
 }
 @font-face {
-  src: url(/assets/fonts/CenturyGothic-Italic.ttf);
+  src: url("/assets/fonts/CenturyGothic-Italic.ttf");
   font-family: "CenturyGothic";
   font-style: italic;
 }
 @font-face {
-  src: url(/assets/fonts/CenturyGothic-Bold.ttf);
+  src: url("/assets/fonts/CenturyGothic-Bold.ttf");
   font-family: "CenturyGothic";
   font-weight: bold;
 }
 @font-face {
-  src: url(/assets/fonts/Georgia-BoldItalic.ttf);
+  src: url("/assets/fonts/Georgia-BoldItalic.ttf");
   font-family: "Georgia";
   font-style: italic;
   font-weight: bold;
@@ -54,7 +54,7 @@ input:-ms-input-placeholder {
   min-height: 600px;
 }
 #page-header {
-  background-image: url(/assets/pattern-top.png);
+  background-image: url("/assets/pattern-top.png");
   background-repeat: repeat-x;
   width: auto;
   height: 92px;
@@ -64,42 +64,68 @@ input:-ms-input-placeholder {
   }
 }
 #content-frame {
+  background-image: url("/assets/pattern-top.png");
+  background-repeat: repeat-x;
   width: auto;
   padding-left: 20px;
   padding-top: 5px;
-  height:auto !important; /* real browsers */
-  min-height:100%; /* real browsers */
-
+  height: auto !important;
+  min-height: 100%;
   > span {
     font-family: "CenturyGothic";
   }
 }
+.icon-bar {
+  background-color: white !important;
+}
 .navbar {
-  background-color: white;
+  background-color: transparent;
   border: none;
-  margin-bottom: 0px;
-
+  margin-bottom: 0;
+  min-height: 100px;
   > .container-fluid {
+    > .navbar-collapse {
+      box-shadow: none;
+      border: none 0;
+      > div.ember-view {
+        > .navbar-form {
+          margin-right: -10px;
+          border-bottom: none 0;
+        }
+      }
+    }
     > .navbar-header {
       > .navbar-toggle {
-        float: none;
+        position: absolute;
+        margin: auto;
+        top: 20px;
+        right: 0;
       }
     }
   }
 }
-
+@media (min-width: 768px) {
+  .navbar-nav {
+    clear: left;
+    margin-top: 10px;
+  }
+}
 @media (min-width: 768px) {
   .navbar {
     > .container-fluid {
-      padding-left: 0px;
-      padding-right: 0px;
-
+      padding-left: 0;
+      padding-right: 0;
+      > .navbar-header {
+        margin-left: -5px;
+        margin-top: 1px;
+      }
       > .navbar-collapse {
-        padding-left: 0px;
-
+        padding-left: 0;
+        padding-right: 0;
         > div.ember-view {
           > .navbar-form {
-            margin-right: -30px;
+            margin-right: -15px;
+            margin-top: 18px;
           }
         }
       }
@@ -137,6 +163,48 @@ input:-ms-input-placeholder {
     }
   }
 }
+.vr {
+  width: 0px;
+  display: inline-block;
+  border-left: 1px solid;
+  border-left-color: $violet;
+  height: 16px;
+  margin-top: 2px;
+  margin-bottom: -3px;
+}
+@media (min-width: 768px) {
+  .vr {
+    border-left-color: white;
+  }
+}
+
+#loginArea {
+  border-bottom: 1px solid transparent;
+  border-color: #e7e7e7;
+  margin-right: -10px;
+  margin-left: -15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0;
+  .text-button {
+    vertical-align: top;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: $violet;
+  }
+}
+@media (min-width: 768px) {
+  #loginArea {
+    border: none 0px;
+    float: right;
+    text-align: right;
+    margin-right: 5px;
+    margin-top: 5px;
+    .text-button {
+      color: white;
+    }
+  }
+}
 .search-by-name {
   margin-left: -15px;
   margin-right: 10px;
@@ -160,10 +228,7 @@ input:-ms-input-placeholder {
 hr {
   clear: both;
   position: relative;
-  margin-left: 0;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  margin-right: 5px;
+  margin: 2px 5px 2px 0;
   height: 1px;
   background-color: $light-green;
   color: $light-green;
@@ -303,22 +368,7 @@ h3 {
   text-align: left;
   vertical-align: middle;
 }
-.vr {
-  border-left: 1px solid;
-  width: 0;
-  display: inline-block;
-}
-#loginArea {
-  float: right;
-  margin-top: 15px;
-  margin-right: 20px;
-  text-align: right;
-  .text-button {
-    vertical-align: top;
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-}
+
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-power-select.scss";
 @import "filters-menu.scss";

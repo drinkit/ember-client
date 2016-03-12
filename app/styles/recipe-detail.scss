@@ -22,8 +22,9 @@ $row-height: 42px;
   > #imageCon {
     padding-left: 0;
     padding-right: 0;
-    text-align: left;
+    text-align: center;
     > div {
+			display: inline-block;
       margin-bottom: 10px;
       width: 386px;
       max-width: 100%;
@@ -75,6 +76,11 @@ $row-height: 42px;
       }
     }
   }
+	@media (min-width: 992px) {
+		> #imageCon {
+			text-align: left;
+		}
+	}
   > div {
     text-align: center;
   }

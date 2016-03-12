@@ -1,7 +1,7 @@
 <div id="builder-view" class="row">
   {{filters-menu clearFilters="clearFilters" changeIngredients="changeIngredients" toggleType="toggleType" toggleOption="toggleOption" ingredients=ingredients cocktailOptions=cocktailOptions cocktailTypes=cocktailTypes}}
 
-  <div class="search-results col-md-9">
+  <div class="search-results col-md-9 col-sm-7">
     {{#if foundCocktails}}
       <div class="row">
         {{#each recipesOnPage as |recipe|}}
