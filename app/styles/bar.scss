@@ -5,8 +5,10 @@
   > .row {
     box-sizing: border-box;
     display: flex;
+    flex-wrap: wrap;
     min-height: 300px;
     > .col-md-6 {
+      min-width: 200px;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -23,12 +25,22 @@
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 10px;
+}
 
-  > div {
-    > span {
-      > span.arrow-btn {
-        margin-left: -6px;
-      }
-    }
-  }
+.arrow-up-btn {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  background-color: white;
+  display: inline-block;
+  -webkit-mask-image: url(/assets/arrow_up.svg);
+  mask-image: url(/assets/arrow_up.svg);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  vertical-align: middle;
+  margin-left: -5px;
+}
+
+.arrow-up-btn:hover {
+  background-color: $brick-red;
 }

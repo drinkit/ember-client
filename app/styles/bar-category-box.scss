@@ -22,10 +22,22 @@
     display: flex;
     flex-wrap: wrap;
 
-    > span {
-      > span.arrow-btn {
-        padding-top: 1px;
-      }
-    }
   }
+}
+
+.arrow-down-btn {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  background-color: white;
+  display: inline-block;
+  -webkit-mask-image: url(/assets/arrow_down.svg);
+  mask-image: url(/assets/arrow_down.svg);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  vertical-align: middle;
+}
+
+.arrow-down-btn:hover {
+  background-color: $brick-red;
 }

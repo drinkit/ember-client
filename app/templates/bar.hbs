@@ -18,7 +18,7 @@
         {{#each removedIngredients as |ingredient|}}
           <span class="ember-power-select-multiple-option">
             <span {{action "itemDeleted" ingredient}} class="ember-power-select-multiple-remove-btn">×</span>
-            <span {{action "itemRestored" ingredient}} class="ember-power-select-multiple-remove-btn arrow-btn">↑</span>
+            <div {{action "itemRestored" ingredient}} class="arrow-up-btn"/>
             {{ingredient.name}}
           </span>
         {{/each}}
