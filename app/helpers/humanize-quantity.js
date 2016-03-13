@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export function humanizeQuantity(quantity) {
+export function humanizeQuantity([quantity]) {
   return quantity ? quantity + ' мл' : 'немного';
 }
 

@@ -16,10 +16,6 @@ export default Ember.Controller.extend({
     });
   }.property('model.ingredientsWithQuantities'),
 
-  ratingPercentageWidth: Ember.computed('model.rating', function() {
-    return new Ember.Handlebars.SafeString('width:' + ((Number(this.get('model').get('rating')) / 5) * 100).toString() + '%');
-  }),
-
   optionsToTags: {
     1: "fire-32.png",
     2: "ice-32.png",
@@ -34,7 +30,7 @@ export default Ember.Controller.extend({
     3: "shot-32.png"
   },
 
-  tags: Ember.computed({
+  tags: Ember.computed('model', {
     get() {
       var tags = [];
       var recipe = this.get("model");
