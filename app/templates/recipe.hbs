@@ -11,7 +11,7 @@
 				<span>{{model.views}}</span>
 			</div>
 			<div class="rating-icon-container">
-				<div />
+				<div class="{{if isLiked "rating-heart-liked" "rating-heart-unliked"}}" {{action "changeLike"}}/>
 				<span>{{model.likes}}</span>
 			</div>
 		</div>

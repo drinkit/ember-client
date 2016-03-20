@@ -2,6 +2,36 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default Ember.Controller.extend({
+  currentUser: Ember.inject.service(),
+  ajax: Ember.inject.service(),
+
+  actions: {
+    changeLike() {
+      const recipeId = parseInt(this.get('model').get('id'));
+      const userLikes = this.get('currentUser').get('likes');
+      const likedRecipeIndex = userLikes.indexOf(recipeId);
+
+      if (likedRecipeIndex == -1) {
+        userLikes.pushObject(recipeId);
+      } else {
+        userLikes.removeObject(recipeId);
+      }
+
+      this.get('currentUser').set('likes', userLikes);
+
+      this.get('ajax').request({
+        url: 'users/me',
+        contentType: 'application/json;charset=UTF-8',
+        method: 'PATCH',
+        data: JSON.stringify({
+          likes: userLikes
+        })
+      }, function(response) {
+
+      });
+    }
+  },
+
   ingredients: function() {
     var self = this;
     return DS.PromiseObject.create({
@@ -42,5 +72,10 @@ export default Ember.Controller.extend({
       });
       return tags;
     }
+  }),
+
+  isLiked: Ember.computed('currentUser.likes.[]', 'model', function() {
+    const userLikes = this.get('currentUser').get('likes');
+    return userLikes && userLikes.indexOf(parseInt(this.get('model').get('id'))) >= 0;
   })
 });

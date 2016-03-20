@@ -9,6 +9,7 @@ export default Ember.Service.extend({
   displayName: "",
   accessLevel: -1,
   barItems: [],
+  likes: [],
   isLoggedIn: false,
 
   isAuthenticated: function() {
@@ -22,6 +23,7 @@ export default Ember.Service.extend({
     this.set("displayName", userInfo.displayName);
     this.set("accessLevel", userInfo.accessLevel);
     this.set("barItems", userInfo.barItems);
+    this.set("likes", userInfo.likes || []);
     this.set("isLoggedIn", true);
   },
 
@@ -32,6 +34,7 @@ export default Ember.Service.extend({
     this.set("displayName", "");
     this.set("accessLevel", -1);
     this.set("barItems", []);
+    this.set("likes", []);
     this.set("isLoggedIn", false);
   }
 });

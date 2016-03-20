@@ -61,12 +61,8 @@ $row-height: 42px;
           width: 16px;
           height: 16px;
 					margin-right: 3px;
-					background: url(/assets/heart.svg);
 					cursor: pointer;
         }
-				> div:hover {
-					background: url(/assets/filled-heart.svg);
-				}
         > span {
           font-family: "CenturyGothic";
           font-size: 13px;
@@ -139,4 +135,16 @@ $row-height: 42px;
     background-color: $dark-grey;
     color: $dark-grey;
   }
+}
+.rating-heart-liked {
+  background: url(/assets/filled-heart.svg);
+}
+.rating-heart-liked:hover {
+  background: url(/assets/heart.svg);
+}
+.rating-heart-unliked {
+  background: url(/assets/heart.svg);
+}
+.rating-heart-unliked:hover {
+  background: url(/assets/filled-heart.svg);
 }

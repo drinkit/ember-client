@@ -13,14 +13,18 @@
 						<span>{{recipe.views}}</span>
 					</div>
 					<div class="rating-icon-container">
-						<img src="/assets/heart.svg">
+						{{#if isLiked}}
+						  <img src="/assets/filled-heart.svg">
+						{{else}}
+						  <img src="/assets/heart.svg">
+						{{/if}}
 						<span>{{recipe.likes}}</span>
 					</div>
 					{{#unless recipe.published}}
 						<span id="devMode">DEV</span>
 					{{/unless}}
 				</div>
-			</div>	
+			</div>
 			<div>
 				<span class="recipe-name-text">{{recipe.name}}</span>
 				<div id="ingredients">

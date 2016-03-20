@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import ENV from 'ember-drink-it/config/environment';
 
 export default Ember.Service.extend({
 
-  host: "http://prod-drunkedguru.rhcloud.com/rest/",
+  host: ENV['server-path'] + '/rest/',
 
   session: Ember.inject.service('session'),
   digestGenerator: Ember.inject.service('digest-generator'),
@@ -23,6 +24,16 @@ export default Ember.Service.extend({
     return authResponseHeader.indexOf('stale="true"') > 0;
   },
 
+  generateAllDigests: function(username, password, authHeader) {
+    const allDigests = {};
+    allDigests['GET'] = this.get('digestGenerator').generateDigest(username, password, 'GET', authHeader);
+    allDigests['POST'] = this.get('digestGenerator').generateDigest(username, password, 'POST', authHeader);
+    allDigests['PUT'] = this.get('digestGenerator').generateDigest(username, password, 'PUT', authHeader);
+    allDigests['PATCH'] = this.get('digestGenerator').generateDigest(username, password, 'PATCH', authHeader);
+    allDigests['DELETE'] = this.get('digestGenerator').generateDigest(username, password, 'DELETE', authHeader);
+    return allDigests;
+  },
+
   request: function(ajaxRequestBody, successHandler, errorHandler, username, password) {
     if (ajaxRequestBody.url.substring(0, 4) !== 'http') {
       ajaxRequestBody.url = this.get('host') + ajaxRequestBody.url;
@@ -31,8 +42,8 @@ export default Ember.Service.extend({
     var curUsername = username ? username : this.get('session').get('data').authenticated.email;
     var curPassword = password ? password : this.get('session').get('data').authenticated.password;
 
-    var self = this;
-    var digests = self.get('session').get('data').digests;
+    const self = this;
+    let digests = self.get('session').get('data').digests;
     if (this.get('session').get('isAuthenticated')) {
       this.get('session').authorize('authorizer:digest', (headerName, headerValues) => {
         if (headerValues[ajaxRequestBody.method]) {
@@ -47,16 +58,10 @@ export default Ember.Service.extend({
       if (xhr.status === 401) { // auth error
         if (curUsername && curPassword) {
           if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(xhr.getResponseHeader("WWW-Authenticate"))) {
-            var digestHeader = self.get('digestGenerator').generateDigest(curUsername,
-              curPassword, ajaxRequestBody.method,
-              xhr.getResponseHeader("WWW-Authenticate"));
+            const allDigests = self.generateAllDigests(curUsername, curPassword, xhr.getResponseHeader("WWW-Authenticate"));
 
-            if (!self.get('session').get('data').digests) {
-              self.get('session').get('data').digests = {};
-              digests = self.get('session').get('data').digests;
-            }
-
-            digests[ajaxRequestBody.method] = digestHeader;
+            self.get('session').get('data').digests = allDigests;
+            digests = allDigests;
 
             if (self.get('session').get('isAuthenticated')) {
               self.get('session').authenticate('autheticator:digest', curUsername,

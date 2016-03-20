@@ -10,7 +10,7 @@ module.exports = function(environment) {
       'font-src': "'self'",
       'style-src': "'self' 'unsafe-inline'",
       'script-src': "'self' www.google-analytics.com",
-      'connect-src': "'self' www.google-analytics.com http://prod-drunkedguru.rhcloud.com https://oauth.io",
+      'connect-src': "'self' http://localhost:8080 www.google-analytics.com http://prod-drunkedguru.rhcloud.com https://oauth.io",
       'img-src': "'self' http://prod-drunkedguru.rhcloud.com www.google-analytics.com"
     },
     EmberENV: {
@@ -47,6 +47,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV['server-path'] = 'http://localhost:8080';
   }
 
   if (environment === 'test') {
@@ -62,7 +63,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV['server-path'] = 'http://prod-drunkedguru.rhcloud.com';
   }
 
   return ENV;
