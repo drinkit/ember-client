@@ -4,6 +4,7 @@ import DS from 'ember-data';
 export default Ember.Controller.extend({
   currentUser: Ember.inject.service(),
   ajax: Ember.inject.service(),
+  tooltipsProvider: Ember.inject.service(),
 
   actions: {
     changeLike() {
@@ -62,13 +63,20 @@ export default Ember.Controller.extend({
 
   tags: Ember.computed('model', {
     get() {
-      var tags = [];
-      var recipe = this.get("model");
-      var typesToTags = this.get("typesToTags");
-      var optionsToTags = this.get("optionsToTags");
-      tags.push("/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")]);
+      let self = this;
+      let tags = [];
+      let recipe = this.get("model");
+      const typesToTags = this.get("typesToTags");
+      const optionsToTags = this.get("optionsToTags");
+      tags.push({
+        img: "/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")],
+        tooltip: self.get('tooltipsProvider').getTypeTooltip(recipe.get("cocktailTypeId"))
+      });
       recipe.get("options").forEach(function(item) {
-        tags.push("/assets/tags/" + optionsToTags[item]);
+        tags.push({
+          img: "/assets/tags/" + optionsToTags[item],
+          tooltip: self.get('tooltipsProvider').getTagTooltip(item)
+        });
       });
       return tags;
     }

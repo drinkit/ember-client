@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   currentUser: Ember.inject.service(),
-
+  tooltipsProvider: Ember.inject.service(),
   classNames: ['col-md-6'],
   typesToTags: {
     1: "long-32.png",
@@ -138,13 +138,20 @@ export default Ember.Component.extend({
   },
   tags: Ember.computed({
     get() {
-      var tags = [];
-      var recipe = this.get("recipe");
-      var typesToTags = this.get("typesToTags");
-      var optionsToTags = this.get("optionsToTags");
-      tags.push("/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")]);
+      let self = this;
+      let tags = [];
+      let recipe = this.get("recipe");
+      const typesToTags = this.get("typesToTags");
+      const optionsToTags = this.get("optionsToTags");
+      tags.push({
+        img: "/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")],
+        tooltip: self.get('tooltipsProvider').getTypeTooltip(recipe.get("cocktailTypeId"))
+      });
       recipe.get("options").forEach(function(item) {
-        tags.push("/assets/tags/" + optionsToTags[item]);
+        tags.push({
+          img: "/assets/tags/" + optionsToTags[item],
+          tooltip: self.get('tooltipsProvider').getTagTooltip(item)
+        });
       });
       return tags;
     }
