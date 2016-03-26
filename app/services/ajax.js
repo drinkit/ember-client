@@ -75,13 +75,15 @@ export default Ember.Service.extend({
             }
           } else {
             self.get('session').get('data').digests = {};
-            errorHandler(xhr, "Incorrect credentials", error);
+            if (errorHandler != null)
+              errorHandler(xhr, "Incorrect credentials", error);
           }
 
         }
       } else {
         self.get('session').get('data').digests = {};
-        errorHandler(xhr, status, error);
+        if (errorHandler != null)
+          errorHandler(xhr, status, error);
       }
     });
   }

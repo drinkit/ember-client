@@ -4,7 +4,9 @@ $violet: #464077;
 $light-green: #00AC8D;
 body {
   background-image: url("/assets/new-pattern.jpg");
-  background-attachment: fixed;
+  @media (min-width: 768px) {
+    background-attachment: fixed;
+  }
   overflow-y: scroll;
   height: 100%;
 }
@@ -135,8 +137,8 @@ input:-ms-input-placeholder {
 .nav li a,
 .nav li a:hover,
 .nav li a:visited,
-.navbar-nav li a:hover,
-.navbar-default .navbar-nav>li>a:hover {
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-nav li a:hover {
   font-family: Georgia;
   font-style: italic;
   font-weight: bold;
@@ -145,8 +147,8 @@ input:-ms-input-placeholder {
   background: none;
   -webkit-font-smoothing: antialiased;
 }
-.nav > li > a:hover,
-.nav > li > a:focus {
+.nav > li > a:focus,
+.nav > li > a:hover {
   background: none;
 }
 .navbar-nav {
@@ -156,15 +158,15 @@ input:-ms-input-placeholder {
       padding-right: 10px;
     }
     > a.active,
-    a.active:hover,
-    a.active:focus {
+    a.active:focus,
+    a.active:hover {
       background: none;
       color: $violet;
     }
   }
 }
 .vr {
-  width: 0px;
+  width: 0;
   display: inline-block;
   border-left: 1px solid;
   border-left-color: $violet;
@@ -177,7 +179,6 @@ input:-ms-input-placeholder {
     border-left-color: white;
   }
 }
-
 #loginArea {
   border-bottom: 1px solid transparent;
   border-color: #e7e7e7;
@@ -195,7 +196,7 @@ input:-ms-input-placeholder {
 }
 @media (min-width: 768px) {
   #loginArea {
-    border: none 0px;
+    border: none 0;
     float: right;
     text-align: right;
     margin-right: 5px;
@@ -322,9 +323,9 @@ h3 {
   color: #00ac8d;
   border-color: #bbd2c7;
   outline: none;
-  .active:focus,
+   &:active:focus,
   .active.focus,
-  &:active:focus {
+  .active:focus {
     outline: none;
   }
   &:hover {
@@ -368,7 +369,6 @@ h3 {
   text-align: left;
   vertical-align: middle;
 }
-
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-power-select.scss";
 @import "filters-menu.scss";

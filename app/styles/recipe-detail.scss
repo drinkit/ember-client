@@ -7,8 +7,8 @@ $row-height: 42px;
   margin-right: 0;
   border: 0 none;
   text-align: center;
-  span,
-  p {
+  p,
+  span {
     font-family: "CenturyGothic";
     color: #222222;
     font-size: 11pt;
@@ -24,7 +24,7 @@ $row-height: 42px;
     padding-right: 0;
     text-align: center;
     > div {
-			display: inline-block;
+      display: inline-block;
       margin-bottom: 10px;
       width: 386px;
       max-width: 100%;
@@ -55,13 +55,13 @@ $row-height: 42px;
         top: 10px;
         right: 20px;
         opacity: 0.7;
-				display: flex;
-  			align-items: center;
-				> div {
+        display: flex;
+        align-items: center;
+        > div {
           width: 16px;
           height: 16px;
-					margin-right: 3px;
-					cursor: pointer;
+          margin-right: 3px;
+          cursor: pointer;
         }
         > span {
           font-family: "CenturyGothic";
@@ -72,11 +72,11 @@ $row-height: 42px;
       }
     }
   }
-	@media (min-width: 992px) {
-		> #imageCon {
-			text-align: left;
-		}
-	}
+  @media (min-width: 992px) {
+    > #imageCon {
+      text-align: left;
+    }
+  }
   > div {
     text-align: center;
   }
@@ -137,14 +137,16 @@ $row-height: 42px;
   }
 }
 .rating-heart-liked {
-  background: url(/assets/filled-heart.svg);
+  background: url("/assets/filled-heart.svg");
 }
 .rating-heart-liked:hover {
-  background: url(/assets/heart.svg);
+  -webkit-filter: drop-shadow(0px 0px 1px $brick-red);
+  filter: drop-shadow(0px 0px 1px $brick-red);
 }
 .rating-heart-unliked {
-  background: url(/assets/heart.svg);
+  background: url("/assets/heart.svg");
 }
 .rating-heart-unliked:hover {
-  background: url(/assets/filled-heart.svg);
+  -webkit-filter: drop-shadow(0px 0px 1px $brick-red);
+  filter: drop-shadow(0px 0px 1px $brick-red);
 }
