@@ -2,7 +2,7 @@
 	<div id="imageCon" class="col-md-5">
 		<div>
 			{{#if model.imageUrl}}
-				<img src={{model.fullImageUrl}}>
+				<img src= {{model.fullImageUrl}}>
 			{{else}}
 				<img src="/assets/bigcocktail.png">
 			{{/if}}
@@ -11,7 +11,11 @@
 				<span>{{model.views}}</span>
 			</div>
 			<div class="rating-icon-container">
-				<div class="{{if isLiked "rating-heart-liked" "rating-heart-unliked"}}" {{action "changeLike"}}/>
+				{{#if currentUser.isLoggedIn}}
+					<div class="{{if isLiked "rating-heart-liked" "rating-heart-unliked"}}" {{action "changeLike"}} />
+				{{else}}
+					<div class="rating-heart-unliked" title="Доступно только для зарегистрированных пользователей" />
+				{{/if}}
 				<span>{{model.likes}}</span>
 			</div>
 		</div>
@@ -27,7 +31,7 @@
 				<div class="rightColumn">
 					<div id="tags">
 						{{#each tags as |tag|}}
-							<img src={{tag.img}} title="{{tag.tooltip}}">
+							<img src= {{tag.img}} title="{{tag.tooltip}}">
 						{{/each}}
 					</div>
 				</div>
@@ -45,8 +49,8 @@
 				<hr>
 			{{/each}}
 		</div>
-        <div>
-            <p>{{{model.description}}}</p>
-        </div>
+		<div>
+			<p>{{{model.description}}}</p>
+		</div>
 	</div>
 </div>
