@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
 
   actions: {
     changeLike() {
-      const recipeId = parseInt(this.get('model').get('id'));
+      const recipeId = parseInt(this.get('recipe').get('id'));
       const userLikes = this.get('currentUser').get('likes');
       const likedRecipeIndex = userLikes.indexOf(recipeId);
 
@@ -37,7 +37,7 @@ export default Ember.Controller.extend({
     var self = this;
     return DS.PromiseObject.create({
       promise: this.store.findAll('ingredient').then(function() {
-        return self.get('model').get('ingredientsWithQuantities').map(function(item) {
+        return self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
           return {
             name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
             quantity: item.quantity
@@ -45,7 +45,7 @@ export default Ember.Controller.extend({
         });
       })
     });
-  }.property('model.ingredientsWithQuantities'),
+  }.property('recipe.ingredientsWithQuantities'),
 
   optionsToTags: {
     1: "fire-32.png",
@@ -61,11 +61,11 @@ export default Ember.Controller.extend({
     3: "shot-32.png"
   },
 
-  tags: Ember.computed('model', {
+  tags: Ember.computed('recipe', {
     get() {
       let self = this;
       let tags = [];
-      let recipe = this.get("model");
+      let recipe = this.get("recipe");
       const typesToTags = this.get("typesToTags");
       const optionsToTags = this.get("optionsToTags");
       tags.push({
@@ -82,8 +82,8 @@ export default Ember.Controller.extend({
     }
   }),
 
-  isLiked: Ember.computed('currentUser.likes.[]', 'model', function() {
+  isLiked: Ember.computed('currentUser.likes.[]', 'recipe', function() {
     const userLikes = this.get('currentUser').get('likes');
-    return userLikes && userLikes.indexOf(parseInt(this.get('model').get('id'))) >= 0;
+    return userLikes && userLikes.indexOf(parseInt(this.get('recipe').get('id'))) >= 0;
   })
 });

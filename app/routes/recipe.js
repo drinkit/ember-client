@@ -3,26 +3,35 @@ import RememberScrollMixin from '../mixins/remember-scroll';
 
 export default Ember.Route.extend(RememberScrollMixin, {
   model(params) {
-    return this.store.findRecord('recipe', params.recipe_id);
+    this.get('adapterContext').setRecipeId(params.recipe_id);
+    return new Ember.RSVP.hash({
+      recipe: this.store.findRecord('recipe', params.recipe_id),
+      comments: this.store.findAll('comment')
+    });
+  },
+
+  setupController: function(controller, modelHash) {
+      controller.setProperties(modelHash);
   },
 
   titleToken: function(model) {
-    return model.get('name');
+    return model.recipe.get('name');
   },
 
   metrics: Ember.inject.service(),
   stats: Ember.inject.service(),
+  adapterContext: Ember.inject.service(),
 
   actions: {
     didTransition: function() {
       Ember.run.scheduleOnce('afterRender', this, () => {
         const page = document.location.pathname;
-        const title = this.get('currentModel').get('name');
+        const title = this.get('currentModel').recipe.get('name');
         Ember.get(this, 'metrics').trackPage({
           page,
           title
         });
-        this.get('stats').incrementViewsCount(this.get('currentModel').get('id'));
+        this.get('stats').incrementViewsCount(this.get('currentModel').recipe.get('id'));
       });
     }
   }

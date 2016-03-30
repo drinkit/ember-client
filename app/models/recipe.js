@@ -17,5 +17,5 @@ export default DS.Model.extend({
   }),
   fullThumbnailUrl: Ember.computed('thumbnailUrl', function() {
   	return 'http://prod-drunkedguru.rhcloud.com' + this.get('thumbnailUrl');
-  }),
+  })
 });

@@ -1,0 +1,7 @@
+{{#if currentUser.isLoggedIn}}
+  <textarea class="form-control" rows="3" placeholder="Здесь вы можете оставить комментарий" />
+{{else}}
+  <textarea class="form-control" disabled rows="3">
+    Чтобы оставить комментарий нужно <a>Войти</a> или <a>Зарегистрироваться</a>.
+  </textarea>
+{{/if}}
