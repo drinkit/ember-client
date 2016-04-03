@@ -160,9 +160,13 @@ $row-height: 42px;
     > textarea {
       text-align: left;
     }
-    > p.form-contorl {
+    > p.form-control {
       text-align: left;
       height: 60px;
+
+      > a {
+        cursor: pointer;
+      }
     }
   }
   #submitComment {

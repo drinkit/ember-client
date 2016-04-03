@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['comment-item'],
+  currentUser: Ember.inject.service(),
 
   actions: {
     deleteComment() {
@@ -10,5 +11,9 @@ export default Ember.Component.extend({
         this.get('comment').save();
       }
     }
-  }
+  },
+
+  isCurrentUserAuthor: Ember.computed('currentUser', 'comment', function() {
+    return this.get('currentUser.id') === this.get('comment.author.id');
+  })
 });

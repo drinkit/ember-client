@@ -1,7 +1,9 @@
 <div>
   <span class="author-name">{{comment.author.name}}</span>
   <span class="time-from-now">{{moment-from-now comment.posted locale='ru'}}</span>
-  <span class="glyphicon glyphicon-remove" aria-hidden="true" {{action "deleteComment"}}></span>
+  {{#if isCurrentUserAuthor}}
+    <span class="glyphicon glyphicon-remove remove-comment" aria-hidden="true" {{action "deleteComment"}}></span>
+  {{/if}}
 </div>
 <p>
   {{comment.text}}

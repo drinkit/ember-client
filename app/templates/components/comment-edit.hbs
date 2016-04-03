@@ -3,6 +3,6 @@
   <button id="submitComment" class="btn btn-default" {{action "submitComment"}}>Отправить</button>
 {{else}}
   <p class="form-control">
-    Чтобы оставить комментарий, нужно <a>войти</a> или <a>зарегистрироваться</a>.
+    Чтобы оставить комментарий, нужно <a data-toggle="modal" data-target="#loginWindow">войти</a> или <a data-toggle="modal" data-target="#signUpWindow">зарегистрироваться</a>.
   </p>
 {{/if}}
