@@ -51,5 +51,8 @@
 	</div>
 </div>
 <div id="commentsView">
-	{{comment-edit}}
+	{{comment-edit recipeId=recipe.id}}
+	{{#each sortedComments as |comment|}}
+	  {{comment-item comment=comment}}
+	{{/each}}
 </div>

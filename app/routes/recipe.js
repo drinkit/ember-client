@@ -3,6 +3,7 @@ import RememberScrollMixin from '../mixins/remember-scroll';
 
 export default Ember.Route.extend(RememberScrollMixin, {
   model(params) {
+    this.store.unloadAll('comment');
     this.get('adapterContext').setRecipeId(params.recipe_id);
     return new Ember.RSVP.hash({
       recipe: this.store.findRecord('recipe', params.recipe_id),
@@ -11,7 +12,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
   },
 
   setupController: function(controller, modelHash) {
-      controller.setProperties(modelHash);
+    controller.setProperties(modelHash);
   },
 
   titleToken: function(model) {

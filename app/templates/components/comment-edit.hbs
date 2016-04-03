@@ -1,7 +1,8 @@
 {{#if currentUser.isLoggedIn}}
-  <textarea class="form-control" rows="3" placeholder="Здесь вы можете оставить комментарий" />
+  {{textarea value=commentText maxlength="500" class="form-control" rows="3" placeholder="Здесь вы можете оставить комментарий" }}
+  <button id="submitComment" class="btn btn-default" {{action "submitComment"}}>Отправить</button>
 {{else}}
-  <textarea class="form-control" disabled rows="3">
-    Чтобы оставить комментарий нужно <a>Войти</a> или <a>Зарегистрироваться</a>.
-  </textarea>
+  <p class="form-control">
+    Чтобы оставить комментарий, нужно <a>войти</a> или <a>зарегистрироваться</a>.
+  </p>
 {{/if}}

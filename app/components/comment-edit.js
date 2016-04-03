@@ -1,6 +1,24 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 export default Ember.Component.extend({
   currentUser: Ember.inject.service(),
-  comment: null
+  store: Ember.inject.service(),
+  comment: null,
+
+  actions: {
+    submitComment() {
+      let comment = this.get('store').createRecord('comment', {
+        recipeId: this.get('recipeId'),
+        posted: moment(),
+        text: this.get('commentText'),
+        author: {
+          id: this.get('currentUser').id,
+          name: this.get('currentUser').displayName
+        }
+      });
+      comment.save();
+      this.set('commentText', '');
+    }
+  }
 });

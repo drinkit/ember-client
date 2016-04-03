@@ -10,8 +10,8 @@ module.exports = function(environment) {
       'font-src': "'self'",
       'style-src': "'self' 'unsafe-inline'",
       'script-src': "'self' www.google-analytics.com",
-      'connect-src': "'self' http://localhost:8080 www.google-analytics.com http://prod-drunkedguru.rhcloud.com https://oauth.io",
-      'img-src': "'self' http://prod-drunkedguru.rhcloud.com www.google-analytics.com"
+      'connect-src': "'self' http://localhost:8080 www.google-analytics.com http://server-drunkedguru.rhcloud.com http://prod-drunkedguru.rhcloud.com https://oauth.io",
+      'img-src': "'self' http://prod-drunkedguru.rhcloud.com http://server-drunkedguru.rhcloud.com www.google-analytics.com"
     },
     EmberENV: {
       FEATURES: {
@@ -24,6 +24,10 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     }
+  };
+
+  ENV['moment'] = {
+    includeLocales: ['ru', 'en']
   };
 
   ENV['simple-auth'] = {
@@ -47,7 +51,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV['server-path'] = 'http://localhost:8080';
+    ENV['server-path'] = 'http://server-drunkedguru.rhcloud.com';
   }
 
   if (environment === 'test') {
@@ -63,7 +67,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV['server-path'] = 'http://prod-drunkedguru.rhcloud.com';
+    ENV['server-path'] = 'http://server-drunkedguru.rhcloud.com';
   }
 
   return ENV;

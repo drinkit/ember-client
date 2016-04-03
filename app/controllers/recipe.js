@@ -61,6 +61,10 @@ export default Ember.Controller.extend({
     3: "shot-32.png"
   },
 
+  sortedComments: Ember.computed.sort('comments', (a, b) => {
+    return a.get('posted').isBefore(b.get('posted')) ? 1: -1;
+  }),
+
   tags: Ember.computed('recipe', {
     get() {
       let self = this;
