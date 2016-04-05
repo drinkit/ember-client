@@ -159,10 +159,12 @@ $row-height: 42px;
     text-align: right;
     > textarea {
       text-align: left;
+      resize: vertical;
     }
     > p.form-control {
       text-align: left;
-      height: 60px;
+      min-height: 60px;
+      height: auto;
 
       > a {
         cursor: pointer;
