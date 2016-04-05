@@ -22,6 +22,7 @@ $row-height: 42px;
   > #imageCon {
     padding-left: 0;
     padding-right: 0;
+    margin-right: 5px;
     text-align: center;
     > div {
       display: inline-block;
@@ -75,6 +76,7 @@ $row-height: 42px;
   @media (min-width: 992px) {
     > #imageCon {
       text-align: left;
+      margin-right: 0px;
     }
   }
   > div {
@@ -82,8 +84,14 @@ $row-height: 42px;
   }
   .description {
     padding-left: 0;
+    padding-right: 0px;
     > div {
       margin-top: 15px;
+    }
+  }
+  @media (min-width: 992px) {
+    .description {
+      padding-right: 15px;
     }
   }
   #recipeName {
