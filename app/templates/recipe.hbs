@@ -8,7 +8,7 @@
 			{{/if}}
 			<div class="views-icon-container">
 				<img src="/assets/views-icon.svg">
-				<span>{{recipe.views}}</span>
+				<span>{{recipe.stats.views}}</span>
 			</div>
 			<div class="rating-icon-container">
 				{{#if currentUser.isLoggedIn}}
@@ -16,7 +16,7 @@
 				{{else}}
 					<div class="rating-heart-unliked" title="Доступно только для зарегистрированных пользователей" />
 				{{/if}}
-				<span>{{recipe.likes}}</span>
+				<span>{{recipe.stats.likes}}</span>
 			</div>
 		</div>
 	</div>
