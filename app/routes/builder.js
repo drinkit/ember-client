@@ -7,8 +7,9 @@ export default Ember.Route.extend(RememberScrollMixin, {
 	titleToken: 'Конструктор коктейлей',
 
 	model() {
+		let ingredients = this.store.peekAll('ingredient');
 		return new Ember.RSVP.hash({
-			ingredients: this.store.findAll('ingredient'),
+			ingredients: ingredients.get('length') > 0 ? ingredients : this.store.findAll('ingredient'),
 			recipes: this.store.peekAll('recipe')
 		});
 	},

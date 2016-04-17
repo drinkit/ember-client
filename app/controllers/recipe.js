@@ -35,14 +35,28 @@ export default Ember.Controller.extend({
 
   ingredients: function() {
     var self = this;
-    return DS.PromiseObject.create({
-      promise: this.store.findAll('ingredient').then(function() {
-        return self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
-          return {
-            name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
-            quantity: item.quantity
-          };
-        });
+    return DS.PromiseArray.create({
+      promise: new Promise((resolve, reject) => {
+        let loadedIngredients = self.store.peekAll('ingredient');
+        if (loadedIngredients && loadedIngredients.get('length') > 0) {
+          let mappedIngredients = self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
+            return {
+              name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
+              quantity: item.quantity
+            };
+          });
+          resolve(mappedIngredients);
+        } else {
+          this.store.findAll('ingredient').then(function() {
+            let mappedIngredients = self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
+              return {
+                name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
+                quantity: item.quantity
+              };
+            });
+            resolve(mappedIngredients);
+          })
+        }
       })
     });
   }.property('recipe.ingredientsWithQuantities'),
@@ -62,7 +76,11 @@ export default Ember.Controller.extend({
   },
 
   sortedComments: Ember.computed.sort('comments', (a, b) => {
-    return a.get('posted').isBefore(b.get('posted')) ? 1: -1;
+    return a.get('posted').isBefore(b.get('posted')) ? 1 : -1;
+  }),
+
+  isCommentsWorked: Ember.computed('comments', function() {
+    return this.get('comments') != null;
   }),
 
   tags: Ember.computed('recipe', {
