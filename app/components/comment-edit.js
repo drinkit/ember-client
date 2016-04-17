@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   currentUser: Ember.inject.service(),
   store: Ember.inject.service(),
   comment: null,
+  classNames: ['comment-edit'],
 
   actions: {
     submitComment() {

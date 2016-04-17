@@ -159,10 +159,16 @@ $row-height: 42px;
   filter: drop-shadow(0px 0px 1px $brick-red);
 }
 #commentsView {
-  margin-top: 20px;
+  margin-top: 30px;
   max-width: 600px;
   margin-bottom: 10px;
   font-family: "CenturyGothic";
+  > h2 {
+    font-size: 22px;
+  }
+  > .comment-edit {
+    margin-bottom: 20px;
+  }
   > div {
     text-align: right;
     > textarea {

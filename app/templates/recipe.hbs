@@ -56,6 +56,7 @@
 </div>
 {{#if isCommentsWorked}}
 	<div id="commentsView">
+		<h2>Комментарии</h2>
 		{{comment-edit recipeId=recipe.id}}
 		{{#each sortedComments as |comment|}}
 			{{comment-item comment=comment}}
