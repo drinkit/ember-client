@@ -76,6 +76,10 @@ input:-ms-input-placeholder {
   > span {
     font-family: "CenturyGothic";
   }
+
+  > hr {
+    margin-right: 5px;
+  }
 }
 .icon-bar {
   background-color: white !important;
@@ -229,7 +233,7 @@ input:-ms-input-placeholder {
 hr {
   clear: both;
   position: relative;
-  margin: 2px 5px 2px 0;
+  margin: 2px 0 2px 0;
   height: 1px;
   background-color: $light-green;
   color: $light-green;

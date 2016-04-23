@@ -159,8 +159,9 @@ $row-height: 42px;
   filter: drop-shadow(0px 0px 1px $brick-red);
 }
 #commentsView {
+  padding-right: 5px;
   margin-top: 30px;
-  max-width: 600px;
+  max-width: 100%;
   margin-bottom: 10px;
   font-family: "CenturyGothic";
   > h2 {

@@ -2,7 +2,6 @@ import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
-  session: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   title: function(tokens) {
     return 'drinkIt - ' + tokens.join(' - ');
