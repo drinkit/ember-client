@@ -16,6 +16,7 @@ export default Ember.Component.extend({
     4: "iba-32.png",
     5: "layer-32.png"
   },
+  maxIngredientWidth: 999999,
   sortedIngredients: [],
   getTextWidth: function(text, font) {
     var canvas = document.getElementById("canvas") || document.createElement("canvas");
@@ -43,7 +44,6 @@ export default Ember.Component.extend({
       //
       var gapBetweenIngredients = 5;
       //
-
       var recipeBoxHeight = that.$().find(".recipe-box").height();
       var tagsHeight = that.$().find("#tags").height();
       var recipeNameHeight = that.$().find(".recipe-name-text").height();
@@ -87,7 +87,6 @@ export default Ember.Component.extend({
                 maxSize = curRowWidth + ingredientsWithWidths[i].width;
                 maxItem = i;
               }
-
             }
           }
 
@@ -133,9 +132,11 @@ export default Ember.Component.extend({
         }
       }
 
+      that.set('maxIngredientWidth', availableWidth - 4);
       that.set("sortedIngredients", newOrder);
     });
   },
+
   tags: Ember.computed({
     get() {
       let self = this;

@@ -105,10 +105,11 @@
             padding-right: 5px;
             padding-top: 4px;
             padding-bottom: 5px;
-            margin-bottom: 5px;
             line-height: normal;
             color: #1c1c1c;
             font-size: 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             @media (min-width: 768px) {
               font-size: 12px;

@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         posted: moment(),
         text: this.get('commentText'),
         author: {
-          id: this.get('currentUser').id,
+          userId: this.get('currentUser').id,
           name: this.get('currentUser').displayName
         }
       });
