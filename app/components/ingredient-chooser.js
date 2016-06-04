@@ -56,7 +56,7 @@ export default Ember.Component.extend({
 
       counter++;
     }
-
+    expandedIngredients.sort((a, b) => a.name < b.name ? -1 : 1);
     return expandedIngredients;
   }),
 
