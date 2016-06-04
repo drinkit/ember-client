@@ -159,7 +159,12 @@ export default Ember.Component.extend({
   }),
 
   isLiked: Ember.computed('currentUser.likes.[]', function() {
-		const userLikes = this.get('currentUser').get('likes');
+    const userLikes = this.get('currentUser').get('likes');
     return userLikes && userLikes.indexOf(parseInt(this.get('recipe').get('id'))) >= 0;
-  })
+  }),
+
+  maxIngredientWidthStyle: Ember.computed('maxIngredientWidth',
+    function() {
+      return Ember.String.htmlSafe('max-width:' + this.get('maxIngredientWidth') + 'px;');
+    })
 });
