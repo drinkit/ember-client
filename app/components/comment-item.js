@@ -14,6 +14,6 @@ export default Ember.Component.extend({
   },
 
   isCurrentUserAuthor: Ember.computed('currentUser', 'comment', function() {
-    return this.get('currentUser.id') === this.get('comment.author.userId');
+    return this.get('currentUser.username') === this.get('comment.author.username');
   })
 });

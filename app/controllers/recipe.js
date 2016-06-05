@@ -9,27 +9,25 @@ export default Ember.Controller.extend({
   actions: {
     changeLike() {
       const recipeId = parseInt(this.get('recipe').get('id'));
-      const userLikes = this.get('currentUser').get('likes');
-      const likedRecipeIndex = userLikes.indexOf(recipeId);
+      let userRecipeStats = this.get('currentUser').get('recipeStatsMap')[recipeId];
 
-      if (likedRecipeIndex == -1) {
-        userLikes.pushObject(recipeId);
+      if (userRecipeStats) {
+        userRecipeStats.liked = !userRecipeStats.liked;
       } else {
-        userLikes.removeObject(recipeId);
+        userRecipeStats = {
+          'liked': true
+        };
+        this.get('currentUser').get('recipeStatsMap')[recipeId] = userRecipeStats;
       }
 
-      this.get('currentUser').set('likes', userLikes);
-
       this.get('ajax').request({
-        url: 'users/me',
-        contentType: 'application/json;charset=UTF-8',
-        method: 'PATCH',
-        data: JSON.stringify({
-          likes: userLikes
-        })
-      }, function(response) {
+          url: 'users/me/recipeStats/' + recipeId + '/liked?value=' + userRecipeStats.liked,
+          contentType: 'application/json;charset=UTF-8',
+          method: 'PATCH'
+        },
+        function(response) {
 
-      });
+        });
     }
   },
 
@@ -105,7 +103,8 @@ export default Ember.Controller.extend({
   }),
 
   isLiked: Ember.computed('currentUser.likes.[]', 'recipe', function() {
-    const userLikes = this.get('currentUser').get('likes');
-    return userLikes && userLikes.indexOf(parseInt(this.get('recipe').get('id'))) >= 0;
+    const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
+    const recipeId = parseInt(this.get('recipe').get('id'));
+    return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
   })
 });
