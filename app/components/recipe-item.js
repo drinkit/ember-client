@@ -158,9 +158,10 @@ export default Ember.Component.extend({
     }
   }),
 
-  isLiked: Ember.computed('currentUser.likes.[]', function() {
-    const userLikes = this.get('currentUser').get('likes');
-    return userLikes && userLikes.indexOf(parseInt(this.get('recipe').get('id'))) >= 0;
+  isLiked: Ember.computed('currentUser.recipeStatsMap', function() {
+    const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
+    const recipeId = parseInt(this.get('recipe').get('id'));
+    return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
   }),
 
   maxIngredientWidthStyle: Ember.computed('maxIngredientWidth',

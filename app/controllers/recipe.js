@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
 
   actions: {
     changeLike() {
+      const self = this;
       const recipeId = parseInt(this.get('recipe').get('id'));
       let userRecipeStats = this.get('currentUser').get('recipeStatsMap')[recipeId];
 
@@ -26,7 +27,8 @@ export default Ember.Controller.extend({
           method: 'PATCH'
         },
         function(response) {
-
+          self.get('currentUser').notifyPropertyChange('recipeStatsMap');
+          self.set('recipe.stats.likes', userRecipeStats.liked ? curLikes + 1 : curLikes - 1);
         });
     }
   },
@@ -102,7 +104,7 @@ export default Ember.Controller.extend({
     }
   }),
 
-  isLiked: Ember.computed('currentUser.likes.[]', 'recipe', function() {
+  isLiked: Ember.computed('currentUser.recipeStatsMap', 'recipe', function() {
     const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
     const recipeId = parseInt(this.get('recipe').get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;

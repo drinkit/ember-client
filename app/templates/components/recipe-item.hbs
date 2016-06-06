@@ -10,7 +10,7 @@
 					{{/if}}
 					<div class="views-icon-container">
 						<img src="/assets/views-icon.svg">
-						<span>{{recipe.stats.views}}</span>
+						<span>{{safeVal recipe.stats.views 0}}</span>
 					</div>
 					<div class="rating-icon-container">
 						{{#if isLiked}}
@@ -18,7 +18,7 @@
 						{{else}}
 						  <img src="/assets/heart.svg">
 						{{/if}}
-						<span>{{recipe.stats.likes}}</span>
+						<span>{{safeVal recipe.stats.likes 0}}</span>
 					</div>
 					{{#unless recipe.published}}
 						<span id="devMode">DEV</span>
