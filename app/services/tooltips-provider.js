@@ -21,11 +21,11 @@ export default Ember.Service.extend({
   getTypeTooltip(typeId) {
     switch (typeId) {
       case 1:
-        return 'лонги';
+        return 'лонг';
       case 2:
-        return 'короткие';
+        return 'короткий';
       case 3:
-        return 'шоты';
+        return 'шот';
       default:
         return '';
     }
