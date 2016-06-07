@@ -4,6 +4,14 @@ export default Ember.Component.extend({
 
   selectedIngredients: [],
   selectedIngredientsIds: [],
+  initSelectedIds: [],
+
+  init: function() {
+    this._super(...arguments);
+    Ember.run.scheduleOnce('afterRender', this, () => {
+      this.set('selectedIngredientsIds', this.get('initSelectedIds'));
+    });
+  },
 
   selectedIngredientsChanged: Ember.observer('selectedIngredients.[]', function() {
     this.sendAction("changeIngredients", this.get('selectedIngredients'));

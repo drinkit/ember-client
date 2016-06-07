@@ -39,6 +39,13 @@ export default Ember.Component.extend({
     return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(3) >= 0 : false;
   }),
 
+  selectedIngredientsIdsInitialized: Ember.observer('selectedIngredientsIds.[]', function() {
+    if (!($(this.get('barIngredientsIds')).not(this.get('selectedIngredientsIds')).length === 0
+      && $(this.get('selectedIngredientsIds')).not(this.get('barIngredientsIds')).length === 0)) {
+      this.set('barIngredientsIds', this.get('selectedIngredientsIds'));
+    }
+  }),
+
   actions: {
     toggleOption(id) {
       this.sendAction("toggleOption", id);
