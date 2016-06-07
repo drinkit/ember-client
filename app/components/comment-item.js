@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     }
   },
 
-  isCurrentUserAuthor: Ember.computed('currentUser', 'comment', function() {
+  isCurrentUserAuthor: Ember.computed('currentUser.username', 'comment', function() {
     return this.get('currentUser.username') === this.get('comment.author.username');
   })
 });
