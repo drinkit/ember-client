@@ -31,6 +31,7 @@ export default Ember.Service.extend({
       }).fail(function(error) {
         console.log(error);
       });
+      Ember.$('#loginWindow').modal('hide');
     }).fail(function(error) {
       console.log(error);
     });
