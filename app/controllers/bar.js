@@ -40,7 +40,7 @@ export default Ember.Controller.extend({
       const self = this;
       self.get('user').get('barItems').pushObject({ingredientId: id, active: true});
       this.get('ajax').request({
-        url: '/users/' + this.get('user').id + '/barItems',
+        url: '/users/' + this.get('user.username') + '/barItems',
         contentType: 'application/json;charset=UTF-8',
         method: 'POST',
         data: JSON.stringify({
