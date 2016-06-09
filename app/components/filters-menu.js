@@ -59,13 +59,14 @@ export default Ember.Component.extend({
       this.sendAction('clearFilters');
     },
     addBarAsFilter() {
-      let barItemsIds = this.get('currentUser').get('barItems').filter(function(item) {
+      let barItemsIds = this.get('currentUser.barItems').filter(function(item) {
         return item.active;
       }).map(function(item) {
         return item.ingredientId;
       });
       barItemsIds.pushObjects(this.get('selectedIngredientsIds'));
       this.set('barIngredientsIds', barItemsIds);
+      this.sendAction('changeIngredients', barItemsIds);
     }
   },
   didInsertElement: function() {

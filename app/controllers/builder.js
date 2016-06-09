@@ -17,9 +17,9 @@ export default Ember.Controller.extend(PaginationMixin, {
       method: "GET",
       data: {
         criteria: JSON.stringify({
-          ingredients: this.get("selectedIngredientsIds") || [],
-          cocktailTypes: this.get("cocktailTypes") || [],
-          options: this.get("cocktailOptions") || []
+          ingredients: this.get('selectedIngredientsIds') || [],
+          cocktailTypes: this.get('cocktailTypes') || [],
+          options: this.get('cocktailOptions') || []
         })
       }
     }, function(result) {
@@ -27,16 +27,16 @@ export default Ember.Controller.extend(PaginationMixin, {
       that.store.unloadAll("recipe");
       result.forEach(function(item) {
         if (item.published) {
-          that.store.push(that.store.normalize("recipe", item));
-        } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('accessLevel') === 0) {
-          that.store.push(that.store.normalize("recipe", item));
+          that.store.push(that.store.normalize('recipe', item));
+        } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser.role') == 'ADMIN') {
+          that.store.push(that.store.normalize('recipe', item));
         }
       });
     });
   },
   actions: {
     toggleOption(id) {
-      var options = this.get("cocktailOptions");
+      var options = this.get('cocktailOptions');
       var index = options.indexOf(id);
 
       if (index >= 0) {
@@ -45,13 +45,13 @@ export default Ember.Controller.extend(PaginationMixin, {
         options.push(id);
       }
 
-      this.set("cocktailOptions", options);
+      this.set('cocktailOptions', options);
       this.set('pageNumber', 0);
       this.performSearch();
     },
 
     toggleType(id) {
-      var types = this.get("cocktailTypes");
+      var types = this.get('cocktailTypes');
       var index = types.indexOf(id);
 
       if (index >= 0) {
@@ -60,16 +60,13 @@ export default Ember.Controller.extend(PaginationMixin, {
         types.push(id);
       }
 
-      this.set("cocktailTypes", types);
+      this.set('cocktailTypes', types);
       this.set('pageNumber', 0);
       this.performSearch();
     },
 
     changeIngredients(ingredients) {
-      let selectedIngredientsIds = ingredients.map(function(item) {
-        return item.groupId;
-      });
-      this.set('selectedIngredientsIds', selectedIngredientsIds);
+      this.set('selectedIngredientsIds', ingredients);
       this.set('pageNumber', 0);
       this.performSearch();
     },

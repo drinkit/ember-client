@@ -4,8 +4,8 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
 
   selectedIngredientsIds: [],
-  ingredientsInCategories: null,
-  removedIngredients: null,
+  ingredientsInCategories: {},
+  removedIngredients: [],
   ruToEnCategory: {
     'Крепкие алкогольные напитки': 'hardSpirits',
     'Ликеры': 'liquors',
@@ -15,30 +15,30 @@ export default Ember.Controller.extend({
   },
 
   barItemsChanged: Ember.observer('user.barItems.[]', function() {
-    let ingredients = [];
-    if (this.get('user').get('barItems')) {
-      ingredients = this.get('user').get('barItems').map(function(item) {
+    let ingredientsIds = [];
+    this.set('ingredientsInCategories', {});
+    this.set('removedIngredients', []);
+    const self = this;
+    if (this.get('user.barItems')) {
+      ingredientsIds = this.get('user.barItems').map(function(item) {
         return item.ingredientId;
       });
     } else {
       this.get('user').set('barItems', []);
     }
 
-    Ember.run.scheduleOnce('afterRender', this, () => {
-      this.set('selectedIngredientsIds', ingredients);
+    let ingredients = [];
+    ingredients = this.get('user.barItems').map(function(item) {
+      return self.store.peekRecord('ingredient', item.ingredientId);
     });
+    ingredients.forEach(this.moveIngredientToCategory, this);
+    this.set('selectedIngredientsIds', ingredientsIds);
   }),
 
   actions: {
-    changeIngredients: function(ingredients) {
-      this.set('ingredientsInCategories', {});
-      this.set('removedIngredients', []);
-      ingredients.forEach(this.moveIngredientToCategory, this);
-    },
-
     ingredientSelected: function(id) {
       const self = this;
-      self.get('user').get('barItems').pushObject({ingredientId: id, active: true});
+      self.get('user.barItems').pushObject({ingredientId: id, active: true});
       this.get('ajax').request({
         url: '/users/' + this.get('user.username') + '/barItems',
         contentType: 'application/json;charset=UTF-8',
@@ -54,13 +54,13 @@ export default Ember.Controller.extend({
 
     ingredientRemoved: function(removedItem) {
       let self = this;
-      self.changeIngredientActivity(removedItem.groupId, false);
+      self.changeIngredientActivity(removedItem.get('id'), false);
       this.get('ajax').request({
-        url: '/users/' + this.get('user').id + '/barItems/' + removedItem.groupId,
+        url: '/users/' + this.get('user.username') + '/barItems/' + removedItem.get('id'),
         contentType: 'application/json;charset=UTF-8',
         method: 'PUT',
         data: JSON.stringify({
-          ingredientId: removedItem.groupId,
+          ingredientId: removedItem.get('id'),
           active: false
         })
       }, function(response) {
@@ -70,13 +70,13 @@ export default Ember.Controller.extend({
 
     itemRestored: function(restoredItem) {
       let self = this;
-      self.changeIngredientActivity(restoredItem.groupId, true);
+      self.changeIngredientActivity(restoredItem.get('id'), true);
       this.get('ajax').request({
-        url: '/users/' + this.get('user').id + '/barItems/' + restoredItem.groupId,
+        url: '/users/' + this.get('user.username') + '/barItems/' + restoredItem.get('id'),
         contentType: 'application/json;charset=UTF-8',
         method: 'PUT',
         data: JSON.stringify({
-          ingredientId: restoredItem.groupId,
+          ingredientId: restoredItem.get('id'),
           active: true
         })
       }, function(response) {
@@ -86,9 +86,9 @@ export default Ember.Controller.extend({
 
     itemDeleted: function(deletedItem) {
       let self = this;
-      self.deleteIngredient(deletedItem.groupId);
+      self.deleteIngredient(deletedItem.get('id'));
       this.get('ajax').request({
-        url: '/users/' + this.get('user').id + '/barItems/' + deletedItem.groupId,
+        url: '/users/' + this.get('user.username') + '/barItems/' + deletedItem.get('id'),
         contentType: 'application/json;charset=UTF-8',
         method: 'DELETE'
       }, function(response) {
@@ -98,9 +98,9 @@ export default Ember.Controller.extend({
   },
 
   changeIngredientActivity: function(id, active) {
-    const barItems = this.get('user').get('barItems');
+    const barItems = this.get('user.barItems');
     for (var i = 0; i < barItems.length; i++) {
-      if (barItems[i].ingredientId === id) {
+      if (barItems[i].ingredientId == id) {
         barItems[i].active = active;
         this.get('user').notifyPropertyChange('barItems');
         return;
@@ -109,9 +109,9 @@ export default Ember.Controller.extend({
   },
 
   deleteIngredient: function(id) {
-    const barItems = this.get('user').get('barItems');
+    const barItems = this.get('user.barItems');
     for (var i = 0; i < barItems.length; i++) {
-      if (barItems[i].ingredientId === id) {
+      if (barItems[i].ingredientId == id) {
         barItems.splice(i, 1);
         this.get('user').notifyPropertyChange('barItems');
         return;
@@ -120,8 +120,8 @@ export default Ember.Controller.extend({
   },
 
   moveIngredientToCategory: function(ingredient) {
-    if (this.isIngredientActive(ingredient.groupId)) {
-      let category = this.get('ruToEnCategory')[ingredient.category];
+    if (this.isIngredientActive(ingredient.get('id'))) {
+      let category = this.get('ruToEnCategory')[ingredient.get('category')];
       if (this.get('ingredientsInCategories')[category]) {
         this.get('ingredientsInCategories')[category].push(ingredient);
       } else {
@@ -133,10 +133,10 @@ export default Ember.Controller.extend({
   },
 
   isIngredientActive: function(id) {
-    let barItems = this.get('user').get('barItems');
+    let barItems = this.get('user.barItems');
     if (barItems) {
       for (var i = 0; i < barItems.length; i++) {
-        if (barItems[i].ingredientId === id) {
+        if (barItems[i].ingredientId == id) {
           return barItems[i].active;
         }
       }

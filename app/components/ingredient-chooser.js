@@ -5,29 +5,39 @@ export default Ember.Component.extend({
   selectedIngredients: [],
   selectedIngredientsIds: [],
   initSelectedIds: [],
+  isSilentChange: false,
 
   init: function() {
     this._super(...arguments);
-    Ember.run.scheduleOnce('afterRender', this, () => {
-      this.set('selectedIngredientsIds', this.get('initSelectedIds'));
-    });
+    this.set('selectedIngredientsIds', this.get('initSelectedIds'));
+    this.redrawSelectedIngredients();
   },
 
-  selectedIngredientsChanged: Ember.observer('selectedIngredients.[]', function() {
-    this.sendAction("changeIngredients", this.get('selectedIngredients'));
-  }),
+  convertToIngredientsIds: function(ingredients) {
+    return ingredients.map((item) => item.groupId);
+  },
 
-  selectedIngredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
+  convertToIngredients: function(ingredientsIds) {
+    return ingredientsIds.map(this.findIngredientByRealId, this);
+  },
+
+  redrawSelectedIngredients: function() {
     let self = this;
-    let ingredients = this.get('selectedIngredientsIds').map(this.findIngredientByRealId, this);
+    let ingredients = this.convertToIngredients(this.get('selectedIngredientsIds'));
     ingredients = ingredients.filter(Boolean);
     this.get('selectedIngredients').forEach(function(item) {
       Ember.set(item, 'disabled', false);
     });
     this.set('selectedIngredients', ingredients);
     ingredients.forEach(function(item) {
-      Ember.set(item, 'disabled', true);
+      self.disableSynonyms(item.groupId);
     });
+  },
+
+  selectedIngredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
+    if (!this.get('isSilentChange')) {
+      this.redrawSelectedIngredients();
+    }
   }),
 
   filteredIngredients: Ember.computed('model.ingredients', function() {
@@ -82,6 +92,13 @@ export default Ember.Component.extend({
     });
   },
 
+  disableSynonyms: function(id) {
+    var allSynonyms = this.getAllSynonyms(id);
+    for (var i = 0; i < allSynonyms.length; i++) {
+      Ember.set(allSynonyms[i], 'disabled', true);
+    }
+  },
+
   actions: {
     changeIngredients(ingredients) {
       let selected, deselected;
@@ -95,12 +112,7 @@ export default Ember.Component.extend({
 
       if (selected.length > 0) {
         var realSelected = this.findIngredientByRealId(selected[0].groupId);
-        var allSynonyms = this.getAllSynonyms(realSelected.groupId);
-
-        for (var i = 0; i < allSynonyms.length; i++) {
-          Ember.set(allSynonyms[i], 'disabled', true);
-        }
-
+        this.disableSynonyms(realSelected.groupId);
         this.set('selectedIngredients', this.get('selectedIngredients').concat([realSelected]));
         this.sendAction('ingredientSelected', realSelected.groupId);
       } else if (deselected.length > 0) {
@@ -120,6 +132,14 @@ export default Ember.Component.extend({
 
         this.sendAction('ingredientDeselected', deselected[0].groupId);
       }
+
+      const selectedIngredientsIds = this.convertToIngredientsIds(this.get('selectedIngredients'));
+      this.set('isSilentChange', true);
+      Ember.run.scheduleOnce('actions', this, function() {
+        this.set('isSilentChange', false);
+      });
+      this.set('selectedIngredientsIds', selectedIngredientsIds);
+      this.sendAction('changeIngredients', selectedIngredientsIds);
     }
   }
 });
