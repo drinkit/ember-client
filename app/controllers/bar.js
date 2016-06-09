@@ -36,6 +36,10 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
+    changeIngredients: function(ingredients) {
+      // do nothing
+    },
+
     ingredientSelected: function(id) {
       const self = this;
       self.get('user.barItems').pushObject({ingredientId: id, active: true});

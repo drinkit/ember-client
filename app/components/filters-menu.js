@@ -64,7 +64,8 @@ export default Ember.Component.extend({
       }).map(function(item) {
         return item.ingredientId;
       });
-      barItemsIds.pushObjects(this.get('selectedIngredientsIds'));
+      const oldIds = $(this.get('selectedIngredientsIds')).not(barItemsIds).get();
+      barItemsIds.pushObjects(oldIds);
       this.set('barIngredientsIds', barItemsIds);
       this.sendAction('changeIngredients', barItemsIds);
     }
