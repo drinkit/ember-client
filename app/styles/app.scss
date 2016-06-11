@@ -373,6 +373,11 @@ h3 {
   text-align: left;
   vertical-align: middle;
 }
+
+div.validated-input {
+  position: relative;
+}
+
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-power-select.scss";
 @import "filters-menu.scss";

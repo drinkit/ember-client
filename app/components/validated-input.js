@@ -1,56 +1,40 @@
+/**
+ * Copyright 2016, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+
 import Ember from 'ember';
 
 const {
   computed,
-  observer,
   defineProperty,
-  run
 } = Ember;
 
 export default Ember.Component.extend({
-  classNames: ['form-group', 'has-feedback', 'validated-input'],
-  classNameBindings: ['isValid:has-success', 'showErrorClass:has-error'],
-  isValid: false,
+  classNames: ['validated-input', 'form-group'],
+  classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
   model: null,
   value: null,
-  rawInputValue: null,
   type: 'text',
   valuePath: '',
   placeholder: '',
-  attributeValidation: null,
+  validation: null,
   isTyping: false,
-
-  didValidate: computed.oneWay('targetObject.didValidate'),
-
-  showErrorClass: computed('isTyping', 'showMessage', 'hasContent', 'attributeValidation', function() {
-    return this.get('attributeValidation') && !this.get('isTyping') && this.get('showMessage');
-  }),
-
-  hasContent: computed.notEmpty('rawInputValue'),
-
-  isValid: computed.and('hasContent', 'attributeValidation.isValid'),
-
-  isInvalid: computed.oneWay('attributeValidation.isInvalid'),
-
-  inputValueChange: observer('rawInputValue', function() {
-    this.set('isTyping', true);
-    run.debounce(this, this.setValue, 500, false);
-  }),
-
-  showMessage: computed('attributeValidation.isDirty', 'isInvalid', 'didValidate', function() {
-    return (this.get('attributeValidation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
-  }),
-
-  setValue() {
-    this.set('value', this.get('rawInputValue'));
-    this.set('isTyping', false);
-  },
 
   init() {
     this._super(...arguments);
     var valuePath = this.get('valuePath');
-    defineProperty(this, 'attributeValidation', computed.oneWay(`model.validations.attrs.${valuePath}`));
-    this.set('rawInputValue', this.get(`model.${valuePath}`));
+    defineProperty(this, 'validation', computed.oneWay(`model.validations.attrs.${valuePath}`));
     defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
-  }
+  },
+
+  notValidating: computed.not('validation.isValidating'),
+  didValidate: computed.oneWay('targetObject.didValidate'),
+  hasContent: computed.notEmpty('value'),
+  isValid: computed.and('hasContent', 'validation.isValid', 'notValidating'),
+  isInvalid: computed.oneWay('validation.isInvalid'),
+  showErrorClass: computed.and('notValidating', 'showMessage', 'hasContent', 'validation'),
+  showMessage: computed('validation.isDirty', 'isInvalid', 'didValidate', function() {
+    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
+  })
 });

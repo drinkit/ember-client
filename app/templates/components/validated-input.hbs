@@ -1,10 +1,13 @@
-{{input class="form-control" aria-describedby="helpBlock" type=type value=rawInputValue name=valuePath placeholder=placeholder}}
+{{input type=type value=value placeholder=placeholder class="form-control" name=valuePath}}
 {{#if isValid}}
-  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+  <span class="glyphicon glyphicon-ok form-control-feedback"></span>
 {{/if}}
-{{#if showMessage}}
-  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-  <div id="helpBlock" class="help-block">
-    <span class="has-error">{{v-get model valuePath 'message'}}</span>
-  </div>
-{{/if}}
+
+<div class="input-error">
+  {{#if showMessage}}
+    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+    <div class="help-block has-error">
+      {{v-get model valuePath 'message'}}
+    </div>
+  {{/if}}
+</div>
