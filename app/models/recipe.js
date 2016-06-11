@@ -12,9 +12,9 @@ export default DS.Model.extend({
   thumbnailUrl: DS.attr('string'),
   stats: DS.attr(),
   fullImageUrl: Ember.computed('imageUrl', function() {
-    return 'http://prod-drunkedguru.rhcloud.com' + this.get('imageUrl');
+    return 'https://prod-drunkedguru.rhcloud.com' + this.get('imageUrl');
   }),
   fullThumbnailUrl: Ember.computed('thumbnailUrl', function() {
-    return 'http://prod-drunkedguru.rhcloud.com' + this.get('thumbnailUrl');
+    return 'https://prod-drunkedguru.rhcloud.com' + this.get('thumbnailUrl');
   })
 });
