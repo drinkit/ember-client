@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>drinkIt - Конструктор коктейлей</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{content-for 'head'}}
+<head>
+  <title>drinkIt - Конструктор коктейлей</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> {{content-for 'head'}}
 
-    <link rel="icon" href="/assets/favicon.ico">
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/ember-drink-it.css">
+  <link rel="icon" href="/assets/favicon.ico">
+  <link rel="stylesheet" href="assets/vendor.css">
+  <link rel="stylesheet" href="assets/ember-drink-it.css"> {{content-for 'head-footer'}}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "url": "https://drinkit.guru",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://drinkit.guru/recipes?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+</head>
 
-    {{content-for 'head-footer'}}
-  </head>
-  <body>
-    {{content-for 'body'}}
+<body>
+  {{content-for 'body'}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/ember-drink-it.js"></script>
+  <script src="assets/vendor.js"></script>
+  <script src="assets/ember-drink-it.js"></script>
 
-    {{content-for 'body-footer'}}
-  </body>
+  {{content-for 'body-footer'}}
+</body>
+
 </html>
