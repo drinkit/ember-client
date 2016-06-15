@@ -51,7 +51,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV['server-path'] = 'http://server-drunkedguru.rhcloud.com';
+    ENV['server-path'] = 'https://prod-drunkedguru.rhcloud.com';
   }
 
   if (environment === 'test') {

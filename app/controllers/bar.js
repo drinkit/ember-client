@@ -28,11 +28,11 @@ export default Ember.Controller.extend({
     }
 
     let ingredients = [];
-    ingredients = this.get('user.barItems').map(function(item) {
+    ingredients = self.get('user.barItems').map(function(item) {
       return self.store.peekRecord('ingredient', item.ingredientId);
     });
-    ingredients.forEach(this.moveIngredientToCategory, this);
-    this.set('selectedIngredientsIds', ingredientsIds);
+    ingredients.forEach(self.moveIngredientToCategory, self);
+    self.set('selectedIngredientsIds', ingredientsIds);
   }),
 
   actions: {
@@ -42,7 +42,10 @@ export default Ember.Controller.extend({
 
     ingredientSelected: function(id) {
       const self = this;
-      self.get('user.barItems').pushObject({ingredientId: id, active: true});
+      self.get('user.barItems').pushObject({
+        ingredientId: id,
+        active: true
+      });
       this.get('ajax').request({
         url: '/users/' + this.get('user.username') + '/barItems',
         contentType: 'application/json;charset=UTF-8',
@@ -124,6 +127,9 @@ export default Ember.Controller.extend({
   },
 
   moveIngredientToCategory: function(ingredient) {
+    if (ingredient == null) {
+      return;
+    };
     if (this.isIngredientActive(ingredient.get('id'))) {
       let category = this.get('ruToEnCategory')[ingredient.get('category')];
       if (this.get('ingredientsInCategories')[category]) {
