@@ -6,7 +6,12 @@ export default Ember.Route.extend(RememberScrollMixin, {
   currentUser: Ember.inject.service(),
   metrics: Ember.inject.service(),
 
-  titleToken: 'Результаты поиска',
+  headData: Ember.inject.service(),
+
+  afterModel(model) {
+    this.set('headData.title', 'drinkIt - Результаты поиска');
+    this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
+  },
 
   queryParams: {
     search: {
@@ -36,7 +41,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
           response.forEach(function(item) {
             if (item.published) {
               that.store.push(that.store.normalize("recipe", item));
-            } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('accessLevel') === 0) {
+            } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('role') === 'ADMIN') {
               that.store.push(that.store.normalize("recipe", item));
             }
           });

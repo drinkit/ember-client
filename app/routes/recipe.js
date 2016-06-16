@@ -16,12 +16,15 @@ export default Ember.Route.extend(RememberScrollMixin, {
     });
   },
 
-  setupController: function(controller, modelHash) {
-    controller.setProperties(modelHash);
+  headData: Ember.inject.service(),
+
+  afterModel(model) {
+    this.set('headData.title', 'drinkIt - ' + model.recipe.get('name'));
+    this.set('headData.description', Ember.String.htmlSafe(model.recipe.get('description')));
   },
 
-  titleToken: function(model) {
-    return model.recipe.get('name');
+  setupController: function(controller, modelHash) {
+    controller.setProperties(modelHash);
   },
 
   metrics: Ember.inject.service(),
