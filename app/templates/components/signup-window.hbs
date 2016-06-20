@@ -1,9 +1,8 @@
-<!-- Modal -->
-<div class="modal fade" id="signUpWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+{{#modal-dialog targetAttachment="center" translucentOverlay=true clickOutsideToClose=true close="close" container-class="signup-window" }}
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" {{action "close"}} aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="myModalLabel">Регистрация</h4>
@@ -13,7 +12,7 @@
         {{validated-input type="email" model=this placeholder="Электронный адрес..." valuePath="email"}}
         {{validated-input type="password" model=this placeholder="Пароль..." valuePath="password"}}
         {{validated-input type="password" model=this placeholder="Пароль..." valuePath="passwordConfirmation"}}
-        <button type="button" class="btn btn-default" disabled={{v-get this 'isInvalid'}} {{action "register"}}>Зарегистрироваться</button>
+        <button type="button" class="btn btn-default" disabled= {{v-get this 'isInvalid'}} {{action "register"}}>Зарегистрироваться</button>
         {{#if hasError}}
           <span>Такой пользователь уже существует</span>
         {{/if}}
@@ -24,4 +23,4 @@
       </div>
     </div>
   </div>
-</div>
+{{/modal-dialog}}

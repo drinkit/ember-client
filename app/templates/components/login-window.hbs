@@ -1,27 +1,25 @@
-<!-- Modal -->
-<div class="modal fade" id="loginWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
+{{#modal-dialog targetAttachment="center" translucentOverlay=true clickOutsideToClose=true close="close" container-class="login-window" }}
+  <div class="modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" aria-label="Close" {{action "close"}}><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Вход</h4>
       </div>
       <div class="modal-body">
-        {{input type="email" class="form-control" placeholder="Электронный адрес..." value=email}}
-        {{input type="password" class="form-control" placeholder="Пароль..." value=password}}
+        {{input type="email" class="form-control" placeholder="Электронный адрес..." value=email}} {{input type="password" class="form-control" placeholder="Пароль..." value=password}}
         {{#if hasError}}
           <span>Неправильный логин или пароль</span>
         {{/if}}
-        <button type="button" class="btn btn-default" disabled={{isLogining}} {{action "login"}}>Войти</button>
+        <button type="button" class="btn btn-default" disabled= {{isLogining}} {{action "login"}}>Войти</button>
       </div>
       <div class="modal-footer sn-group">
-          <button id="googleButton" type="button" class="btn btn-default" disabled={{isLogining}} {{action "socialLogin" "google"}}>Google+</button>
-          <button id="vkButton" type="button" class="btn btn-default" disabled={{isLogining}} {{action "socialLogin" "vk"}}>ВКонтакте</button>
-          <button id="fbButton" type="button" class="btn btn-default" disabled={{isLogining}} {{action "socialLogin" "facebook"}}>Facebook</button>
+        <button id="googleButton" type="button" class="btn btn-default" disabled= {{isLogining}} {{action "socialLogin" "google"}}>Google+</button>
+        <button id="vkButton" type="button" class="btn btn-default" disabled= {{isLogining}} {{action "socialLogin" "vk"}}>ВКонтакте</button>
+        <button id="fbButton" type="button" class="btn btn-default" disabled= {{isLogining}} {{action "socialLogin" "facebook"}}>Facebook</button>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-default" disabled={{isLogining}} {{action "signUp"}}>Зарегистрироваться</button>
+        <button type="button" class="btn btn-default" disabled= {{isLogining}} {{action "signUp"}}>Зарегистрироваться</button>
       </div>
     </div>
   </div>
-</div>
+{{/modal-dialog}}

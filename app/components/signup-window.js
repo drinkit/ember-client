@@ -55,7 +55,7 @@ export default Ember.Component.extend(Validations, {
       } = this.getProperties('displayName', 'email', 'password');
       this.get('signup').register(email, password, displayName,
         function(response) {
-          Ember.$('#signUpWindow').modal('hide');
+          self.sendAction('hideDialog', 'SignUp');
           self.get("session").authenticate('autheticator:digest', email,
             CryptoJS.SHA256("drinkIt" + password).toString());
         },
@@ -69,11 +69,12 @@ export default Ember.Component.extend(Validations, {
     },
 
     login() {
-      const self = this;
-      this.$('#signUpWindow').one('hidden.bs.modal', function() {
-        self.$(document).find('#loginWindow').modal('show');
-      });
-      this.$('#signUpWindow').modal('hide');
+      this.sendAction('hideDialog', 'SignUp');
+      this.sendAction('showDialog', 'Login');
+    },
+
+    close() {
+      this.sendAction('hideDialog', 'SignUp');
     }
   }
 });

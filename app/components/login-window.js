@@ -21,6 +21,7 @@ export default Ember.Component.extend({
       this.get("session").authenticate('autheticator:digest', email,
         CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
           self.set('isLogining', false);
+          self.sendAction('hideDialog', 'Login');
         },
         function(reason) {
           self.set('hasError', true);
@@ -30,14 +31,16 @@ export default Ember.Component.extend({
 
     socialLogin(socialNetwork) {
       this.get('oauthio').login(socialNetwork);
+      this.sendAction('hideDialog', 'Login');
     },
 
     signUp() {
-      const self = this;
-      this.$('#loginWindow').one('hidden.bs.modal', function(e) {
-        self.$(document).find('#signUpWindow').modal('show');
-      });
-      this.$('#loginWindow').modal('hide');
+      this.sendAction('hideDialog', 'Login');
+      this.sendAction('showDialog', 'SignUp');
+    },
+
+    close() {
+      this.sendAction('hideDialog', 'Login');
     }
   }
 

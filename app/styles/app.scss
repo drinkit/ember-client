@@ -379,6 +379,8 @@ div.validated-input {
 }
 
 $ember-power-select-multiple-selection-background-color: $orange-beach;
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
 @import "ember-power-select.scss";
 @import "filters-menu.scss";
 @import "big-toggle-button.scss";

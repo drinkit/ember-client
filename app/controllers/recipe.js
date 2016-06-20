@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
     changeLike() {
       const self = this;
       const recipeId = parseInt(this.get('recipe').get('id'));
+      const curLikes = this.get('recipe.stats.likes') ? this.get('recipe.stats.likes') : 0;
       let userRecipeStats = this.get('currentUser').get('recipeStatsMap')[recipeId];
 
       if (userRecipeStats) {
