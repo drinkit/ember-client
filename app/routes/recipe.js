@@ -19,7 +19,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
   headData: Ember.inject.service(),
 
   afterModel(model) {
-    this.set('headData.title', 'drinkIt - ' + model.recipe.get('name'));
+    this.set('headData.title', model.recipe.get('name') + ' - drinkIt');
     this.set('headData.description', Ember.String.htmlSafe(model.recipe.get('description')));
   },
 

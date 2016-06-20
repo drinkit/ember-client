@@ -9,7 +9,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
   headData: Ember.inject.service(),
 
   afterModel(model) {
-    this.set('headData.title', 'drinkIt - Результаты поиска');
+    this.set('headData.title', 'Результаты поиска - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
   },
 

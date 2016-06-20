@@ -7,7 +7,7 @@ export default Ember.Route.extend({
   headData: Ember.inject.service(),
 
   afterModel(model) {
-    this.set('headData.title', 'drinkIt - Мой бар');
+    this.set('headData.title', 'Мой бар - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
   },
 
