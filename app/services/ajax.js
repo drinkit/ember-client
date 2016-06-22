@@ -56,7 +56,7 @@ export default Ember.Service.extend({
       successHandler(response, self.get('session').get('data').digests);
     }, function(xhr, status, error) {
       if (xhr.status === 401) { // auth error
-        if (curUsername && curPassword) {
+        if (curPassword) {
           if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(xhr.getResponseHeader("WWW-Authenticate"))) {
             const allDigests = self.generateAllDigests(curUsername, curPassword, xhr.getResponseHeader("WWW-Authenticate"));
 

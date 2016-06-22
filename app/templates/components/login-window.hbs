@@ -5,13 +5,14 @@
         <button type="button" class="close" aria-label="Close" {{action "close"}}><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Вход</h4>
       </div>
-      <div class="modal-body">
-        {{input type="email" class="form-control" placeholder="Электронный адрес..." value=email}} {{input type="password" class="form-control" placeholder="Пароль..." value=password}}
+      <form class="modal-body" {{action "login" on="submit"}}>
+        {{input type="email" class="form-control" placeholder="Электронный адрес..." value=email}}
+        {{input type="password" class="form-control" placeholder="Пароль..." value=password}}
         {{#if hasError}}
           <span>Неправильный логин или пароль</span>
         {{/if}}
-        <button type="button" class="btn btn-default" disabled= {{isLogining}} {{action "login"}}>Войти</button>
-      </div>
+        <button type="submit" class="btn btn-default" disabled= {{isLogining}}>Войти</button>
+      </form>
       <div class="modal-footer sn-group">
         <button id="googleButton" type="button" class="btn btn-default" disabled= {{isLogining}} {{action "socialLogin" "google"}}>Google+</button>
         <button id="vkButton" type="button" class="btn btn-default" disabled= {{isLogining}} {{action "socialLogin" "vk"}}>ВКонтакте</button>
