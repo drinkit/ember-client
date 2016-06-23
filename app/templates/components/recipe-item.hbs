@@ -4,7 +4,7 @@
 			<div class="recipe-image-container">
 				<div>
 					{{#if recipe.thumbnailUrl}}
-						<img src= {{recipe.fullThumbnailUrl}}>
+						<img alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
 					{{else}}
 						<img src="/assets/emptycocktail.png">
 					{{/if}}

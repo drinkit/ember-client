@@ -3,9 +3,9 @@
 		<div id="imageCon" class="col-md-5">
 			<div>
 				{{#if recipe.imageUrl}}
-					<img itemprop="image" src= {{recipe.fullImageUrl}}>
+					<img itemprop="image" alt={{recipe.name}} src={{recipe.fullImageUrl}}>
 				{{else}}
-					<img src="/assets/bigcocktail.png">
+					<img itemprop="image" src="/assets/bigcocktail.png">
 				{{/if}}
 				<div class="views-icon-container">
 					<img src="/assets/views-icon.svg">
