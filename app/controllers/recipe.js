@@ -46,31 +46,6 @@ export default Ember.Controller.extend({
         });
       })
     });
-    // var self = this;
-    // return DS.PromiseArray.create({
-    //   promise: new Promise((resolve, reject) => {
-    //     let loadedIngredients = self.store.peekAll('ingredient');
-    //     if (loadedIngredients && loadedIngredients.get('length') > 0) {
-    //       let mappedIngredients = self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
-    //         return {
-    //           name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
-    //           quantity: item.quantity
-    //         };
-    //       });
-    //       resolve(mappedIngredients);
-    //     } else {
-    //       this.store.findAll('ingredient').then(function() {
-    //         let mappedIngredients = self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
-    //           return {
-    //             name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
-    //             quantity: item.quantity
-    //           };
-    //         });
-    //         resolve(mappedIngredients);
-    //       })
-    //     }
-    //   })
-    // });
   }.property('recipe.ingredientsWithQuantities'),
 
   optionsToTags: {

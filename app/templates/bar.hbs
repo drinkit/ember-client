@@ -26,5 +26,7 @@
     </div>
   </div>
 {{else}}
-  <span>Бар доступен только для зарегистрированых пользователей.</span>
+  <span class="closed-bar-text">
+    Чтобы воспользоваться баром, нужно <a {{action "showLogin"}}>войти</a> или <a {{action "showSignUp"}}>зарегистрироваться</a>.
+  </span>
 {{/if}}

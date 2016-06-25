@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-	currentUser: Ember.inject.service('current-user'),
+	currentUser: Ember.inject.service(),
+	modalManager: Ember.inject.service(),
 
 	isLoggedIn: function() {
 		return this.get('currentUser').get('isAuthenticated');
@@ -9,11 +10,11 @@ export default Ember.Controller.extend({
 
 	actions: {
 		showDialog: function(dialogName) {
-			this.set('isShow' + dialogName, true);
+			this.get('modalManager').showDialog(dialogName);
 		},
 
 		hideDialog: function(dialogName) {
-			this.set('isShow' + dialogName, false);
+			this.get('modalManager').hideDialog(dialogName);
 		}
 	}
 });

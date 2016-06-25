@@ -19,7 +19,7 @@
             {{#if isLoggedIn}}
               <span class="text-button">{{currentUser.displayName}}</span>
               <div class="vr" />
-              <a id="logoutButton" class="text-button" {{action 'logout'}}>Выйти</a>
+              <a id="logoutButton" class="text-button" {{action "logout"}}>Выйти</a>
             {{else}}
               <a id="loginButton" class="text-button" {{action "showDialog" "Login"}}>Войти</a>
             {{/if}}
@@ -41,10 +41,10 @@
   </div>
 </div>
 
-{{#if isShowLogin}}
+{{#if modalManager.isShowLogin}}
   {{login-window showDialog="showDialog" hideDialog="hideDialog" authSuccess="authSuccess"}}
 {{/if}}
 
-{{#if isShowSignUp}}
+{{#if modalManager.isShowSignUp}}
   {{signup-window showDialog="showDialog" hideDialog="hideDialog"}}
 {{/if}}

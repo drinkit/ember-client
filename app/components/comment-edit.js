@@ -4,6 +4,7 @@ import moment from 'moment';
 export default Ember.Component.extend({
   currentUser: Ember.inject.service(),
   store: Ember.inject.service(),
+  modalManager: Ember.inject.service(),
   comment: null,
   classNames: ['comment-edit'],
 
@@ -20,6 +21,14 @@ export default Ember.Component.extend({
       });
       comment.save();
       this.set('commentText', '');
+    },
+
+    showLogin() {
+      this.get('modalManager').showDialog('Login');
+    },
+
+    showSignUp() {
+      this.get('modalManager').showDialog('SignUp');
     }
   }
 

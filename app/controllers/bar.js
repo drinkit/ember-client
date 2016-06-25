@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
+  modalManager: Ember.inject.service(),
 
   selectedIngredientsIds: [],
   ingredientsInCategories: {},
@@ -36,6 +37,14 @@ export default Ember.Controller.extend({
   }),
 
   actions: {
+    showLogin() {
+      this.get('modalManager').showDialog('Login');
+    },
+
+    showSignUp() {
+      this.get('modalManager').showDialog('SignUp');
+    },
+
     changeIngredients: function(ingredients) {
       // do nothing
     },
