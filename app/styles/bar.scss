@@ -47,8 +47,11 @@
 
 .closed-bar-text {
   font-size: 20px;
-  cursor: pointer;
   text-align: center;
   display: block;
   margin-top: 10px;
+
+  a {
+    cursor: pointer;
+  }
 }
