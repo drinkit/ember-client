@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   currentUser: Ember.inject.service(),
   tooltipsProvider: Ember.inject.service(),
+  simpleStore: Ember.inject.service(),
   classNames: ['col-md-6'],
   typesToTags: {
     1: "long-32.png",
@@ -30,11 +31,11 @@ export default Ember.Component.extend({
     Ember.run.schedule('afterRender', this, function() {
       var sortedIngredients = [];
       var selectedIngredients = that.get("selectedIngredients");
-      var store = that.get("store");
+      var store = that.get("simpleStore");
       var recipe = that.get("recipe");
       var cocktailIngredients = recipe.get("ingredientsWithQuantities");
       cocktailIngredients.forEach(function(item) {
-        var ingr = store.peekRecord("ingredient", item.ingredientId);
+        var ingr = store.find("ingredient", item.ingredientId);
         var type = selectedIngredients && selectedIngredients.contains(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
         sortedIngredients.push({
           name: ingr.get("name"),

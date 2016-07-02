@@ -3,23 +3,36 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   currentUser: Ember.inject.service(),
-  store: Ember.inject.service(),
+  ajax: Ember.inject.service(),
   modalManager: Ember.inject.service(),
+  simpleStore: Ember.inject.service(),
   comment: null,
   classNames: ['comment-edit'],
 
   actions: {
     submitComment() {
-      let comment = this.get('store').createRecord('comment', {
+      const store = this.get('simpleStore');
+      const ajax = this.get('ajax');
+
+      let comment = {
         recipeId: this.get('recipeId'),
-        posted: moment(),
+        posted: moment.utc(moment()).toJSON(),
         text: this.get('commentText'),
         author: {
           username: this.get('currentUser').username,
           name: this.get('currentUser').displayName
         }
+      };
+
+      ajax.request({
+        url: '/recipes/' + this.get('recipeId') + '/comments',
+        method: 'POST',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify(comment)
+      }, function() {
+        store.push('comment', comment);
       });
-      comment.save();
+
       this.set('commentText', '');
     },
 

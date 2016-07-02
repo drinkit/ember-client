@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   modalManager: Ember.inject.service(),
+  simpleStore: Ember.inject.service(),
 
   selectedIngredientsIds: [],
   ingredientsInCategories: {},
@@ -16,6 +17,7 @@ export default Ember.Controller.extend({
   },
 
   barItemsChanged: Ember.observer('user.barItems.[]', function() {
+    const store = this.get('simpleStore');
     let ingredientsIds = [];
     this.set('ingredientsInCategories', {});
     this.set('removedIngredients', []);
@@ -30,7 +32,7 @@ export default Ember.Controller.extend({
 
     let ingredients = [];
     ingredients = self.get('user.barItems').map(function(item) {
-      return self.store.peekRecord('ingredient', item.ingredientId);
+      return store.find('ingredient', item.ingredientId);
     });
     ingredients.forEach(self.moveIngredientToCategory, self);
     self.set('selectedIngredientsIds', ingredientsIds);

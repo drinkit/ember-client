@@ -4,6 +4,8 @@ import RememberScrollMixin from '../mixins/remember-scroll';
 export default Ember.Route.extend(RememberScrollMixin, {
   metrics: Ember.inject.service(),
   headData: Ember.inject.service(),
+  repository: Ember.inject.service(),
+  simpleStore: Ember.inject.service(),
 
   afterModel() {
     this.set('headData.title', 'Конструктор коктейлей - drinkIt');
@@ -11,16 +13,22 @@ export default Ember.Route.extend(RememberScrollMixin, {
   },
 
   model() {
-    let ingredients = this.store.peekAll('ingredient');
+    let store = this.get('simpleStore');
+    let repository = this.get('repository');
     return new Ember.RSVP.hash({
-      ingredients: ingredients.get('length') > 0 ? ingredients : this.store.findAll('ingredient'),
-      recipes: this.store.peekAll('recipe')
+      ingredients: repository.find('ingredient', {
+        url: '/ingredients',
+        method: 'GET'
+      }),
+      recipes: store.find('recipe')
     });
   },
 
   setupController: function(controller, modelHash) {
     controller.setProperties(modelHash);
-    controller.performSearch();
+    if (modelHash.recipes.get('length') == 0) {
+      controller.performSearch();
+    }
   },
 
   actions: {

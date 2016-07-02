@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
 export default Ember.Controller.extend({
   currentUser: Ember.inject.service(),
   ajax: Ember.inject.service(),
   tooltipsProvider: Ember.inject.service(),
+  repository: Ember.inject.service(),
 
   actions: {
     changeLike() {
@@ -34,18 +34,16 @@ export default Ember.Controller.extend({
     }
   },
 
-  ingredients: function() {
-    var self = this;
-    return DS.PromiseObject.create({
-      promise: this.store.findAll('ingredient').then(function() {
-        return self.get('recipe').get('ingredientsWithQuantities').map(function(item) {
-          return {
-            name: self.store.peekRecord('ingredient', item.ingredientId).get('name'),
-            quantity: item.quantity
-          };
-        });
-      })
+  recipeIngredients: function() {
+    let self = this;
+    let repository = this.get('repository');
+    let res = self.get('recipe.ingredientsWithQuantities').map(function(item) {
+      return {
+        name: repository.fetchById('ingredient', item.ingredientId).get('name'),
+        quantity: item.quantity
+      }
     });
+    return res;
   }.property('recipe.ingredientsWithQuantities'),
 
   optionsToTags: {
@@ -63,7 +61,7 @@ export default Ember.Controller.extend({
   },
 
   sortedComments: Ember.computed.sort('comments', (a, b) => {
-    return a.get('posted').isBefore(b.get('posted')) ? 1 : -1;
+    return moment(a.get('posted')).isBefore(b.get('posted')) ? 1 : -1;
   }),
 
   isCommentsWorked: Ember.computed('comments', function() {

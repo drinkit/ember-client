@@ -1,16 +1,15 @@
-import DS from 'ember-data';
-import Ember from 'ember';
+  import { attr, Model } from 'ember-cli-simple-store/model';
 
-export default DS.Model.extend({
-  ingredientsWithQuantities: DS.attr(),
-  cocktailTypeId: DS.attr('number'),
-  description: DS.attr('string'),
-  imageUrl: DS.attr('string'),
-  name: DS.attr('string'),
-  options: DS.attr(),
-  published: DS.attr('boolean'),
-  thumbnailUrl: DS.attr('string'),
-  stats: DS.attr(),
+export default Model.extend({
+  ingredientsWithQuantities: attr(),
+  cocktailTypeId: attr(),
+  description: attr(),
+  imageUrl: attr(),
+  name: attr(),
+  options: attr(),
+  published: attr(),
+  thumbnailUrl: attr(),
+  stats: attr(),
   fullImageUrl: Ember.computed('imageUrl', function() {
     return 'https://prod-drunkedguru.rhcloud.com' + this.get('imageUrl');
   }),

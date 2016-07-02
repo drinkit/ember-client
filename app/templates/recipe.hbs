@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				<hr>
-				{{#each ingredients.content as |ingredient|}}
+				{{#each recipeIngredients as |ingredient|}}
 					<div class="consistRow">
 						<div class="leftColumn">
 							<span itemprop="recipeIngredient">{{ingredient.name}}</span>
@@ -61,7 +61,7 @@
 			<meta itemprop="userInteractionCount" content= {{sortedComments.length}} />
 			<h2>Комментарии</h2> {{comment-edit recipeId=recipe.id}}
 			{{#each sortedComments as |comment|}}
-				{{comment-item comment=comment}}
+				{{comment-item comment=comment recipeId=recipe.id}}
 			{{/each}}
 		</div>
 	{{/if}}

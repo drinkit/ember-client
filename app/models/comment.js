@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import { attr, Model } from 'ember-cli-simple-store/model';
 
-export default DS.Model.extend({
-  recipeId: DS.attr('number'),
-  posted: DS.attr('utc'),
-  text: DS.attr('string'),
-  author: DS.attr()
+export default Model.extend({
+  recipeId: attr(),
+  posted: attr(),
+  text: attr(),
+  author: attr()
 });

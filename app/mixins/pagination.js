@@ -5,6 +5,10 @@ export default Ember.Mixin.create({
   pageNumber: 0,
   pageSize: 16,
 
+  scrollOnPageChange: Ember.observer('pageNumber', function() {
+    Ember.$(window).scrollTop(0);
+  }),
+
   foundCocktails: Ember.computed('recipes.[]', function() {
     return this.get('recipes') && this.get('recipes').get('length') > 0;
   }),

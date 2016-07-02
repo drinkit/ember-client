@@ -3,6 +3,7 @@ import PaginationMixin from '../mixins/pagination';
 
 export default Ember.Controller.extend(PaginationMixin, {
   session: Ember.inject.service(),
+  simpleStore: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   ajax: Ember.inject.service(),
   cocktailTypes: [],
@@ -24,16 +25,17 @@ export default Ember.Controller.extend(PaginationMixin, {
       }
     }, function(result) {
       that.set('isSearchPerformed', true);
-      that.store.unloadAll("recipe");
+      that.get('simpleStore').clear('recipe');
       result.forEach(function(item) {
         if (item.published) {
-          that.store.push(that.store.normalize('recipe', item));
+          that.get('simpleStore').push('recipe', item);
         } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser.role') == 'ADMIN') {
-          that.store.push(that.store.normalize('recipe', item));
+          that.get('simpleStore').push('recipe', item);
         }
       });
     });
   },
+  
   actions: {
     toggleOption(id) {
       var options = this.get('cocktailOptions');

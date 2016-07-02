@@ -1,9 +1,9 @@
-import DS from 'ember-data';
+import { attr, Model } from 'ember-cli-simple-store/model';
 
-export default DS.Model.extend({
-  name: DS.attr('string'),
-  vol: DS.attr('number'),
-  description: DS.attr('string'),
-  category: DS.attr('string'),
-  alias: DS.attr()
+export default Model.extend({
+  name: attr(),
+  vol: attr(),
+  description: attr(),
+  category: attr(),
+  alias: attr()
 });

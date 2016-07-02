@@ -5,12 +5,19 @@ export default Ember.Route.extend(RememberScrollMixin, {
   ajax: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   metrics: Ember.inject.service(),
+  simpleStore: Ember.inject.service(),
+  repository: Ember.inject.service(),
 
   headData: Ember.inject.service(),
 
   afterModel(model) {
     this.set('headData.title', 'Результаты поиска - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
+  },
+
+  deactivate() {
+    this._super.apply(this, arguments);
+    this.get('simpleStore').clear('recipe');
   },
 
   queryParams: {
@@ -25,11 +32,13 @@ export default Ember.Route.extend(RememberScrollMixin, {
   },
 
   beforeModel: function() {
-    var params = this.paramsFor('recipes');
-    var that = this;
+    const params = this.paramsFor('recipes');
+    const self = this;
+    const store = this.get('simpleStore');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      that.get('ajax').request({
+
+      self.get('ajax').request({
           url: "/recipes",
           method: "GET",
           data: {
@@ -37,22 +46,18 @@ export default Ember.Route.extend(RememberScrollMixin, {
           }
         },
         function(response) {
-          that.store.unloadAll("recipe");
+          store.clear('recipe');
           response.forEach(function(item) {
             if (item.published) {
-              that.store.push(that.store.normalize("recipe", item));
-            } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser').get('role') === 'ADMIN') {
-              that.store.push(that.store.normalize("recipe", item));
+              store.push('recipe', item);
+            } else if (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN') {
+              store.push('recipe', item);
             }
           });
 
-          // if (that.get('controller')) {
-          //   that.get('controller').set('pageNumber', 0);
-          // }
           resolve();
         });
     });
-
   },
 
   actions: {
@@ -70,9 +75,14 @@ export default Ember.Route.extend(RememberScrollMixin, {
   },
 
   model: function() {
+    const repository = this.get('repository');
+    const store = this.get('simpleStore');
     return new Ember.RSVP.hash({
-      ingredients: this.store.findAll('ingredient'),
-      recipes: this.store.peekAll('recipe')
+      ingredients: repository.find('ingredient', {
+        url: '/ingredients',
+        method: 'GET'
+      }),
+      recipes: store.find('recipe')
     });
   }
 });

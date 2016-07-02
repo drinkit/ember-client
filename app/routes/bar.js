@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   metrics: Ember.inject.service(),
   currentUser: Ember.inject.service(),
-
+  repository: Ember.inject.service(),
   headData: Ember.inject.service(),
 
   afterModel(model) {
@@ -12,8 +12,12 @@ export default Ember.Route.extend({
   },
 
   model() {
+    const repository = this.get('repository');
     return new Ember.RSVP.hash({
-      ingredients: this.store.findAll('ingredient'),
+      ingredients: repository.find('ingredient', {
+        url: '/ingredients',
+        method: 'GET'
+      }),
       user: this.get('currentUser')
     });
   },
