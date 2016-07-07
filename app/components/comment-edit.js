@@ -29,8 +29,8 @@ export default Ember.Component.extend({
         method: 'POST',
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify(comment)
-      }, function() {
-        store.push('comment', comment);
+      }, function(response) {
+        store.push('comment', response);
       });
 
       this.set('commentText', '');

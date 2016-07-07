@@ -26,9 +26,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
 
   setupController: function(controller, modelHash) {
     controller.setProperties(modelHash);
-    if (modelHash.recipes.get('length') == 0) {
-      controller.performSearch();
-    }
+    controller.performSearch();
   },
 
   actions: {

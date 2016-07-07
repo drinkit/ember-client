@@ -15,11 +15,6 @@ export default Ember.Route.extend(RememberScrollMixin, {
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
   },
 
-  deactivate() {
-    this._super.apply(this, arguments);
-    this.get('simpleStore').clear('recipe');
-  },
-
   queryParams: {
     search: {
       refreshModel: true
