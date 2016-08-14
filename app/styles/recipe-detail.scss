@@ -76,7 +76,7 @@ $row-height: 42px;
   @media (min-width: 992px) {
     > #imageCon {
       text-align: left;
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
   > div {
@@ -84,7 +84,7 @@ $row-height: 42px;
   }
   .description {
     padding-left: 0;
-    padding-right: 0px;
+    padding-right: 0;
     > div {
       margin-top: 15px;
     }
@@ -102,6 +102,8 @@ $row-height: 42px;
     font-size: 20pt;
     text-align: center;
     -webkit-font-smoothing: antialiased;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   .consistRow {
     padding-left: 5px;
@@ -164,14 +166,24 @@ $row-height: 42px;
   max-width: 100%;
   margin-bottom: 10px;
   font-family: "CenturyGothic";
-  > h2 {
+  .comment-and-share {
+    display: flex;
+    justify-content: space-between;
+  }
+  .likely {
+    display: inline;
+    float: right;
+    margin-top: 25px;
+  }
+  h2 {
     font-size: 22px;
+    float: left;
   }
   > .comment-edit {
     margin-bottom: 20px;
+    text-align: right;
   }
   > div {
-    text-align: right;
     > textarea {
       text-align: left;
       resize: vertical;
@@ -180,7 +192,6 @@ $row-height: 42px;
       text-align: left;
       min-height: 60px;
       height: auto;
-
       > a {
         cursor: pointer;
       }

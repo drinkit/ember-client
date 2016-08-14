@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="col-md-7 description">
-			<span id="recipeName" itemprop="name">{{recipe.name}}</span>
+			<h1 id="recipeName" itemprop="name">{{recipe.name}}</h1>
 			<div>
 				<hr class="darkLine">
 				<div class="consistRow">
@@ -59,7 +59,10 @@
 		<div id="commentsView" itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
 			<meta itemprop="interactionType" content="http://schema.org/CommentAction" />
 			<meta itemprop="userInteractionCount" content= {{sortedComments.length}} />
-			<h2>Комментарии</h2> {{comment-edit recipeId=recipe.id}}
+			<div class="comment-and-share">
+				<h2>Комментарии</h2>
+			</div>
+			{{comment-edit recipeId=recipe.id}}
 			{{#each sortedComments as |comment|}}
 				{{comment-item comment=comment recipeId=recipe.id}}
 			{{/each}}
