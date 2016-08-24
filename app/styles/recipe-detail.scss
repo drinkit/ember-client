@@ -169,15 +169,13 @@ $row-height: 42px;
   .comment-and-share {
     display: flex;
     justify-content: space-between;
-  }
-  .likely {
-    display: inline;
-    float: right;
-    margin-top: 25px;
+    align-items: center;
+    margin-bottom: 10px;
   }
   h2 {
     font-size: 22px;
-    float: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
   > .comment-edit {
     margin-bottom: 20px;

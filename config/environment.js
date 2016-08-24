@@ -11,7 +11,7 @@ module.exports = function(environment) {
       'style-src': "'self' 'unsafe-inline'",
       'script-src': "'self' www.google-analytics.com",
       'connect-src': "'self' http://localhost:8080 www.google-analytics.com http://server-drunkedguru.rhcloud.com https://prod-drunkedguru.rhcloud.com https://oauth.io",
-      'img-src': "'self' https://prod-drunkedguru.rhcloud.com http://server-drunkedguru.rhcloud.com www.google-analytics.com"
+      'img-src': "'self' https://prod-drunkedguru.rhcloud.com http://server-drunkedguru.rhcloud.com www.google-analytics.com data:"
     },
     EmberENV: {
       FEATURES: {
