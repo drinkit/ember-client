@@ -171,6 +171,12 @@ $row-height: 42px;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      width: 73px;
+    }
   }
   h2 {
     font-size: 22px;
