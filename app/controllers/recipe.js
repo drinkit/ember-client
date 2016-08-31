@@ -93,5 +93,22 @@ export default Ember.Controller.extend({
     const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
     const recipeId = parseInt(this.get('recipe').get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
+  }),
+
+  shareTitle: Ember.computed('recipe', {
+    get() {
+      return 'Рецепт коктейля "' + this.get('recipe.name') + '"';
+    }
+  }),
+
+  shareDescription: Ember.computed('recipe', {
+    get() {
+      let truncatedDesc = this.get('recipe.description');
+      let res = this.get('recipe.description').match(/^(?:.*\n){1,3}/);
+      if (res.length > 0) {
+        truncatedDesc = res[0].replace('\n', ' ').trim() + '..';
+      }
+      return truncatedDesc;
+    }
   })
 });

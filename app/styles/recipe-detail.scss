@@ -172,10 +172,14 @@ $row-height: 42px;
     align-items: center;
     margin-bottom: 10px;
 
-    > div {
-      display: flex;
-      justify-content: space-between;
-      width: 73px;
+    > div > .share-button {
+      margin-right: 0px;
+      margin-left: 4px;
+    }
+    @media(max-width: 768px) {
+      > div > .share-button {
+        margin-left: 6px;
+      }
     }
   }
   h2 {
