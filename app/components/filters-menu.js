@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['col-md-3', 'col-sm-5'],
+  classNames: ['col-md-3', 'col-sm-4'],
   dataOffsetTop: 185,
   dataOffsetBottom: null,
   currentUser: Ember.inject.service(),
