@@ -50,9 +50,9 @@
 					<hr>
 				{{/each}}
 			</div>
-			<div>
-				{{!-- {{markdown-to-html recipe.description}} --}}
-				<p itemprop="description">{{{recipe.description}}}</p>
+			<div itemprop="description">
+				{{markdown-to-html recipe.description}}
+				{{!-- <p itemprop="description">{{{recipe.description}}}</p> --}}
 			</div>
 		</div>
 	</div>

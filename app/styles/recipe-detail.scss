@@ -15,7 +15,6 @@ $row-height: 42px;
     -webkit-font-smoothing: antialiased;
   }
   p {
-    margin-top: 30px;
     white-space: pre-wrap;
     text-align: justify;
   }
@@ -86,7 +85,10 @@ $row-height: 42px;
     padding-left: 0;
     padding-right: 0;
     > div {
-      margin-top: 15px;
+      margin-top: 30px;
+      > p {
+        margin-bottom: 1em;
+      }
     }
   }
   @media (min-width: 992px) {
