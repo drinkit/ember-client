@@ -51,8 +51,7 @@
 				{{/each}}
 			</div>
 			<div itemprop="description">
-				{{markdown-to-html recipe.description}}
-				{{!-- <p itemprop="description">{{{recipe.description}}}</p> --}}
+				{{markdown-to-html recipe.description extensions="internal-links"}}
 			</div>
 		</div>
 	</div>
