@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     let self = this;
     let ingredients = this.convertToIngredients(this.get('selectedIngredientsIds'));
     ingredients = ingredients.filter(Boolean);
-    this.get('selectedIngredients').forEach(function(item) {
+    this.get('filteredIngredients').forEach(function(item) {
       Ember.set(item, 'disabled', false);
     });
     this.set('selectedIngredients', ingredients);
