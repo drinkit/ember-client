@@ -56,6 +56,12 @@ export default Ember.Route.extend(RememberScrollMixin, {
         });
         this.get('stats').incrementViewsCount(this.get('currentModel').recipe.get('id'));
       });
+    },
+
+    error(error, transition) {
+      if (error && error.status == 404) {
+        this.transitionTo('/error404');
+      }
     }
   }
 });
