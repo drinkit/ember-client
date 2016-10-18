@@ -30,6 +30,18 @@ body {
   font-style: italic;
   font-weight: bold;
 }
+:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+:focus::-moz-placeholder {
+  color: transparent;
+}
+:focus:-moz-placeholder {
+  color: transparent;
+}
+:focus:-ms-input-placeholder {
+  color: transparent;
+}
 input[placeholder] {
   text-overflow: ellipsis;
   font-style: italic;
@@ -76,7 +88,6 @@ input:-ms-input-placeholder {
   > span {
     font-family: "CenturyGothic";
   }
-
   > hr {
     margin-right: 5px;
   }
@@ -223,6 +234,7 @@ input:-ms-input-placeholder {
     padding: 2px 16px 2px 8px;
     box-shadow: none;
     -webkit-box-shadow: none;
+    text-indent: 1px;
   }
   > input:focus {
     box-shadow: none;
@@ -233,7 +245,7 @@ input:-ms-input-placeholder {
 hr {
   clear: both;
   position: relative;
-  margin: 2px 0 2px 0;
+  margin: 2px 0;
   height: 1px;
   background-color: $light-green;
   color: $light-green;
@@ -268,8 +280,6 @@ h3 {
 #builder-view > .col-md-3 {
   padding-left: 0;
   padding-right: 0;
-//   min-width: 247px;
-//   max-width: 247px;
 }
 #builder-view > .col-md-3 .row {
   margin-bottom: 10px;
@@ -327,7 +337,7 @@ h3 {
   color: #00ac8d;
   border-color: #bbd2c7;
   outline: none;
-   &:active:focus,
+  &:active:focus,
   .active.focus,
   .active:focus {
     outline: none;
@@ -373,11 +383,9 @@ h3 {
   text-align: left;
   vertical-align: middle;
 }
-
 div.validated-input {
   position: relative;
 }
-
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";

@@ -34,6 +34,12 @@ $row-height: 42px;
         width: 100%;
         height: 100%;
       }
+
+      > #emptyImage {
+        opacity: 0;
+        position: absolute;
+        top: 0px;
+      }
       .views-icon-container {
         position: absolute;
         top: 10px;
