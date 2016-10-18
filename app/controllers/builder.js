@@ -29,13 +29,13 @@ export default Ember.Controller.extend(PaginationMixin, {
       result.forEach(function(item) {
         if (item.published) {
           that.get('simpleStore').push('recipe', item);
-        } else if (that.get('currentUser').get('isAuthenticated') && that.get('currentUser.role') == 'ADMIN') {
+        } else if (that.get('currentUser.isAuthenticated') && that.get('currentUser.role') == 'ADMIN') {
           that.get('simpleStore').push('recipe', item);
         }
       });
     });
   },
-  
+
   actions: {
     toggleOption(id) {
       var options = this.get('cocktailOptions');

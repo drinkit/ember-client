@@ -4,10 +4,12 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   modalManager: Ember.inject.service(),
   simpleStore: Ember.inject.service(),
+  repository: Ember.inject.service(),
 
   selectedIngredientsIds: [],
   ingredientsInCategories: {},
   removedIngredients: [],
+  suggestedIngredients: [],
   ruToEnCategory: {
     'Крепкие алкогольные напитки': 'hardSpirits',
     'Ликеры': 'liquors',
@@ -35,7 +37,27 @@ export default Ember.Controller.extend({
       return store.find('ingredient', item.ingredientId);
     });
     ingredients.forEach(self.moveIngredientToCategory, self);
-    self.set('selectedIngredientsIds', ingredientsIds);
+    if (ingredientsIds.length != self.get('selectedIngredientsIds.length')) {
+      self.set('selectedIngredientsIds', ingredientsIds);
+    }
+  }),
+
+  ingredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
+    const repository = this.get('repository');
+    const store = this.get('simpleStore');
+    const self = this;
+    store.clear('suggestedIngredient');
+    repository.find('suggestedIngredient', {
+      url: '/ingredients/suggest',
+      method: 'GET',
+      data: {
+        id: this.get('selectedIngredientsIds')
+      }
+    }).then(function(response) {
+      self.set('suggestedIngredients', response);
+    }, function() {
+      self.set('suggestedIngredients', []);
+    })
   }),
 
   actions: {
