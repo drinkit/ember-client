@@ -55,3 +55,19 @@
     cursor: pointer;
   }
 }
+
+.suggestions-box {
+  margin-left: 5px;
+  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-right: 10px;
+  flex: 1;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1px 2px 8px 1px #999999;
+  span {
+    margin-left: 5px;
+    display: block;
+    font-family: "CenturyGothic";
+  }
+}
