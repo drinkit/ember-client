@@ -5,15 +5,8 @@ export default Ember.Component.extend({
   simpleStore: Ember.inject.service(),
   currentUser: Ember.inject.service(),
 
-  ingredientsNames: Ember.computed('suggestedIngredients.[]', function() {
-    let ingredientsNames = [];
-    const store = this.get('simpleStore');
-    for (var i = 0; i < this.get('suggestedIngredients.length'); i++) {
-      let sugIngredient = this.get('suggestedIngredients').objectAt(i);
-      let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
-      ingredientsNames.push(ingredient.get('name'));
-    }
-    return ingredientsNames;
+  hasData: Ember.computed('suggestedIngredients.[]', function() {
+    return this.get('suggestedIngredients.length') > 0;
   }),
 
   ingredientsCocktails: Ember.computed('suggestedIngredients.[]', function() {
@@ -22,18 +15,24 @@ export default Ember.Component.extend({
     const user = this.get('currentUser');
     for (var i = 0; i < this.get('suggestedIngredients.length'); i++) {
       let sugIngredient = this.get('suggestedIngredients').objectAt(i);
+      let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
       let recipes = sugIngredient.get('recipeIds').map((item) => store.find('recipe', item));
       recipes = recipes.filter((item) => item.get('published') || user.get('role') == 'ADMIN');
-      ingredientsCocktails.push(recipes);
+      ingredientsCocktails.push({
+        name: ingredient.get('name'),
+        recipes: recipes,
+        hasData: recipes.length > 0
+      });
     }
+    ingredientsCocktails = ingredientsCocktails.sort((a1, a2) => a2.recipes.length - a1.recipes.length);
     return ingredientsCocktails;
   }),
 
   wholePhrases: Ember.computed('ingredientsCocktails.[]', function() {
     let phrases = [];
     for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
-      let phrase = '...**' + this.get('ingredientsNames')[i] + '** - ';
-      let cocktails = this.get('ingredientsCocktails')[i];
+      let phrase = '...**' + this.get('ingredientsCocktails')[i].name + '** - ';
+      let cocktails = this.get('ingredientsCocktails')[i].recipes;
       for (var k = 0; k < cocktails.length; k++) {
         if (k == 2) {
           break;

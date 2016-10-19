@@ -1,4 +1,14 @@
-<span>Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!</span>
-{{markdown-to-html wholePhrases.[0] extensions="internal-links"}}
-{{markdown-to-html wholePhrases.[1] extensions="internal-links"}}
-{{markdown-to-html wholePhrases.[2] extensions="internal-links"}}
+{{#if hasData}}
+  <span>Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!</span>
+  {{#if ingredientsCocktails.[0].hasData}}
+    {{markdown-to-html wholePhrases.[0] extensions="internal-links"}}
+  {{/if}}
+  {{#if ingredientsCocktails.[1].hasData}}
+    {{markdown-to-html wholePhrases.[1] extensions="internal-links"}}
+  {{/if}}
+  {{#if ingredientsCocktails.[2].hasData}}
+    {{markdown-to-html wholePhrases.[2] extensions="internal-links"}}
+  {{/if}}
+{{else}}
+  <span>К сожалению, в вашем баре слишком мало ингредиентов, чтобы мы могли вам что-то посоветовать.</span>
+{{/if}}

@@ -42,7 +42,7 @@ export default Ember.Controller.extend({
     }
   }),
 
-  ingredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
+  ingredientsIdsChanged: Ember.observer('user.barItems.[]', function() {
     const repository = this.get('repository');
     const store = this.get('simpleStore');
     const self = this;
