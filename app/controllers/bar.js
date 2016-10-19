@@ -43,21 +43,28 @@ export default Ember.Controller.extend({
   }),
 
   ingredientsIdsChanged: Ember.observer('user.barItems.[]', function() {
-    const repository = this.get('repository');
-    const store = this.get('simpleStore');
-    const self = this;
-    store.clear('suggestedIngredient');
-    repository.find('suggestedIngredient', {
-      url: '/ingredients/suggest',
-      method: 'GET',
-      data: {
-        id: this.get('selectedIngredientsIds')
-      }
-    }).then(function(response) {
-      self.set('suggestedIngredients', response);
-    }, function() {
-      self.set('suggestedIngredients', []);
-    })
+    if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
+      const repository = this.get('repository');
+      const store = this.get('simpleStore');
+      const self = this;
+      let ingredientsIds = this.get('user.barItems').map(function(item) {
+        return item.ingredientId;
+      });
+      store.clear('suggestedIngredient');
+      repository.find('suggestedIngredient', {
+        url: '/ingredients/suggest',
+        method: 'GET',
+        data: {
+          id: ingredientsIds
+        }
+      }).then(function(response) {
+        self.set('suggestedIngredients', response);
+
+      }, function() {
+        self.set('suggestedIngredients', []);
+      })
+    }
+
   }),
 
   actions: {
