@@ -30,18 +30,19 @@ export default Ember.Component.extend({
 
   wholePhrases: Ember.computed('ingredientsCocktails.[]', function() {
     let phrases = [];
+    const cocktailsCount = 3;
     for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
-      let phrase = '...**' + this.get('ingredientsCocktails')[i].name + '** - ';
+      let phrase = '**' + this.get('ingredientsCocktails')[i].name + '** - ';
       let cocktails = this.get('ingredientsCocktails')[i].recipes;
       for (var k = 0; k < cocktails.length; k++) {
-        if (k == 2) {
+        if (k == cocktailsCount) {
           break;
         }
         phrase += '[' + cocktails[k].get('name') + '](/recipes/' + cocktails[k].get('id') + '), ';
       }
 
-      if (cocktails.length > 2) {
-        phrase += 'и еще ' + this.getCocktailsEnding(cocktails.length - 2);
+      if (cocktails.length > cocktailsCount) {
+        phrase += 'и еще ' + this.getCocktailsEnding(cocktails.length - cocktailsCount);
       } else {
         phrase = phrase.substr(0, phrase.length - 2) + '.';
       }
@@ -66,7 +67,7 @@ export default Ember.Component.extend({
       case 2:
       case 3:
       case 4:
-        return Ember.String.htmlSafe(number.toString() + ' коктейля.')
+        return Ember.String.htmlSafe(number.toString() + ' коктейля.');
         break;
     }
   }

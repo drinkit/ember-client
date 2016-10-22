@@ -1,6 +1,6 @@
 #!/bin/bash
 ember build -prod
-cp -R dist/* ../EmberDrinkItDeploy/
+rsync -a --exclude=robots.txt dist/* ../EmberDrinkItDeploy/ 
 cd ../EmberDrinkItDeploy/ && git add -A -v
 cd ../EmberDrinkItDeploy/ && git commit -m "New version $(date)"
 cd ../EmberDrinkItDeploy/ && git push
