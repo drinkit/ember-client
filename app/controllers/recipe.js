@@ -40,7 +40,8 @@ export default Ember.Controller.extend({
     let res = self.get('recipe.ingredientsWithQuantities').map(function(item) {
       return {
         name: repository.fetchById('ingredient', item.ingredientId).get('name'),
-        quantity: item.quantity
+        quantity: item.quantity,
+        unit: item.unit
       }
     });
     return res;
