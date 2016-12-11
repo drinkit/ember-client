@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   classNames: ['suggestions-box'],
   simpleStore: Ember.inject.service(),
   currentUser: Ember.inject.service(),
+  initialized: false,
 
   hasData: Ember.computed('suggestedIngredients.[]', function() {
     return this.get('suggestedIngredients.length') > 0;
@@ -13,18 +14,20 @@ export default Ember.Component.extend({
     let ingredientsCocktails = [];
     const store = this.get('simpleStore');
     const user = this.get('currentUser');
-    for (var i = 0; i < this.get('suggestedIngredients.length'); i++) {
+    const suggestionsCount = 3;
+    let suggestionsLen = Math.min(suggestionsCount, this.get('suggestedIngredients.length'));
+    for (var i = 0; i < suggestionsLen; i++) {
       let sugIngredient = this.get('suggestedIngredients').objectAt(i);
       let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
-      let recipes = sugIngredient.get('recipeIds').map((item) => store.find('recipe', item));
-      recipes = recipes.filter((item) => item.get('published') || user.get('role') == 'ADMIN');
+      let recipesIds = sugIngredient.get('recipeIds');
+      let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') == 'ADMIN'));
       ingredientsCocktails.push({
         name: ingredient.get('name'),
-        recipes: recipes,
-        hasData: recipes.length > 0
+        recipes: sugRecipes.get('content'),
+        hasData: sugRecipes.get('content.length') > 0
       });
     }
-    ingredientsCocktails = ingredientsCocktails.sort((a1, a2) => a2.recipes.length - a1.recipes.length);
+
     return ingredientsCocktails;
   }),
 
@@ -32,6 +35,9 @@ export default Ember.Component.extend({
     let phrases = [];
     const cocktailsCount = 3;
     for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
+      if (!this.get('ingredientsCocktails')[i].hasData) {
+        continue;
+      }
       let phrase = '**' + this.get('ingredientsCocktails')[i].name + '** - ';
       let cocktails = this.get('ingredientsCocktails')[i].recipes;
       for (var k = 0; k < cocktails.length; k++) {
@@ -50,7 +56,7 @@ export default Ember.Component.extend({
     }
     return phrases;
   }),
-
+  // works wrong with 11 - 19
   getCocktailsEnding(number) {
     switch (number % 10) {
       case 0:

@@ -34,18 +34,21 @@ export default Ember.Controller.extend({
     }
   },
 
-  recipeIngredients: function() {
+  recipeIngredients: Ember.computed('recipe.ingredientsWithQuantities', function() {
     let self = this;
     let repository = this.get('repository');
-    let res = self.get('recipe.ingredientsWithQuantities').map(function(item) {
-      return {
-        name: repository.fetchById('ingredient', item.ingredientId).get('name'),
-        quantity: item.quantity,
-        unit: item.unit
-      }
-    });
+    let res = [];
+    if (self.get('recipe.ingredientsWithQuantities')) {
+      res = self.get('recipe.ingredientsWithQuantities').map(function(item) {
+        return {
+          name: repository.fetchById('ingredient', item.ingredientId).get('name'),
+          quantity: item.quantity,
+          unit: item.unit
+        }
+      });
+    }
     return res;
-  }.property('recipe.ingredientsWithQuantities'),
+  }),
 
   optionsToTags: {
     1: "fire-32.png",

@@ -113,6 +113,17 @@ $row-height: 42px;
     margin-top: 0;
     margin-bottom: 0;
   }
+  #originalName {
+    font-family: "Georgia";
+    font-style: italic;
+    color: #464077;
+    font-size: 16pt;
+    text-align: center;;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 5px;
+    margin-bottom: 0;
+    opacity: 0.7;
+  }
   .consistRow {
     padding-left: 5px;
     padding-right: 5px;

@@ -51,6 +51,7 @@ export default Ember.Controller.extend({
         return item.ingredientId;
       });
       store.clear('suggestedIngredient');
+      self.set('suggestedIngredientsInitialized', false);
       repository.find('suggestedIngredient', {
         url: '/ingredients/suggest',
         method: 'GET',
@@ -58,9 +59,10 @@ export default Ember.Controller.extend({
           id: ingredientsIds
         }
       }).then(function(response) {
+        self.set('suggestedIngredientsInitialized', true);
         self.set('suggestedIngredients', response);
-
       }, function() {
+        self.set('suggestedIngredientsInitialized', true);
         self.set('suggestedIngredients', []);
       })
     }

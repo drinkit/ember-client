@@ -24,6 +24,9 @@
 		</div>
 		<div class="col-md-7 description">
 			<h1 id="recipeName" itemprop="name">{{recipe.name}}</h1>
+			{{#if recipe.originalName}}
+				<h2 id="originalName">{{recipe.originalName}}</h2>
+			{{/if}}
 			<div>
 				<hr class="darkLine">
 				<div class="consistRow">

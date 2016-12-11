@@ -36,7 +36,7 @@ export default Ember.Component.extend({
       var cocktailIngredients = recipe.get("ingredientsWithQuantities");
       cocktailIngredients.forEach(function(item) {
         var ingr = store.find("ingredient", item.ingredientId);
-        var type = selectedIngredients && selectedIngredients.contains(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
+        var type = selectedIngredients && selectedIngredients.includes(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
         sortedIngredients.push({
           name: ingr.get("name"),
           className: type

@@ -6,6 +6,7 @@ export default Model.extend({
   description: attr(),
   imageUrl: attr(),
   name: attr(),
+  originalName: attr(),
   options: attr(),
   published: attr(),
   thumbnailUrl: attr(),

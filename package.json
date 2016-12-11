@@ -37,7 +37,7 @@
     "ember-cli-release": "0.2.3",
     "ember-cli-sass": "^5.5.2",
     "ember-cli-showdown": "2.8.0",
-    "ember-cli-simple-store": "5.1.0",
+    "ember-cli-simple-store": "5.2.0",
     "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-cp-validations": "^3.1.2",
