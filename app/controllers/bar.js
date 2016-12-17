@@ -43,6 +43,7 @@ export default Ember.Controller.extend({
   }),
 
   ingredientsIdsChanged: Ember.observer('user.barItems.[]', function() {
+    const user = this.get('user');
     if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
       const repository = this.get('repository');
       const store = this.get('simpleStore');
@@ -52,8 +53,9 @@ export default Ember.Controller.extend({
       });
       store.clear('suggestedIngredient');
       self.set('suggestedIngredientsInitialized', false);
+      const suggestSuffix = user.get('role') == 'ADMIN' ? '?viewAll=true' : '?viewAll=false';
       repository.find('suggestedIngredient', {
-        url: '/ingredients/suggest',
+        url: '/ingredients/suggest' + suggestSuffix,
         method: 'GET',
         data: {
           id: ingredientsIds
