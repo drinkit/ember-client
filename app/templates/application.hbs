@@ -1,50 +1,78 @@
-<div id="main-frame" class="container-fluid">
-  <div id="content-frame" class="container">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav-bar" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          {{#link-to "builder" class="navbar-header" }}
-            <img src="/assets/logo-main.png" width="240" height="80" />
-          {{/link-to}}
+{{#burger-menu width=260 as |burger|}}
+  {{#burger.menu dismissOnItemClick=true itemTagName="li" as |menu|}}
+    <img src="/assets/logo-main.png" width="240" height="80" />
+    <ul>
+      {{#menu.item}}
+        <div>
+          {{#if isLoggedIn}}
+            <span class="text-button">{{currentUser.displayName}}</span>
+            <div class="vr" />
+            <a id="logoutButton" class="text-button" {{action "logout"}}>Выйти</a>
+          {{else}}
+            <a id="loginButton" class="text-button" {{action "showDialog" "Login"}}>Войти</a>
+          {{/if}}
         </div>
-
-        <div class="collapse navbar-collapse" id="main-nav-bar">
-          <div id="loginArea" class="navbar-btn">
-            {{#if isLoggedIn}}
-              <span class="text-button">{{currentUser.displayName}}</span>
-              <div class="vr" />
-              <a id="logoutButton" class="text-button" {{action "logout"}}>Выйти</a>
-            {{else}}
-              <a id="loginButton" class="text-button" {{action "showDialog" "Login"}}>Войти</a>
-            {{/if}}
+      {{/menu.item}}
+      {{#menu.item}}
+        {{#link-to 'builder'}}КОНСТРУКТОР{{/link-to}}
+      {{/menu.item}}
+      {{#menu.item}}
+        {{#link-to 'bar'}}МОЙ БАР{{/link-to}}
+      {{/menu.item}}
+      {{#menu.item dismissOnClick=false}}
+        {{search-by-name search="search"}}
+      {{/menu.item}}
+    </ul>
+  {{/burger.menu}}
+  {{#burger.outlet}}
+    <div id="main-frame" class="container-fluid">
+      <div id="content-frame" class="container">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed {{burger.state.position}} {{if burger.state.open 'burger-hidden'}}" {{action burger.state.actions.toggle}}>
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+              {{#link-to "builder" class="navbar-header" }}
+                <img src="/assets/logo-main.png" width="240" height="80" />
+              {{/link-to}}
+            </div>
+            <div class="collapse navbar-collapse" id="main-nav-bar">
+              <div id="loginArea" class="navbar-btn">
+                {{#if isLoggedIn}}
+                  <span class="text-button">{{currentUser.displayName}}</span>
+                  <div class="vr" />
+                  <a id="logoutButton" class="text-button" {{action "logout"}}>Выйти</a>
+                {{else}}
+                  <a id="loginButton" class="text-button" {{action "showDialog" "Login"}}>Войти</a>
+                {{/if}}
+              </div>
+              <ul class="nav navbar-nav">
+                <li>
+                  {{#link-to 'builder'}}Конструктор{{/link-to}}
+                </li>
+                <li>
+                  {{#link-to 'bar'}}Мой бар{{/link-to}}
+                </li>
+              </ul>
+              {{search-by-name search="search"}}
+            </div>
           </div>
-          <ul class="nav navbar-nav">
-            <li>
-              {{#link-to 'builder'}}Конструктор{{/link-to}}
-            </li>
-            <li>
-              {{#link-to 'bar'}}Мой бар{{/link-to}}
-            </li>
-          </ul>
-          {{search-by-name search="search"}}
-        </div>
+        </nav>
+        <hr>
+        <hr> {{outlet}}
       </div>
-    </nav>
-    <hr>
-    <hr> {{outlet}}
-  </div>
-</div>
+    </div>
 
-{{#if modalManager.isShowLogin}}
-  {{login-window showDialog="showDialog" hideDialog="hideDialog" authSuccess="authSuccess"}}
-{{/if}}
+    {{#if modalManager.isShowLogin}}
+      {{login-window showDialog="showDialog" hideDialog="hideDialog" authSuccess="authSuccess"}}
+    {{/if}}
 
-{{#if modalManager.isShowSignUp}}
-  {{signup-window showDialog="showDialog" hideDialog="hideDialog"}}
-{{/if}}
+    {{#if modalManager.isShowSignUp}}
+      {{signup-window showDialog="showDialog" hideDialog="hideDialog"}}
+    {{/if}}
+  {{/burger.outlet}}
+{{/burger-menu}}

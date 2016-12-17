@@ -1,0 +1,71 @@
+.ember-burger-menu .bm-outlet .bm-content {
+  background: none;
+}
+
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+  background: none;
+}
+
+.ember-burger-menu .bm-outlet {
+  z-index: 25;
+}
+
+.bm-menu {
+  background: $violet;
+  > img {
+    margin-left: 10px;
+  }
+
+  > ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .bm-menu-item {
+    border-bottom: 2px #453B6D solid;
+    vertical-align: middle;
+    > div {
+      padding-left: 15px;
+      padding-bottom: 10px;
+      span, a {
+        font-size: 16px;
+      }
+    }
+    > a {
+      display: block;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      padding-left: 15px;
+      color: white;
+      font-size: 20px;
+      font-family: "CenturyGothic";
+    }
+
+    #logoutButton {
+      float: right;
+      margin-right: 10px;
+    }
+
+    .search-box {
+      padding-top: 11px;
+      padding-left: 15px;
+      padding-bottom: 11px;
+      .navbar-form {
+        border-top: none;
+        border-bottom: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+
+        .search-by-name {
+          padding-left: 0px;
+          margin-left: 0px;
+        }
+      }
+    }
+
+
+  }
+}
