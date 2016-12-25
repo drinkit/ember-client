@@ -2,6 +2,7 @@ $brick-red: #E85F1B;
 $orange-beach: #FFB000;
 $violet: #464077;
 $light-green: #00AC8D;
+
 body {
   background-image: url("/assets/new-pattern.jpg");
   @media (min-width: 768px) {
@@ -30,34 +31,43 @@ body {
   font-style: italic;
   font-weight: bold;
 }
+
 :focus::-webkit-input-placeholder {
   color: transparent;
 }
+
 :focus::-moz-placeholder {
   color: transparent;
 }
+
 :focus:-moz-placeholder {
   color: transparent;
 }
+
 :focus:-ms-input-placeholder {
   color: transparent;
 }
+
 input[placeholder] {
   text-overflow: ellipsis;
   font-style: italic;
 }
+
 input::-moz-placeholder {
   text-overflow: ellipsis;
   font-style: italic;
 }
+
 input:-moz-placeholder {
   text-overflow: ellipsis;
   font-style: italic;
 }
+
 input:-ms-input-placeholder {
   text-overflow: ellipsis;
   font-style: italic;
 }
+
 #main-frame {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -67,16 +77,19 @@ input:-ms-input-placeholder {
   padding: 0;
   min-height: 600px;
 }
+
 #page-header {
   background-image: url("/assets/pattern-top.png");
   background-repeat: repeat-x;
   width: auto;
   height: 92px;
+
   img {
     margin-left: 15px;
     margin-top: 6px;
   }
 }
+
 #content-frame {
   background-image: url("/assets/pattern-top.png");
   background-repeat: repeat-x;
@@ -85,25 +98,31 @@ input:-ms-input-placeholder {
   padding-top: 5px;
   height: auto !important;
   min-height: 100%;
+
   > span {
     font-family: "CenturyGothic";
   }
+
   > hr {
     margin-right: 5px;
   }
 }
+
 .icon-bar {
   background-color: white !important;
 }
+
 .navbar {
   background-color: transparent;
   border: none;
   margin-bottom: 0;
   min-height: 100px;
+
   > .container-fluid {
     > .navbar-collapse {
       box-shadow: none;
       border: none 0;
+
       > div.ember-view {
         > .navbar-form {
           margin-right: -10px;
@@ -111,12 +130,85 @@ input:-ms-input-placeholder {
         }
       }
     }
+
+    .navbar-header:after,
+    > .navbar-header:before {
+      display: flex;
+      content: normal;
+    }
+
     > .navbar-header {
+      margin-left: -30px;
+      margin-right: -25px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+
+      > a {
+        display: inline-block;
+        @media (max-width: 360px) {
+          > img {
+            margin-top: 5px;
+            width: 210px;
+            height: 70px;
+          }
+        }
+      }
+
       > .navbar-toggle {
-        position: absolute;
-        margin: auto;
-        top: 20px;
-        right: 0;
+        margin: 15px 0 0;
+        width: 42px;
+        height: 42px;
+        float: none;
+        padding: 11px 9px;
+
+        .icon-bar+.icon-bar {
+          margin-top: 6px;
+        }
+      }
+
+      > .search {
+        > #mobileSearch {
+          width: 42px;
+          height: 42px;
+          display: inline;
+          > input {
+            margin-top: 15px;
+            display: inline;
+            height: 42px;
+            position: absolute;
+            min-width: 0px;
+            max-width: 0px;
+            padding: 0px;
+            border: none;
+            -webkit-transition: all 0.6s ease-in-out;
+            -moz-transition: all 0.6s ease-in-out;
+            -o-transition: all 0.6s ease-in-out;
+            transition: all 0.6s ease-in-out;
+          }
+        }
+      }
+
+      > .search:focus {
+        outline: none;
+      }
+
+      > .search:focus > #mobileSearch > input, .search > #mobileSearch > input:focus {
+        min-width: 220px;
+        max-width: 220px;
+        padding: 2px 16px 2px 8px;
+        margin-left: -220px;
+        border: 1px solid #ccc;
+      }
+
+      .mobile-search-button {
+        width: 42px;
+        height: 42px;
+        margin-top: 15px;
+        border-color: #ddd;
+        background-color: transparent;
+        background-image: url('/assets/search_btn.png');
+        background-size: cover;
       }
     }
   }
@@ -132,23 +224,39 @@ input:-ms-input-placeholder {
     > .container-fluid {
       padding-left: 0;
       padding-right: 0;
-      > .navbar-header {
-        margin-left: -5px;
-        margin-top: 1px;
-      }
+
       > .navbar-collapse {
         padding-left: 0;
         padding-right: 0;
-        > div.ember-view {
+
+        > div.search-box {
           > .navbar-form {
             margin-right: -15px;
             margin-top: 18px;
           }
         }
       }
+
+      > .navbar-header {
+        margin-left: -5px;
+        margin-top: 1px;
+
+        > a > img {
+          margin-left: 0;
+        }
+
+        .mobile-search-button {
+          display: none;
+        }
+
+        .search {
+          display: none;
+        }
+      }
     }
   }
 }
+
 .nav li a,
 .nav li a:hover,
 .nav li a:visited,
@@ -162,16 +270,19 @@ input:-ms-input-placeholder {
   background: none;
   -webkit-font-smoothing: antialiased;
 }
+
 .nav > li > a:focus,
 .nav > li > a:hover {
   background: none;
 }
+
 .navbar-nav {
   > li {
     > a {
       padding-left: 0;
       padding-right: 10px;
     }
+
     > a.active,
     a.active:focus,
     a.active:hover {
@@ -180,6 +291,7 @@ input:-ms-input-placeholder {
     }
   }
 }
+
 .vr {
   width: 0;
   display: inline-block;
@@ -194,6 +306,7 @@ input:-ms-input-placeholder {
     border-left-color: white;
   }
 }
+
 #loginArea {
   border-bottom: 1px solid transparent;
   border-color: #e7e7e7;
@@ -202,6 +315,7 @@ input:-ms-input-placeholder {
   padding-top: 5px;
   padding-bottom: 5px;
   margin-bottom: 0;
+
   .text-button {
     vertical-align: top;
     margin-left: 5px;
@@ -216,32 +330,41 @@ input:-ms-input-placeholder {
     text-align: right;
     margin-right: 5px;
     margin-top: 5px;
+
     .text-button {
       color: white;
     }
   }
 }
+
+@media (min-width: 768px) {
+  .search-by-name {
+    margin-left: -15px;
+    margin-right: 10px;
+    padding-left: 4px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+  }
+}
 .search-by-name {
-  margin-left: -15px;
-  margin-right: 10px;
-  padding-left: 4px;
-  padding-top: 4px;
-  padding-bottom: 2px;
   font-family: "CenturyGothic";
+
   > input {
-    width: 200px !important;
+    min-width: 200px;
     height: 30px;
     padding: 2px 16px 2px 8px;
     box-shadow: none;
     -webkit-box-shadow: none;
     text-indent: 1px;
   }
+
   > input:focus {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-color: #ccc;
   }
 }
+
 hr {
   clear: both;
   position: relative;
@@ -252,6 +375,7 @@ hr {
   opacity: 0.7;
   border: 0 none;
 }
+
 h3 {
   font-family: "Georgia";
   font-weight: bold;
@@ -261,38 +385,47 @@ h3 {
   text-align: center;
   -webkit-font-smoothing: antialiased;
 }
+
 #builder-view {
   padding-top: 5px;
   margin-left: 0;
   margin-right: 0;
   border: 0 none;
+
   h3 {
     margin-bottom: 15px;
   }
+
   hr {
     margin-left: 3px;
     margin-right: 0;
   }
 }
+
 .fixedsticky {
   top: 0;
 }
+
 #builder-view > .col-md-3 {
   padding-left: 0;
   padding-right: 0;
 }
+
 #builder-view > .col-md-3 .row {
   margin-bottom: 10px;
 }
+
 .search-results {
   padding-top: 10px;
   padding-left: 15px;
   padding-right: 5px;
+
   > img {
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
+
   > p {
     font-size: 24px;
     font-family: "CenturyGothic";
@@ -301,21 +434,25 @@ h3 {
     margin-left: auto;
     margin-right: auto;
   }
+
   > .row {
     padding-left: 0;
     padding-right: 0;
     margin-left: 0;
     margin-right: 0;
+
     > .col-md-6 {
       padding: 6px;
     }
   }
+
   > #prevPageButton {
     float: left;
     margin-left: 5px;
     margin-bottom: 10px;
     margin-top: 10px;
   }
+
   > #nextPageButton {
     float: right;
     margin-right: 5px;
@@ -328,6 +465,7 @@ h3 {
     padding-left: 0;
   }
 }
+
 .btn-default,
 .btn-default:focus {
   font-family: "CenturyGothic";
@@ -337,16 +475,19 @@ h3 {
   color: #00ac8d;
   border-color: #bbd2c7;
   outline: none;
+
   &:active:focus,
   .active.focus,
   .active:focus {
     outline: none;
   }
+
   &:hover {
     color: #00ac8d;
     background-color: #f3f3f3;
     border-color: #bbd2c7;
   }
+
   &:active,
   .active {
     color: #00ac8d;
@@ -354,6 +495,7 @@ h3 {
     border-color: #78a590;
   }
 }
+
 .text-button,
 .text-button:hover {
   font-family: "CenturyGothic";
@@ -362,11 +504,13 @@ h3 {
   cursor: pointer;
   color: white;
 }
+
 .text-button-disabled,
 .text-button-disabled:hover {
   cursor: default;
   opacity: 0.5;
 }
+
 .modal {
   text-align: center;
 }
@@ -378,11 +522,13 @@ h3 {
     height: 100%;
   }
 }
+
 .modal-dialog {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
 }
+
 div.validated-input {
   position: relative;
 }

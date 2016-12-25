@@ -19,9 +19,6 @@
       {{#menu.item}}
         {{#link-to 'bar'}}МОЙ БАР{{/link-to}}
       {{/menu.item}}
-      {{#menu.item dismissOnClick=false}}
-        {{search-by-name search="search"}}
-      {{/menu.item}}
     </ul>
   {{/burger.menu}}
   {{#burger.outlet}}
@@ -30,15 +27,19 @@
         <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed {{burger.state.position}} {{if burger.state.open 'burger-hidden'}}" {{action burger.state.actions.toggle}}>
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-              {{#link-to "builder" class="navbar-header" }}
+              <button type="button" class="btn navbar-toggle collapsed {{burger.state.position}} {{if burger.state.open 'burger-hidden'}}" {{action burger.state.actions.toggle}}>
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              {{#link-to "builder" }}
                 <img src="/assets/logo-main.png" width="240" height="80" />
               {{/link-to}}
+              <div class="search" tabindex="0">
+                {{search-by-name id="mobileSearch" search="search"}}
+                <div type="button" class="btn mobile-search-button" />
+              </div>
             </div>
             <div class="collapse navbar-collapse" id="main-nav-bar">
               <div id="loginArea" class="navbar-btn">
@@ -58,7 +59,11 @@
                   {{#link-to 'bar'}}Мой бар{{/link-to}}
                 </li>
               </ul>
-              {{search-by-name search="search"}}
+              <div class="search-box">
+                <div class="navbar-form navbar-right">
+                  {{search-by-name search="search"}}
+                </div>
+              </div>
             </div>
           </div>
         </nav>
