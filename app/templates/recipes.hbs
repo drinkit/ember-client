@@ -6,10 +6,10 @@
       {{/each}}
     </div>
     {{#if isPreviousPageExist}}
-      {{#link-to (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default" }}Назад{{/link-to}}
+      {{#link-to (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default" rel="prev"}}Назад{{/link-to}}
     {{/if}}
     {{#if isNextPageExist}}
-      {{#link-to (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default" }}Еще коктейлей...{{/link-to}}
+      {{#link-to (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default" rel="next"}}Еще коктейлей...{{/link-to}}
     {{/if}}
   {{else}}
     <img src="/assets/sadcocktail.png" />

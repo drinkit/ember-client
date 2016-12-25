@@ -6,6 +6,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   simpleStore: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   ajax: Ember.inject.service(),
+  headData: Ember.inject.service(),
   cocktailTypes: [],
   cocktailOptions: [],
   selectedIngredientsIds: [],
@@ -24,7 +25,6 @@ export default Ember.Controller.extend(PaginationMixin, {
         })
       }
     }, function(result) {
-      that.set('isSearchPerformed', true);
       that.get('simpleStore').clear('recipe');
       result.forEach(function(item) {
         if (item.published) {
@@ -33,6 +33,7 @@ export default Ember.Controller.extend(PaginationMixin, {
           that.get('simpleStore').push('recipe', item);
         }
       });
+      that.set('isSearchPerformed', true);
     });
   },
 

@@ -11,3 +11,9 @@
 <meta name="twitter:title" content={{model.title}}>
 <meta name="twitter:description" content={{model.description}}>
 <meta name="twitter:image" content={{model.image}}>
+{{#if model.prevPageLink}}
+  <link rel="prev" href={{model.prevPageLink}}/>
+{{/if}}
+{{#if model.nextPageLink}}
+  <link rel="prev" href={{model.nextPageLink}}/>
+{{/if}}

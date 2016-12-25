@@ -7,9 +7,17 @@ export default Ember.Route.extend(RememberScrollMixin, {
   repository: Ember.inject.service(),
   simpleStore: Ember.inject.service(),
 
-  afterModel() {
+  afterModel(model, transition) {
     this.set('headData.title', 'Конструктор коктейлей - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
+    if (transition.queryParams && transition.queryParams.pageNumber) {
+      let prevPageNumber = parseInt(transition.queryParams.pageNumber) - 1
+      if (prevPageNumber > 0) {
+        this.set('headData.prevPageLink', '?pageNumber=' + prevPageNumber);
+      } else {
+        this.set('headData.prevPageLink', '/');
+      }
+    }
   },
 
   model() {
