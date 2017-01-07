@@ -52,6 +52,10 @@ export default Ember.Service.extend({
       });
     }
 
+    // ajaxRequestBody.xhrFields = {
+    //   withCredentials: true
+    // };
+
     Ember.$.ajax(ajaxRequestBody).then(function(response) {
       successHandler(response, self.get('session').get('data').digests);
     }, function(xhr, status, error) {

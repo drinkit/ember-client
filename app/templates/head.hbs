@@ -4,16 +4,13 @@
   setting values on the 'head-data' service.
 --}}
 <title>{{model.title}}</title>
-<meta name="description" content={{model.description}} />
+<meta name="description" content={{model.description}} >
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@drinkit_guru">
 <meta name="twitter:creator" content="@drinkit_guru">
 <meta name="twitter:title" content={{model.title}}>
 <meta name="twitter:description" content={{model.description}}>
 <meta name="twitter:image" content={{model.image}}>
-{{#if model.prevPageLink}}
-  <link rel="prev" href={{model.prevPageLink}}/>
-{{/if}}
-{{#if model.nextPageLink}}
-  <link rel="prev" href={{model.nextPageLink}}/>
+{{#if model.robots}}
+  <meta name="robots" content={{model.robots}}>
 {{/if}}

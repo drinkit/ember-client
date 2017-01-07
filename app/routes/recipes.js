@@ -14,12 +14,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
     this.set('headData.title', 'Результаты поиска - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
     if (transition.queryParams && transition.queryParams.pageNumber) {
-      let prevPageNumber = parseInt(transition.queryParams.pageNumber) - 1
-      if (prevPageNumber > 0) {
-        this.set('headData.prevPageLink', '?pageNumber=' + prevPageNumber);
-      } else {
-        this.set('headData.prevPageLink', '/');
-      }
+      this.set('headData.robots', 'noindex, follow');
     }
   },
 

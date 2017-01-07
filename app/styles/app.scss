@@ -179,7 +179,9 @@ input:-ms-input-placeholder {
             position: absolute;
             min-width: 0px;
             max-width: 0px;
+            margin-left: 42px;
             padding: 0px;
+            // right: 42px;
             border: none;
             -webkit-transition: all 0.6s ease-in-out;
             -moz-transition: all 0.6s ease-in-out;
@@ -197,7 +199,7 @@ input:-ms-input-placeholder {
         min-width: 220px;
         max-width: 220px;
         padding: 2px 16px 2px 8px;
-        margin-left: -220px;
+        margin-left: -178px;
         border: 1px solid #ccc;
       }
 
