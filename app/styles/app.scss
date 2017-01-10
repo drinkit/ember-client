@@ -161,6 +161,7 @@ input:-ms-input-placeholder {
         height: 42px;
         float: none;
         padding: 11px 9px;
+        border-color: transparent;
 
         .icon-bar+.icon-bar {
           margin-top: 6px;
@@ -207,9 +208,8 @@ input:-ms-input-placeholder {
         width: 42px;
         height: 42px;
         margin-top: 15px;
-        border-color: #ddd;
         background-color: transparent;
-        background-image: url('/assets/search_btn.png');
+        background-image: url('/assets/search-128.png');
         background-size: cover;
       }
     }
