@@ -5,6 +5,7 @@ export default Base.extend({
 
   ajax: Ember.inject.service(),
   currentUser: Ember.inject.service(),
+  oauth: Ember.inject.service(),
 
   restore: function(data) {
     var self = this;
@@ -66,6 +67,7 @@ export default Base.extend({
   },
 
   invalidate: function(data) {
+    this.get('oauth').logout();
     return this._super.apply(this, arguments);
   }
 });

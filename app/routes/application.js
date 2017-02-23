@@ -6,8 +6,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
   actions: {
     logout: function() {
-      this.get('session').invalidate();
       this.get('session').get('data').digests = {};
+      this.get('session').invalidate();
     },
 
     search: function(searchString) {

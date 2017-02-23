@@ -10,7 +10,7 @@
 				{{/if}}
 				<div class="views-icon-container">
 					<img src="/assets/views-icon.svg">
-					<span>{{safeVal recipe.stats.views 0}}</span>
+					<span>{{safe-val recipe.stats.views 0}}</span>
 				</div>
 				<div class="rating-icon-container">
 					{{#if currentUser.isLoggedIn}}
@@ -18,7 +18,7 @@
 					{{else}}
 						<div class="rating-heart-unliked" title="Доступно только для зарегистрированных пользователей" />
 					{{/if}}
-					<span>{{safeVal recipe.stats.likes 0}}</span>
+					<span>{{safe-val recipe.stats.likes 0}}</span>
 				</div>
 			</div>
 		</div>

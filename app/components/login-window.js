@@ -4,7 +4,7 @@ import CryptoJS from 'npm:crypto-js';
 export default Ember.Component.extend({
   session: Ember.inject.service(),
   ajax: Ember.inject.service(),
-  oauthio: Ember.inject.service(),
+  oauth: Ember.inject.service(),
 
   hasError: false,
   isLogining: false,
@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     },
 
     socialLogin(socialNetwork) {
-      this.get('oauthio').login(socialNetwork);
+      this.get('oauth').login(socialNetwork);
       this.sendAction('hideDialog', 'Login');
     },
 
