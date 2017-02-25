@@ -42,5 +42,8 @@ export default Ember.Service.extend({
 
   logout: function() {
     Hello.logout();
+    this.get('session.data').digests = {};
+    this.get('session.store').clear();
+    this.get('session').invalidate();
   }
 });

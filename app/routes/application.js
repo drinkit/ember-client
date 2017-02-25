@@ -3,11 +3,11 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 
 export default Ember.Route.extend(ApplicationRouteMixin, {
   currentUser: Ember.inject.service(),
+  oauth: Ember.inject.service(),
 
   actions: {
     logout: function() {
-      this.get('session').get('data').digests = {};
-      this.get('session').invalidate();
+      this.get('oauth').logout();
     },
 
     search: function(searchString) {
