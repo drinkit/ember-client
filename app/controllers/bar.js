@@ -44,6 +44,7 @@ export default Ember.Controller.extend({
 
   ingredientsIdsChanged: Ember.observer('user.barItems.[]', function() {
     const user = this.get('user');
+    this.set('suggestedIngredientsInitialized', true);
     if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
       const repository = this.get('repository');
       const store = this.get('simpleStore');
