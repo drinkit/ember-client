@@ -3,6 +3,42 @@ $orange-beach: #FFB000;
 $violet: #464077;
 $light-green: #00AC8D;
 
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
 body {
   background-image: url("/assets/new-pattern.jpg");
   @media (min-width: 768px) {
@@ -542,6 +578,7 @@ h3 {
 div.validated-input {
   position: relative;
 }
+
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
@@ -560,3 +597,4 @@ $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "spinkit-three-bounce.scss";
 @import "error404.scss";
 @import "burger.scss";
+@import "ingredients.scss";

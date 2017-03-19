@@ -14,6 +14,10 @@ Router.map(function() {
   this.route('recipes');
   this.route('bar');
   this.route('error404', {path: '/*wildcard'});
+  this.route('ingredients');
+  this.route('ingredient', {
+    path: '/ingredients/:ingredient_id'
+  });
 });
 
 export default Router;

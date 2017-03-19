@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <div class="row">
+    {{#each-in ingredientsInCategories as |category ingredients|}}
+      <div class="ingredients-col col-md-5ths col-xs-6">
+        <h3>{{category}}</h3>
+        <ul class="ingredients-list">
+          {{#each ingredients as |ingr|}}
+            <li><a href="{{href-to 'ingredient' ingr.id}}">{{ingr.name}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/each-in}}
+  </div>
+</div>

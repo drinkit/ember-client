@@ -1,0 +1,34 @@
+div.ingredients-col {
+  ul.ingredients-list {
+    list-style-type: none;
+    padding-left: 0;
+
+    a {
+      font-family: "CenturyGothic";
+    }
+  }
+
+  h3 {
+    text-align: left;
+    font-size: 16px;
+  }
+}
+
+#ingrName {
+  font-family: Georgia;
+  color: #464077;
+  font-style: italic;
+  -webkit-font-smoothing: antialiased;
+}
+
+#ingrAttrList {
+  list-style-type: none;
+  padding-left: 0px;
+
+  > li {
+    font-family: "CenturyGothic";
+    text-align: left;
+    font-size: 16px;
+    line-height: 30px;
+  }
+}
