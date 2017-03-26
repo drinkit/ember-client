@@ -32,3 +32,33 @@ div.ingredients-col {
     line-height: 30px;
   }
 }
+
+.suggest-recipes {
+  margin-bottom: 4px;
+  margin-top: 4px;
+
+  #suggested-recipes-into {
+    display: block;
+    font-family: "CenturyGothic";
+    font-size: 18px;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+.mini-recipe {
+  text-align: center;
+
+  span {
+    text-align: center;
+    font-family: Georgia;
+    color: $violet;
+    display: inline-block;
+    height: 38px;
+  }
+  img {
+    width: 134px;
+    height: 178px;
+  }
+}
