@@ -6,14 +6,24 @@ export default Ember.Route.extend({
 
   model(params) {
     const repository = this.get('repository');
-    return repository.findOne('ingredient', params.ingredient_id, {
-      url: '/ingredients/' + params.ingredient_id,
-      method: 'GET'
+    return new Ember.RSVP.hash({
+      ingredients: repository.find('ingredient', {
+        url: '/ingredients',
+        method: 'GET'
+      }),
+      ingredientId: params.ingredient_id
     });
   },
 
+  setupController: function(controller, modelHash) {
+    controller.setProperties(modelHash);
+  },
+
   afterModel(model) {
-    this.set('headData.title', model.get('name') + ' - drinkIt');
-    this.set('headData.description', model.description);
+    const repository = this.get('repository');
+    repository.findOne('ingredient', model.ingredientId).then((ingredient) => {
+      this.set('headData.title', ingredient.get('name') + ' - drinkIt');
+      this.set('headData.description', ingredient.description);
+    })
   },
 });

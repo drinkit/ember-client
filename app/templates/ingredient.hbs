@@ -2,7 +2,7 @@
 	<div id="recipeView" class="row">
 		<div id="imageCon" class="col-md-5">
 			<div>
-				{{#if model.imageUrl}}
+				{{#if currentIngredient.imageUrl}}
 					<img itemprop="image" alt={{recipe.name}} src={{model.fullImageUrl}}>
 					<img id="emptyImage" src="/assets/bigcocktail.png" />
 				{{else}}
@@ -11,18 +11,18 @@
 			</div>
 		</div>
 		<div class="col-md-7 description">
-			<h1 id="ingrName" itemprop="name">{{model.name}}</h1>
-			{{#if model.originalName}}
-				<h2 id="originalName">{{model.originalName}}</h2>
+			<h1 id="ingrName" itemprop="name">{{currentIngredient.name}}</h1>
+			{{#if currentIngredient.originalName}}
+				<h2 id="originalName">{{currentIngredient.originalName}}</h2>
 			{{/if}}
 			<div>
 				<ul id="ingrAttrList">
-					<li itemprop="category">Категория: {{model.category}}</li>
-          <li>Крепость: {{model.vol}}%</li>
+					<li itemprop="category">Категория: {{currentIngredient.category}}</li>
+          <li>Крепость: {{currentIngredient.vol}}%</li>
 				</ul>
 			</div>
 			<div itemprop="description">
-				{{markdown-to-html model.description extensions="internal-links"}}
+				{{markdown-to-html currentIngredient.description extensions="internal-links"}}
 			</div>
 		</div>
 	</div>

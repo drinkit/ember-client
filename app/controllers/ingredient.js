@@ -3,9 +3,13 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   repository: Ember.inject.service(),
   simpleStore: Ember.inject.service(),
+  currentUser: Ember.inject.service(),
+  currentIngredient: null,
 
-  modelChanged: Ember.observer('model', function() {
-    this.updateSuggestedRecipes(this.get('model'));
+  modelChanged: Ember.observer('ingredientId', function() {
+    const store = this.get('simpleStore');
+    this.set('currentIngredient', store.find('ingredient', this.get('ingredientId')));
+    this.updateSuggestedRecipes(this.get('currentIngredient'));
   }),
 
   updateSuggestedRecipes(model) {
@@ -25,8 +29,13 @@ export default Ember.Controller.extend({
         })
       }
     }).then(function(response) {
+      let user = self.get('currentUser');
+      let filteredSuggestedRecipes = response;
+      if (user.get('role') != 'ADMIN') {
+        filteredSuggestedRecipes = response.filter((item) => item.get('published'));
+      }
       self.set('suggestedRecipesInitialized', true);
-      self.set('suggestedRecipes', response);
+      self.set('suggestedRecipes', filteredSuggestedRecipes);
     }, function() {
       self.set('suggestedRecipesInitialized', true);
       self.set('suggestedRecipes', []);
