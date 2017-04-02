@@ -48,21 +48,25 @@ body {
   height: 100%;
 }
 @font-face {
-  src: url("/assets/fonts/CenturyGothic.ttf");
-  font-family: "CenturyGothic";
+  src: url("/assets/fonts/CenturyGothic.ttf") format('truetype');
+  src: url("/assets/fonts/CenturyGothic.woff") format('woff');
+  font-family: "Century Gothic";
 }
 @font-face {
-  src: url("/assets/fonts/CenturyGothic-Italic.ttf");
-  font-family: "CenturyGothic";
+  src: url("/assets/fonts/CenturyGothic-Italic.ttf") format('truetype');
+  src: url("/assets/fonts/CenturyGothic-Italic.woff") format('woff');
+  font-family: "Century Gothic";
   font-style: italic;
 }
 @font-face {
-  src: url("/assets/fonts/CenturyGothic-Bold.ttf");
-  font-family: "CenturyGothic";
+  src: url("/assets/fonts/CenturyGothic-Bold.ttf") format('truetype');
+  src: url("/assets/fonts/CenturyGothic-Bold.woff") format('woff');
+  font-family: "Century Gothic";
   font-weight: bold;
 }
 @font-face {
-  src: url("/assets/fonts/Georgia-BoldItalic.ttf");
+  src: url("/assets/fonts/Georgia-BoldItalic.ttf") format('truetype');
+  src: url("/assets/fonts/Georgia-BoldItalic.woff") format('woff');
   font-family: "Georgia";
   font-style: italic;
   font-weight: bold;
@@ -118,29 +122,30 @@ input:-ms-input-placeholder {
   }
 }
 
-#page-header {
-  background-image: url("/assets/pattern-top.png");
-  background-repeat: repeat-x;
-  width: auto;
-  height: 92px;
-
-  img {
-    margin-left: 15px;
-    margin-top: 6px;
-  }
-}
-
 #content-frame {
-  background-image: url("/assets/pattern-top.png");
-  background-repeat: repeat-x;
+  // background-image: url("/assets/pattern-top-big.png");
+  // background-repeat: repeat-x;
+  // background-size: contain;
   width: auto;
   padding-left: 20px;
   padding-top: 5px;
   height: auto !important;
   min-height: 100%;
 
+  #top-pattern {
+    margin-left: -20px;
+    margin-top: -5px;
+    background-image: url("/assets/pattern-top-big.png");
+    background-repeat: repeat-x;
+    background-size: contain;
+    height: 92px;
+    width: 1024px;
+    display: inline-block;
+    position: absolute;
+  }
+
   > span {
-    font-family: "CenturyGothic";
+    font-family: "Century Gothic";
   }
 
   > hr {
@@ -313,7 +318,7 @@ input:-ms-input-placeholder {
   font-size: 24px;
   color: $orange-beach;
   background: none;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
 }
 
 .nav > li > a:focus,
@@ -392,7 +397,7 @@ input:-ms-input-placeholder {
   }
 }
 .search-by-name {
-  font-family: "CenturyGothic";
+  font-family: "Century Gothic";
 
   > input {
     min-width: 200px;
@@ -428,7 +433,7 @@ h3 {
   color: #78A590;
   font-size: 18px;
   text-align: center;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
 }
 
 #builder-view {
@@ -474,7 +479,7 @@ h3 {
 
   > p {
     font-size: 24px;
-    font-family: "CenturyGothic";
+    font-family: "Century Gothic";
     text-align: center;
     width: 65%;
     margin-left: auto;
@@ -514,7 +519,7 @@ h3 {
 
 .btn-default,
 .btn-default:focus {
-  font-family: "CenturyGothic";
+  font-family: "Century Gothic";
   font-size: 14px;
   font-weight: bold;
   height: 36px;
@@ -544,7 +549,7 @@ h3 {
 
 .text-button,
 .text-button:hover {
-  font-family: "CenturyGothic";
+  font-family: "Century Gothic";
   font-size: 14px;
   text-decoration: underline;
   cursor: pointer;

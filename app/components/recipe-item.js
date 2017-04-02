@@ -64,7 +64,7 @@ export default Ember.Component.extend({
       ingredients.forEach(function(item) {
         ingredientsWithWidths.push({
           item: item,
-          width: that.getTextWidth(item.name, "12px CenturyGothic") + 10
+          width: that.getTextWidth(item.name, "12px Century Gothic") + 10
         });
       });
       ingredientsWithWidths = ingredientsWithWidths.sortBy("width");

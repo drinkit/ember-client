@@ -4,7 +4,7 @@ div.ingredients-col {
     padding-left: 0;
 
     a {
-      font-family: "CenturyGothic";
+      font-family: "Century Gothic";
     }
   }
 
@@ -18,7 +18,7 @@ div.ingredients-col {
   font-family: Georgia;
   color: #464077;
   font-style: italic;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
 }
 
 #ingrAttrList {
@@ -26,7 +26,7 @@ div.ingredients-col {
   padding-left: 0px;
 
   > li {
-    font-family: "CenturyGothic";
+    font-family: "Century Gothic";
     text-align: left;
     font-size: 16px;
     line-height: 30px;
@@ -39,7 +39,7 @@ div.ingredients-col {
 
   #suggested-recipes-into {
     display: block;
-    font-family: "CenturyGothic";
+    font-family: "Century Gothic";
     font-size: 18px;
     margin-left: 15px;
     margin-top: 15px;
