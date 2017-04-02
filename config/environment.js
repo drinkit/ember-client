@@ -7,8 +7,8 @@ module.exports = function(environment) {
     rootURL: '/',
     locationType: 'auto',
     contentSecurityPolicy: {
-      'font-src': "'self'",
-      'style-src': "'self' 'unsafe-inline'",
+      'font-src': "'self' https://fonts.gstatic.com/l/font",
+      'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
       'script-src': "'self' www.google-analytics.com api.vk.com",
       'connect-src': "'self' http://localhost:8080 www.google-analytics.com http://server-drunkedguru.rhcloud.com https://prod-drunkedguru.rhcloud.com https://graph.facebook.com",
       'img-src': "'self' https://prod-drunkedguru.rhcloud.com http://server-drunkedguru.rhcloud.com www.google-analytics.com data:"

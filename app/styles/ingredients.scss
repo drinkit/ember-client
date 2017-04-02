@@ -1,0 +1,64 @@
+div.ingredients-col {
+  ul.ingredients-list {
+    list-style-type: none;
+    padding-left: 0;
+
+    a {
+      font-family: "Century Gothic";
+    }
+  }
+
+  h3 {
+    text-align: left;
+    font-size: 16px;
+  }
+}
+
+#ingrName {
+  font-family: Georgia;
+  color: #464077;
+  font-style: italic;
+  -webkit-font-smoothing: auto;
+}
+
+#ingrAttrList {
+  list-style-type: none;
+  padding-left: 0px;
+
+  > li {
+    font-family: "Century Gothic";
+    text-align: left;
+    font-size: 16px;
+    line-height: 30px;
+  }
+}
+
+.suggest-recipes {
+  margin-bottom: 4px;
+  margin-top: 4px;
+
+  #suggested-recipes-into {
+    display: block;
+    font-family: "Century Gothic";
+    font-size: 18px;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+}
+
+.mini-recipe {
+  text-align: center;
+
+  span {
+    text-align: center;
+    font-family: Georgia;
+    color: $violet;
+    display: inline-block;
+    height: 38px;
+  }
+  img {
+    width: 134px;
+    height: 178px;
+  }
+}
