@@ -6,8 +6,10 @@
   box-shadow: 1px 2px 8px 1px #999999;
   padding-left: 0;
   padding-right: 0;
+
   > a {
     text-decoration: none;
+
     > div {
       height: 100%;
       padding-left: 0;
@@ -19,10 +21,7 @@
         width: 134px;
         height: 178px;
         float: left;
-        margin-top: 4px;
-        margin-left: 4px;
-        margin-bottom: 4px;
-        margin-right: 5px;
+        margin: 4px 5px 4px 4px;
         border: 1px solid #e0e0e0;
 
         > div {
@@ -32,7 +31,7 @@
 
           > .views-icon-container {
             position: absolute;
-            top: 0px;
+            top: 0;
             left: 5px;
             opacity: 0.7;
 
@@ -52,7 +51,7 @@
           > .rating-icon-container {
             position: absolute;
             right: 5px;
-            top: 0px;
+            top: 0;
             opacity: 0.7;
 
             > img {
@@ -72,18 +71,18 @@
 
       > div {
         text-align: center;
+
         > #tags {
           position: absolute;
           bottom: 11px;
           left: 150px;
-          right: 0px;
+          right: 0;
           text-align: left;
 
           > img {
             width: 24px;
             height: 24px;
           }
-
           @media (min-width: 768px) {
             > img {
               width: 32px;
@@ -91,10 +90,12 @@
             }
           }
         }
+
         > #ingredients {
           text-align: left;
           padding-top: 5px;
           padding-right: 5px;
+
           span {
             text-align: center;
             display: inline-block;
@@ -103,20 +104,15 @@
             border: 0;
             height: 25px;
             min-width: 25px;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-top: 4px;
-            padding-bottom: 5px;
+            padding: 4px 5px 5px;
             line-height: normal;
             color: #1c1c1c;
             font-size: 11px;
             overflow: hidden;
             text-overflow: ellipsis;
-
             @media (min-width: 768px) {
               font-size: 12px;
             }
-
             font-family: "Century Gothic";
             -webkit-font-smoothing: auto;
           }
@@ -125,15 +121,19 @@
     }
   }
 }
+
 .recipe-box:hover {
   background-color: rgba(255, 174, 0, 0.1);
 }
+
 .selected-ingredient {
   background-color: $orange-beach;
 }
+
 .unselected-ingredient {
   background-color: #e0e0e0;
 }
+
 .recipe-name-text {
   font-family: "Georgia";
   font-weight: bold;
@@ -148,11 +148,12 @@
     font-size: 20px;
   }
 }
+
 #devMode {
   color: red;
   position: absolute;
   text-align: center;
   width: 100%;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
 }

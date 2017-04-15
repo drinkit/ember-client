@@ -3,14 +3,29 @@ div.ingredients-col {
     list-style-type: none;
     padding-left: 0;
 
+    li {
+      line-height: 25px;
+    }
+
     a {
       font-family: "Century Gothic";
+      color: black;
+      text-decoration: underline;
+    }
+
+    a:hover {
+      opacity: 0.7;
     }
   }
 
   h3 {
     text-align: left;
     font-size: 16px;
+    height: 45px;
+    color: $orange-beach;
+    @media(max-width: 767px) {
+      font-size: 18px;
+    }
   }
 }
 
@@ -23,7 +38,7 @@ div.ingredients-col {
 
 #ingrAttrList {
   list-style-type: none;
-  padding-left: 0px;
+  padding-left: 0;
 
   > li {
     font-family: "Century Gothic";
@@ -34,29 +49,66 @@ div.ingredients-col {
 }
 
 .suggest-recipes {
-  margin-bottom: 4px;
   margin-top: 4px;
+
+  .suggest-recipes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-left: -18px;
+    margin-right: -18px;
+  }
 
   #suggested-recipes-into {
     display: block;
     font-family: "Century Gothic";
     font-size: 18px;
-    margin-left: 15px;
     margin-top: 15px;
     margin-bottom: 10px;
   }
 }
 
 .mini-recipe {
-  text-align: center;
+  width: 134px;
+  height: 216px;
+  margin-right: 18px;
+  margin-left: 18px;
+  margin-bottom: 15px;
+  position: relative;
+
+  > div.mini-recipe-container {
+    border-radius: 5px;
+    box-shadow: 1px 2px 8px 1px #999999;
+    text-align: center;
+    overflow: hidden;
+    background-color: white;
+  }
+
+  > .hover-image {
+    width: 134px;
+    height: 216px;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    -webkit-transition: opacity 0.1s;
+    transition: opacity 0.1s;
+  }
+
+  > .hover-image:hover {
+    background-color: rgba(255, 174, 0, 0.1);
+    opacity: 1;
+  }
 
   span {
+    padding-left: 3px;
+    padding-right: 3px;
     text-align: center;
     font-family: Georgia;
     color: $violet;
     display: inline-block;
     height: 38px;
   }
+
   img {
     width: 134px;
     height: 178px;

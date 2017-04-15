@@ -123,9 +123,6 @@ input:-ms-input-placeholder {
 }
 
 #content-frame {
-  // background-image: url("/assets/pattern-top-big.png");
-  // background-repeat: repeat-x;
-  // background-size: contain;
   width: auto;
   padding-left: 20px;
   padding-top: 5px;
@@ -142,6 +139,10 @@ input:-ms-input-placeholder {
     width: 1024px;
     display: inline-block;
     position: absolute;
+
+    @media (max-width: 1023px) {
+      width: 100%;
+    }
   }
 
   > span {

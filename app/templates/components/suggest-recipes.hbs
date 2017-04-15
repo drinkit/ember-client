@@ -1,17 +1,20 @@
 {{#if hasData}}
   <span id="suggested-recipes-into">Коктейли с этим ингредиентом:</span>
-  {{#each filteredSuggestedRecipes as |recipe|}}
-    <a class="mini-recipe" href= {{href-to 'recipe' recipe.id}}>
-      <div class="col-md-2 col-xs-6">
-        <span>{{recipe.name}}</span>
-        {{#if recipe.thumbnailUrl}}
-          <img alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
-        {{else}}
-          <img src="/assets/emptycocktail.png">
-        {{/if}}
-      </div>
-    </a>
-  {{/each}}
+  <div class="suggest-recipes-container">
+    {{#each filteredSuggestedRecipes as |recipe|}}
+      <a class="mini-recipe" href= {{href-to 'recipe' recipe.id}}>
+        <div class="mini-recipe-container">
+          <span>{{recipe.name}}</span>
+          {{#if recipe.thumbnailUrl}}
+            <img alt= {{recipe.name}} src= {{recipe.fullThumbnailUrl}}>
+          {{else}}
+            <img src="/assets/emptycocktail.png">
+          {{/if}}
+        </div>
+        <span class="hover-image" />
+      </a>
+    {{/each}}
+  </div>
   {{else if initialized}}
 {{else}}
   {{spinkit-three-bounce}}

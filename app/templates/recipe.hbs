@@ -45,7 +45,7 @@
 				{{#each recipeIngredients as |ingredient|}}
 					<div class="consistRow">
 						<div class="leftColumn">
-							<span itemprop="recipeIngredient">{{ingredient.name}}</span>
+							<a itemprop="recipeIngredient" href={{href-to 'ingredient' ingredient.id}}><span>{{ingredient.name}}</span></a>
 						</div>
 						<div class="rightColumn">
 							<span>{{humanize-quantity ingredient.quantity ingredient.unit}}</span>

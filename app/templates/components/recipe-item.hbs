@@ -4,7 +4,7 @@
 			<div class="recipe-image-container">
 				<div>
 					{{#if recipe.thumbnailUrl}}
-						<img alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
+						<img alt= {{recipe.name}} src= {{recipe.fullThumbnailUrl}}>
 					{{else}}
 						<img src="/assets/emptycocktail.png">
 					{{/if}}
@@ -14,9 +14,9 @@
 					</div>
 					<div class="rating-icon-container">
 						{{#if isLiked}}
-						  <img src="/assets/filled-heart.svg">
+							<img src="/assets/filled-heart.svg">
 						{{else}}
-						  <img src="/assets/heart.svg">
+							<img src="/assets/heart.svg">
 						{{/if}}
 						<span>{{safe-val recipe.stats.likes 0}}</span>
 					</div>
@@ -29,7 +29,7 @@
 				<span class="recipe-name-text">{{recipe.name}}</span>
 				<div id="ingredients">
 					{{#each sortedIngredients as |ingredient|}}
-						<span title="{{ingredient.tooltip}}" style={{maxIngredientWidthStyle}} class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
+						<span title="{{ingredient.tooltip}}" style= {{maxIngredientWidthStyle}} class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
 					{{/each}}
 				</div>
 				<div id="tags">

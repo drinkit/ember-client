@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['suggest-recipes', 'row'],
+  classNames: ['suggest-recipes'],
   maxRecipes: 6,
   initialized: false,
   suggestedRecipes: [],
