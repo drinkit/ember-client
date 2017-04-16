@@ -5,7 +5,7 @@
         <h3>{{category}}</h3>
         <ul class="ingredients-list">
           {{#each ingredients as |ingr|}}
-            <li><a href="{{href-to 'ingredient' ingr.id}}">{{ingr.name}}</a></li>
+            <li><a class="local-link" href="{{href-to 'ingredient' ingr.id}}">{{ingr.name}}</a></li>
           {{/each}}
         </ul>
       </div>

@@ -22,6 +22,7 @@ export default Ember.Component.extend({
       let recipesIds = sugIngredient.get('recipeIds');
       let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') == 'ADMIN'));
       ingredientsCocktails.push({
+        id: ingredient.get('id'),
         name: ingredient.get('name'),
         recipes: sugRecipes.get('content'),
         hasData: sugRecipes.get('content.length') > 0
@@ -35,11 +36,12 @@ export default Ember.Component.extend({
     let phrases = [];
     const cocktailsCount = 3;
     for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
-      if (!this.get('ingredientsCocktails')[i].hasData) {
+      let ingredient = this.get('ingredientsCocktails')[i];
+      if (!ingredient.hasData) {
         continue;
       }
-      let phrase = '**' + this.get('ingredientsCocktails')[i].name + '** - ';
-      let cocktails = this.get('ingredientsCocktails')[i].recipes;
+      let phrase = '**[' + ingredient.name + '](/ingredients/' + ingredient.id + ')** - ';
+      let cocktails = ingredient.recipes;
       for (var k = 0; k < cocktails.length; k++) {
         if (k == cocktailsCount) {
           break;
@@ -56,8 +58,11 @@ export default Ember.Component.extend({
     }
     return phrases;
   }),
-  // works wrong with 11 - 19
+
   getCocktailsEnding(number) {
+    if (number >= 11 && number <= 19) {
+      return Ember.String.htmlSafe(number.toString() + ' коктейлей.');
+    }
     switch (number % 10) {
       case 0:
       case 5:
