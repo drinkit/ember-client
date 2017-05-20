@@ -4,28 +4,16 @@
     <div class="container-fluid bar-container">
       <div class="row">
         <div id="firstBarColumn" class="col-md-6">
-          {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits onRemoveItem=(action "ingredientRemoved")}} {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors onRemoveItem=(action "ingredientRemoved")}}
+          {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors onRemoveItem=(action "itemDeleted")}}
         </div>
         <div id="secondBarColumn" class="col-md-6">
-          {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits onRemoveItem=(action "ingredientRemoved")}} {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits onRemoveItem=(action
-          "ingredientRemoved")}} {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other onRemoveItem=(action "ingredientRemoved")}}
+          {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits onRemoveItem=(action
+          "itemDeleted")}} {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other onRemoveItem=(action "itemDeleted")}}
         </div>
-      </div>
-    </div>
-    <div id="removedIngredientsContainer" class="bar-category-box">
-      <span>Закончились</span>
-      <div>
-        {{#each removedIngredients as |ingredient|}}
-          <span class="ember-power-select-multiple-option">
-            <span {{action "itemDeleted" ingredient}} class="ember-power-select-multiple-remove-btn">×</span>
-            <div {{action "itemRestored" ingredient}} class="arrow-up-btn"/>
-            {{ingredient.name}}
-          </span>
-        {{/each}}
       </div>
     </div>
   </div>
-  {{suggest-ingredients suggestedIngredients=suggestedIngredients initialized=suggestedIngredientsInitialized}}
+    {{suggest-ingredients suggestedIngredients=suggestedIngredients initialized=suggestedIngredientsInitialized}}
 {{else}}
   <span class="closed-bar-text">
     Чтобы воспользоваться баром, нужно <a {{action "showLogin"}}>авторизироваться</a> на сайте.
