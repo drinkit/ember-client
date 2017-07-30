@@ -35,13 +35,16 @@ export default Ember.Service.extend({
             }
           });
       });
-    }
+    };
     Hello.on('auth.login', onAuth);
     Hello(socialNetwork).login();
   },
 
   logout: function() {
-    Hello.logout();
+    Hello('vk').logout();
+    Hello('google').logout();
+    Hello('facebook').logout();
+    //
     this.get('session.data').digests = {};
     this.get('session.store').clear();
     this.get('session').invalidate();

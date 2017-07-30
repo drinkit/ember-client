@@ -7,6 +7,7 @@ module.exports = function(environment) {
     rootURL: '/',
     locationType: 'auto',
     contentSecurityPolicy: {
+      'frame-src': "'self' oauth.vk.com",
       'font-src': "'self' https://fonts.gstatic.com/l/font",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
       'script-src': "'self' www.google-analytics.com api.vk.com",
