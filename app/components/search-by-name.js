@@ -7,6 +7,14 @@ export default Ember.Component.extend({
     search: function(value) {
       this.sendAction('search', value);
       $('input[type="search"]').blur();
+    },
+
+    searchAsync(term) {
+      
+    },
+
+    processSearch() {
+
     }
   }
 });
