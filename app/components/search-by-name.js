@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   burgerMenu: Ember.inject.service(),
   classNames: ['search-by-name', 'form-group'],
-  searchableItems: ['test123', 'проверка', 'раз раз'],
   actions: {
     search: function(value) {
       this.sendAction('search', value);
