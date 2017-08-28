@@ -1,2 +1,3 @@
-{{!-- {{input class="form-control" type="search" placeholder="Поиск по названию..." enter="search" value=searchString}} --}}
-{{!-- {{power-select-typeahead placeholder="Поиск по названию..." search=(action 'searchAsync') selected=selected onchange=(action 'processSearch')}} --}}
+{{#power-select-typeahead placeholder="Поиск по названию..." options=searchableItems selected=selected onchange=(action 'processSearch') as |element|}}
+  {{element}}
+{{/power-select-typeahead}}
