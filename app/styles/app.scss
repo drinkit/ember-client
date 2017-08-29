@@ -230,7 +230,7 @@ input:-ms-input-placeholder {
           height: 42px;
           display: inline;
 
-          > input {
+          > div {
             margin-top: 15px;
             display: inline;
             height: 42px;
@@ -253,8 +253,18 @@ input:-ms-input-placeholder {
         outline: none;
       }
 
-      .search > #mobileSearch > input:focus,
-      > .search:focus > #mobileSearch > input {
+      .search > #mobileSearch > div {
+        @if .search > #mobileSearch > div > input:focus {
+          min-width: 220px;
+          max-width: 220px;
+          padding: 2px 16px 2px 8px;
+          margin-left: -178px;
+          border: 1px solid #ccc;
+        }
+      }
+
+      .search > #mobileSearch > div:focus,
+      > .search:focus > #mobileSearch > div {
         min-width: 220px;
         max-width: 220px;
         padding: 2px 16px 2px 8px;
@@ -409,7 +419,7 @@ input:-ms-input-placeholder {
 .search-by-name {
   font-family: "Century Gothic";
 
-  > input {
+  > div {
     min-width: 200px;
     height: 30px;
     padding: 2px 16px 2px 8px;
@@ -418,7 +428,7 @@ input:-ms-input-placeholder {
     text-indent: 1px;
   }
 
-  > input:focus {
+  > div:focus {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-color: #ccc;
@@ -596,7 +606,8 @@ div.validated-input {
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
-@import "ember-power-select.scss";
+@import "ember-power-select";
+@import "ember-power-select-typeahead";
 @import "filters-menu.scss";
 @import "big-toggle-button.scss";
 @import "option-toggle-button.scss";
