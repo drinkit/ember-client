@@ -153,12 +153,14 @@ input:-ms-input-placeholder {
   }
 }
 
-.local-link, .ember-href-to {
+.ember-href-to,
+.local-link {
   color: black;
   text-decoration: underline;
 }
 
-.local-link:hover, .ember-href-to:hover {
+.ember-href-to:hover,
+.local-link:hover {
   opacity: 0.7;
   color: black;
   text-decoration: underline;
@@ -187,8 +189,8 @@ input:-ms-input-placeholder {
       }
     }
 
-     > .navbar-header:before,
-    .navbar-header:after {
+    .navbar-header:after,
+    > .navbar-header:before {
       display: flex;
       content: normal;
     }
@@ -224,7 +226,7 @@ input:-ms-input-placeholder {
         }
       }
 
-      > .search {
+      > .search-box-mobile {
         > #mobileSearch {
           width: 42px;
           height: 42px;
@@ -239,7 +241,6 @@ input:-ms-input-placeholder {
             max-width: 0;
             margin-left: 42px;
             padding: 0;
-            // right: 42px;
             border: none;
             -webkit-transition: all 0.6s ease-in-out;
             -moz-transition: all 0.6s ease-in-out;
@@ -249,22 +250,11 @@ input:-ms-input-placeholder {
         }
       }
 
-      > .search:focus {
+      > .search-box-mobile:focus {
         outline: none;
       }
 
-      .search > #mobileSearch > div {
-        @if .search > #mobileSearch > div > input:focus {
-          min-width: 220px;
-          max-width: 220px;
-          padding: 2px 16px 2px 8px;
-          margin-left: -178px;
-          border: 1px solid #ccc;
-        }
-      }
-
-      .search > #mobileSearch > div:focus,
-      > .search:focus > #mobileSearch > div {
+      > .search-box-mobile:focus-within > #mobileSearch > div {
         min-width: 220px;
         max-width: 220px;
         padding: 2px 16px 2px 8px;
@@ -319,7 +309,7 @@ input:-ms-input-placeholder {
           display: none;
         }
 
-        .search {
+        .search-box-mobile {
           display: none;
         }
       }
@@ -419,7 +409,7 @@ input:-ms-input-placeholder {
 .search-by-name {
   font-family: "Century Gothic";
 
-  > div {
+  > div[role="button"] {
     min-width: 200px;
     height: 30px;
     padding: 2px 16px 2px 8px;
@@ -428,7 +418,7 @@ input:-ms-input-placeholder {
     text-indent: 1px;
   }
 
-  > div:focus {
+  > div[role="button"]:focus {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-color: #ccc;
@@ -602,6 +592,10 @@ h3 {
 
 div.validated-input {
   position: relative;
+}
+
+.ember-power-select-search-input {
+  text-indent: 2px;
 }
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-modal-dialog/ember-modal-structure";

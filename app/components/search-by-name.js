@@ -5,16 +5,24 @@ export default Ember.Component.extend({
   classNames: ['search-by-name', 'form-group'],
   actions: {
     search: function(value) {
-      this.sendAction('search', value);
-      $('input[type="search"]').blur();
+      // this.sendAction('search', value);
+      // $('input[type="search"]').blur();
     },
 
     searchAsync(term) {
 
     },
 
-    processSearch() {
+    processSearch(term) {
 
+    },
+
+    preventShortSearch(text, select) {
+      if (select.searchText.length >= 3 && text.length < 3) {
+        return '';
+      } else {
+        return text.length >= 3;
+      }
     }
   }
 });
