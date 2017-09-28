@@ -6,6 +6,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   oauth: Ember.inject.service(),
   repository: Ember.inject.service(),
 
+  searchableItems: [],
+
   actions: {
     logout: function() {
       this.get('oauth').logout();
@@ -29,6 +31,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
     console.log("logout");
   },
 
+  setupController(controller, model) {
+    this._super(controller, model);
+    controller.set('searchableItems', this.get('searchableItems'));
+  },
+
   afterModel(model) {
     const self = this;
     let options = [];
@@ -38,8 +45,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         url: '/ingredients',
         method: 'GET'
       }).then((result) => {
-        let items = result.map(i => i.get('name'));
-        options.push({groupName: 'Ингредиенты', options: items});
+        let items = result.map(i => ({
+          name: i.get('name'),
+          route: 'ingredient',
+          id: i.get('id')
+        }));
+        options.push({
+          groupName: 'Ингредиенты',
+          options: items
+        });
         return repository.find('recipe', {
           url: '/recipes',
           method: 'GET',
@@ -53,9 +67,16 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         });
       }).then((result) => {
         const user = self.get('currentUser');
-        let items = result.filter(i => i.get('published') || user.get('role') == 'ADMIN').map(i => i.get('name'));
-        options.unshift({groupName: 'Коктейли', options: items});
-        self.get('controller').set('searchableItems', options);
+        let items = result.filter(i => i.get('published') || user.get('role') == 'ADMIN').map(i => ({
+          name: i.get('name'),
+          route: 'recipe',
+          id: i.get('id')
+        }));
+        options.unshift({
+          groupName: 'Коктейли',
+          options: items
+        });
+        self.set('searchableItems', options);
       });
     });
   }

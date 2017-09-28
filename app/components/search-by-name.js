@@ -3,6 +3,9 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   burgerMenu: Ember.inject.service(),
   classNames: ['search-by-name', 'form-group'],
+
+  router: Ember.inject.service(),
+
   actions: {
     keyPressed: function(obj, key) {
       if (key.which == 13 || key.keyCode == 13) {
@@ -16,7 +19,9 @@ export default Ember.Component.extend({
     },
 
     processSearch(term) {
-
+      if (term) {
+        this.get('router').transitionTo(term.route, term.id);
+      }
     },
 
     preventShortSearch(text, select) {
