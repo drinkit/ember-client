@@ -4,9 +4,11 @@ export default Ember.Component.extend({
   burgerMenu: Ember.inject.service(),
   classNames: ['search-by-name', 'form-group'],
   actions: {
-    search: function(value) {
-      // this.sendAction('search', value);
-      // $('input[type="search"]').blur();
+    keyPressed: function(obj, key) {
+      if (key.which == 13 || key.keyCode == 13) {
+        this.sendAction('search', obj.searchText);
+        $('input[type="search"]').blur();
+      }
     },
 
     searchAsync(term) {

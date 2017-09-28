@@ -31,6 +31,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 
   afterModel(model) {
     const self = this;
+    let options = [];
     Ember.run.schedule('afterRender', this, function() {
       const repository = self.get('repository');
       repository.find('ingredient', {
@@ -38,7 +39,23 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         method: 'GET'
       }).then((result) => {
         let items = result.map(i => i.get('name'));
-        self.get('controller').set('searchableItems', items);
+        options.push({groupName: 'Ингредиенты', options: items});
+        return repository.find('recipe', {
+          url: '/recipes',
+          method: 'GET',
+          data: {
+            criteria: JSON.stringify({
+              ingredients: [],
+              cocktailTypes: [],
+              options: []
+            })
+          }
+        });
+      }).then((result) => {
+        const user = self.get('currentUser');
+        let items = result.filter(i => i.get('published') || user.get('role') == 'ADMIN').map(i => i.get('name'));
+        options.unshift({groupName: 'Коктейли', options: items});
+        self.get('controller').set('searchableItems', options);
       });
     });
   }
