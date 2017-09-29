@@ -77,6 +77,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
           options: items
         });
         self.set('searchableItems', options);
+        if (self.get('controller')) {
+          self.get('controller').set('searchableItems', options);
+        }
       });
     });
   }

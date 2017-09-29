@@ -8,7 +8,7 @@ export default Ember.Component.extend({
 
   actions: {
     keyPressed: function(obj, key) {
-      if (key.which == 13 || key.keyCode == 13) {
+      if (!obj.selected && (key.which == 13 || key.keyCode == 13)) {
         this.sendAction('search', obj.searchText);
         $('input[type="search"]').blur();
       }
@@ -25,10 +25,9 @@ export default Ember.Component.extend({
     },
 
     preventShortSearch(text, select) {
-      if (select.searchText.length >= 3 && text.length < 3) {
-        return '';
-      } else {
-        return text.length >= 3;
+      if (text.length < 3) {
+        select.actions.search('');
+        return false;
       }
     }
   }

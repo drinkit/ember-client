@@ -1,3 +1,3 @@
-{{#power-select-typeahead class="form-control" initiallyOpened=false placeholder="Поиск по названию..." defaultHighlighted=null options=options selected=selected oninput=(action 'preventShortSearch') onchange=(action 'processSearch') onkeydown=(action 'keyPressed') as |element|}}
+{{#power-select-typeahead class="form-control" initiallyOpened=false placeholder="Поиск по названию..." searchField="name" extra=(hash labelPath="name") defaultHighlighted=null options=options selected=selected oninput=(action 'preventShortSearch') onchange=(action 'processSearch') onkeydown=(action 'keyPressed') as |element|}}
   {{element.name}}
 {{/power-select-typeahead}}

@@ -1,3 +1,5 @@
+import showdown from 'showdown';
+
 export function initialize(/* application */) {
   showdown.extension("internal-links", function() {
   return [{
