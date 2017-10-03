@@ -1,4 +1,5 @@
 import { attr, Model } from 'ember-cli-simple-store/model';
+import ENV from 'ember-drink-it/config/environment';
 
 export default Model.extend({
   ingredientsWithQuantities: attr(),
@@ -12,9 +13,9 @@ export default Model.extend({
   thumbnailUrl: attr(),
   stats: attr(),
   fullImageUrl: Ember.computed('imageUrl', function() {
-    return 'https://prod-drunkedguru.rhcloud.com' + this.get('imageUrl');
+    return ENV['server-path'] + this.get('imageUrl');
   }),
   fullThumbnailUrl: Ember.computed('thumbnailUrl', function() {
-    return 'https://prod-drunkedguru.rhcloud.com' + this.get('thumbnailUrl');
+    return ENV['server-path'] + this.get('thumbnailUrl');
   })
 });
