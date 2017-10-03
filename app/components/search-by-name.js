@@ -1,9 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  burgerMenu: Ember.inject.service(),
   classNames: ['search-by-name', 'form-group'],
-
   router: Ember.inject.service(),
 
   actions: {
