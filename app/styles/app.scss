@@ -105,6 +105,24 @@ input:-ms-input-placeholder {
   font-style: italic;
 }
 
+input::-webkit-input-placeholder {
+  color: #888888 !important;
+}
+
+input:-moz-placeholder {
+  /* Firefox 18- */
+  color: #888888 !important;
+}
+
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #888888 !important;
+}
+
+input:-ms-input-placeholder {
+  color: #888888 !important;
+}
+
 #main-frame {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -189,8 +207,8 @@ input:-ms-input-placeholder {
       }
     }
 
-    .navbar-header:after,
-    > .navbar-header:before {
+     > .navbar-header:before,
+    .navbar-header:after {
       display: flex;
       content: normal;
     }
@@ -596,6 +614,9 @@ div.validated-input {
 
 .ember-power-select-search-input {
   text-indent: 2px;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  color: #555;
 }
 $ember-power-select-multiple-selection-background-color: $orange-beach;
 @import "ember-modal-dialog/ember-modal-structure";

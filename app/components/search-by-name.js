@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['search-by-name', 'form-group'],
   router: Ember.inject.service(),
+  possibleTips: ['ром и кола', ''],
 
   actions: {
     keyPressed: function(obj, key) {
@@ -10,10 +11,6 @@ export default Ember.Component.extend({
         this.sendAction('search', obj.searchText);
         $('input[type="search"]').blur();
       }
-    },
-
-    searchAsync(term) {
-
     },
 
     processSearch(term) {

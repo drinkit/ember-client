@@ -7,7 +7,6 @@ export default Ember.Route.extend(RememberScrollMixin, {
   metrics: Ember.inject.service(),
   simpleStore: Ember.inject.service(),
   repository: Ember.inject.service(),
-
   headData: Ember.inject.service(),
 
   afterModel(model, transition) {
@@ -35,7 +34,6 @@ export default Ember.Route.extend(RememberScrollMixin, {
     const store = this.get('simpleStore');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-
       self.get('ajax').request({
           url: "/recipes",
           method: "GET",
@@ -44,12 +42,12 @@ export default Ember.Route.extend(RememberScrollMixin, {
           }
         },
         function(response) {
-          store.clear('recipe');
+          store.clear('foundedRecipe');
           response.forEach(function(item) {
             if (item.published) {
-              store.push('recipe', item);
+              store.push('foundedRecipe', item);
             } else if (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN') {
-              store.push('recipe', item);
+              store.push('foundedRecipe', item);
             }
           });
 
@@ -80,7 +78,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
         url: '/ingredients',
         method: 'GET'
       }),
-      recipes: store.find('recipe')
+      recipes: store.find('foundedRecipe')
     });
   }
 });

@@ -16,20 +16,28 @@ export default Ember.Route.extend(RememberScrollMixin, {
   },
 
   model() {
-    let store = this.get('simpleStore');
     let repository = this.get('repository');
     return new Ember.RSVP.hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
       }),
-      recipes: store.find('recipe')
+      recipes: repository.find('recipe', {
+        url: '/recipes',
+        method: 'GET',
+        data: {
+          criteria: JSON.stringify({
+            ingredients: [],
+            cocktailTypes: [],
+            options: []
+          })
+        }
+      })
     });
   },
 
   setupController: function(controller, modelHash) {
     controller.setProperties(modelHash);
-    controller.performSearch();
   },
 
   actions: {
