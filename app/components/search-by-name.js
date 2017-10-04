@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['search-by-name', 'form-group'],
   router: Ember.inject.service(),
-  possibleTips: ['ром и кола', ''],
+  possibleTips: ['ром и кола', 'мартини', 'водка + ликер'],
 
   actions: {
     keyPressed: function(obj, key) {
