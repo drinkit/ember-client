@@ -24,6 +24,6 @@ export default Ember.Route.extend({
     repository.findOne('ingredient', model.ingredientId).then((ingredient) => {
       this.set('headData.title', ingredient.get('name') + ' - drinkIt');
       this.set('headData.description', ingredient.description);
-    })
+    });
   },
 });

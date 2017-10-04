@@ -11,7 +11,6 @@ export default Ember.Route.extend(RememberScrollMixin, {
   },
 
   model(params) {
-    const store = this.get('simpleStore');
     const repository = this.get('repository');
 
     return new Ember.RSVP.hash({
@@ -60,7 +59,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
     },
 
     error(error, transition) {
-      if (error && error.status == 404) {
+      if (error && error.status === 404) {
         this.transitionTo('/error404');
       }
     }

@@ -55,7 +55,7 @@
     "ember-simple-auth": "^1.2.0",
     "ember-social-share": "^0.2.0",
     "loader.js": "^4.6.0",
-    "hellojs": "^1.13.5",
+    "hellojs": "^1.15.1",
     "showdown": "^1.7.5"
   }
 }

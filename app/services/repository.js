@@ -9,7 +9,7 @@ export default Ember.Service.extend({
     const store = this.get('simpleStore');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (store.find(modelName).get('length') != 0) {
+      if (store.find(modelName).get('length') !== 0) {
         resolve(store.find(modelName));
         return;
       }
