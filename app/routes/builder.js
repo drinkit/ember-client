@@ -32,7 +32,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
             options: []
           })
         }
-      })
+      }, 2)
     });
   },
 

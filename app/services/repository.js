@@ -4,12 +4,12 @@ export default Ember.Service.extend({
   simpleStore: Ember.inject.service(),
   ajax: Ember.inject.service(),
 
-  find(modelName, ajaxBody) {
+  find(modelName, ajaxBody, minSize=1) {
     const ajax = this.get('ajax');
     const store = this.get('simpleStore');
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (store.find(modelName).get('length') !== 0) {
+      if (store.find(modelName).get('length') >= minSize) {
         resolve(store.find(modelName));
         return;
       }

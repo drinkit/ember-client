@@ -46,7 +46,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
   adapterContext: Ember.inject.service(),
 
   actions: {
-    didTransition: function() {
+    didTransition() {
       Ember.run.scheduleOnce('afterRender', this, () => {
         const page = document.location.pathname;
         const title = this.get('currentModel').recipe.get('name');
