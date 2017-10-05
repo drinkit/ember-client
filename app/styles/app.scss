@@ -207,8 +207,8 @@ input:-ms-input-placeholder {
       }
     }
 
-     > .navbar-header:before,
-    .navbar-header:after {
+    .navbar-header:after,
+    > .navbar-header:before {
       display: flex;
       content: normal;
     }
@@ -307,11 +307,9 @@ input:-ms-input-placeholder {
         padding-left: 0;
         padding-right: 0;
 
-        > div.search-box {
-          > .navbar-form {
-            margin-right: -15px;
-            margin-top: 18px;
-          }
+        > .navbar-form {
+          margin-right: -15px;
+          margin-top: 18px;
         }
       }
 
