@@ -12,6 +12,15 @@ export default Ember.Controller.extend(PaginationMixin, {
   selectedIngredientsIds: [],
   isSearchPerformed: false,
 
+  recipes: Ember.computed('allRecipes.[]', function() {
+    let allRecipes = this.get('allRecipes');
+    let self = this;
+    let filteredRecipes = allRecipes.filter(item => {
+      return item.get('published') || (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') == 'ADMIN')
+    });
+    return filteredRecipes;
+  }),
+
   performSearch: function() {
     var that = this;
     this.get('ajax').request({
@@ -25,12 +34,12 @@ export default Ember.Controller.extend(PaginationMixin, {
         })
       }
     }, function(result) {
-      that.get('simpleStore').clear('recipe');
+      that.get('simpleStore').clear('foundedRecipe');
       result.forEach(function(item) {
         if (item.published) {
-          that.get('simpleStore').push('recipe', item);
+          that.get('simpleStore').push('foundedRecipe', item);
         } else if (that.get('currentUser.isAuthenticated') && that.get('currentUser.role') == 'ADMIN') {
-          that.get('simpleStore').push('recipe', item);
+          that.get('simpleStore').push('foundedRecipe', item);
         }
       });
       that.set('isSearchPerformed', true);

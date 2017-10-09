@@ -21,12 +21,19 @@ export default Ember.Component.extend({
     processSearch(term) {
       if (term) {
         this.get('router').transitionTo(term.route, term.id);
+        $('input[type="search"]').blur();
       }
     },
 
     preventShortSearch(text, select) {
       if (text.length < 3) {
         select.actions.search('');
+        return false;
+      }
+    },
+
+    preventEmptyOpen(select) {
+      if (select.searchText == '') {
         return false;
       }
     }

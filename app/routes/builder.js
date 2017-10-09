@@ -17,12 +17,14 @@ export default Ember.Route.extend(RememberScrollMixin, {
 
   model() {
     let repository = this.get('repository');
+    let store = this.get('simpleStore');
+
     return new Ember.RSVP.hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
       }),
-      recipes: repository.find('recipe', {
+      allRecipes: repository.find('recipe', {
         url: '/recipes',
         method: 'GET',
         data: {

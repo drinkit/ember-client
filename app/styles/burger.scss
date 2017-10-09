@@ -15,6 +15,7 @@
 .bm-menu {
   background: $violet;
   position: fixed !important;
+
   > img {
     margin-left: 10px;
     margin-top: 5px;
@@ -28,13 +29,17 @@
   .bm-menu-item {
     border-bottom: 2px #453B6D solid;
     vertical-align: middle;
+
     > div {
       padding-left: 15px;
       padding-bottom: 10px;
-      span, a {
+
+      a,
+      span {
         font-size: 16px;
       }
     }
+
     > a {
       display: block;
       padding-top: 15px;
@@ -48,25 +53,6 @@
     #logoutButton {
       float: right;
       margin-right: 10px;
-    }
-
-    .search-box {
-      padding-top: 11px;
-      padding-left: 15px;
-      padding-bottom: 11px;
-      .navbar-form {
-        border-top: none;
-        border-bottom: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-        margin: 0px 0px 0px 0px;
-        padding: 0px 0px 0px 0px;
-
-        .search-by-name {
-          padding-left: 0px;
-          margin-left: 0px;
-        }
-      }
     }
   }
 }

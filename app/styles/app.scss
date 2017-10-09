@@ -86,41 +86,35 @@ body {
 }
 
 input[placeholder] {
+  color: #888888 !important;
   text-overflow: ellipsis;
   font-style: italic;
 }
 
 input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #888888 !important;
   text-overflow: ellipsis;
   font-style: italic;
 }
 
 input:-moz-placeholder {
+  /* Firefox 18- */
+  color: #888888 !important;
   text-overflow: ellipsis;
   font-style: italic;
 }
 
 input:-ms-input-placeholder {
+  color: #888888 !important;
   text-overflow: ellipsis;
   font-style: italic;
 }
 
 input::-webkit-input-placeholder {
   color: #888888 !important;
-}
-
-input:-moz-placeholder {
-  /* Firefox 18- */
-  color: #888888 !important;
-}
-
-input::-moz-placeholder {
-  /* Firefox 19+ */
-  color: #888888 !important;
-}
-
-input:-ms-input-placeholder {
-  color: #888888 !important;
+  text-overflow: ellipsis;
+  font-style: italic;
 }
 
 #main-frame {
@@ -244,49 +238,88 @@ input:-ms-input-placeholder {
         }
       }
 
-      > .search-box-mobile {
-        > #mobileSearch {
-          width: 42px;
-          height: 42px;
-          display: inline;
+      > #mobileSearch {
+        width: 42px;
+        height: 42px;
+        display: inline-block;
+        margin-top: 15px;
 
-          > div {
-            margin-top: 15px;
-            display: inline;
+        > div[role='button'] {
+          display: inline-block;
+          height: 42px;
+          padding: 0;
+          border: none;
+          position: absolute;
+          right: 0px;
+          background-color: transparent;
+
+          > input {
+            min-width: 42px;
+            max-width: 42px;
             height: 42px;
-            position: absolute;
-            min-width: 0;
-            max-width: 0;
-            margin-left: 42px;
-            padding: 0;
-            border: none;
             -webkit-transition: all 0.6s ease-in-out;
             -moz-transition: all 0.6s ease-in-out;
             -o-transition: all 0.6s ease-in-out;
             transition: all 0.6s ease-in-out;
+            background-color: transparent;
+            background-image: url('/assets/search-128.png');
+            background-position: right center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            color: transparent;
+            position: relative;
+            border: none !important;
+          }
+
+          > input[placeholder] {
+            color: transparent !important;
+          }
+
+          > input[placeholder]:focus {
+            color: #888888 !important;
+          }
+
+          > input::-moz-placeholder:focus {
+            color: transparent !important;
+          }
+
+          > input:focus::-moz-placeholder {
+            color: #888888 !important;
+          }
+
+          > input:-moz-placeholder {
+            color: transparent !important;
+          }
+
+          > input:focus:-moz-placeholder {
+            color: #888888 !important;
+          }
+
+          > input:-ms-input-placeholder {
+            color: transparent !important;
+          }
+
+          > input:focus:-ms-input-placeholder {
+            color: #888888 !important;
+          }
+
+          > input::-webkit-input-placeholder {
+            color: transparent !important;
+          }
+
+          > input:focus::-webkit-input-placeholder {
+            color: #888888 !important;
+          }
+
+          > input:focus {
+            min-width: 220px;
+            max-width: 220px;
+            padding: 2px 16px 2px 8px;
+            border: 1px solid #ccc;
+            background-color: white;
+            border: 1px solid #ccc !important;
           }
         }
-      }
-
-      > .search-box-mobile:focus {
-        outline: none;
-      }
-
-      > .search-box-mobile:focus-within > #mobileSearch > div {
-        min-width: 220px;
-        max-width: 220px;
-        padding: 2px 16px 2px 8px;
-        margin-left: -178px;
-        border: 1px solid #ccc;
-      }
-
-      .mobile-search-button {
-        width: 42px;
-        height: 42px;
-        margin-top: 15px;
-        background-color: transparent;
-        background-image: url('/assets/search-128.png');
-        background-size: cover;
       }
     }
   }
@@ -321,11 +354,7 @@ input:-ms-input-placeholder {
           margin-left: 0;
         }
 
-        .mobile-search-button {
-          display: none;
-        }
-
-        .search-box-mobile {
+        #mobileSearch {
           display: none;
         }
       }
@@ -419,26 +448,26 @@ input:-ms-input-placeholder {
     padding-left: 4px;
     padding-top: 4px;
     padding-bottom: 2px;
+
+    > div[role="button"] {
+      min-width: 200px;
+      height: 30px;
+      padding: 2px 16px 2px 8px;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      text-indent: 1px;
+    }
+
+    > div[role="button"]:focus {
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      border-color: #ccc;
+    }
   }
 }
 
 .search-by-name {
   font-family: "Century Gothic";
-
-  > div[role="button"] {
-    min-width: 200px;
-    height: 30px;
-    padding: 2px 16px 2px 8px;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    text-indent: 1px;
-  }
-
-  > div[role="button"]:focus {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    border-color: #ccc;
-  }
 }
 
 hr {

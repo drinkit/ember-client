@@ -40,10 +40,7 @@
               {{#link-to "builder" }}
                 <img src="/assets/logo-main.png" width="240" height="80" />
               {{/link-to}}
-              <div class="search-box-mobile">
-                {{search-by-name id="mobileSearch" search="search" options=searchableItems}}
-                <div type="button" tabindex="0" class="btn mobile-search-button" />
-              </div>
+              {{search-by-name id="mobileSearch" search="search" options=filteredSearchableItems}}
             </div>
             <div class="collapse navbar-collapse" id="main-nav-bar">
               <div id="loginArea" class="navbar-btn">
@@ -67,7 +64,7 @@
                 </li>
               </ul>
               <div class="navbar-form navbar-right">
-                {{search-by-name search="search" options=searchableItems}}
+                {{search-by-name search="search" options=filteredSearchableItems}}
               </div>
             </div>
           </div>

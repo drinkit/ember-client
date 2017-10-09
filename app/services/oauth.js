@@ -11,7 +11,7 @@ export default Ember.Service.extend({
       google: '24577751850.apps.googleusercontent.com',
       vk: '4425288',
       facebook: '1528690400686454'
-    });
+    }, {redirect_uri: '/'});
   },
 
   login: function(socialNetwork) {

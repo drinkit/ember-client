@@ -67,10 +67,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         });
       }).then((result) => {
         const user = self.get('currentUser');
-        let items = result.filter(i => i.get('published') || user.get('role') == 'ADMIN').map(i => ({
+        let items = result.map(i => ({
           name: i.get('name'),
           route: 'recipe',
-          id: i.get('id')
+          id: i.get('id'),
+          published: i.get('published')
         }));
         options.unshift({
           groupName: 'Коктейли',
