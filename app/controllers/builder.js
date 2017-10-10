@@ -11,6 +11,7 @@ export default Ember.Controller.extend(PaginationMixin, {
   cocktailOptions: [],
   selectedIngredientsIds: [],
   isSearchPerformed: false,
+  isSearchStarting: false,
 
   recipes: Ember.computed('allRecipes.[]', function() {
     let allRecipes = this.get('allRecipes');
@@ -23,6 +24,7 @@ export default Ember.Controller.extend(PaginationMixin, {
 
   performSearch: function() {
     var that = this;
+    this.set('isSearchStarting', true);
     this.get('ajax').request({
       url: "/recipes",
       method: "GET",
@@ -42,6 +44,8 @@ export default Ember.Controller.extend(PaginationMixin, {
           that.get('simpleStore').push('foundedRecipe', item);
         }
       });
+      that.set('allRecipes', that.get('simpleStore').find('foundedRecipe'));
+      that.set('isSearchStarting', false);
       that.set('isSearchPerformed', true);
     });
   },
