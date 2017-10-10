@@ -9,7 +9,7 @@ module.exports = function(defaults) {
       ]
     },
     fingerprint: {
-      enabled: false
+      enabled: true
     }
   });
 

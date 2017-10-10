@@ -40,6 +40,11 @@ export default Ember.Route.extend(RememberScrollMixin, {
 
   setupController: function(controller, modelHash) {
     controller.setProperties(modelHash);
+    if (controller.get('cocktailTypes.length') > 0 ||
+        controller.get('cocktailOptions.length') > 0 ||
+        controller.get('selectedIngredientsIds.length') > 0) {
+      controller.performSearch();
+    }
   },
 
   actions: {
