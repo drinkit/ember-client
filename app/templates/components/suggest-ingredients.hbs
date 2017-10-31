@@ -1,11 +1,13 @@
 {{#if hasData}}
   <span>Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!</span>
-  {{!-- {{wholePhrases.[0]}} --}}
   {{#each wholePhrases as |suggestion|}}
     {{markdown-to-html suggestion extensions="internal-links"}}
   {{/each}}
-{{else if initialized}}
+  {{#if showButtonForExtraSuggestion}}
+    <button class="btn btn-default" {{action "getMoreSuggestion"}}>Еще рекомендаций</button>
+  {{/if}}
+  {{else if initialized}}
   <span>К сожалению, в вашем баре слишком мало ингредиентов, чтобы мы могли вам что-то посоветовать.</span>
 {{else}}
-{{spinkit-three-bounce}}
+  {{spinkit-three-bounce}}
 {{/if}}

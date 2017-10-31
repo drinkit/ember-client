@@ -70,6 +70,10 @@ div.ingredients-col {
   margin-bottom: 15px;
   position: relative;
 
+  &:hover {
+    text-decoration: none;
+  }
+
   > div.mini-recipe-container {
     border-radius: 5px;
     box-shadow: 1px 2px 8px 1px #999999;

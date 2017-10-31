@@ -9,7 +9,8 @@ module.exports = function(defaults) {
       ]
     },
     fingerprint: {
-      enabled: true
+      enabled: true,
+      exclude: ['tags/']
     }
   });
 

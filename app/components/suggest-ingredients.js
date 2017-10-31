@@ -1,21 +1,36 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  scrollSelector: window,
   classNames: ['suggestions-box'],
   simpleStore: Ember.inject.service(),
   currentUser: Ember.inject.service(),
   initialized: false,
+  suggestionsCount: 3,
+
+  actions: {
+    getMoreSuggestion() {
+      this.set('suggestionsCount', this.get('suggestionsCount') + 3);
+      let self = this;
+      Ember.run.next(function() {
+        Ember.$(self.scrollSelector).scrollTop(Ember.$(self.scrollSelector).scrollTop() + 666);
+      });
+    }
+  },
 
   hasData: Ember.computed('suggestedIngredients.[]', function() {
     return this.get('suggestedIngredients.length') > 0;
   }),
 
-  ingredientsCocktails: Ember.computed('suggestedIngredients.[]', function() {
+  showButtonForExtraSuggestion: Ember.computed('suggestedIngredients.[]', 'suggestionsCount', function() {
+    return this.get('suggestedIngredients.length') > this.get('suggestionsCount');
+  }),
+
+  ingredientsCocktails: Ember.computed('suggestedIngredients.[]', 'suggestionsCount', function() {
     let ingredientsCocktails = [];
     const store = this.get('simpleStore');
     const user = this.get('currentUser');
-    const suggestionsCount = 3;
-    let suggestionsLen = Math.min(suggestionsCount, this.get('suggestedIngredients.length'));
+    let suggestionsLen = Math.min(this.get('suggestionsCount'), this.get('suggestedIngredients.length'));
     for (var i = 0; i < suggestionsLen; i++) {
       let sugIngredient = this.get('suggestedIngredients').objectAt(i);
       let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
@@ -71,15 +86,12 @@ export default Ember.Component.extend({
       case 8:
       case 9:
         return Ember.String.htmlSafe(number.toString() + ' коктейлей.');
-        break;
       case 1:
         return Ember.String.htmlSafe(number.toString() + ' коктейль.');
-        break;
       case 2:
       case 3:
       case 4:
         return Ember.String.htmlSafe(number.toString() + ' коктейля.');
-        break;
     }
   }
 });

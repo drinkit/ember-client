@@ -14,7 +14,6 @@ export default Ember.Route.extend({
 
   beforeModel() {
     const store = this.get('simpleStore');
-    store.clear('recipe');
   },
 
   model() {

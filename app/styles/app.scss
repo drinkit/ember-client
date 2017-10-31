@@ -370,7 +370,7 @@ input::-webkit-input-placeholder {
   font-family: Georgia;
   font-style: italic;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 20px;
   color: $orange-beach;
   background: none;
   -webkit-font-smoothing: auto;
@@ -450,7 +450,7 @@ input::-webkit-input-placeholder {
     padding-bottom: 2px;
 
     > div[role="button"] {
-      min-width: 200px;
+      min-width: 220px;
       height: 30px;
       padding: 2px 16px 2px 8px;
       box-shadow: none;

@@ -14,7 +14,7 @@
         {{#link-to 'builder' (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default" rel="prev" }}Назад{{/link-to}}
       {{/if}}
       {{#if isNextPageExist}}
-        {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default" rel="next" }}Еще коктейлей...{{/link-to}}
+        {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default" rel="next" }}Еще коктейлей{{/link-to}}
       {{/if}}
       {{else if isSearchPerformed}}
       <img src="/assets/sadcocktail.png" />
