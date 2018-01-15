@@ -144,6 +144,11 @@ input::-webkit-input-placeholder {
     background-image: url("/assets/pattern-top-big.png");
     background-repeat: repeat-x;
     background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
     height: 92px;
     width: 1024px;
     display: inline-block;
