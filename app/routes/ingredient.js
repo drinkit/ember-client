@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   headData: Ember.inject.service(),
   repository: Ember.inject.service(),
+  metrics: Ember.inject.service(),
 
   model(params) {
     const repository = this.get('repository');

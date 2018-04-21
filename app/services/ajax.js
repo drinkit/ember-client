@@ -3,7 +3,7 @@ import ENV from 'ember-drink-it/config/environment';
 
 export default Ember.Service.extend({
 
-  host: ENV['server-path'] + '/rest/',
+  host: ENV['server-path'] + '/rest',
 
   session: Ember.inject.service('session'),
   digestGenerator: Ember.inject.service('digest-generator'),

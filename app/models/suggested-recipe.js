@@ -13,9 +13,9 @@ export default Model.extend({
   thumbnailUrl: attr(),
   stats: attr(),
   fullImageUrl: Ember.computed('imageUrl', function() {
-    return ENV['server-path']+ this.get('imageUrl');
+    return this.get('imageUrl');
   }),
   fullThumbnailUrl: Ember.computed('thumbnailUrl', function() {
-    return ENV['server-path'] + this.get('thumbnailUrl');
+    return this.get('thumbnailUrl');
   })
 });

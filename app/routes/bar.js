@@ -26,8 +26,15 @@ export default Ember.Route.extend({
       }),
       user: this.get('currentUser'),
       recipes: repository.find('recipe', {
-        url: '/recipes?criteria={"ingredients":[],"cocktailTypes":[],"options":[]}',
-        method: 'GET'
+        url: '/recipes',
+        method: 'GET',
+        data: {
+          criteria: JSON.stringify({
+            ingredients: [],
+            cocktailTypes: [],
+            options: []
+          })
+        }
       })
     });
   },

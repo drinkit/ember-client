@@ -11,8 +11,8 @@ module.exports = function(environment) {
       'font-src': "'self' https://fonts.gstatic.com/l/font",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
       'script-src': "'self' www.google-analytics.com api.vk.com",
-      'connect-src': "'self' http://localhost:8080 www.google-analytics.com http://server-drunkedguru.rhcloud.com https://server.drinkit.guru https://graph.facebook.com",
-      'img-src': "'self' https://server.drinkit.guru http://server-drunkedguru.rhcloud.com www.google-analytics.com data:"
+      'connect-src': "'self' http://localhost:8080 www.google-analytics.com https://aws-server.drinkit.guru http://server-drunkedguru.rhcloud.com https://server.drinkit.guru https://graph.facebook.com",
+      'img-src': "'self' https://server.drinkit.guru https://s3.eu-central-1.amazonaws.com http://server-drunkedguru.rhcloud.com www.google-analytics.com data:"
     },
     EmberENV: {
       FEATURES: {
@@ -52,7 +52,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV['server-path'] = 'https://server.drinkit.guru';
+    ENV['server-path'] = 'https://aws-server.drinkit.guru';
   }
 
   if (environment === 'test') {
