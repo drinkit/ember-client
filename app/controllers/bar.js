@@ -5,6 +5,7 @@ export default Ember.Controller.extend({
   modalManager: Ember.inject.service(),
   simpleStore: Ember.inject.service(),
   repository: Ember.inject.service(),
+  cookies: Ember.inject.service(),
 
   selectedIngredientsIds: [],
   ingredientsInCategories: {},
@@ -69,7 +70,10 @@ export default Ember.Controller.extend({
         self.set('suggestedIngredients', []);
       })
     }
+  }),
 
+  needTutorial: Ember.computed('', function() {
+    return !this.get('cookies').exists('tutorialShown');
   }),
 
   actions: {
@@ -198,5 +202,5 @@ export default Ember.Controller.extend({
     }
 
     return true;
-  }
+  },
 });

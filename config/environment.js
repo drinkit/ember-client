@@ -68,7 +68,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV['server-path'] = 'https://server.drinkit.guru';
+    ENV['server-path'] = 'https://aws-server.drinkit.guru';//'https://server.drinkit.guru';
   }
 
   return ENV;

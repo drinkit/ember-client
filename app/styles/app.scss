@@ -249,7 +249,7 @@ input::-webkit-input-placeholder {
         display: inline-block;
         margin-top: 15px;
 
-        > div[role='button'] {
+        > div {
           display: inline-block;
           height: 42px;
           padding: 0;
@@ -454,7 +454,7 @@ input::-webkit-input-placeholder {
     padding-top: 4px;
     padding-bottom: 2px;
 
-    > div[role="button"] {
+    > div {
       min-width: 220px;
       height: 30px;
       padding: 2px 16px 2px 8px;
@@ -463,7 +463,7 @@ input::-webkit-input-placeholder {
       text-indent: 1px;
     }
 
-    > div[role="button"]:focus {
+    > div:focus {
       box-shadow: none;
       -webkit-box-shadow: none;
       border-color: #ccc;

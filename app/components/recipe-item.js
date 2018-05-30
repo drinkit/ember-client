@@ -26,6 +26,7 @@ export default Ember.Component.extend({
     var metrics = context.measureText(text);
     return metrics.width;
   },
+
   didInsertElement: function() {
     var that = this;
     Ember.run.schedule('afterRender', this, function() {
@@ -36,7 +37,7 @@ export default Ember.Component.extend({
       var cocktailIngredients = recipe.get("ingredientsWithQuantities");
       cocktailIngredients.forEach(function(item) {
         var ingr = store.find("ingredient", item.ingredientId);
-        var type = selectedIngredients && selectedIngredients.includes(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
+        var type = that.getIngredientStyle(parseInt(ingr.get("id")));
         sortedIngredients.push({
           name: ingr.get("name"),
           className: type
@@ -133,7 +134,7 @@ export default Ember.Component.extend({
         }
       }
 
-      that.set('maxIngredientWidth', availableWidth - 4);
+      that.set("maxIngredientWidth", availableWidth - 4);
       that.set("sortedIngredients", newOrder);
     });
   },
@@ -159,10 +160,36 @@ export default Ember.Component.extend({
     }
   }),
 
+  getIngredientStyle(ingredientId) {
+    var selectedIngredients = this.get('selectedIngredients');
+    var barItemsIds = this.get('barItemsIds');
+    var style = '';
+    if (selectedIngredients && selectedIngredients.includes(ingredientId)) {
+      style = 'selected-ingredient';
+    } else {
+      style = 'unselected-ingredient';
+    }
+
+    if (barItemsIds && barItemsIds.includes(ingredientId)) {
+      style += ' bar-ingredient';
+    }
+
+    return style;
+  },
+
   isLiked: Ember.computed('currentUser.recipeStatsMap', function() {
     const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
     const recipeId = parseInt(this.get('recipe').get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
+  }),
+
+  barItemsIds: Ember.computed('currentUser.barItems', function() {
+    let barItemsIds = this.get('currentUser.barItems').filter(function(item) {
+      return item.active;
+    }).map(function(item) {
+      return item.ingredientId;
+    });
+    return barItemsIds;
   }),
 
   maxIngredientWidthStyle: Ember.computed('maxIngredientWidth',

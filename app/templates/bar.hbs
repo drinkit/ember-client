@@ -1,4 +1,7 @@
 {{#if user.isAuthenticated}}
+  {{#if needTutorial}}
+    Обучение
+  {{/if}}
   <div style="padding-left:5px;padding-right:10px;padding-top:15px;">
     {{ingredient-chooser multiple=false initSelectedIds=selectedIngredientsIds selectedIngredientsIds=selectedIngredientsIds ingredients=ingredients changeIngredients="changeIngredients" needToClear=needToClear placeholder="Добавить в бар..." ingredientSelected="ingredientSelected"}}
     <div class="container-fluid bar-container">

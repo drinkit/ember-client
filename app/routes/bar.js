@@ -6,6 +6,7 @@ export default Ember.Route.extend({
   repository: Ember.inject.service(),
   headData: Ember.inject.service(),
   simpleStore: Ember.inject.service(),
+  cookies: Ember.inject.service(),
 
   afterModel(model) {
     this.set('headData.title', 'Мой бар - drinkIt');
@@ -49,6 +50,7 @@ export default Ember.Route.extend({
         const page = "/bar";
         const title = "drinkIt";
         this.get('metrics').trackPage({page, title});
+        this.get('cookies').write('tutorialShown', true);
       });
     }
   }
