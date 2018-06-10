@@ -8,7 +8,7 @@ export default Base.extend({
 
   restore: function(data) {
     var self = this;
-    if (data.email && data.password) {
+    if (!this.get('currentUser.isAuthenticated') && data.email && data.password) {
       return new Ember.RSVP.Promise(function(resolve, reject) {
         Ember.run(function() {
           self.get('ajax').request({

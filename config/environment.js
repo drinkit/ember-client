@@ -8,7 +8,7 @@ module.exports = function(environment) {
     locationType: 'auto',
     contentSecurityPolicy: {
       'frame-src': "'self' oauth.vk.com",
-      'font-src': "'self' https://fonts.gstatic.com/l/font",
+      'font-src': "'self' data: https://fonts.gstatic.com/l/font",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
       'script-src': "'self' www.google-analytics.com api.vk.com",
       'connect-src': "'self' http://localhost:8080 www.google-analytics.com https://aws-server.drinkit.guru http://server-drunkedguru.rhcloud.com https://server.drinkit.guru https://graph.facebook.com",
@@ -68,7 +68,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV['server-path'] = 'https://aws-server.drinkit.guru';//'https://server.drinkit.guru';
+    ENV['server-path'] = 'https://aws-server.drinkit.guru';
   }
 
   return ENV;

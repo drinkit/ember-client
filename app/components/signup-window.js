@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import CryptoJS from 'npm:crypto-js';
+import CryptoJS from 'crypto-js';
 import {
   validator,
   buildValidations
@@ -55,7 +55,7 @@ export default Ember.Component.extend(Validations, {
       } = this.getProperties('displayName', 'email', 'password');
       this.get('signup').register(email, password, displayName,
         function(response) {
-          self.sendAction('hideDialog', 'SignUp');
+          self.get('hideDialog')('SignUp');
           self.get("session").authenticate('autheticator:digest', email,
             CryptoJS.SHA256("drinkIt" + password).toString());
         },
@@ -69,12 +69,12 @@ export default Ember.Component.extend(Validations, {
     },
 
     login() {
-      this.sendAction('hideDialog', 'SignUp');
-      this.sendAction('showDialog', 'Login');
+      this.get('hideDialog')('SignUp');
+      this.get('showDialog')('Login');
     },
 
     close() {
-      this.sendAction('hideDialog', 'SignUp');
+      this.get('hideDialog')('SignUp');
     }
   }
 });

@@ -1,0 +1,16 @@
+{{#modal-dialog targetAttachment="center" translucentOverlay=true onClose="close" containerClass="common-modal-window bar-tutorial-window" }}
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" {{action "close"}} aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Подсказка</h4>
+      </div>
+      <div class="modal-body">
+        <span>Ингредиенты, которые есть у вас в баре, в поиске выделены фиолетовой рамкой!</span>
+        <img src="/assets/bar-example-tutor.png" width="100%" style="margin-top: 10px"/>
+      </div>
+    </div>
+  </div>
+{{/modal-dialog}}

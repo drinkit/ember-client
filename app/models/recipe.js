@@ -1,5 +1,4 @@
 import { attr, Model } from 'ember-cli-simple-store/model';
-import ENV from 'ember-drink-it/config/environment';
 
 export default Model.extend({
   ingredientsWithQuantities: attr(),

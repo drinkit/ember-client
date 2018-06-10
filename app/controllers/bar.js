@@ -72,8 +72,11 @@ export default Ember.Controller.extend({
     }
   }),
 
-  needTutorial: Ember.computed('', function() {
-    return !this.get('cookies').exists('tutorialShown');
+  showTutorialIfNeeded: Ember.on('init', function() {
+    let needTutorial = !this.get('cookies').exists('tutorialShown');
+    if (needTutorial) {
+      this.get('modalManager').showDialog('BarTutorial');
+    }
   }),
 
   actions: {
@@ -83,6 +86,10 @@ export default Ember.Controller.extend({
 
     showSignUp() {
       this.get('modalManager').showDialog('SignUp');
+    },
+
+    hideDialog(dialogName) {
+      this.get('modalManager').hideDialog(dialogName)
     },
 
     changeIngredients: function(ingredients) {

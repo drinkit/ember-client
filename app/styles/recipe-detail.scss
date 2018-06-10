@@ -7,7 +7,7 @@ $row-height: 42px;
   margin-right: 0;
   border: 0 none;
   text-align: center;
-  
+
   p,
   span {
     font-family: "Century Gothic";
@@ -143,6 +143,12 @@ $row-height: 42px;
       float: left;
       clear: left;
       height: 100%;
+      > a {
+        margin-right: 15px;
+      }
+      .in-bar-suffix {
+        font-style: italic;
+      }
     }
     .rightColumn {
       float: right;
@@ -196,6 +202,12 @@ $row-height: 42px;
     > div > .share-button {
       margin-right: 0px;
       margin-left: 4px;
+      span {
+        line-height: normal;
+      }
+      svg {
+        box-sizing: content-box;
+      }
     }
     @media(max-width: 767px) {
       > div > .share-button {

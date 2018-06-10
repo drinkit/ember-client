@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import Hello from 'npm:hellojs';
-import CryptoJS from 'npm:crypto-js';
+import Hello from 'hellojs';
+import CryptoJS from 'crypto-js';
 
 export default Ember.Service.extend({
   session: Ember.inject.service(),
@@ -45,8 +45,8 @@ export default Ember.Service.extend({
     Hello('google').logout();
     Hello('facebook').logout();
     //
-    this.get('session.data').digests = {};
-    this.get('session.store').clear();
     this.get('session').invalidate();
+    this.get('session.data').digests = {};
+    this.get('session.store').clear();    
   }
 });

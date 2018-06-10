@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
       const self = this;
       const recipeId = parseInt(this.get('recipe').get('id'));
       const curLikes = this.get('recipe.stats.likes') ? this.get('recipe.stats.likes') : 0;
-      let userRecipeStats = this.get('currentUser').get('recipeStatsMap')[recipeId];
+      let userRecipeStats = this.get('currentUser.recipeStatsMap')[recipeId];
 
       if (userRecipeStats) {
         userRecipeStats.liked = !userRecipeStats.liked;
@@ -40,15 +40,27 @@ export default Ember.Controller.extend({
     let res = [];
     if (self.get('recipe.ingredientsWithQuantities')) {
       res = self.get('recipe.ingredientsWithQuantities').map(function(item) {
+        let ingrName = repository.fetchById('ingredient', item.ingredientId).get('name');
+        let inBarSuffix = self.get('barItemsIds').includes(item.ingredientId) ? '  (есть в баре)' : '';
         return {
           id: item.ingredientId,
-          name: repository.fetchById('ingredient', item.ingredientId).get('name'),
+          name: ingrName,
+          inBarSuffix: inBarSuffix,
           quantity: item.quantity,
           unit: item.unit
         }
       });
     }
     return res;
+  }),
+
+  barItemsIds: Ember.computed('currentUser.barItems', function() {
+    let barItemsIds = this.get('currentUser.barItems').filter(function(item) {
+      return item.active;
+    }).map(function(item) {
+      return item.ingredientId;
+    });
+    return barItemsIds;
   }),
 
   optionsToTags: {

@@ -75,11 +75,11 @@
     </div>
 
     {{#if modalManager.isShowLogin}}
-      {{login-window showDialog="showDialog" hideDialog="hideDialog" authSuccess="authSuccess"}}
+      {{login-window showDialog=(action "showDialog") hideDialog=(action "hideDialog") authSuccess="authSuccess"}}
     {{/if}}
 
     {{#if modalManager.isShowSignUp}}
-      {{signup-window showDialog="showDialog" hideDialog="hideDialog"}}
+      {{signup-window showDialog=(action "showDialog") hideDialog=(action "hideDialog")}}
     {{/if}}
   {{/burger.outlet}}
 {{/burger-menu}}

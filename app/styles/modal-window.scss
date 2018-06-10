@@ -1,0 +1,21 @@
+.common-modal-window {
+	border-radius: 0px;
+	background-color: transparent;
+	box-shadow: 0 0 0px transparent;
+	padding: 0px 0px 0px 0px;
+  .modal-sm {
+    width: 350px;
+  }
+	.modal-title {
+		color: $violet;
+		font-family: "Georgia";
+		font-style: italic;
+		font-weight: bold;
+	}
+  .modal-body {
+    span {
+      font-family: "Century Gothic";
+      font-size: 14px;
+    }
+  }
+}

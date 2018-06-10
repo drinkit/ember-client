@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import CryptoJS from 'npm:crypto-js';
+import CryptoJS from 'crypto-js';
 
 export default Ember.Service.extend({
   ajax: Ember.inject.service(),
