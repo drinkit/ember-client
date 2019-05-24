@@ -23,7 +23,7 @@ export default Ember.Controller.extend({
       }
 
       this.get('ajax').request({
-          url: 'users/me/recipeStats/' + recipeId + '/liked?value=' + userRecipeStats.liked,
+          url: '/users/me/recipeStats/' + recipeId + '/liked?value=' + userRecipeStats.liked,
           contentType: 'application/json;charset=UTF-8',
           method: 'PATCH'
         },
