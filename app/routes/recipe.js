@@ -34,7 +34,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
   afterModel(model) {
     this.set('headData.title', 'Рецепт коктейля «' + model.recipe.get('name') + '» - drinkIt');
     this.set('headData.description', Ember.String.htmlSafe(model.recipe.get('description')));
-    this.set('headData.image', model.recipe.get('fullThumbnailUrl'));
+    this.set('headData.image', model.recipe.get('fullImageUrl'));
   },
 
   setupController: function(controller, modelHash) {
