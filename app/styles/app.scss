@@ -36,8 +36,15 @@ $light-green: #00AC8D;
   }
 }
 
-body {
+.webp body {
+  background-image: url("/assets/new-pattern.webp");
+}
+
+.no-webp body {
   background-image: url("/assets/new-pattern.jpg");
+}
+
+body {
   @media (min-width: 768px) {
     background-attachment: fixed;
   }
@@ -48,18 +55,21 @@ body {
   src: url("/assets/fonts/CenturyGothic.ttf") format('truetype');
   src: url("/assets/fonts/CenturyGothic.woff") format('woff');
   font-family: "Century Gothic";
+  font-display: swap;
 }
 @font-face {
   src: url("/assets/fonts/CenturyGothic-Italic.ttf") format('truetype');
   src: url("/assets/fonts/CenturyGothic-Italic.woff") format('woff');
   font-family: "Century Gothic";
   font-style: italic;
+  font-display: swap;
 }
 @font-face {
   src: url("/assets/fonts/CenturyGothic-Bold.ttf") format('truetype');
   src: url("/assets/fonts/CenturyGothic-Bold.woff") format('woff');
   font-family: "Century Gothic";
   font-weight: bold;
+  font-display: swap;
 }
 @font-face {
   src: url("/assets/fonts/Georgia-BoldItalic.ttf") format('truetype');
@@ -67,6 +77,7 @@ body {
   font-family: "Georgia";
   font-style: italic;
   font-weight: bold;
+  font-display: swap;
 }
 
 :focus::-webkit-input-placeholder {
@@ -376,7 +387,7 @@ input::-webkit-input-placeholder {
   font-style: italic;
   font-weight: bold;
   font-size: 20px;
-  color: $orange-beach;
+  color: $violet;
   background: none;
   -webkit-font-smoothing: auto;
 }
@@ -397,7 +408,7 @@ input::-webkit-input-placeholder {
     a.active:focus,
     a.active:hover {
       background: none;
-      color: $violet;
+      color: $orange-beach;
     }
   }
 }

@@ -10,6 +10,12 @@
   <link rel="icon" href="/assets/favicon.ico">
   <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
   <link rel="stylesheet" href="{{rootURL}}assets/ember-drink-it.css"> {{content-for 'head-footer'}}
+
+  <link rel="preload" href="/assets/fonts/Georgia-BoldItalic.woff" as="font" type="font/woff" crossorigin="anonymous">
+  <link rel="preload" href="/assets/fonts/CenturyGothic-Bold.woff" as="font" type="font/woff" crossorigin="anonymous">
+  <link rel="preload" href="/assets/fonts/CenturyGothic.woff" as="font" type="font/woff" crossorigin="anonymous">
+  <link rel="preload" href="/assets/fonts/CenturyGothic-Italic.woff" as="font" type="font/woff" crossorigin="anonymous">
+
   <script type="application/ld+json">
     {
       "@context": "http://schema.org",
@@ -27,6 +33,7 @@
 <body>
   {{content-for 'body'}}
 
+  <script src="{{rootURL}}assets/modernizr-webp.js"></script>
   <script src="{{rootURL}}assets/vendor.js"></script>
   <script src="{{rootURL}}assets/ember-drink-it.js"></script>
 

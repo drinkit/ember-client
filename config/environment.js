@@ -8,7 +8,7 @@ module.exports = function(environment) {
     locationType: 'auto',
     contentSecurityPolicy: {
       'frame-src': "'self' oauth.vk.com",
-      'font-src': "'self' https://fonts.gstatic.com/l/font https://aws-server.drinkit.guru",
+      'font-src': "'self' localhost https://fonts.gstatic.com/l/font https://aws-server.drinkit.guru",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://aws-server.drinkit.guru",
       'script-src': "'self' www.google-analytics.com api.vk.com https://aws-server.drinkit.guru",
       'connect-src': "'self' https://static.78.49.203.116.clients.your-server.de http://localhost:8080 www.google-analytics.com https://aws-server.drinkit.guru https://drinkit-stg.eu-central-1.elasticbeanstalk.com/ https://server.drinkit.guru https://graph.facebook.com",

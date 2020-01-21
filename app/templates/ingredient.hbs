@@ -4,9 +4,17 @@
 			<div>
 				{{#if currentIngredient.imageUrl}}
 					<img itemprop="image" alt={{recipe.name}} src={{model.fullImageUrl}}>
-					<img id="emptyImage" src="/assets/bigcocktail.png" />
+					<picture id="emptyImage" itemprop="image">
+						<source srcset="/assets/bigcocktail.webp" type="image/webp">
+						<source srcset="/assets/bigcocktail.png" type="image/jpeg">
+						<img id="emptyImage" src="/assets/bigcocktail.png">
+					</picture>
 				{{else}}
+				<picture itemprop="image" itemprop="image">
+					<source srcset="/assets/bigcocktail.webp" type="image/webp">
+					<source srcset="/assets/bigcocktail.png" type="image/jpeg">
 					<img itemprop="image" src="/assets/bigcocktail.png">
+				</picture>
 				{{/if}}
 			</div>
 		</div>
