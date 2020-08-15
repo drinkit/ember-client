@@ -1,62 +1,81 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import Stickyfill from 'stickyfilljs';
+import { conditional } from 'ember-awesome-macros';
 
-export default Ember.Component.extend({
-  classNames: ['col-md-3', 'col-sm-4'],
+export default Component.extend({
+  classNames: [],
   dataOffsetTop: 180,
   dataOffsetBottom: null,
-  currentUser: Ember.inject.service(),
-  tooltipsProvider: Ember.inject.service(),
+  currentUser: service(),
+  tooltipsProvider: service(),
 
-  isBurningPressed: Ember.computed('cocktailOptions.[]', function() {
+  activeClass: 'active',
+  nonActiveClass: '',
+
+  isBurningPressed: computed('cocktailOptions.[]', function() {
     return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(1) >= 0 : false;
   }),
 
-  isFlackyPressed: Ember.computed('cocktailOptions.[]', function() {
+  isFlackyPressed: computed('cocktailOptions.[]', function() {
     return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(5) >= 0 : false;
   }),
 
-  isIcePressed: Ember.computed('cocktailOptions.[]', function() {
+  isIcePressed: computed('cocktailOptions.[]', function() {
     return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(2) >= 0 : false;
   }),
 
-  isIBAPressed: Ember.computed('cocktailOptions.[]', function() {
+  isIBAPressed: computed('cocktailOptions.[]', function() {
     return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(4) >= 0 : false;
   }),
 
-  isCheckedPressed: Ember.computed('cocktailOptions.[]', function() {
+  isCheckedPressed: computed('cocktailOptions.[]', function() {
     return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(3) >= 0 : false;
   }),
 
-  isLongTypePressed: Ember.computed('cocktailTypes.[]', function() {
+  isLongTypePressed: computed('cocktailTypes.[]', function() {
     return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(1) >= 0 : false;
   }),
 
-  isShortTypePressed: Ember.computed('cocktailTypes.[]', function() {
+  isShortTypePressed: computed('cocktailTypes.[]', function() {
     return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(2) >= 0 : false;
   }),
 
-  isShotTypePressed: Ember.computed('cocktailTypes.[]', function() {
+  isShotTypePressed: computed('cocktailTypes.[]', function() {
     return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(3) >= 0 : false;
   }),
 
+  longTypeActiveClass: conditional('isLongTypePressed', 'activeClass', 'nonActiveClass'),
+  shortTypeActiveClass: conditional('isShortTypePressed', 'activeClass', 'nonActiveClass'),
+  shotTypeActiveClass: conditional('isShotTypePressed', 'activeClass', 'nonActiveClass'),
+
+  burningActiveClass: conditional('isBurningPressed', 'activeClass', 'nonActiveClass'),
+  flackyActiveClass: conditional('isFlackyPressed', 'activeClass', 'nonActiveClass'),
+  iceActiveClass: conditional('isIcePressed', 'activeClass', 'nonActiveClass'),
+  ibaActiveClass: conditional('isIBAPressed', 'activeClass', 'nonActiveClass'),
+  checkedActiveClass: conditional('isCheckedPressed', 'activeClass', 'nonActiveClass'),
+
   actions: {
     toggleOption(id) {
-      this.sendAction("toggleOption", id);
+      this.toggleOption(id);
     },
     toggleType(id) {
-      this.sendAction("toggleType", id);
+      this.toggleType(id);
     },
     changeIngredients(ingredients) {
-      this.sendAction('changeIngredients', ingredients);
+      this.changeIngredients(ingredients);
     },
     clearFilters() {
-      this.$('#filtersMenu button.active').attr('aria-pressed', 'false');
-      this.$('#filtersMenu button.active').button('refresh');
-      this.$('#filtersMenu button.active').removeClass('active');
+      const activeButtons = document.querySelectorAll('#filtersMenu button.active');
+      for (const btn of activeButtons) {
+        btn.setAttribute('aria-pressed', 'false');
+        btn.classList.remove('active');
+      }
       //
       this.set('barIngredientsIds', []);
       //
-      this.sendAction('clearFilters');
+      this.clearFilters();
     },
     addBarAsFilter() {
       let barItemsIds = this.get('currentUser.barItems').filter(function(item) {
@@ -64,23 +83,17 @@ export default Ember.Component.extend({
       }).map(function(item) {
         return item.ingredientId;
       });
-      const oldIds = $(this.get('selectedIngredientsIds')).not(barItemsIds).get();
-      barItemsIds.pushObjects(oldIds);
-      this.set('barIngredientsIds', barItemsIds);
-      this.sendAction('changeIngredients', barItemsIds);
+      const allIds = [...new Set(...this.get('selectedIngredientsIds'), ...barItemIds)];
+      this.set('barIngredientsIds', allIds);
+      this.sendAction('changeIngredients', allIds);
     }
   },
   didInsertElement: function() {
-    var options = {
-      offset: {
-        top: this.get('dataOffsetTop'),
-        bottom: this.get('dataOffsetBottom')
-      }
-    };
-    this.$('#filtersMenu').affix(options);
-    const windowHeight = this.$(window).height();
-    const offsetParentY = this.$('#filtersMenu').offset().top;
-    const offsetY = this.$('#ingredientChooser').position().top;
-    this.$('#ingredientChooser > div').css('max-height', windowHeight - offsetY - 70);
+    var stickyMenu = document.querySelector('.sticky');
+    Stickyfill.addOne(stickyMenu);
+    // const windowHeight = window.height;
+    // const offsetParentY = document.querySelector('#filtersMenu').offsetTop;
+    // const offsetY = document.querySelector('#ingredientChooser').positionTop;
+    // document.querySelector('#ingredientChooser > div').css('max-height', windowHeight - offsetY - 70);
   }
 });

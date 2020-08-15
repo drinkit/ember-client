@@ -1,11 +1,9 @@
-<div>
-  <hr />
-  <span class="author-name">{{comment.author.name}}</span>
-  <span class="time-from-now">{{moment-from-now comment.posted locale='ru'}}</span>
-  {{#if isCurrentUserAuthor}}
-    <span class="glyphicon glyphicon-remove remove-comment" aria-hidden="true" {{action "deleteComment"}}></span>
-  {{/if}}
-</div>
-<p>
+<hr class="border-gray-300"/>
+<span class="mr-15px font-bold text-sm font-gothic">{{comment.author.name}}</span>
+<span class="whitespace-no-wrap text-xs font-gothic text-gray-700">{{moment-from-now comment.posted locale='ru'}}</span>
+{{#if isCurrentUserAuthor}}
+  <span class="glyphicon glyphicon-remove remove-comment" aria-hidden="true" {{action "deleteComment"}}></span>
+{{/if}}
+<p class="min-h-30px font-gothic text-sm">
   {{comment.text}}
 </p>

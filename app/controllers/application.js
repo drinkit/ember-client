@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  currentUser: Ember.inject.service(),
-  modalManager: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default Controller.extend({
+  currentUser: service(),
+  modalManager: service(),
+  repository: service(),
 
-	filteredSearchableItems: Ember.computed('searchableItems.[]', 'currentUser.role', function() {
+	filteredSearchableItems: computed('searchableItems.[]', 'currentUser.role', function() {
 		const user = this.get('currentUser');
 		let filteredItems = [];
 		for (let i = 0; i < this.get('searchableItems').length; i++) {
@@ -21,9 +23,9 @@ export default Ember.Controller.extend({
 	  return filteredItems;
 	}),
 
-  isLoggedIn: function() {
+  isLoggedIn: Ember.computed('currentUser.isAuthenticated', function() {
     return this.get('currentUser').get('isAuthenticated');
-  }.property('currentUser.isAuthenticated'),
+  }),
 
   actions: {
     showDialog: function(dialogName) {

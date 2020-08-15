@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import moment from 'moment';
 
-export default Ember.Component.extend({
-  currentUser: Ember.inject.service(),
-  ajax: Ember.inject.service(),
-  modalManager: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
+export default Component.extend({
+  currentUser: service(),
+  ajax: service(),
+  modalManager: service(),
+  simpleStore: service(),
   comment: null,
-  classNames: ['comment-edit'],
+  classNames: ['font-gothic text-sm text-right mb-20px'],
 
   actions: {
     submitComment() {

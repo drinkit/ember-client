@@ -1,5 +1,6 @@
-import Ember from 'ember';
-import CryptoJS from 'npm:crypto-js';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import CryptoJS from 'crypto-js';
 import {
   validator,
   buildValidations
@@ -37,10 +38,10 @@ var Validations = buildValidations({
   ]
 });
 
-export default Ember.Component.extend(Validations, {
-  ajax: Ember.inject.service(),
-  session: Ember.inject.service(),
-  signup: Ember.inject.service(),
+export default Component.extend(Validations, {
+  ajax: service(),
+  session: service(),
+  signup: service(),
 
   hasError: false,
 
@@ -55,7 +56,7 @@ export default Ember.Component.extend(Validations, {
       } = this.getProperties('displayName', 'email', 'password');
       this.get('signup').register(email, password, displayName,
         function(response) {
-          self.sendAction('hideDialog', 'SignUp');
+          self.hideDialog('SignUp');
           self.get("session").authenticate('autheticator:digest', email,
             CryptoJS.SHA256("drinkIt" + password).toString());
         },
@@ -69,12 +70,12 @@ export default Ember.Component.extend(Validations, {
     },
 
     login() {
-      this.sendAction('hideDialog', 'SignUp');
-      this.sendAction('showDialog', 'Login');
+      this.hideDialog('SignUp');
+      this.showDialog('Login');
     },
 
     close() {
-      this.sendAction('hideDialog', 'SignUp');
+      this.hideDialog('SignUp');
     }
   }
 });

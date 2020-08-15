@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  repository: Ember.inject.service(),
-  headData: Ember.inject.service(),
+export default Route.extend({
+  repository: service(),
+  headData: service(),
 
   model() {
     const repository = this.get('repository');

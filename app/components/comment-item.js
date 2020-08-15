@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['comment-item'],
-  currentUser: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  ajax: Ember.inject.service(),
+  currentUser: service(),
+  simpleStore: service(),
+  ajax: service(),
 
   actions: {
     deleteComment() {
@@ -23,7 +25,7 @@ export default Ember.Component.extend({
     }
   },
 
-  isCurrentUserAuthor: Ember.computed('currentUser.username', 'comment', function() {
+  isCurrentUserAuthor: computed('currentUser.username', 'comment', function() {
     return this.get('currentUser.username') === this.get('comment.author.username');
   })
 });

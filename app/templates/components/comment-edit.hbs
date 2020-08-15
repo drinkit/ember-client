@@ -1,8 +1,8 @@
 {{#if currentUser.isLoggedIn}}
-  {{textarea value=commentText maxlength="500" class="form-control" rows="3" placeholder="Здесь вы можете оставить комментарий" }}
-  <button id="submitComment" class="btn btn-default" {{action "submitComment"}}>Отправить</button>
+  {{textarea value=commentText maxlength="500" class="w-full min-h-60px px-12px py-6px border rounded border-solid border-gray-400" rows="3" placeholder="Здесь вы можете оставить комментарий" }}
+  <button id="submitComment" class="inline-block h-37px px-12px py-6px border greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{action "submitComment"}}>Отправить</button>
 {{else}}
-  <p class="form-control">
-    Чтобы оставить комментарий, нужно <a {{action "showLogin"}}>авторизироваться</a> на сайте.
+  <p class="min-h-60px px-12px py-6px border rounded border-solid border-gray-400">
+    Чтобы оставить комментарий, нужно <a class="cursor-pointer text-blue-600" {{action "showLogin"}}>авторизироваться</a> на сайте.
   </p>
 {{/if}}

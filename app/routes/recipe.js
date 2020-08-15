@@ -1,9 +1,14 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
+import { htmlSafe } from '@ember/template';
+import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import RememberScrollMixin from '../mixins/remember-scroll';
 
-export default Ember.Route.extend(RememberScrollMixin, {
-  simpleStore: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default Route.extend(RememberScrollMixin, {
+  simpleStore: service(),
+  repository: service(),
 
   beforeModel() {
     const store = this.get('simpleStore');
@@ -13,7 +18,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
   model(params) {
     const repository = this.get('repository');
 
-    return new Ember.RSVP.hash({
+    return new hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
@@ -29,11 +34,11 @@ export default Ember.Route.extend(RememberScrollMixin, {
     });
   },
 
-  headData: Ember.inject.service(),
+  headData: service(),
 
   afterModel(model) {
     this.set('headData.title', 'Рецепт коктейля «' + model.recipe.get('name') + '» - drinkIt');
-    this.set('headData.description', Ember.String.htmlSafe(model.recipe.get('description')));
+    this.set('headData.description', htmlSafe(model.recipe.get('description')));
     this.set('headData.image', model.recipe.get('fullImageUrl'));
   },
 
@@ -41,16 +46,16 @@ export default Ember.Route.extend(RememberScrollMixin, {
     controller.setProperties(modelHash);
   },
 
-  metrics: Ember.inject.service(),
-  stats: Ember.inject.service(),
-  adapterContext: Ember.inject.service(),
+  metrics: service(),
+  stats: service(),
+  adapterContext: service(),
 
   actions: {
     didTransition() {
-      Ember.run.scheduleOnce('afterRender', this, () => {
+      scheduleOnce('afterRender', this, () => {
         const page = document.location.pathname;
         const title = this.get('currentModel').recipe.get('name');
-        Ember.get(this, 'metrics').trackPage({
+        get(this, 'metrics').trackPage({
           page,
           title
         });

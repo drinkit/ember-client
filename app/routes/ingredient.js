@@ -1,13 +1,17 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
+import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  headData: Ember.inject.service(),
-  repository: Ember.inject.service(),
-  metrics: Ember.inject.service(),
+export default Route.extend({
+  headData: service(),
+  repository: service(),
+  metrics: service(),
 
   model(params) {
     const repository = this.get('repository');
-    return new Ember.RSVP.hash({
+    return new hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
@@ -32,10 +36,10 @@ export default Ember.Route.extend({
     didTransition() {
       const repository = this.get('repository');
       repository.findOne('ingredient', this.get('currentModel').ingredientId).then((ingredient) => {
-        Ember.run.scheduleOnce('afterRender', this, () => {
+        scheduleOnce('afterRender', this, () => {
           const page = document.location.pathname;
           const title = ingredient.get('name');
-          Ember.get(this, 'metrics').trackPage({
+          get(this, 'metrics').trackPage({
             page,
             title
           });

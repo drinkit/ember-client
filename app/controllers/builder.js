@@ -1,19 +1,21 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 import PaginationMixin from '../mixins/pagination';
 
-export default Ember.Controller.extend(PaginationMixin, {
-  session: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
-  ajax: Ember.inject.service(),
-  headData: Ember.inject.service(),
+export default Controller.extend(PaginationMixin, {
+  session: service(),
+  simpleStore: service(),
+  currentUser: service(),
+  ajax: service(),
+  headData: service(),
   cocktailTypes: [],
   cocktailOptions: [],
   selectedIngredientsIds: [],
   isSearchPerformed: false,
   isSearchStarting: false,
 
-  recipes: Ember.computed('allRecipes.[]', function() {
+  recipes: computed('allRecipes.[]', function() {
     let allRecipes = this.get('allRecipes');
     let self = this;
     let filteredRecipes = allRecipes.filter(item => {
@@ -28,7 +30,7 @@ export default Ember.Controller.extend(PaginationMixin, {
     this.get('ajax').request({
       url: "/recipes",
       method: "GET",
-      data: {
+      body: {
         criteria: JSON.stringify({
           ingredients: this.get('selectedIngredientsIds') || [],
           cocktailTypes: this.get('cocktailTypes') || [],
@@ -56,9 +58,9 @@ export default Ember.Controller.extend(PaginationMixin, {
       var index = options.indexOf(id);
 
       if (index >= 0) {
-        options.splice(index, 1);
+        options.removeObject(id);
       } else {
-        options.push(id);
+        options.pushObject(id);
       }
 
       this.set('cocktailOptions', options);
@@ -71,9 +73,9 @@ export default Ember.Controller.extend(PaginationMixin, {
       var index = types.indexOf(id);
 
       if (index >= 0) {
-        types.splice(index, 1);
+        types.removeObject(id);
       } else {
-        types.push(id);
+        types.pushObject(id);
       }
 
       this.set('cocktailTypes', types);

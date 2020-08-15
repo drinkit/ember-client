@@ -1,12 +1,14 @@
-import Ember from 'ember';
+import { observer } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  repository: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
+export default Controller.extend({
+  repository: service(),
+  simpleStore: service(),
+  currentUser: service(),
   currentIngredient: null,
 
-  modelChanged: Ember.observer('ingredientId', function() {
+  modelChanged: observer('ingredientId', function() {
     const store = this.get('simpleStore');
     this.set('currentIngredient', store.find('ingredient', this.get('ingredientId')));
     this.updateSuggestedRecipes(this.get('currentIngredient'));
@@ -21,7 +23,7 @@ export default Ember.Controller.extend({
     repository.find('suggestedRecipe', {
       url: '/recipes',
       method: 'GET',
-      data: {
+      body: {
         criteria: JSON.stringify({
           ingredients: [model.get('id')],
           cocktailTypes: [],

@@ -1,10 +1,11 @@
-import Ember from 'ember';
-import CryptoJS from 'npm:crypto-js';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import CryptoJS from 'crypto-js';
 
-export default Ember.Component.extend({
-  session: Ember.inject.service(),
-  ajax: Ember.inject.service(),
-  oauth: Ember.inject.service(),
+export default Component.extend({
+  session: service(),
+  ajax: service(),
+  oauth: service(),
 
   hasError: false,
   isLogining: false,
@@ -21,9 +22,9 @@ export default Ember.Component.extend({
       this.get("session").authenticate('autheticator:digest', email,
         CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
           self.set('isLogining', false);
-          self.sendAction('hideDialog', 'Login');
+          self.hideDialog('Login');
         },
-        function(reason) {
+        function() {
           self.set('hasError', true);
           self.set('isLogining', false);
         });
@@ -31,16 +32,16 @@ export default Ember.Component.extend({
 
     socialLogin(socialNetwork) {
       this.get('oauth').login(socialNetwork);
-      this.sendAction('hideDialog', 'Login');
+      this.hideDialog('Login');
     },
 
     signUp() {
-      this.sendAction('hideDialog', 'Login');
-      this.sendAction('showDialog', 'SignUp');
+      this.hideDialog('Login');
+      this.showDialog('SignUp');
     },
 
     close() {
-      this.sendAction('hideDialog', 'Login');
+      this.hideDialog('Login');
     }
   }
 

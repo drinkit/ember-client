@@ -1,10 +1,10 @@
-import Ember from 'ember';
-import Hello from 'npm:hellojs';
-import CryptoJS from 'npm:crypto-js';
+import Service, { inject as service } from '@ember/service';
+import Hello from 'hellojs';
+import CryptoJS from 'crypto-js';
 
-export default Ember.Service.extend({
-  session: Ember.inject.service(),
-  signup: Ember.inject.service(),
+export default Service.extend({
+  session: service(),
+  signup: service(),
 
   initialize: function() {
     Hello.init({

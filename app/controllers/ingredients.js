@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { observer } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   categories: ['Крепкие алкогольные напитки', 'Ликеры', 'Слабоалкогольные напитки', 'Безалкогольные напитки', 'Прочее'],
   ingredientsInCategories: {
     'Крепкие алкогольные напитки': [],
@@ -19,7 +20,7 @@ export default Ember.Controller.extend({
     }
   },
 
-  modelChanged: Ember.observer('model', function() {
+  modelChanged: observer('model', function() {
     this.clear();
     const ingredientsInCategories = this.get('ingredientsInCategories');
     this.get('model').forEach((item) => {

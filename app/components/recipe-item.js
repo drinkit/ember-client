@@ -1,10 +1,14 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import { computed } from '@ember/object';
+import { schedule } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-  currentUser: Ember.inject.service(),
-  tooltipsProvider: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  classNames: ['col-md-6'],
+export default Component.extend({
+  currentUser: service(),
+  tooltipsProvider: service(),
+  simpleStore: service(),
+  classNames: ['flex-grow', 'w-350px', 'min-w-350px', 'h-185px', 'bg-white', 'rounded-5px', 'shadow-recipe', 'm-5px', 'hover:bg-orange-transparent'],
   typesToTags: {
     1: "long-32.png",
     2: "short-32.png",
@@ -28,7 +32,7 @@ export default Ember.Component.extend({
   },
   didInsertElement: function() {
     var that = this;
-    Ember.run.schedule('afterRender', this, function() {
+    schedule('afterRender', this, function() {
       var sortedIngredients = [];
       var selectedIngredients = that.get("selectedIngredients");
       var store = that.get("simpleStore");
@@ -45,15 +49,16 @@ export default Ember.Component.extend({
       //
       var gapBetweenIngredients = 5;
       //
-      var recipeBoxHeight = that.$().find(".recipe-box").height();
-      var tagsHeight = that.$().find("#tags").height();
-      var recipeNameHeight = that.$().find(".recipe-name-text").height();
+      const curElem = document.querySelector("#" + that.elementId);
+      var recipeBoxHeight = curElem.clientHeight;
+      var tagsHeight = document.querySelector("#tags").clientHeight;
+      var recipeNameHeight = document.querySelector("#recipeName").offsetHeight;
       var paddingTop = 4 + recipeNameHeight;
       var paddingBottom = 4 + tagsHeight;
 
       var availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
       ////
-      var recipeBoxWidth = that.$().find(".recipe-box").width();
+      var recipeBoxWidth = curElem.clientWidth;
       var imageWidth = 5 + 134 + 5;
       var paddingRight = 5;
       var availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
@@ -104,7 +109,6 @@ export default Ember.Component.extend({
       }
 
       if (ingredientsWithWidths.length > 0) {
-
         var dotsWidth = 30;
         var dots = {
           name: "...",
@@ -134,11 +138,11 @@ export default Ember.Component.extend({
       }
 
       that.set('maxIngredientWidth', availableWidth - 4);
-      that.set("sortedIngredients", newOrder);
+      that.set('sortedIngredients', newOrder);
     });
   },
 
-  tags: Ember.computed({
+  tags: computed({
     get() {
       let self = this;
       let tags = [];
@@ -159,14 +163,14 @@ export default Ember.Component.extend({
     }
   }),
 
-  isLiked: Ember.computed('currentUser.recipeStatsMap', function() {
+  isLiked: computed('currentUser.recipeStatsMap', function() {
     const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
     const recipeId = parseInt(this.get('recipe').get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
   }),
 
-  maxIngredientWidthStyle: Ember.computed('maxIngredientWidth',
+  maxIngredientWidthStyle: computed('maxIngredientWidth',
     function() {
-      return Ember.String.htmlSafe('max-width:' + this.get('maxIngredientWidth') + 'px;');
+      return htmlSafe('max-width:' + this.get('maxIngredientWidth') + 'px;');
     })
 });

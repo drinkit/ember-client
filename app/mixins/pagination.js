@@ -1,35 +1,36 @@
-import Ember from 'ember';
+import { observer, computed } from '@ember/object';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   queryParams: ['pageNumber'],
   pageNumber: 0,
   pageSize: 16,
 
-  scrollOnPageChange: Ember.observer('pageNumber', function() {
-    Ember.$(window).scrollTop(0);
+  scrollOnPageChange: observer('pageNumber', function() {
+    window.scrollTop = 0;
   }),
 
-  foundCocktails: Ember.computed('recipes.[]', function() {
+  foundCocktails: computed('recipes.[]', function() {
     return this.get('recipes') && this.get('recipes').get('length') > 0;
   }),
 
-  nextPageNumber: Ember.computed('pages', 'pageNumber', function() {
+  nextPageNumber: computed('pages', 'pageNumber', function() {
     return this.get('pageNumber') + 1;
   }),
 
-  previousPageNumber: Ember.computed('pages', 'pageNumber', function() {
+  previousPageNumber: computed('pages', 'pageNumber', function() {
     return this.get('pageNumber') - 1;
   }),
 
-  isNextPageExist: Ember.computed('pages', 'pageNumber', function() {
+  isNextPageExist: computed('pages', 'pageNumber', function() {
     return this.get('pageNumber') + 1 < this.get('pages').length;
   }),
 
-  isPreviousPageExist: Ember.computed('pages', 'pageNumber', function() {
+  isPreviousPageExist: computed('pages', 'pageNumber', function() {
     return this.get('pageNumber') - 1 >= 0 && this.get('pages').length > 0;
   }),
 
-  pages: Ember.computed('recipes.[]', 'pageSize', function() {
+  pages: computed('recipes.[]', 'pageSize', function() {
     var pages = [];
     var that = this;
     if (this.get('recipes') != null) {
@@ -49,7 +50,7 @@ export default Ember.Mixin.create({
     return pages;
   }),
 
-  recipesOnPage: Ember.computed('pages', 'pageNumber', function() {
+  recipesOnPage: computed('pages', 'pageNumber', function() {
     return this.get('pages')[this.get('pageNumber')];
   })
 });

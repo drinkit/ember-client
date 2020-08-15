@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import PaginationMixin from '../mixins/pagination';
 
-export default Ember.Controller.extend(PaginationMixin, {
+export default Controller.extend(PaginationMixin, {
   queryParams: ['search'],
   search: null
 });

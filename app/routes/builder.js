@@ -1,11 +1,14 @@
-import Ember from 'ember';
+import { scheduleOnce } from '@ember/runloop';
+import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import RememberScrollMixin from '../mixins/remember-scroll';
 
-export default Ember.Route.extend(RememberScrollMixin, {
-  metrics: Ember.inject.service(),
-  headData: Ember.inject.service(),
-  repository: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
+export default Route.extend(RememberScrollMixin, {
+  metrics: service(),
+  headData: service(),
+  repository: service(),
+  simpleStore: service(),
 
   afterModel(model, transition) {
     this.set('headData.title', 'Конструктор коктейлей - drinkIt');
@@ -19,7 +22,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
     let repository = this.get('repository');
     let store = this.get('simpleStore');
 
-    return new Ember.RSVP.hash({
+    return new hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
@@ -27,7 +30,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
       allRecipes: repository.find('recipe', {
         url: '/recipes',
         method: 'GET',
-        data: {
+        body: {
           criteria: JSON.stringify({
             ingredients: [],
             cocktailTypes: [],
@@ -49,7 +52,7 @@ export default Ember.Route.extend(RememberScrollMixin, {
 
   actions: {
     didTransition: function() {
-      Ember.run.scheduleOnce('afterRender', this, () => {
+      scheduleOnce('afterRender', this, () => {
         const page = "/builder";
         const title = "drinkIt";
         this.get('metrics').trackPage({

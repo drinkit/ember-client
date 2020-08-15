@@ -1,12 +1,16 @@
-import Ember from 'ember';
+import Service, {
+  inject as service
+} from '@ember/service';
 import ENV from 'ember-drink-it/config/environment';
+import fetch from 'fetch';
+import {isUnauthorizedResponse} from 'ember-fetch/errors';
 
-export default Ember.Service.extend({
+export default Service.extend({
 
   host: ENV['server-path'] + '/rest',
 
-  session: Ember.inject.service('session'),
-  digestGenerator: Ember.inject.service('digest-generator'),
+  session: service('session'),
+  digestGenerator: service('digest-generator'),
 
   _addDigestHeader: function(ajaxRequestBody, headerName, headerValue) {
     if (ajaxRequestBody.headers) {
@@ -22,6 +26,13 @@ export default Ember.Service.extend({
 
   _isNonceExpired: function(authResponseHeader) {
     return authResponseHeader.indexOf('stale="true"') > 0;
+  },
+
+  _getQueryString: function(params) {
+    var esc = encodeURIComponent;
+    return Object.keys(params)
+      .map(k => esc(k) + '=' + esc(params[k]))
+      .join('&');
   },
 
   generateAllDigests: function(username, password, authHeader) {
@@ -45,24 +56,32 @@ export default Ember.Service.extend({
     const self = this;
     let digests = self.get('session').get('data').digests;
     if (this.get('session').get('isAuthenticated')) {
-      this.get('session').authorize('authorizer:digest', (headerName, headerValues) => {
-        if (headerValues[ajaxRequestBody.method]) {
-          ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, headerName, headerValues[ajaxRequestBody.method]);
-        }
-      });
+    let authDigests = this.get('session.data.authenticated.digests');
+      if (authDigests && authDigests[ajaxRequestBody.method]) {
+        ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, "Authorization", authDigests[ajaxRequestBody.method]);
+      }
     }
 
-    // ajaxRequestBody.xhrFields = {
-    //   withCredentials: true
-    // };
 
-    Ember.$.ajax(ajaxRequestBody).then(function(response) {
-      successHandler(response, self.get('session').get('data').digests);
-    }, function(xhr, status, error) {
-      if (xhr.status === 401) { // auth error
+    if (ajaxRequestBody.method === 'GET' && ajaxRequestBody.body) {
+      ajaxRequestBody.url += '?' + self._getQueryString(ajaxRequestBody.body);
+      ajaxRequestBody.body = null;
+    }
+
+    fetch(ajaxRequestBody.url, ajaxRequestBody).then(function(response) {
+      if (response.ok) {
+        if (response.status === 204) {
+          return successHandler(null, self.get('session').get('data').digests);
+        } else {
+          return response.json().then(function(data) {
+            return successHandler(data, self.get('session').get('data').digests);
+          });
+        }
+      } else if (isUnauthorizedResponse(response)) {
         if (curPassword) {
-          if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(xhr.getResponseHeader("WWW-Authenticate"))) {
-            const allDigests = self.generateAllDigests(curUsername, curPassword, xhr.getResponseHeader("WWW-Authenticate"));
+          const authHeader = response.headers.get("www-authenticate");
+          if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(authHeader)) {
+            const allDigests = self.generateAllDigests(curUsername, curPassword, authHeader);
 
             self.get('session').get('data').digests = allDigests;
             digests = allDigests;
@@ -80,15 +99,14 @@ export default Ember.Service.extend({
           } else {
             self.get('session').get('data').digests = {};
             if (errorHandler != null) {
-              errorHandler(xhr, "Incorrect credentials", error);
+              errorHandler(response, "Incorrect credentials");
             }
           }
-
-        }
-      } else {
-        self.get('session').get('data').digests = {};
-        if (errorHandler != null) {
-          errorHandler(xhr, status, error);
+        } else {
+          self.get('session').get('data').digests = {};
+          if (errorHandler != null) {
+            errorHandler(response, status, error);
+          }
         }
       }
     });

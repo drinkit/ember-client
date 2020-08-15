@@ -7,7 +7,7 @@ $row-height: 42px;
   margin-right: 0;
   border: 0 none;
   text-align: center;
-  
+
   p,
   span {
     font-family: "Century Gothic";
@@ -167,20 +167,7 @@ $row-height: 42px;
     color: $dark-grey;
   }
 }
-.rating-heart-liked {
-  background: url("/assets/filled-heart.svg");
-}
-.rating-heart-liked:hover {
-  -webkit-filter: drop-shadow(0px 0px 1px $brick-red);
-  filter: drop-shadow(0px 0px 1px $brick-red);
-}
-.rating-heart-unliked {
-  background: url("/assets/heart.svg");
-}
-.rating-heart-unliked:hover {
-  -webkit-filter: drop-shadow(0px 0px 1px $brick-red);
-  filter: drop-shadow(0px 0px 1px $brick-red);
-}
+
 #commentsView {
   padding-right: 5px;
   margin-top: 30px;

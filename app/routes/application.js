@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import { schedule } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default Ember.Route.extend(ApplicationRouteMixin, {
-  currentUser: Ember.inject.service(),
-  oauth: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default Route.extend(ApplicationRouteMixin, {
+  currentUser: service(),
+  oauth: service(),
+  repository: service(),
 
   searchableItems: [],
 
@@ -39,7 +41,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   afterModel(model) {
     const self = this;
     let options = [];
-    Ember.run.schedule('afterRender', this, function() {
+    schedule('afterRender', this, function() {
       const repository = self.get('repository');
       repository.find('ingredient', {
         url: '/ingredients',
@@ -57,7 +59,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         return repository.find('recipe', {
           url: '/recipes',
           method: 'GET',
-          data: {
+          body: {
             criteria: JSON.stringify({
               ingredients: [],
               cocktailTypes: [],

@@ -1,10 +1,14 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import { computed } from '@ember/object';
+import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   scrollSelector: window,
-  classNames: ['suggestions-box'],
-  simpleStore: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
+  classNames: ['flex-1 p-5px mx-21px mt-20px mb-15px rounded-5px shadow-recipe font-gothic'],
+  simpleStore: service(),
+  currentUser: service(),
   initialized: false,
   suggestionsCount: 3,
 
@@ -12,21 +16,21 @@ export default Ember.Component.extend({
     getMoreSuggestion() {
       this.set('suggestionsCount', this.get('suggestionsCount') + 3);
       let self = this;
-      Ember.run.next(function() {
-        Ember.$(self.scrollSelector).scrollTop(Ember.$(self.scrollSelector).scrollTop() + 666);
+      next(function() {
+        self.scrollSelector.scrollTo(0, document.body.scrollHeight);
       });
     }
   },
 
-  hasData: Ember.computed('suggestedIngredients.[]', function() {
+  hasData: computed('suggestedIngredients.[]', function() {
     return this.get('suggestedIngredients.length') > 0;
   }),
 
-  showButtonForExtraSuggestion: Ember.computed('suggestedIngredients.[]', 'suggestionsCount', function() {
+  showButtonForExtraSuggestion: computed('suggestedIngredients.[]', 'suggestionsCount', function() {
     return this.get('suggestedIngredients.length') > this.get('suggestionsCount');
   }),
 
-  ingredientsCocktails: Ember.computed('suggestedIngredients.[]', 'suggestionsCount', function() {
+  ingredientsCocktails: computed('suggestedIngredients.[]', 'suggestionsCount', function() {
     let ingredientsCocktails = [];
     const store = this.get('simpleStore');
     const user = this.get('currentUser');
@@ -47,7 +51,7 @@ export default Ember.Component.extend({
     return ingredientsCocktails;
   }),
 
-  wholePhrases: Ember.computed('ingredientsCocktails.[]', function() {
+  wholePhrases: computed('ingredientsCocktails.[]', function() {
     let phrases = [];
     const cocktailsCount = 3;
     for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
@@ -76,7 +80,7 @@ export default Ember.Component.extend({
 
   getCocktailsEnding(number) {
     if (number >= 11 && number <= 19) {
-      return Ember.String.htmlSafe(number.toString() + ' коктейлей.');
+      return htmlSafe(number.toString() + ' коктейлей.');
     }
     switch (number % 10) {
       case 0:
@@ -85,13 +89,13 @@ export default Ember.Component.extend({
       case 7:
       case 8:
       case 9:
-        return Ember.String.htmlSafe(number.toString() + ' коктейлей.');
+        return htmlSafe(number.toString() + ' коктейлей.');
       case 1:
-        return Ember.String.htmlSafe(number.toString() + ' коктейль.');
+        return htmlSafe(number.toString() + ' коктейль.');
       case 2:
       case 3:
       case 4:
-        return Ember.String.htmlSafe(number.toString() + ' коктейля.');
+        return htmlSafe(number.toString() + ' коктейля.');
     }
   }
 });

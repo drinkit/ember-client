@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 
-export default Ember.Service.extend({
-  session: Ember.inject.service("session"),
+export default Service.extend({
+  session: service("session"),
 
   username: "",
   password: "",
@@ -11,9 +12,9 @@ export default Ember.Service.extend({
   recipeStatsMap: {},
   isLoggedIn: false,
 
-  isAuthenticated: function() {
+  isAuthenticated: computed('isLoggedIn', 'session.isAuthenticated', function() {
     return this.get("isLoggedIn") && this.get('session').isAuthenticated;
-  }.property('isLoggedIn', 'session.isAuthenticated'),
+  }),
 
   setUser: function(userInfo) {
     this.set("username", userInfo.username);

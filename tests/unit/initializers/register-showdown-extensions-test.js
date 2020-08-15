@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Application from '@ember/application';
+import { run } from '@ember/runloop';
 import RegisterShowdownExtensionsInitializer from 'ember-drink-it/initializers/register-showdown-extensions';
 import { module, test } from 'qunit';
 
@@ -6,8 +7,8 @@ let application;
 
 module('Unit | Initializer | register showdown extensions', {
   beforeEach() {
-    Ember.run(function() {
-      application = Ember.Application.create();
+    run(function() {
+      application = Application.create();
       application.deferReadiness();
     });
   }

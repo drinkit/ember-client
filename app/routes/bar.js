@@ -1,11 +1,14 @@
-import Ember from 'ember';
+import { scheduleOnce } from '@ember/runloop';
+import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  metrics: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
-  repository: Ember.inject.service(),
-  headData: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
+export default Route.extend({
+  metrics: service(),
+  currentUser: service(),
+  repository: service(),
+  headData: service(),
+  simpleStore: service(),
 
   afterModel(model) {
     this.set('headData.title', 'Мой бар - drinkIt');
@@ -19,7 +22,7 @@ export default Ember.Route.extend({
   model() {
     const repository = this.get('repository');
     const store = this.get('simpleStore');
-    return new Ember.RSVP.hash({
+    return new hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
@@ -28,7 +31,7 @@ export default Ember.Route.extend({
       recipes: repository.find('recipe', {
         url: '/recipes',
         method: 'GET',
-        data: {
+        body: {
           criteria: JSON.stringify({
             ingredients: [],
             cocktailTypes: [],
@@ -45,7 +48,7 @@ export default Ember.Route.extend({
 
   actions: {
     didTransition: function() {
-      Ember.run.scheduleOnce('afterRender', this, () => {
+      scheduleOnce('afterRender', this, () => {
         const page = "/bar";
         const title = "drinkIt";
         this.get('metrics').trackPage({page, title});

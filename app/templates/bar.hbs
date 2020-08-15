@@ -1,19 +1,17 @@
 {{#if user.isAuthenticated}}
-  <div style="padding-left:5px;padding-right:10px;padding-top:15px;">
-    {{ingredient-chooser multiple=false initSelectedIds=selectedIngredientsIds selectedIngredientsIds=selectedIngredientsIds ingredients=ingredients changeIngredients="changeIngredients" needToClear=needToClear placeholder="Добавить в бар..." ingredientSelected="ingredientSelected"}}
-    <div class="container-fluid bar-container">
-      <div class="row">
-        <div id="firstBarColumn" class="col-md-6">
-          {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors onRemoveItem=(action "itemDeleted")}}
-        </div>
-        <div id="secondBarColumn" class="col-md-6">
-          {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits onRemoveItem=(action
-          "itemDeleted")}} {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other onRemoveItem=(action "itemDeleted")}}
-        </div>
+  <div class="mx-4 pt-15px">
+    <IngredientChooser class="mx-5px" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @changeIngredients={{action "changeIngredients"}} @placeholder="Добавить в бар..." @ingredientSelected={{action "ingredientSelected"}}/>
+    <div class="flex flex-wrap mt-10px">
+      <div id="firstBarColumn" class="flex flex-col flex-1 w-full">
+        {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors onRemoveItem=(action "itemDeleted")}}
+      </div>
+      <div id="secondBarColumn" class="flex flex-col flex-1 w-full">
+        {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits onRemoveItem=(action
+        "itemDeleted")}} {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other onRemoveItem=(action "itemDeleted")}}
       </div>
     </div>
   </div>
-    {{suggest-ingredients suggestedIngredients=suggestedIngredients initialized=suggestedIngredientsInitialized}}
+    <SuggestIngredients @suggestedIngredients={{this.suggestedIngredients}} @initialized={{this.suggestedIngredientsInitialized}} />
 {{else}}
   <span class="closed-bar-text">
     Чтобы воспользоваться баром, нужно <a {{action "showLogin"}}>авторизироваться</a> на сайте.

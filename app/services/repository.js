@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
-  simpleStore: Ember.inject.service(),
-  ajax: Ember.inject.service(),
+export default Service.extend({
+  simpleStore: service(),
+  ajax: service(),
 
   find(modelName, ajaxBody, minSize=1) {
     const ajax = this.get('ajax');
     const store = this.get('simpleStore');
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (store.find(modelName).get('length') >= minSize) {
+    return new Promise(function(resolve, reject) {
+      if (store.find(modelName).get('length') > minSize) {
         resolve(store.find(modelName));
         return;
       }
@@ -27,7 +28,7 @@ export default Ember.Service.extend({
     const ajax = this.get('ajax');
     const store = this.get('simpleStore');
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (store.find(modelName, id).get('id') == id) {
         resolve(store.find(modelName, id));
         return;

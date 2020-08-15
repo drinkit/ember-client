@@ -1,10 +1,13 @@
-import Ember from 'ember';
+import { sort } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  currentUser: Ember.inject.service(),
-  ajax: Ember.inject.service(),
-  tooltipsProvider: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default Controller.extend({
+  currentUser: service(),
+  ajax: service(),
+  tooltipsProvider: service(),
+  repository: service(),
 
   actions: {
     changeLike() {
@@ -34,7 +37,7 @@ export default Ember.Controller.extend({
     }
   },
 
-  recipeIngredients: Ember.computed('recipe.ingredientsWithQuantities', function() {
+  recipeIngredients: computed('recipe.ingredientsWithQuantities', function() {
     let self = this;
     let repository = this.get('repository');
     let res = [];
@@ -65,15 +68,15 @@ export default Ember.Controller.extend({
     3: "shot-32.png"
   },
 
-  sortedComments: Ember.computed.sort('comments', (a, b) => {
+  sortedComments: sort('comments', (a, b) => {
     return moment(a.get('posted')).isBefore(b.get('posted')) ? 1 : -1;
   }),
 
-  isCommentsWorked: Ember.computed('comments', function() {
+  isCommentsWorked: computed('comments', function() {
     return this.get('comments') != null;
   }),
 
-  tags: Ember.computed('recipe', {
+  tags: computed('recipe', {
     get() {
       let self = this;
       let tags = [];
@@ -94,19 +97,19 @@ export default Ember.Controller.extend({
     }
   }),
 
-  isLiked: Ember.computed('currentUser.recipeStatsMap', 'recipe', function() {
+  isLiked: computed('currentUser.recipeStatsMap', 'recipe', function() {
     const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
     const recipeId = parseInt(this.get('recipe').get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
   }),
 
-  shareTitle: Ember.computed('recipe', {
+  shareTitle: computed('recipe', {
     get() {
       return 'Рецепт коктейля "' + this.get('recipe.name') + '"';
     }
   }),
 
-  shareDescription: Ember.computed('recipe', {
+  shareDescription: computed('recipe', {
     get() {
       let truncatedDesc = this.get('recipe.description');
       let res = this.get('recipe.description').match(/^(?:.*\n){1,3}/);

@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-  classNames: ['bar-category-box'],
+export default Component.extend({
+  classNames: ['flex-1 rounded-5px shadow-recipe m-5px'],
   title: '',
   category: '',
 

@@ -1,7 +1,7 @@
-<span>{{title}}</span>
-<div>
-  {{#each ingredients as |ingredient|}}
-    <span class="ember-power-select-multiple-option">
+<span class="inline-block w-full text-center font-georgia text-lg text-light_green subpixel-antialiased">{{@title}}</span>
+<div class="flex flex-wrap p-5px">
+  {{#each @ingredients as |ingredient|}}
+    <span class="ember-power-select-multiple-option font-gothic subpixel-antialiased">
       <span {{action "removeItem" ingredient}} class="ember-power-select-multiple-remove-btn">×</span>
       {{ingredient.name}}
     </span>

@@ -1,16 +1,17 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['suggest-recipes'],
   maxRecipes: 6,
   initialized: false,
   suggestedRecipes: [],
 
-  filteredSuggestedRecipes: Ember.computed('suggestedRecipes.[]', function() {
+  filteredSuggestedRecipes: computed('suggestedRecipes.[]', function() {
     return this.get('suggestedRecipes') ? this.get('suggestedRecipes').slice(0, this.get('maxRecipes')) : [];
   }),
 
-  hasData: Ember.computed('filteredSuggestedRecipes.[]', function() {
+  hasData: computed('filteredSuggestedRecipes.[]', function() {
     return this.get('filteredSuggestedRecipes.length') > 0;
   })
 });

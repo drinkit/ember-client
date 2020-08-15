@@ -1,13 +1,13 @@
-{{#if hasData}}
-  <span>Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!</span>
+{{#if this.hasData}}
+  <span class="block ml-5px text-sm">Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!</span>
   {{#each wholePhrases as |suggestion|}}
-    {{markdown-to-html suggestion extensions="internal-links"}}
+    <MarkdownToHtml class="ml-5px mt-10px text-sm" @markdown={{suggestion}} @extensions="internal-links" />
   {{/each}}
-  {{#if showButtonForExtraSuggestion}}
-    <button class="btn btn-default" {{action "getMoreSuggestion"}}>Еще рекомендаций</button>
+  {{#if this.showButtonForExtraSuggestion}}
+    <button type="button" class="block mt-10px ml-5px mb-5px px-12px py-6px h-36px border border-greengray rounded-4px text-light_green font-gothic font-bold text-sm focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{action "getMoreSuggestion"}}>Еще рекомендаций</button>
   {{/if}}
-  {{else if initialized}}
-  <span>К сожалению, в вашем баре слишком мало ингредиентов, чтобы мы могли вам что-то посоветовать.</span>
+  {{else if this.initialized}}
+  <span class="block ml-5px text-sm">К сожалению, в вашем баре слишком мало ингредиентов, чтобы мы могли вам что-то посоветовать.</span>
 {{else}}
-  {{spinkit-three-bounce}}
+  <SpinkitThreeBounce/>
 {{/if}}

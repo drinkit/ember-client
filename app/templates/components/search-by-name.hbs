@@ -1,3 +1,15 @@
-{{#power-select-typeahead class="form-control" initiallyOpened=false placeholder=randomPlaceholder searchField="name" extra=(hash labelPath="name") defaultHighlighted=null options=options selected=selected onopen=(action 'preventEmptyOpen') oninput=(action 'preventShortSearch') onchange=(action 'processSearch') onkeydown=(action 'keyPressed') as |element|}}
+<PowerSelectTypeahead
+@searchEnabled={{true}}
+@initiallyOpened={{false}}
+@placeholder={{this.randomPlaceholder}}
+@searchField="name"
+@extra=(hash labelPath="name")
+@defaultHighlighted=null
+@options={{this.options}}
+@selected={{this.selected}}
+@onOpen={{this.preventEmptyOpen}}
+@onInput={{this.preventShortSearch}}
+@onKeydown={{this.keyPressed}}
+@onChange={{this.processSearch}} as |element|>
   {{element.name}}
-{{/power-select-typeahead}}
+</PowerSelectTypeahead>

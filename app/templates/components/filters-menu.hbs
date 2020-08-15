@@ -1,30 +1,24 @@
-<div id="filtersMenu">
-  <h3>Формат коктейля</h3>
-  <div id="cocktail-types-group" class="row">
-    <div class="col-xs-4">
-      <button {{action 'toggleType' 1}} id="long-cocktail-button" type="button" class="btn big-toggle-button  {{add-active-class isLongTypePressed}}" data-toggle="button" aria-pressed={{ isLongTypePressed }} autocomplete="off" title="лонг"></button>
-    </div>
-    <div class="col-xs-4">
-      <button {{action 'toggleType' 2}} id="short-cocktail-button" type="button" class="btn big-toggle-button {{add-active-class isShortTypePressed}}" data-toggle="button" aria-pressed={{ isShortTypePressed }} autocomplete="off" title="короткий"></button>
-    </div>
-    <div class="col-xs-4">
-      <button {{action 'toggleType' 3}} id="shot-cocktail-button" type="button" class="btn big-toggle-button {{add-active-class isShotTypePressed}}" data-toggle="button" aria-pressed={{ isShotTypePressed }} autocomplete="off" title="шот"></button>
-    </div>
+<div id="filtersMenu" class="sticky mt-15px top-15px">
+  <h3 class="font-georgia font-bold italic text-lg text-light_green text-center my-15px">Формат коктейля</h3>
+  <div id="cocktail-types-group" class="flex justify-around">
+      <button {{action "toggleType" 1}} id="long-cocktail-button" type="button" class="w-64px h-64px border rounded-4px outline-none border-greengray hover:bg-gray-100 {{this.longTypeActiveClass}}" data-toggle="button" aria-pressed={{ this.isLongTypePressed }} autocomplete="off" title="лонг" />
+      <button {{action "toggleType" 2}} id="short-cocktail-button" type="button" class="w-64px h-64px border rounded-4px outline-none border-greengray hover:bg-gray-100 {{this.shortTypeActiveClass}}" data-toggle="button" aria-pressed={{ this.isShortTypePressed }} autocomplete="off" title="короткий" />
+      <button {{action "toggleType" 3}} id="shot-cocktail-button" type="button" class="w-64px h-64px border rounded-4px outline-none border-greengray hover:bg-gray-100 {{this.shotTypeActiveClass}}" data-toggle="button" aria-pressed={{ this.isShotTypePressed }} autocomplete="off" title="шот" />
   </div>
-  <h3>Дополнительные опции</h3>
-  <div id="options-group" class="row">
-    <button {{action 'toggleOption' 1}} id="burning-option-button" class="btn option-toggle-button {{add-active-class isBurningPressed}}" data-toggle="button" aria-pressed={{ isBurningPressed }} autocomplete="off">горящий</button>
-    <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" class="btn option-toggle-button {{add-active-class isFlackyPressed}}" data-toggle="button" aria-pressed={{ isFlackyPressed }} autocomplete="off">слоеный</button>
-    <button {{action 'toggleOption' 2}} id="ice-cocktail-button" class="btn option-toggle-button {{add-active-class isIcePressed}}" data-toggle="button" aria-pressed={{ isIcePressed }} autocomplete="off">со льдом</button>
-    <button {{action 'toggleOption' 4}} id="official-cocktail-button" class="btn option-toggle-button {{add-active-class isIBAPressed}}" data-toggle="button" aria-pressed={{ isIBAPressed }} autocomplete="off" title="утвержденный международной ассоциацией барменов (IBA)">официальный</button>
-    <button {{action 'toggleOption' 3}} id="checked-cocktail-button" class="btn option-toggle-button {{add-active-class isCheckedPressed}}" data-toggle="button" aria-pressed={{ isCheckedPressed }} autocomplete="off" title="проверенный модераторами">проверенный</button>
+  <h3 class="font-georgia font-bold italic text-lg text-light_green text-center my-15px">Дополнительные опции</h3>
+  <div id="options-group" class="flex flex-wrap justify-between px-1">
+    <button {{action 'toggleOption' 1}} id="burning-option-button" class="h-21px mb-5px mx-5px leading-none font-georgia font-bold italic text-sm text-orange_beach border-b border-dashed border-orange_beach outline-none hover:text-brick_red hover:border-brick_red {{this.burningActiveClass}}" data-toggle="button" aria-pressed={{ this.isBurningPressed }} autocomplete="off">горящий</button>
+    <button {{action 'toggleOption' 5}} id="flacky-cocktail-button" class="h-21px mb-5px mx-5px leading-none font-georgia font-bold italic text-sm text-orange_beach border-b border-dashed border-orange_beach outline-none hover:text-brick_red hover:border-brick_red {{this.flackyActiveClass}}" data-toggle="button" aria-pressed={{ this.isFlackyPressed }} autocomplete="off">слоеный</button>
+    <button {{action 'toggleOption' 2}} id="ice-cocktail-button" class="h-21px mb-5px mx-5px leading-none font-georgia font-bold italic text-sm text-orange_beach border-b border-dashed border-orange_beach outline-none hover:text-brick_red hover:border-brick_red {{this.iceActiveClass}}" data-toggle="button" aria-pressed={{ this.isIcePressed }} autocomplete="off">со льдом</button>
+    <button {{action 'toggleOption' 4}} id="official-cocktail-button" class="h-21px mb-5px mx-5px leading-none font-georgia font-bold italic text-sm text-orange_beach border-b border-dashed border-orange_beach outline-none hover:text-brick_red hover:border-brick_red {{this.ibaActiveClass}}" data-toggle="button" aria-pressed={{ this.isIBAPressed }} autocomplete="off" title="утвержденный международной ассоциацией барменов (IBA)">официальный</button>
+    <button {{action 'toggleOption' 3}} id="checked-cocktail-button" class="h-21px mb-5px mx-5px leading-none font-georgia font-bold italic text-sm text-orange_beach border-b border-dashed border-orange_beach outline-none hover:text-brick_red hover:border-brick_red {{this.checkedActiveClass}}" data-toggle="button" aria-pressed={{ this.isCheckedPressed }} autocomplete="off" title="проверенный модераторами">проверенный</button>
   </div>
-  <h3>Выбор ингредиентов</h3>
-  {{ingredient-chooser elementId="ingredientChooser" multiple=true placeholder="Напишите ингредиент..." initSelectedIds=selectedIngredientsIds ingredients=ingredients selectedIngredientsIds=barIngredientsIds changeIngredients=changeIngredients}}
+  <h3 class="font-georgia font-bold italic text-lg text-light_green text-center my-15px">Выбор ингредиентов</h3>
+  <IngredientChooser @multiple={{true}} @placeholder="Напишите ингредиент..." @initSelectedIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @selectedIngredientsIds={{this.barIngredientsIds}} @changeIngredients={{action "changeIngredients"}} />
   {{#if currentUser.isAuthenticated}}
-    <a {{action 'addBarAsFilter'}} class="text-button">Добавить ингредиенты из бара</a>
+    <a {{action 'addBarAsFilter'}} class="font-gothic text-sm underline cursor-pointer">Добавить ингредиенты из бара</a>
   {{else}}
-    <a class="text-button text-button-disabled" title="Доступно для зарегистрированых пользователей">Добавить ингредиенты из бара</a>
+    <a class="font-gothic text-sm underline opacity-50" title="Доступно для зарегистрированых пользователей">Добавить ингредиенты из бара</a>
   {{/if}}
-  <a {{action 'clearFilters'}} class="text-button">Сбросить фильтры</a>
+  <a {{action 'clearFilters'}} class="font-gothic text-sm underline cursor-pointer">Сбросить фильтры</a>
 </div>

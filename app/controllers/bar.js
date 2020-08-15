@@ -1,10 +1,13 @@
-import Ember from 'ember';
+import { observer } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Controller from '@ember/controller';
+import qs from 'qs';
 
-export default Ember.Controller.extend({
-  ajax: Ember.inject.service(),
-  modalManager: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default Controller.extend({
+  ajax: service(),
+  modalManager: service(),
+  simpleStore: service(),
+  repository: service(),
 
   selectedIngredientsIds: [],
   ingredientsInCategories: {},
@@ -18,7 +21,7 @@ export default Ember.Controller.extend({
     'Прочее': 'other'
   },
 
-  barItemsChanged: Ember.observer('user.barItems.[]', function() {
+  barItemsChanged: observer('user.barItems.[]', function() {
     const store = this.get('simpleStore');
     let ingredientsIds = [];
     this.set('ingredientsInCategories', {});
@@ -42,7 +45,7 @@ export default Ember.Controller.extend({
     }
   }),
 
-  ingredientsIdsChanged: Ember.observer('user.barItems.[]', function() {
+  ingredientsIdsChanged: observer('user.barItems.[]', function() {
     const user = this.get('user');
     this.set('suggestedIngredientsInitialized', true);
     if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
@@ -54,13 +57,12 @@ export default Ember.Controller.extend({
       });
       store.clear('suggestedIngredient');
       self.set('suggestedIngredientsInitialized', false);
-      const suggestSuffix = user.get('role') == 'ADMIN' ? '?viewAll=true' : '?viewAll=false';
+      const suggestSuffix = user.get('role') == 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
       repository.find('suggestedIngredient', {
-        url: '/ingredients/suggest' + suggestSuffix,
-        method: 'GET',
-        data: {
+        url: '/ingredients/suggest' + suggestSuffix + qs.stringify({
           id: ingredientsIds
-        }
+        }, { arrayFormat: 'brackets' }),
+        method: 'GET'
       }).then(function(response) {
         self.set('suggestedIngredientsInitialized', true);
         self.set('suggestedIngredients', response);
@@ -93,9 +95,11 @@ export default Ember.Controller.extend({
       });
       this.get('ajax').request({
         url: '/users/' + this.get('user.username') + '/barItems',
-        contentType: 'application/json;charset=UTF-8',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
         method: 'POST',
-        data: JSON.stringify({
+        body: JSON.stringify({
           ingredientId: id,
           active: true
         })
@@ -109,9 +113,11 @@ export default Ember.Controller.extend({
       self.changeIngredientActivity(removedItem.get('id'), false);
       this.get('ajax').request({
         url: '/users/' + this.get('user.username') + '/barItems/' + removedItem.get('id'),
-        contentType: 'application/json;charset=UTF-8',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
         method: 'PUT',
-        data: JSON.stringify({
+        body: JSON.stringify({
           ingredientId: removedItem.get('id'),
           active: false
         })
@@ -125,9 +131,11 @@ export default Ember.Controller.extend({
       self.changeIngredientActivity(restoredItem.get('id'), true);
       this.get('ajax').request({
         url: '/users/' + this.get('user.username') + '/barItems/' + restoredItem.get('id'),
-        contentType: 'application/json;charset=UTF-8',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
         method: 'PUT',
-        data: JSON.stringify({
+        body: JSON.stringify({
           ingredientId: restoredItem.get('id'),
           active: true
         })
@@ -141,7 +149,9 @@ export default Ember.Controller.extend({
       self.deleteIngredient(deletedItem.get('id'));
       this.get('ajax').request({
         url: '/users/' + this.get('user.username') + '/barItems/' + deletedItem.get('id'),
-        contentType: 'application/json;charset=UTF-8',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
         method: 'DELETE'
       }, function(response) {
 
@@ -174,7 +184,7 @@ export default Ember.Controller.extend({
   moveIngredientToCategory: function(ingredient) {
     if (ingredient == null) {
       return;
-    };
+    }
     if (this.isIngredientActive(ingredient.get('id'))) {
       let category = this.get('ruToEnCategory')[ingredient.get('category')];
       if (this.get('ingredientsInCategories')[category]) {

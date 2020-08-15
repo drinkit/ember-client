@@ -1,43 +1,37 @@
-<div class="recipe-box">
-	{{#link-to "recipe" recipe.id}}
-		<div>
-			<div class="recipe-image-container">
-				<div>
-					{{#if recipe.thumbnailUrl}}
-						<img alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
-					{{else}}
-						<img src="/assets/emptycocktail.png">
-					{{/if}}
-					<div class="views-icon-container">
-						<img src="/assets/views-icon.svg">
-						<span>{{safe-val recipe.stats.views 0}}</span>
-					</div>
-					<div class="rating-icon-container">
-						{{#if isLiked}}
-						  <img src="/assets/filled-heart.svg">
-						{{else}}
-						  <img src="/assets/heart.svg">
-						{{/if}}
-						<span>{{safe-val recipe.stats.likes 0}}</span>
-					</div>
-					{{#unless recipe.published}}
-						<span id="devMode">DEV</span>
-					{{/unless}}
-				</div>
-			</div>
-			<div>
-				<span class="recipe-name-text">{{recipe.name}}</span>
-				<div id="ingredients">
-					{{#each sortedIngredients as |ingredient|}}
-						<span title="{{ingredient.tooltip}}" style={{maxIngredientWidthStyle}} class="{{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
-					{{/each}}
-				</div>
-				<div id="tags">
-					{{#each tags as |tag|}}
-						<img src= {{tag.img}} title="{{tag.tooltip}}">
-					{{/each}}
-				</div>
-			</div>
+{{#link-to "recipe" recipe.id}}
+	<div id="recipeBox" class="relative w-134px h-178px my-4px ml-4px mr-5px border border-gray-300 float-left">
+		{{#if recipe.thumbnailUrl}}
+			<img alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
+		{{else}}
+			<img src="/assets/emptycocktail.png">
+		{{/if}}
+		<div class="absolute top-0 left-0 ml-5px opacity-75 leading-20px">
+			<img class="inline-block w-16px h-16px" src="/assets/views-icon.svg">
+			<span class="font-gothic text-13px text-gray-700">{{safe-val recipe.stats.views 0}}</span>
 		</div>
-	{{/link-to}}
-</div>
+		<div class="absolute top-0 right-0 mr-5px opacity-75 leading-20px">
+			{{#if isLiked}}
+			  <img class="inline-block w-15px h-15px" src="/assets/filled-heart.svg">
+			{{else}}
+			  <img class="inline-block w-15px h-15px" src="/assets/heart.svg">
+			{{/if}}
+			<span class="font-gothic text-13px text-gray-700">{{safe-val recipe.stats.likes 0}}</span>
+		</div>
+		{{#unless recipe.published}}
+			<span id="devMode">DEV</span>
+		{{/unless}}
+	</div>
+	<div class="relative text-center h-full">
+		<span id="recipeName" class="font-georgia font-bold italic leading-none text-md md:text-lg lg:text-xl text-violet">{{recipe.name}}</span>
+		<div id="ingredients" class="text-left pt-5px pr-5px leading-tight">
+			{{#each sortedIngredients as |ingredient|}}
+				<span title="{{ingredient.tooltip}}" style="{{this.maxIngredientWidthStyle}}" class="inline-block leading-tight font-gothic text-center rounded-10px px-5px pt-4px pb-5px h-25px border-0 overflow-hidden text-11px md:text-xs {{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
+			{{/each}}
+		</div>
+		<div id="tags" class="absolute bottom-0 inset-x-0 mb-4px ml-145px text-left">
+			{{#each tags as |tag|}}
+				<img class="inline-block w-24px h-24px md:w-32px md:h-32px" src= {{tag.img}} title="{{tag.tooltip}}">
+			{{/each}}
+		</div>
+	</div>
+{{/link-to}}

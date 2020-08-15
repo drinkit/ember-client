@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function toLowerCase(input) {
 	if (input.length === 1 && input[0] !== undefined) {
@@ -7,4 +7,4 @@ export function toLowerCase(input) {
 	}
 }
 
-export default Ember.Helper.helper(toLowerCase);
+export default buildHelper(toLowerCase);

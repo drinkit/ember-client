@@ -1,7 +1,9 @@
-import Ember from 'ember';
+import { scheduleOnce } from '@ember/runloop';
+import { set, observer, computed, action } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-
+export default Component.extend({
+  classNames: ['font-gothic', 'text-sm'],
   selectedIngredients: [],
   selectedIngredientsIds: [],
   initSelectedIds: [],
@@ -26,7 +28,7 @@ export default Ember.Component.extend({
     let ingredients = this.convertToIngredients(this.get('selectedIngredientsIds'));
     ingredients = ingredients.filter(Boolean);
     this.get('filteredIngredients').forEach(function(item) {
-      Ember.set(item, 'disabled', false);
+      set(item, 'disabled', false);
     });
     this.set('selectedIngredients', ingredients);
     ingredients.forEach(function(item) {
@@ -34,13 +36,13 @@ export default Ember.Component.extend({
     });
   },
 
-  selectedIngredientsIdsChanged: Ember.observer('selectedIngredientsIds.[]', function() {
+  selectedIngredientsIdsChanged: observer('selectedIngredientsIds.[]', function() {
     if (!this.get('isSilentChange')) {
       this.redrawSelectedIngredients();
     }
   }),
 
-  filteredIngredients: Ember.computed('model.ingredients', function() {
+  filteredIngredients: computed('model.ingredients', function() {
     var expandedIngredients = [];
     var counter = 0;
     var ingredients = this.get('ingredients').toArray();
@@ -95,16 +97,16 @@ export default Ember.Component.extend({
   disableSynonyms: function(id) {
     var allSynonyms = this.getAllSynonyms(id);
     for (var i = 0; i < allSynonyms.length; i++) {
-      Ember.set(allSynonyms[i], 'disabled', true);
+      set(allSynonyms[i], 'disabled', true);
     }
   },
 
   actions: {
-    changeIngredients(ingredients) {
+    changeIngredients: function(ingredients) {
       let selected, deselected;
       if (ingredients instanceof Array) {
-        deselected = $(this.get('selectedIngredients')).not(ingredients).get();
-        selected = $(ingredients).not(this.get('selectedIngredients')).get();
+        deselected = this.get('selectedIngredients').filter(x => !ingredients.includes(x));
+        selected = ingredients.filter(x => !this.get('selectedIngredients').includes(x));
       } else {
         deselected = this.get('selectedIngredients').indexOf(ingredients) >= 0 ? [ingredients] : [];
         selected = this.get('selectedIngredients').indexOf(ingredients) === -1 ? [ingredients] : [];
@@ -114,12 +116,14 @@ export default Ember.Component.extend({
         var realSelected = this.findIngredientByRealId(selected[0].groupId);
         this.disableSynonyms(realSelected.groupId);
         this.set('selectedIngredients', this.get('selectedIngredients').concat([realSelected]));
-        this.sendAction('ingredientSelected', realSelected.groupId);
+        if (this.ingredientSelected) {
+          this.ingredientSelected(realSelected.groupId);
+        }
       } else if (deselected.length > 0) {
         var allSynonyms = this.getAllSynonyms(deselected[0].groupId);
 
         for (var i = 0; i < allSynonyms.length; i++) {
-          Ember.set(allSynonyms[i], 'disabled', false);
+          set(allSynonyms[i], 'disabled', false);
         }
 
         if (ingredients instanceof Array) {
@@ -129,17 +133,18 @@ export default Ember.Component.extend({
           this.get('selectedIngredients').splice(index, 1);
           this.notifyPropertyChange('selectedIngredients');
         }
-
-        this.sendAction('ingredientDeselected', deselected[0].groupId);
+        if (this.ingredientDeselected) {
+          this.ingredientDeselected(deselected[0].groupId);
+        }
       }
 
       const selectedIngredientsIds = this.convertToIngredientsIds(this.get('selectedIngredients'));
       this.set('isSilentChange', true);
-      Ember.run.scheduleOnce('actions', this, function() {
+      scheduleOnce('actions', this, function() {
         this.set('isSilentChange', false);
       });
       this.set('selectedIngredientsIds', selectedIngredientsIds);
-      this.sendAction('changeIngredients', selectedIngredientsIds);
+      this.changeIngredients(selectedIngredientsIds);
     }
   }
 });

@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { next } from '@ember/runloop';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
 
   scrollSelector: window,
 
@@ -8,19 +9,18 @@ export default Ember.Mixin.create({
     this._super.apply(this, arguments);
     var self = this;
     if (this.get('lastScroll')) {
-
-      Ember.run.next(function() {
-        Ember.$(self.scrollSelector).scrollTop(self.get('lastScroll'));
+      next(function() {
+        self.scrollSelector.scrollTop = self.get('lastScroll');
       });
 
     } else {
-      Ember.$(this.scrollSelector).scrollTop(0);
+      this.scrollSelector.scrollTop = 0;
     }
   },
 
   deactivate: function() {
     this._super.apply(this, arguments);
-    this.set('lastScroll', Ember.$(this.scrollSelector).scrollTop());
+    this.set('lastScroll', this.scrollSelector.scrollTop);
   }
 
 });

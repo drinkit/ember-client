@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
-  ajax: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
+export default Service.extend({
+  ajax: service(),
+  simpleStore: service(),
 
   incrementViewsCount(recipeId) {
     const store = this.get('simpleStore');
