@@ -8,7 +8,7 @@ export default Component.extend({
   currentUser: service(),
   tooltipsProvider: service(),
   simpleStore: service(),
-  classNames: ['flex-grow', 'w-350px', 'min-w-350px', 'h-185px', 'bg-white', 'rounded-5px', 'shadow-recipe', 'm-5px', 'hover:bg-orange-transparent'],
+  classNames: ['flex-grow', 'w-310px', 'min-w-310p', 'md:w-350px', 'md:min-w-350px', 'h-185px', 'bg-white', 'rounded-5px', 'shadow-recipe', 'm-5px', 'hover:bg-orange-transparent'],
   typesToTags: {
     1: "long-32.png",
     2: "short-32.png",

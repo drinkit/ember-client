@@ -28,7 +28,7 @@ export default Route.extend({
     const repository = this.get('repository');
     repository.findOne('ingredient', model.ingredientId).then((ingredient) => {
       this.set('headData.title', ingredient.get('name') + ' - drinkIt');
-      this.set('headData.description', ingredient.description);
+      this.set('headData.description', ingredient.get('description'));
     });
   },
 

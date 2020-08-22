@@ -2,7 +2,7 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
-  classNames: ['suggest-recipes'],
+  classNames: ['px-15px'],
   maxRecipes: 6,
   initialized: false,
   suggestedRecipes: [],

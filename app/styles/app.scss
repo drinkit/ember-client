@@ -145,9 +145,13 @@ input::-webkit-input-placeholder {
   @apply .inline-block .absolute .right-0 .h-42px .bg-transparent .p-0 .border-none .text-sm #{!important};
 }
 
+.ember-power-select-trigger {
+  @apply .px-2 #{!important};
+}
+
 @screen md {
   .ember-power-select-trigger {
-    @apply .min-w-220px .border-solid .border .border-gray-400 .px-2 .text-sm #{!important};
+    @apply .min-w-220px .border-solid .border .border-gray-400 .text-sm #{!important};
   }
 }
 
