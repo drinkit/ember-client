@@ -1,13 +1,9 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['flex-1 rounded-5px shadow-recipe m-5px'],
-  title: '',
-  category: '',
-
-  actions: {
-    removeItem: function(item) {
-      this.get('onRemoveItem')(item);
-    }
+export default class BarCategoryBox extends Component {
+  @action
+  removeItem(item) {
+    this.args.onRemoveItem(item);
   }
-});
+};
