@@ -41,19 +41,6 @@ module.exports = function(defaults) {
         ]
       }
     }
-
-    // postcssOptions: {
-    //   compile: {
-    //     enabled: false,
-    //   },
-    //   filter: {
-    //     enabled: true,
-    //     plugins: [
-    //       require('tailwindcss')('./app/tailwind/config.js'),
-    //       ...isProduction ? [purgeCSS] : []
-    //     ]
-    //   }
-    // }
   });
 
 

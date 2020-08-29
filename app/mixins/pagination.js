@@ -7,7 +7,7 @@ export default Mixin.create({
   pageSize: 16,
 
   scrollOnPageChange: observer('pageNumber', function() {
-    window.scrollTop = 0;
+    window.scrollTo(0, 0);
   }),
 
   foundCocktails: computed('recipes.[]', function() {

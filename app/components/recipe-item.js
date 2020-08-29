@@ -1,42 +1,54 @@
 import { htmlSafe } from '@ember/template';
 import { computed } from '@ember/object';
 import { schedule } from '@ember/runloop';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
 
-export default Component.extend({
-  currentUser: service(),
-  tooltipsProvider: service(),
-  simpleStore: service(),
-  classNames: ['flex-grow', 'w-310px', 'min-w-310p', 'md:w-350px', 'md:min-w-350px', 'h-185px', 'bg-white', 'rounded-5px', 'shadow-recipe', 'm-5px', 'hover:bg-orange-transparent'],
-  typesToTags: {
+export default class RecipeItem extends Component {
+  @service currentUser;
+  @service tooltipsProvider;
+  @service simpleStore;
+
+  typesToTags = {
     1: "long-32.png",
     2: "short-32.png",
     3: "shot-32.png"
-  },
-  optionsToTags: {
+  };
+  optionsToTags = {
     1: "fire-32.png",
     2: "ice-32.png",
     3: "recommend-32.png",
     4: "iba-32.png",
     5: "layer-32.png"
-  },
-  maxIngredientWidth: 999999,
-  sortedIngredients: [],
-  getTextWidth: function(text, font) {
+  };
+
+  @tracked
+  maxIngredientWidth = 999999;
+
+  @tracked
+  sortedIngredients = [];
+
+  constructor(owner, args) {
+    super(owner, args);
+    this.reorderElements();
+  }
+
+  getTextWidth(text, font) {
     var canvas = document.getElementById("canvas") || document.createElement("canvas");
     var context = canvas.getContext("2d");
     context.font = font;
     var metrics = context.measureText(text);
     return metrics.width;
-  },
-  didInsertElement: function() {
+  }
+
+  reorderElements() {
     var that = this;
     schedule('afterRender', this, function() {
       var sortedIngredients = [];
-      var selectedIngredients = that.get("selectedIngredients");
-      var store = that.get("simpleStore");
-      var recipe = that.get("recipe");
+      var selectedIngredients = that.args.selectedIngredients;
+      var store = that.simpleStore;
+      var recipe = this.args.recipe;
       var cocktailIngredients = recipe.get("ingredientsWithQuantities");
       cocktailIngredients.forEach(function(item) {
         var ingr = store.find("ingredient", item.ingredientId);
@@ -49,10 +61,10 @@ export default Component.extend({
       //
       var gapBetweenIngredients = 5;
       //
-      const curElem = document.querySelector("#" + that.elementId);
+      const curElem = document.querySelector(".recipe-item");
       var recipeBoxHeight = curElem.clientHeight;
-      var tagsHeight = document.querySelector("#tags").clientHeight;
-      var recipeNameHeight = document.querySelector("#recipeName").offsetHeight;
+      var tagsHeight = curElem.querySelector("#tags").clientHeight;
+      var recipeNameHeight = curElem.querySelector("#recipeName").offsetHeight;
       var paddingTop = 4 + recipeNameHeight;
       var paddingBottom = 4 + tagsHeight;
 
@@ -137,40 +149,37 @@ export default Component.extend({
         }
       }
 
-      that.set('maxIngredientWidth', availableWidth - 4);
-      that.set('sortedIngredients', newOrder);
+      that.maxIngredientWidth = availableWidth - 4;
+      that.sortedIngredients = newOrder;
     });
-  },
+  }
 
-  tags: computed({
-    get() {
-      let self = this;
-      let tags = [];
-      let recipe = this.get("recipe");
-      const typesToTags = this.get("typesToTags");
-      const optionsToTags = this.get("optionsToTags");
+  get tags() {
+    let self = this;
+    let tags = [];
+    let recipe = this.args.recipe;
+    const typesToTags = this.typesToTags;
+    const optionsToTags = this.optionsToTags;
+    tags.push({
+      img: "/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")],
+      tooltip: self.tooltipsProvider.getTypeTooltip(recipe.get("cocktailTypeId"))
+    });
+    recipe.get("options").forEach(function(item) {
       tags.push({
-        img: "/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")],
-        tooltip: self.get('tooltipsProvider').getTypeTooltip(recipe.get("cocktailTypeId"))
+        img: "/assets/tags/" + optionsToTags[item],
+        tooltip: self.tooltipsProvider.getTagTooltip(item)
       });
-      recipe.get("options").forEach(function(item) {
-        tags.push({
-          img: "/assets/tags/" + optionsToTags[item],
-          tooltip: self.get('tooltipsProvider').getTagTooltip(item)
-        });
-      });
-      return tags;
-    }
-  }),
+    });
+    return tags;
+  }
 
-  isLiked: computed('currentUser.recipeStatsMap', function() {
-    const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
-    const recipeId = parseInt(this.get('recipe').get('id'));
+  get isLiked() {
+    const userRecipeStats = this.currentUser.get('recipeStatsMap');
+    const recipeId = parseInt(this.args.recipe.get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
-  }),
+  }
 
-  maxIngredientWidthStyle: computed('maxIngredientWidth',
-    function() {
-      return htmlSafe('max-width:' + this.get('maxIngredientWidth') + 'px;');
-    })
-});
+  get maxIngredientWidthStyle() {
+    return htmlSafe('max-width:' + this.maxIngredientWidth + 'px;');
+  }
+}

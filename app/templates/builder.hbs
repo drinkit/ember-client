@@ -8,7 +8,7 @@
     {{else if this.foundCocktails}}
       <div class="flex flex-wrap">
         {{#each recipesOnPage as |recipe|}}
-          <RecipeItem @recipe={{recipe}} @store={{this.store}} @selectedIngredients={{this.selectedIngredientsIds}}/>
+          <RecipeItem @recipe={{recipe}} @selectedIngredients={{this.selectedIngredientsIds}}/>
         {{/each}}
       </div>
       {{#if this.isPreviousPageExist}}

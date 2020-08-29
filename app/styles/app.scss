@@ -4,10 +4,12 @@
 
 @import "tailwindcss/utilities";
 
+/*! purgecss start ignore */
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 
 @import "spinkit-three-bounce";
+/*! purgecss end ignore */
 
 /* FONTS */
 
@@ -177,9 +179,10 @@ input::-webkit-input-placeholder {
 
 
 /* BURGER */
-
+/*! purgecss start ignore */
 @import 'ember-burger-menu';
 @import 'burger';
+/*! purgecss end ignore */
 
 /* FILTERS MENU */
 
