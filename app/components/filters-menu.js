@@ -1,99 +1,82 @@
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import Stickyfill from 'stickyfilljs';
-import { conditional } from 'ember-awesome-macros';
+import { action } from '@ember/object';
+import { schedule } from '@ember/runloop';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
-  classNames: [],
-  dataOffsetTop: 180,
-  dataOffsetBottom: null,
-  currentUser: service(),
-  tooltipsProvider: service(),
+export default class FiltersMenu extends Component {
+  @service currentUser;
+  @service tooltipsProvider;
 
-  activeClass: 'active',
-  nonActiveClass: '',
+  dataOffsetTop = 180;
+  dataOffsetBottom = null;
 
-  isBurningPressed: computed('cocktailOptions.[]', function() {
-    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(1) >= 0 : false;
-  }),
+  @tracked
+  barIngredientsIds = [];
 
-  isFlackyPressed: computed('cocktailOptions.[]', function() {
-    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(5) >= 0 : false;
-  }),
-
-  isIcePressed: computed('cocktailOptions.[]', function() {
-    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(2) >= 0 : false;
-  }),
-
-  isIBAPressed: computed('cocktailOptions.[]', function() {
-    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(4) >= 0 : false;
-  }),
-
-  isCheckedPressed: computed('cocktailOptions.[]', function() {
-    return this.get('cocktailOptions') ? this.get('cocktailOptions').indexOf(3) >= 0 : false;
-  }),
-
-  isLongTypePressed: computed('cocktailTypes.[]', function() {
-    return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(1) >= 0 : false;
-  }),
-
-  isShortTypePressed: computed('cocktailTypes.[]', function() {
-    return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(2) >= 0 : false;
-  }),
-
-  isShotTypePressed: computed('cocktailTypes.[]', function() {
-    return this.get('cocktailTypes') ? this.get('cocktailTypes').indexOf(3) >= 0 : false;
-  }),
-
-  longTypeActiveClass: conditional('isLongTypePressed', 'activeClass', 'nonActiveClass'),
-  shortTypeActiveClass: conditional('isShortTypePressed', 'activeClass', 'nonActiveClass'),
-  shotTypeActiveClass: conditional('isShotTypePressed', 'activeClass', 'nonActiveClass'),
-
-  burningActiveClass: conditional('isBurningPressed', 'activeClass', 'nonActiveClass'),
-  flackyActiveClass: conditional('isFlackyPressed', 'activeClass', 'nonActiveClass'),
-  iceActiveClass: conditional('isIcePressed', 'activeClass', 'nonActiveClass'),
-  ibaActiveClass: conditional('isIBAPressed', 'activeClass', 'nonActiveClass'),
-  checkedActiveClass: conditional('isCheckedPressed', 'activeClass', 'nonActiveClass'),
-
-  actions: {
-    toggleOption(id) {
-      this.toggleOption(id);
-    },
-    toggleType(id) {
-      this.toggleType(id);
-    },
-    changeIngredients(ingredients) {
-      this.changeIngredients(ingredients);
-    },
-    clearFilters() {
-      const activeButtons = document.querySelectorAll('#filtersMenu button.active');
-      for (const btn of activeButtons) {
-        btn.setAttribute('aria-pressed', 'false');
-        btn.classList.remove('active');
-      }
-      //
-      this.set('barIngredientsIds', []);
-      //
-      this.clearFilters();
-    },
-    addBarAsFilter() {
-      let barItemsIds = this.get('currentUser.barItems').filter(function(item) {
-        return item.active;
-      }).map(function(item) {
-        return item.ingredientId;
-      });
-      const allIds = [...new Set(...this.get('selectedIngredientsIds'), ...barItemIds)];
-      this.set('barIngredientsIds', allIds);
-      this.sendAction('changeIngredients', allIds);
-    }
-  },
-  didInsertElement: function() {
-    var stickyMenu = document.querySelector('.sticky');
-    Stickyfill.addOne(stickyMenu);
-    // const windowHeight = window.height;
-    // const offsetParentY = document.querySelector('#filtersMenu').offsetTop;
-    // const offsetY = document.querySelector('#ingredientChooser').positionTop;
-    // document.querySelector('#ingredientChooser > div').css('max-height', windowHeight - offsetY - 70);
+  constructor(owner, args) {
+    super(owner, args);
+    schedule("afterRender", this, function() {
+      var stickyMenu = document.querySelector('.sticky');
+      Stickyfill.addOne(stickyMenu);
+    });
   }
-});
+
+  get isBurningPressed() {
+    return this.args.cocktailOptions ? this.args.cocktailOptions.indexOf(1) >= 0 : false;
+  }
+
+  get isFlackyPressed() {
+    return this.args.cocktailOptions ? this.args.cocktailOptions.indexOf(5) >= 0 : false;
+  }
+
+  get isIcePressed() {
+    return this.args.cocktailOptions ? this.args.cocktailOptions.indexOf(2) >= 0 : false;
+  }
+
+  get isIBAPressed() {
+    return this.args.cocktailOptions ? this.args.cocktailOptions.indexOf(4) >= 0 : false;
+  }
+
+  get isCheckedPressed() {
+    return this.args.cocktailOptions ? this.args.cocktailOptions.indexOf(3) >= 0 : false;
+  }
+
+  get isLongTypePressed() {
+    return this.args.cocktailTypes ? this.args.cocktailTypes.indexOf(1) >= 0 : false;
+  }
+
+  get isShortTypePressed() {
+    return this.args.cocktailTypes ? this.args.cocktailTypes.indexOf(2) >= 0 : false;
+  }
+
+  get isShotTypePressed() {
+    return this.args.cocktailTypes ? this.args.cocktailTypes.indexOf(3) >= 0 : false;
+  }
+
+  @action
+  clearFilters() {
+    const activeButtons = document.querySelectorAll('#filtersMenu button.active');
+    for (const btn of activeButtons) {
+      btn.setAttribute('aria-pressed', 'false');
+      btn.classList.remove('active');
+    }
+    //
+    this.barIngredientsIds = [];
+    //
+    this.args.clearFilters();
+  }
+
+  @action
+  addBarAsFilter() {
+    let barItemsIds = this.currentUser.barItems.filter(function(item) {
+      return item.active;
+    }).map(function(item) {
+      return item.ingredientId;
+    });
+    const allIds = [...new Set([...this.args.selectedIngredientsIds, ...barItemsIds])];
+    this.barIngredientsIds = allIds;
+    this.args.changeIngredients(allIds);
+  }
+}
