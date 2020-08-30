@@ -1,49 +1,56 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import moment from 'moment';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
-  currentUser: service(),
-  ajax: service(),
-  modalManager: service(),
-  simpleStore: service(),
-  comment: null,
-  classNames: ['font-gothic text-sm text-right mb-20px'],
+export default class CommentEdit extends Component {
+  @service currentUser;
+  @service ajax;
+  @service modalManager;
+  @service simpleStore;
 
-  actions: {
-    submitComment() {
-      const store = this.get('simpleStore');
-      const ajax = this.get('ajax');
+  comment = null;
 
-      let comment = {
-        recipeId: this.get('recipeId'),
-        posted: moment.utc(moment()).toJSON(),
-        text: this.get('commentText'),
-        author: {
-          username: this.get('currentUser').username,
-          name: this.get('currentUser').displayName
-        }
-      };
+  @tracked
+  commentText = "";
 
-      ajax.request({
-        url: '/recipes/' + this.get('recipeId') + '/comments',
-        method: 'POST',
-        contentType: 'application/json;charset=UTF-8',
-        data: JSON.stringify(comment)
-      }, function(response) {
-        store.push('comment', response);
-      });
+  @action
+  submitComment() {
+    const store = this.simpleStore;
+    const ajax = this.ajax;
 
-      this.set('commentText', '');
-    },
+    let comment = {
+      recipeId: this.args.recipeId,
+      posted: moment.utc(moment()).toJSON(),
+      text: this.commentText,
+      author: {
+        username: this.currentUser.username,
+        name: this.currentUser.displayName
+      }
+    };
 
-    showLogin() {
-      this.get('modalManager').showDialog('Login');
-    },
+    ajax.request({
+      url: '/recipes/' + this.args.recipeId + '/comments',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify(comment)
+    }, function(response) {
+      store.push('comment', response);
+    });
 
-    showSignUp() {
-      this.get('modalManager').showDialog('SignUp');
-    }
+    this.commentText = "";
   }
 
-});
+  @action
+  showLogin() {
+    this.modalManager.showDialog('Login');
+  }
+
+  @action
+  showSignUp() {
+    this.modalManager.showDialog('SignUp');
+  }
+}
