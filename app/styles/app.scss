@@ -110,6 +110,10 @@ input::-webkit-input-placeholder {
 
 /* POWER SELECT */
 
+.ember-power-select-option[aria-selected="true"] {
+  background-color: #ffffff !important;
+}
+
 #mobile .ember-power-select-search-input::placeholder {
     color: transparent !important;
 }

@@ -2,6 +2,7 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import PaginationMixin from '../mixins/pagination';
+import { A } from '@ember/array';
 
 export default Controller.extend(PaginationMixin, {
   session: service(),
@@ -9,9 +10,9 @@ export default Controller.extend(PaginationMixin, {
   currentUser: service(),
   ajax: service(),
   headData: service(),
-  cocktailTypes: [],
-  cocktailOptions: [],
-  selectedIngredientsIds: [],
+  cocktailTypes: A(),
+  cocktailOptions: A(),
+  selectedIngredientsIds: A(),
   isSearchPerformed: false,
   isSearchStarting: false,
 
@@ -84,15 +85,15 @@ export default Controller.extend(PaginationMixin, {
     },
 
     changeIngredients(ingredients) {
-      this.set('selectedIngredientsIds', ingredients);
+      this.selectedIngredientsIds.setObjects(ingredients);
       this.set('pageNumber', 0);
       this.performSearch();
     },
 
     clearFilters() {
-      this.set('cocktailTypes', []);
-      this.set('cocktailOptions', []);
-      this.set('selectedIngredientsIds', []);
+      this.cocktailTypes.clear();
+      this.cocktailOptions.clear();
+      this.selectedIngredientsIds.clear();
       this.set('pageNumber', 0);
       this.performSearch();
     }

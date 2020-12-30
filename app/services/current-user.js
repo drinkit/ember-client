@@ -1,5 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Service.extend({
   session: service("session"),
@@ -8,7 +9,7 @@ export default Service.extend({
   password: "",
   displayName: "",
   role: "",
-  barItems: [],
+  barItems: A(),
   recipeStatsMap: {},
   isLoggedIn: false,
 
@@ -31,7 +32,7 @@ export default Service.extend({
     this.set("password", "");
     this.set("displayName", "");
     this.set("role", "");
-    this.set("barItems", []);
+    this.set("barItems", A());
     this.set("recipeStatsMap", {});
     this.set("isLoggedIn", false);
   }

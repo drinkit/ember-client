@@ -1,9 +1,11 @@
-{{#if multiple}}
-  <PowerSelectMultiple @searchEnabled={{true}} @selected={{this.selectedIngredients}} @searchField="name" @placeholder={{this.placeholder}} @options={{this.filteredIngredients}} @onChange={{action "changeIngredients"}} as |ingredient|>
-    {{ingredient.name}} {{ingredient.description}}
-  </PowerSelectMultiple>
-{{else}}
-  <PowerSelect @searchField="name" @placeholder={{this.placeholder}} @options={{this.filteredIngredients}} @onChange={{action "changeIngredients"}} as |ingredient|>
-    {{ingredient.name}} {{ingredient.description}}
-  </PowerSelect>
-{{/if}}
+<div class="font-gothic text-sm">
+  {{#if @multiple}}
+    <PowerSelectMultiple @searchEnabled={{true}} @selected={{this.selectedIngredients}} @searchField="name" @placeholder={{@placeholder}} @options={{this.filteredIngredients}} @onChange={{this.changeIngredients}} as |ingredient|>
+      {{ingredient.name}} {{ingredient.description}}
+    </PowerSelectMultiple>
+  {{else}}
+    <PowerSelect @searchField="name" @placeholder={{@placeholder}} @options={{this.filteredIngredients}} @onChange={{this.changeIngredients}} as |ingredient|>
+      {{ingredient.name}} {{ingredient.description}}
+    </PowerSelect>
+  {{/if}}
+</div>

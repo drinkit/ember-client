@@ -4,6 +4,7 @@ import Stickyfill from 'stickyfilljs';
 import { action } from '@ember/object';
 import { schedule } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
+import { A } from '@ember/array';
 
 export default class FiltersMenu extends Component {
   @service currentUser;
@@ -12,8 +13,7 @@ export default class FiltersMenu extends Component {
   dataOffsetTop = 180;
   dataOffsetBottom = null;
 
-  @tracked
-  barIngredientsIds = [];
+  @tracked barIngredientsIds = A();
 
   constructor(owner, args) {
     super(owner, args);
@@ -55,6 +55,10 @@ export default class FiltersMenu extends Component {
     return this.args.cocktailTypes ? this.args.cocktailTypes.indexOf(3) >= 0 : false;
   }
 
+  isIngredientExists(id) {
+    return this.args.ingredients.any((item) => item.id === id);
+  }
+
   @action
   clearFilters() {
     const activeButtons = document.querySelectorAll('#filtersMenu button.active');
@@ -63,7 +67,7 @@ export default class FiltersMenu extends Component {
       btn.classList.remove('active');
     }
     //
-    this.barIngredientsIds = [];
+    this.barIngredientsIds.clear();
     //
     this.args.clearFilters();
   }
@@ -71,8 +75,8 @@ export default class FiltersMenu extends Component {
   @action
   addBarAsFilter() {
     let barItemsIds = this.currentUser.barItems.filter(function(item) {
-      return item.active;
-    }).map(function(item) {
+      return item.active && this.isIngredientExists(item.ingredientId);
+    }, this).map(function(item) {
       return item.ingredientId;
     });
     const allIds = [...new Set([...this.args.selectedIngredientsIds, ...barItemsIds])];
