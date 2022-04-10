@@ -1,19 +1,21 @@
-{{#if user.isAuthenticated}}
+{{#if this.user.isAuthenticated}}
   <div class="mx-4 pt-15px">
     <IngredientChooser class="mx-5px" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="Добавить в бар..." @ingredientSelected={{this.ingredientSelected}}/>
     <div class="flex flex-wrap mt-10px">
       <div id="firstBarColumn" class="flex flex-col flex-1 w-full">
-        {{bar-category-box title="Крепкие алкогольные напитки" ingredients=ingredientsInCategories.hardSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Ликеры" ingredients=ingredientsInCategories.liquors onRemoveItem=(action "itemDeleted")}}
+        <BarCategoryBox @title="Крепкие алкогольные напитки" @ingredients={{this.ingredientsInCategories.hardSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Ликеры" @ingredients={{this.ingredientsInCategories.liquors}} @onRemoveItem={{action "itemDeleted"}}/>
       </div>
       <div id="secondBarColumn" class="flex flex-col flex-1 w-full">
-        {{bar-category-box title="Слабоалкогольные напитки" ingredients=ingredientsInCategories.softSpirits onRemoveItem=(action "itemDeleted")}} {{bar-category-box title="Безалкогольные напитки" ingredients=ingredientsInCategories.nonSpirits onRemoveItem=(action
-        "itemDeleted")}} {{bar-category-box title="Прочее" ingredients=ingredientsInCategories.other onRemoveItem=(action "itemDeleted")}}
+        <BarCategoryBox @title="Слабоалкогольные напитки" @ingredients={{this.ingredientsInCategories.softSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Безалкогольные напитки" @ingredients={{this.ingredientsInCategories.nonSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Прочее" @ingredients={{this.ingredientsInCategories.other}} @onRemoveItem={{action "itemDeleted"}} />
       </div>
     </div>
   </div>
-    <SuggestIngredients @suggestedIngredients={{this.suggestedIngredients}} @initialized={{this.suggestedIngredientsInitialized}} />
+  <SuggestIngredients @suggestedIngredients={{this.suggestedIngredients}} @initialized={{this.suggestedIngredientsInitialized}} />
 {{else}}
-  <span class="closed-bar-text">
-    Чтобы воспользоваться баром, нужно <a {{action "showLogin"}}>авторизироваться</a> на сайте.
+  <span class="block text-center text-xl font-gothic mt-5">
+    Чтобы воспользоваться баром, нужно <a class="text-blue-700 cursor-pointer hover:underline" {{on "click" (fn this.showLogin)}}>авторизироваться</a> на сайте.
   </span>
 {{/if}}

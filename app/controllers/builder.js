@@ -1,32 +1,33 @@
-import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
-import Controller from '@ember/controller';
-import PaginationMixin from '../mixins/pagination';
-import { A } from '@ember/array';
+import {inject as service} from '@ember/service';
+import {A} from '@ember/array';
+import {tracked} from '@glimmer/tracking';
+import { action } from '@ember/object';
+import PaginationController from "./pagination";
 
-export default Controller.extend(PaginationMixin, {
-  session: service(),
-  simpleStore: service(),
-  currentUser: service(),
-  ajax: service(),
-  headData: service(),
-  cocktailTypes: A(),
-  cocktailOptions: A(),
-  selectedIngredientsIds: A(),
-  isSearchPerformed: false,
-  isSearchStarting: false,
+export default class BuilderController extends PaginationController {
+  @service session;
+  @service simpleStore;
+  @service currentUser;
+  @service ajax;
+  @service headData;
 
-  recipes: computed('allRecipes.[]', function() {
+  cocktailTypes = A([]);
+  cocktailOptions = A([]);
+
+  @tracked selectedIngredientsIds = A([]);
+  @tracked isSearchPerformed = false;
+  @tracked isSearchStarting = false;
+
+  get recipes() {
     let allRecipes = this.get('allRecipes');
     let self = this;
-    let filteredRecipes = allRecipes.filter(item => {
-      return item.get('published') || (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') == 'ADMIN')
+    return allRecipes.filter(item => {
+      return item.get('published') || (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN')
     });
-    return filteredRecipes;
-  }),
+  }
 
-  performSearch: function() {
-    var that = this;
+  performSearch() {
+    const that = this;
     this.set('isSearchStarting', true);
     this.get('ajax').request({
       url: "/recipes",
@@ -43,59 +44,57 @@ export default Controller.extend(PaginationMixin, {
       result.forEach(function(item) {
         if (item.published) {
           that.get('simpleStore').push('foundedRecipe', item);
-        } else if (that.get('currentUser.isAuthenticated') && that.get('currentUser.role') == 'ADMIN') {
+        } else if (that.get('currentUser.isAuthenticated') && that.get('currentUser.role') === 'ADMIN') {
           that.get('simpleStore').push('foundedRecipe', item);
         }
       });
-      that.set('allRecipes', that.get('simpleStore').find('foundedRecipe'));
-      that.set('isSearchStarting', false);
-      that.set('isSearchPerformed', true);
+      that.set('allRecipes', that.simpleStore.find('foundedRecipe'));
+      that.isSearchStarting = false;
+      that.isSearchPerformed = true;
     });
-  },
-
-  actions: {
-    toggleOption(id) {
-      var options = this.get('cocktailOptions');
-      var index = options.indexOf(id);
-
-      if (index >= 0) {
-        options.removeObject(id);
-      } else {
-        options.pushObject(id);
-      }
-
-      this.set('cocktailOptions', options);
-      this.set('pageNumber', 0);
-      this.performSearch();
-    },
-
-    toggleType(id) {
-      var types = this.get('cocktailTypes');
-      var index = types.indexOf(id);
-
-      if (index >= 0) {
-        types.removeObject(id);
-      } else {
-        types.pushObject(id);
-      }
-
-      this.set('cocktailTypes', types);
-      this.set('pageNumber', 0);
-      this.performSearch();
-    },
-
-    changeIngredients(ingredients) {
-      this.selectedIngredientsIds.setObjects(ingredients);
-      this.set('pageNumber', 0);
-      this.performSearch();
-    },
-
-    clearFilters() {
-      this.cocktailTypes.clear();
-      this.cocktailOptions.clear();
-      this.selectedIngredientsIds.clear();
-      this.set('pageNumber', 0);
-      this.performSearch();
-    }
   }
-});
+
+  @action
+  toggleOption(id) {
+    const index = this.cocktailOptions.indexOf(id);
+
+    if (index >= 0) {
+      this.cocktailOptions.removeObject(id);
+    } else {
+      this.cocktailOptions.pushObject(id);
+    }
+
+    this.pageNumber = 0;
+    this.performSearch();
+  }
+
+  @action
+  toggleType(id) {
+    const index = this.cocktailTypes.indexOf(id);
+
+    if (index >= 0) {
+      this.cocktailTypes.removeObject(id);
+    } else {
+      this.cocktailTypes.pushObject(id);
+    }
+
+    this.pageNumber = 0;
+    this.performSearch();
+  }
+
+  @action
+  changeIngredients(ingredients) {
+    this.selectedIngredientsIds.setObjects(ingredients);
+    this.pageNumber = 0;
+    this.performSearch();
+  }
+
+  @action
+  clearFilters() {
+    this.cocktailTypes.clear();
+    this.cocktailOptions.clear();
+    this.selectedIngredientsIds.clear();
+    this.pageNumber = 0;
+    this.performSearch();
+  }
+}

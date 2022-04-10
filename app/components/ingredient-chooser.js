@@ -1,16 +1,9 @@
 import { set, action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { A } from '@ember/array';
 
 export default class IngredientChooser extends Component {
-  @tracked selectedIngredientsIds = A();
-  @tracked ingredients = [];
-
   constructor(owner, args) {
     super(owner, args);
-    this.buildIngredientsList(args.ingredients.toArray());
-    this.selectedIngredientsIds = args.initSelectedIds;
   }
 
   convertToIngredientsIds(ingredients) {
@@ -18,15 +11,24 @@ export default class IngredientChooser extends Component {
   }
 
   convertToIngredients(ingredientsIds) {
-    return ingredientsIds.map(this.findIngredientByRealId, this);
+    const ingredientsIdsSet = new Set(ingredientsIds);
+    const foundedIngredients = [];
+    const ingredients = this.filteredIngredients;
+    for (let i = 0; i < ingredients.length; i++) {
+      if (!ingredients[i].isReal) continue;
+      if (ingredientsIdsSet.has(ingredients[i].groupId)) {
+        foundedIngredients.push(ingredients[i]);
+      }
+    }
+    return foundedIngredients;
   }
 
-  buildIngredientsList(ingredients) {
-    var expandedIngredients = [];
-    var counter = 0;
+  buildIngredientsList(ingredients, selectedIngredientsIds) {
+    const expandedIngredients = [];
+    let counter = 0;
 
-    for (var i = 0; i < ingredients.length; i++) {
-      var ingredient = ingredients[i];
+    for (let i = 0; i < ingredients.length; i++) {
+      const ingredient = ingredients[i];
       expandedIngredients.push({
         id: counter,
         name: ingredient.get('name').toLowerCase(),
@@ -38,9 +40,9 @@ export default class IngredientChooser extends Component {
       });
 
       if (ingredient.get('alias')) {
-        for (var j = 0; j < ingredient.get('alias').length; j++) {
+        for (let j = 0; j < ingredient.get('alias').length; j++) {
           counter++;
-          var synonym = ingredient.get('alias')[j];
+          const synonym = ingredient.get('alias')[j];
           expandedIngredients.push({
             id: counter,
             name: synonym.toLowerCase(),
@@ -55,67 +57,77 @@ export default class IngredientChooser extends Component {
       counter++;
     }
     expandedIngredients.sort((a, b) => a.name < b.name ? -1 : 1);
-    this.ingredients = expandedIngredients;
+
+    for (const selectedIngredientsId of selectedIngredientsIds) {
+      this.disableSynonyms(selectedIngredientsId, expandedIngredients);
+    }
+
+    return expandedIngredients;
   }
 
   findIngredientByRealId(id) {
-    for (var i = 0; i < this.filteredIngredients.length; i++) {
-      if (this.filteredIngredients[i].groupId === id && this.filteredIngredients[i].isReal) {
-        return this.filteredIngredients[i];
+    const ingredients = this.args.ingredients.toArray();
+    for (let i = 0; i < ingredients.length; i++) {
+      if (ingredients.get("id") === id) {
+        return ingredients[i];
       }
     }
   }
 
-  getAllSynonyms(id) {
-    return this.filteredIngredients.filter(function(item) {
-      return item.groupId == id;
+  getAllSynonyms(id, expandedIngredients) {
+    return expandedIngredients.filter(function(item) {
+      return item.groupId === id;
     });
   }
 
-  disableSynonyms(id) {
-    var allSynonyms = this.getAllSynonyms(id);
-    for (var i = 0; i < allSynonyms.length; i++) {
+  disableSynonyms(id, expandedIngredients) {
+    const allSynonyms = this.getAllSynonyms(id, expandedIngredients);
+    for (let i = 0; i < allSynonyms.length; i++) {
       set(allSynonyms[i], 'disabled', true);
     }
   }
 
-  enableSynonyms(id) {
-    var allSynonyms = this.getAllSynonyms(id);
-    for (var i = 0; i < allSynonyms.length; i++) {
-      set(allSynonyms[i], 'disabled', false);
-    }
-  }
-
   get selectedIngredients() {
-    return this.convertToIngredients(this.selectedIngredientsIds);
+    return this.convertToIngredients(this.args.selectedIngredientsIds);
   }
 
   get filteredIngredients() {
-    return this.ingredients;
+    return this.buildIngredientsList(this.args.ingredients.toArray(), this.args.selectedIngredientsIds);
   }
 
-  @action
-  changeIngredients(ingredients) {
+  updateIngredients(changedIngredients, shouldNotify = false) {
     let selected, deselected;
+    const newSelectedIds = [...this.args.selectedIngredientsIds];
 
-    if (ingredients instanceof Array) {
-      const ingredientsIds = this.convertToIngredientsIds(ingredients);
-      deselected = this.selectedIngredientsIds.filter(x => !ingredientsIds.includes(x));
-      selected = ingredientsIds.filter(x => !this.selectedIngredientsIds.includes(x));
+    if (changedIngredients instanceof Array) {
+      const ingredientsIds = this.convertToIngredientsIds(changedIngredients);
+      deselected = newSelectedIds.filter(x => !ingredientsIds.includes(x));
+      selected = ingredientsIds.filter(x => !newSelectedIds.includes(x));
     } else {
-      const ingredientId = ingredients.groupId;
+      const ingredientId = changedIngredients.groupId;
       deselected = this.selectedIngredients.indexOf(ingredientId) >= 0 ? [ingredientId] : [];
       selected = this.selectedIngredients.indexOf(ingredientId) === -1 ? [ingredientId] : [];
     }
 
     if (selected.length > 0) {
-      this.disableSynonyms(selected[0]);
-      this.selectedIngredientsIds.pushObject(selected[0]);
+      newSelectedIds.push(selected[0]);
+      if (shouldNotify && this.args.ingredientSelected) {
+        this.args.ingredientSelected(selected[0]);
+      }
     } else if (deselected.length > 0) {
-      this.enableSynonyms(deselected[0]);
-      this.selectedIngredientsIds.removeObject(deselected[0]);
+      const index = newSelectedIds.indexOf(deselected[0]);
+      newSelectedIds.splice(index, 1);
     }
 
-    this.args?.changeIngredients(this.selectedIngredientsIds);
+    return newSelectedIds;
+  }
+
+  @action
+  changeIngredients(ingredients) {
+    const newSelectedIds = this.updateIngredients(ingredients, true);
+
+    if (this.args.changeIngredients) {
+      this.args.changeIngredients(newSelectedIds);
+    }
   }
 }

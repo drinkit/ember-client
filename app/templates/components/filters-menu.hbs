@@ -15,7 +15,7 @@
       <button {{on "click" (fn @toggleOption 3)}} id="checked-cocktail-button" type="button" class="h-21px mb-5px mx-5px leading-none font-georgia font-bold italic text-sm text-orange_beach border-b border-dashed border-orange_beach outline-none hover:text-brick_red hover:border-brick_red {{if this.isCheckedPressed 'active'}}" data-toggle="button" aria-pressed={{ this.isCheckedPressed }} autocomplete="off" title="проверенный модераторами">проверенный</button>
     </div>
     <h3 class="font-georgia font-bold italic text-lg text-light_green text-center my-15px">Выбор ингредиентов</h3>
-    <IngredientChooser @multiple={{true}} @placeholder="Напишите ингредиент..." @initSelectedIds={{@selectedIngredientsIds}} @ingredients={{@ingredients}} @selectedIngredientsIds={{this.barIngredientsIds}} @changeIngredients={{@changeIngredients}} />
+    <IngredientChooser @multiple={{true}} @placeholder="Напишите ингредиент..." @initSelectedIds={{@selectedIngredientsIds}} @ingredients={{@ingredients}} @selectedIngredientsIds={{@selectedIngredientsIds}} @changeIngredients={{@changeIngredients}} />
     {{#if this.currentUser.isAuthenticated}}
       <span {{on "click" this.addBarAsFilter}} class="font-gothic text-sm underline cursor-pointer">Добавить ингредиенты из бара</span>
     {{else}}

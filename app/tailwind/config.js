@@ -242,6 +242,7 @@ module.exports = {
       '2': '2px',
       '4': '4px',
       '8': '8px',
+      '20': '20px',
     },
     boxShadow: {
       xs: '0 0 0 1px rgba(0, 0, 0, 0.05)',
@@ -409,6 +410,7 @@ module.exports = {
       '42px': '42px',
       '60px': '60px',
       '220px': '220px',
+      '400px': '400px',
       full: '100%',
       screen: '100vh',
     },
@@ -777,6 +779,8 @@ module.exports = {
     transitionTimingFunction: ['responsive'],
     transitionDuration: ['responsive'],
   },
-  corePlugins: {},
+  corePlugins: {
+    backgroundClip: true
+  },
   plugins: [],
 }

@@ -1,42 +1,46 @@
 import { htmlSafe } from '@ember/template';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
-  scrollSelector: window,
-  classNames: ['flex-1 p-5px mx-21px mt-20px mb-15px rounded-5px shadow-recipe font-gothic'],
-  simpleStore: service(),
-  currentUser: service(),
-  initialized: false,
-  suggestionsCount: 3,
+export default class SuggestIngredients extends Component {
+  @service simpleStore;
+  @service currentUser;
 
-  actions: {
-    getMoreSuggestion() {
-      this.set('suggestionsCount', this.get('suggestionsCount') + 3);
-      let self = this;
-      next(function() {
-        self.scrollSelector.scrollTo(0, document.body.scrollHeight);
-      });
-    }
-  },
+  @tracked
+  suggestionsCount = 3;
 
-  hasData: computed('suggestedIngredients.[]', function() {
-    return this.get('suggestedIngredients.length') > 0;
-  }),
+  constructor(owner, args) {
+    super(owner, args);
+    this.scrollSelector = window;
+  }
 
-  showButtonForExtraSuggestion: computed('suggestedIngredients.[]', 'suggestionsCount', function() {
-    return this.get('suggestedIngredients.length') > this.get('suggestionsCount');
-  }),
+  @action
+  getMoreSuggestion() {
+    this.suggestionsCount += 3;
+    let self = this;
+    next(function() {
+      self.scrollSelector.scrollTo(0, document.body.scrollHeight);
+    });
+  }
 
-  ingredientsCocktails: computed('suggestedIngredients.[]', 'suggestionsCount', function() {
+  get hasData() {
+    return this.args.suggestedIngredients.length> 0;
+  }
+
+  get showButtonForExtraSuggestion() {
+    return this.args.suggestedIngredients.length > this.suggestionsCount;
+  }
+
+  get ingredientsCocktails() {
     let ingredientsCocktails = [];
-    const store = this.get('simpleStore');
-    const user = this.get('currentUser');
-    let suggestionsLen = Math.min(this.get('suggestionsCount'), this.get('suggestedIngredients.length'));
-    for (var i = 0; i < suggestionsLen; i++) {
-      let sugIngredient = this.get('suggestedIngredients').objectAt(i);
+    const store = this.simpleStore;
+    const user = this.currentUser;
+    let suggestionsLen = Math.min(this.suggestionsCount, this.args.suggestedIngredients.length);
+    for (let i = 0; i < suggestionsLen; i++) {
+      let sugIngredient = this.args.suggestedIngredients.objectAt(i);
       let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
       let recipesIds = sugIngredient.get('recipeIds');
       let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') == 'ADMIN'));
@@ -49,20 +53,20 @@ export default Component.extend({
     }
 
     return ingredientsCocktails;
-  }),
+  }
 
-  wholePhrases: computed('ingredientsCocktails.[]', function() {
+  get wholePhrases() {
     let phrases = [];
     const cocktailsCount = 3;
-    for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
-      let ingredient = this.get('ingredientsCocktails')[i];
+    for (let i = 0; i < this.ingredientsCocktails.length; i++) {
+      let ingredient = this.ingredientsCocktails[i];
       if (!ingredient.hasData) {
         continue;
       }
       let phrase = '**[' + ingredient.name + '](/ingredients/' + ingredient.id + ')** - ';
       let cocktails = ingredient.recipes;
-      for (var k = 0; k < cocktails.length; k++) {
-        if (k == cocktailsCount) {
+      for (let k = 0; k < cocktails.length; k++) {
+        if (k === cocktailsCount) {
           break;
         }
         phrase += '[' + cocktails[k].get('name') + '](/recipes/' + cocktails[k].get('id') + '), ';
@@ -76,7 +80,7 @@ export default Component.extend({
       phrases.push(phrase);
     }
     return phrases;
-  }),
+  }
 
   getCocktailsEnding(number) {
     if (number >= 11 && number <= 19) {
@@ -98,4 +102,4 @@ export default Component.extend({
         return htmlSafe(number.toString() + ' коктейля.');
     }
   }
-});
+}

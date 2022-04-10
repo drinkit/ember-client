@@ -4,7 +4,7 @@
       {{ingredient.name}} {{ingredient.description}}
     </PowerSelectMultiple>
   {{else}}
-    <PowerSelect @searchField="name" @placeholder={{@placeholder}} @options={{this.filteredIngredients}} @onChange={{this.changeIngredients}} as |ingredient|>
+    <PowerSelect @searchEnabled={{true}} @searchField="name" @selected={{this.selectedIngredients}} @placeholder={{@placeholder}} @options={{this.filteredIngredients}} @onChange={{this.changeIngredients}} as |ingredient|>
       {{ingredient.name}} {{ingredient.description}}
     </PowerSelect>
   {{/if}}

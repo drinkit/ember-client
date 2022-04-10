@@ -16,6 +16,7 @@ export default Service.extend({
       }
 
       ajax.request(ajaxBody, function(response) {
+        store.clear(modelName);
         response.forEach(function(item) {
           store.push(modelName, item);
         });

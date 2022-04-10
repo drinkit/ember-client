@@ -20,8 +20,6 @@ export default Route.extend(RememberScrollMixin, {
 
   model() {
     let repository = this.get('repository');
-    let store = this.get('simpleStore');
-
     return new hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',

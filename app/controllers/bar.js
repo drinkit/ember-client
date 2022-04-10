@@ -4,6 +4,7 @@ import Controller from '@ember/controller';
 import qs from 'qs';
 import { A } from '@ember/array';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default Controller.extend({
   ajax: service(),
@@ -11,7 +12,7 @@ export default Controller.extend({
   simpleStore: service(),
   repository: service(),
 
-  selectedIngredientsIds: A(),
+  @tracked selectedIngredientsIds: A(),
   ingredientsInCategories: {},
   removedIngredients: A(),
   suggestedIngredients: A(),
@@ -37,13 +38,12 @@ export default Controller.extend({
       this.get('user').set('barItems', []);
     }
 
-    let ingredients = [];
-    ingredients = self.get('user.barItems').map(function(item) {
+    let ingredients = self.get('user.barItems').map(function(item) {
       return store.find('ingredient', item.ingredientId);
     });
     ingredients.forEach(self.moveIngredientToCategory, self);
-    if (ingredientsIds.length != self.get('selectedIngredientsIds.length')) {
-      self.selectedIngredientsIds.setObjects(ingredientsIds);
+    if (ingredientsIds.length !== self.get('selectedIngredientsIds.length')) {
+      self.selectedIngredientsIds.setObjects(ingredientsIds.toArray());
     }
   }),
 
@@ -59,7 +59,7 @@ export default Controller.extend({
       });
       store.clear('suggestedIngredient');
       self.set('suggestedIngredientsInitialized', false);
-      const suggestSuffix = user.get('role') == 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
+      const suggestSuffix = user.get('role') === 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
       repository.find('suggestedIngredient', {
         url: '/ingredients/suggest' + suggestSuffix + qs.stringify({
           id: ingredientsIds
@@ -67,7 +67,7 @@ export default Controller.extend({
         method: 'GET'
       }).then(function(response) {
         self.set('suggestedIngredientsInitialized', true);
-        self.suggestedIngredients.setObjects(response);
+        self.suggestedIngredients.setObjects(response.toArray());
       }, function() {
         self.set('suggestedIngredientsInitialized', true);
         self.suggestedIngredients.clear()
@@ -117,43 +117,7 @@ export default Controller.extend({
     });
   },
 
-    // ingredientRemoved: function(removedItem) {
-    //   let self = this;
-    //   self.changeIngredientActivity(removedItem.get('id'), false);
-    //   this.get('ajax').request({
-    //     url: '/users/' + this.get('user.username') + '/barItems/' + removedItem.get('id'),
-    //     headers: {
-    //       'Content-Type': 'application/json;charset=UTF-8'
-    //     },
-    //     method: 'PUT',
-    //     body: JSON.stringify({
-    //       ingredientId: removedItem.get('id'),
-    //       active: false
-    //     })
-    //   }, function(response) {
-    //
-    //   });
-    // },
-    //
-    // itemRestored: function(restoredItem) {
-    //   let self = this;
-    //   self.changeIngredientActivity(restoredItem.get('id'), true);
-    //   this.get('ajax').request({
-    //     url: '/users/' + this.get('user.username') + '/barItems/' + restoredItem.get('id'),
-    //     headers: {
-    //       'Content-Type': 'application/json;charset=UTF-8'
-    //     },
-    //     method: 'PUT',
-    //     body: JSON.stringify({
-    //       ingredientId: restoredItem.get('id'),
-    //       active: true
-    //     })
-    //   }, function(response) {
-    //
-    //   });
-    // },
-
-  changeIngredientActivity: function(id, active) {
+  changeIngredientActivity(id, active) {
     const barItems = this.get('user.barItems');
     for (var i = 0; i < barItems.length; i++) {
       if (barItems[i].ingredientId == id) {
@@ -164,7 +128,7 @@ export default Controller.extend({
     }
   },
 
-  deleteIngredient: function(id) {
+  deleteIngredient(id) {
     const barItems = this.get('user.barItems');
     let item = barItems.findBy('ingredientId', id);
 
@@ -173,7 +137,7 @@ export default Controller.extend({
     }
   },
 
-  moveIngredientToCategory: function(ingredient) {
+  moveIngredientToCategory(ingredient) {
     if (ingredient == null) {
       return;
     }
@@ -189,8 +153,7 @@ export default Controller.extend({
     }
   },
 
-  isIngredientActive: function(id) {
-
+  isIngredientActive(id) {
     const barItems = this.get('user.barItems');
     let item = barItems.findBy('ingredientId', id);
 

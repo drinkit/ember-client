@@ -24,7 +24,7 @@
     </ul>
   {{/burger.menu}}
   {{#burger.outlet}}
-    <div class="max-w-screen-lg h-full bg-white mx-auto mb-4 md:mt-4 mt-0">
+    <div class="max-w-screen-lg h-full min-h-screen bg-white mx-auto bg-clip-padding border-l-0 border-r-0 border-transparent box-border border-b-20 md:border-t-20 border-t-0 pb-px">
       <div class="flex justify-between w-full h-92px bg-repeat-x bg-contain py-2 px-3" style="background-image: url('/assets/pattern-top-big.png')">
         <button type="button" class="md:hidden w-42px h-42px px-9px py-11px mt-6px {{burger.state.position}} {{if burger.state.open 'burger-hidden'}}" {{action burger.state.actions.toggle}}>
           <span class="block mt-6px w-22px h-2px bg-white rounded-sm"></span>

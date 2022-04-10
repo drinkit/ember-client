@@ -3,22 +3,15 @@ import Component from '@glimmer/component';
 import Stickyfill from 'stickyfilljs';
 import { action } from '@ember/object';
 import { schedule } from '@ember/runloop';
-import { tracked } from '@glimmer/tracking';
-import { A } from '@ember/array';
 
 export default class FiltersMenu extends Component {
   @service currentUser;
   @service tooltipsProvider;
 
-  dataOffsetTop = 180;
-  dataOffsetBottom = null;
-
-  @tracked barIngredientsIds = A();
-
   constructor(owner, args) {
     super(owner, args);
     schedule("afterRender", this, function() {
-      var stickyMenu = document.querySelector('.sticky');
+      const stickyMenu = document.querySelector('.sticky');
       Stickyfill.addOne(stickyMenu);
     });
   }
@@ -66,9 +59,6 @@ export default class FiltersMenu extends Component {
       btn.setAttribute('aria-pressed', 'false');
       btn.classList.remove('active');
     }
-    //
-    this.barIngredientsIds.clear();
-    //
     this.args.clearFilters();
   }
 
@@ -80,7 +70,6 @@ export default class FiltersMenu extends Component {
       return item.ingredientId;
     });
     const allIds = [...new Set([...this.args.selectedIngredientsIds, ...barItemsIds])];
-    this.barIngredientsIds = allIds;
     this.args.changeIngredients(allIds);
   }
 }

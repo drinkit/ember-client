@@ -16,7 +16,7 @@ export default Service.extend({
     if (ajaxRequestBody.headers) {
       ajaxRequestBody.headers[headerName] = headerValue;
     } else {
-      var headers = {};
+      const headers = {};
       headers[headerName] = headerValue;
       ajaxRequestBody.headers = headers;
     }
@@ -29,7 +29,7 @@ export default Service.extend({
   },
 
   _getQueryString: function(params) {
-    var esc = encodeURIComponent;
+    const esc = encodeURIComponent;
     return Object.keys(params)
       .map(k => esc(k) + '=' + esc(params[k]))
       .join('&');
@@ -70,10 +70,11 @@ export default Service.extend({
 
     fetch(ajaxRequestBody.url, ajaxRequestBody).then(function(response) {
       if (response.ok) {
-        if (response.status === 204) {
+        if (response.status === 204 || response.status === 201) {
           return successHandler(null, self.get('session').get('data').digests);
         } else {
-          return response.json().then(function(data) {
+          return response.json()
+            .then(function(data) {
             return successHandler(data, self.get('session').get('data').digests);
           });
         }
