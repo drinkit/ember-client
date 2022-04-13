@@ -1,13 +1,15 @@
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 
-export default Controller.extend({
-  currentUser: service(),
-  modalManager: service(),
-  repository: service(),
+export default class ApplicationController extends Controller {
+  @service currentUser;
+  @service modalManager;
+  @service repository;
+  @service router;
+  @service oauth;
 
-	filteredSearchableItems: computed('searchableItems.[]', 'currentUser.role', function() {
+	get filteredSearchableItems() {
 		const user = this.get('currentUser');
 		let filteredItems = [];
 		for (let i = 0; i < this.get('searchableItems').length; i++) {
@@ -21,20 +23,33 @@ export default Controller.extend({
 		}
 
 	  return filteredItems;
-	}),
+	}
 
-  isLoggedIn: Ember.computed('currentUser.isAuthenticated', function() {
-    return this.get('currentUser').get('isAuthenticated');
-  }),
-
-  actions: {
-    showDialog: function(dialogName) {
-      this.get('modalManager').showDialog(dialogName);
-    },
-
-    hideDialog: function(dialogName) {
-      this.get('modalManager').hideDialog(dialogName);
-    }
+  get isLoggedIn() {
+    return this.currentUser.get('isAuthenticated');
   }
 
-});
+  @action
+  showDialog(dialogName) {
+    this.modalManager.showDialog(dialogName);
+  }
+
+  @action
+  hideDialog(dialogName) {
+    this.modalManager.hideDialog(dialogName);
+  }
+
+  @action
+  logout() {
+    this.oauth.logout();
+  }
+
+  @action
+  onSearch(searchString) {
+    this.router.transitionTo('recipes', {
+      queryParams: {
+        search: searchString
+      }
+    });
+  }
+}

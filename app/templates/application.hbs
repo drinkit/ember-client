@@ -34,7 +34,7 @@
         {{#link-to "builder"}}
           <img src="/assets/logo-main.png" class="xs:w-240px xs:h-80px w-210px h-70px" />
         {{/link-to}}
-        <SearchByName id="mobile" class="md:hidden inline-block w-42px h-42px mt-10px relative" @options={{this.filteredSearchableItems}} />
+        <SearchByName id="mobile" class="md:hidden inline-block w-42px h-42px mt-10px relative" @options={{this.filteredSearchableItems}} @onSearch={{this.onSearch}} />
         <div class="pt-1 pr-2 hidden md:block">
           {{#if isLoggedIn}}
             <span class="font-gothic text-white text-sm underline mr-5px">{{currentUser.displayName}}</span>
@@ -51,7 +51,7 @@
           {{#link-to 'bar' class="cursor-pointer font-georgia font-bold italic text-xl mr-2 text-violet" }}Мой бар{{/link-to}}
           {{#link-to 'ingredients' class="cursor-pointer font-georgia font-bold italic text-xl text-violet" }}Ингредиенты{{/link-to}}
         </div>
-        <SearchByName class="block" @options= {{this.filteredSearchableItems}} />
+        <SearchByName class="block" @options={{this.filteredSearchableItems}} @onSearch={{this.onSearch}}/>
       </div>
       <hr class="hidden md:block bg-light_green my-2px mx-15px opacity-75 h-px border-none" />
       <hr class="hidden md:block bg-light_green my-2px mx-15px opacity-75 h-px border-none" />

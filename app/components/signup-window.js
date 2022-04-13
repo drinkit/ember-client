@@ -7,7 +7,7 @@ import {
 }
 from 'ember-cp-validations';
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   displayName: validator('presence', {
     presence: true,
     message: 'Это поле не должно быть пустым'

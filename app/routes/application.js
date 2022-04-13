@@ -5,24 +5,9 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 
 export default Route.extend(ApplicationRouteMixin, {
   currentUser: service(),
-  oauth: service(),
   repository: service(),
 
   searchableItems: [],
-
-  actions: {
-    logout: function() {
-      this.get('oauth').logout();
-    },
-
-    search: function(searchString) {
-      this.transitionTo('recipes', {
-        queryParams: {
-          search: searchString
-        }
-      });
-    }
-  },
 
   sessionAuthenticated: function() {
     console.log("auth success!");

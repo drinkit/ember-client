@@ -41,7 +41,7 @@ export default Route.extend(RememberScrollMixin, {
       self.get('ajax').request({
           url: "/recipes",
           method: "GET",
-          data: {
+          body: {
             namePart: params.search
           }
         },

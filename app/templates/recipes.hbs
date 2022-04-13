@@ -1,15 +1,15 @@
-<div class="search-results" style="padding-left:0px;">
+<div class="pt-4 px-2">
   {{#if foundCocktails}}
-    <div class="row">
+    <div class="flex flex-wrap">
       {{#each recipesOnPage as |recipe|}}
-        {{recipe-item recipe=recipe store=store selectedIngredients=selectedIngredients}}
+        <RecipeItem @recipe={{recipe}} @selectedIngredients={{this.selectedIngredientsIds}}/>
       {{/each}}
     </div>
-    {{#if isPreviousPageExist}}
-      {{#link-to (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default" rel="prev"}}Назад{{/link-to}}
+    {{#if this.isPreviousPageExist}}
+      {{#link-to 'builder' (query-params pageNumber=previousPageNumber) id="prevPageButton" class="float-left h-36px my-10px mr-5px block px-12px py-6px text-sm border border-greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" rel="prev" }}Назад{{/link-to}}
     {{/if}}
-    {{#if isNextPageExist}}
-      {{#link-to (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default" rel="next"}}Еще коктейлей...{{/link-to}}
+    {{#if this.isNextPageExist}}
+      {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="float-right h-36px my-10px mr-5px block px-12px py-6px text-sm border border-greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" rel="next" }}Еще коктейлей{{/link-to}}
     {{/if}}
   {{else}}
     <img src="/assets/sadcocktail.png" />

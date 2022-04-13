@@ -50,8 +50,8 @@ export default Service.extend({
       ajaxRequestBody.url = this.get('host') + ajaxRequestBody.url;
     }
 
-    var curUsername = username ? username : this.get('session').get('data').authenticated.email;
-    var curPassword = password ? password : this.get('session').get('data').authenticated.password;
+    const curUsername = username ? username : this.get('session').get('data').authenticated.email;
+    const curPassword = password ? password : this.get('session').get('data').authenticated.password;
 
     const self = this;
     let digests = self.get('session').get('data').digests;
@@ -110,6 +110,8 @@ export default Service.extend({
           }
         }
       }
+    }).catch((error) => {
+      console.log(error);
     });
   }
 });

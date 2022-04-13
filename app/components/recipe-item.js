@@ -1,5 +1,4 @@
 import { htmlSafe } from '@ember/template';
-import { computed } from '@ember/object';
 import { schedule } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

@@ -43,7 +43,7 @@ export default class SuggestIngredients extends Component {
       let sugIngredient = this.args.suggestedIngredients.objectAt(i);
       let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
       let recipesIds = sugIngredient.get('recipeIds');
-      let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') == 'ADMIN'));
+      let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') === 'ADMIN'));
       ingredientsCocktails.push({
         id: ingredient.get('id'),
         name: ingredient.get('name'),
