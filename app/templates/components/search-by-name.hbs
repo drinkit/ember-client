@@ -4,14 +4,14 @@
     @initiallyOpened={{false}}
     @placeholder={{this.randomPlaceholder}}
     @searchField="name"
-    @extra=(hash labelPath="name")
-    @defaultHighlighted=null
+    @extra={{hash labelPath="name"}}
+    @defaultHighlighted={{null}}
     @options={{@options}}
     @selected={{this.selected}}
     @onOpen={{this.preventEmptyOpen}}
     @onInput={{this.preventShortSearch}}
     @onkeydown={{this.keyPressed}}
-    @onChange={{this.processSearch}} as |element|>
-    {{element.name}}
+    @onChange={{this.processSearch}} as |option|>
+    {{option.name}}
   </PowerSelectTypeahead>
 </div>

@@ -25,7 +25,7 @@ export default Route.extend(RememberScrollMixin, {
         url: '/ingredients',
         method: 'GET'
       }),
-      allRecipes: repository.find('recipe', {
+      allRecipes: repository.find('foundedRecipe', {
         url: '/recipes',
         method: 'GET',
         body: {

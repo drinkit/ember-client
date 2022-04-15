@@ -5,7 +5,7 @@ export default Service.extend({
   simpleStore: service(),
   ajax: service(),
 
-  find(modelName, ajaxBody, minSize=1) {
+  find(modelName, ajaxBody, minSize= 1) {
     const ajax = this.get('ajax');
     const store = this.get('simpleStore');
 

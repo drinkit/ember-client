@@ -19,36 +19,35 @@ export default class BuilderController extends PaginationController {
   @tracked isSearchStarting = false;
 
   get recipes() {
-    let allRecipes = this.get('allRecipes');
     let self = this;
-    return allRecipes.filter(item => {
+    const allFoundedRecipes = this.simpleStore.find('foundedRecipe');
+    return allFoundedRecipes.filter(item => {
       return item.get('published') || (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN')
     });
   }
 
   performSearch() {
     const that = this;
-    this.set('isSearchStarting', true);
-    this.get('ajax').request({
+    this.isSearchStarting = true;
+    this.ajax.request({
       url: "/recipes",
       method: "GET",
       body: {
         criteria: JSON.stringify({
-          ingredients: this.get('selectedIngredientsIds') || [],
-          cocktailTypes: this.get('cocktailTypes') || [],
-          options: this.get('cocktailOptions') || []
+          ingredients: this.selectedIngredientsIds || [],
+          cocktailTypes: this.cocktailTypes || [],
+          options: this.cocktailOptions || []
         })
       }
     }, function(result) {
-      that.get('simpleStore').clear('foundedRecipe');
+      that.simpleStore.clear('foundedRecipe');
       result.forEach(function(item) {
         if (item.published) {
-          that.get('simpleStore').push('foundedRecipe', item);
+          that.simpleStore.push('foundedRecipe', item);
         } else if (that.get('currentUser.isAuthenticated') && that.get('currentUser.role') === 'ADMIN') {
-          that.get('simpleStore').push('foundedRecipe', item);
+          that.simpleStore.push('foundedRecipe', item);
         }
       });
-      that.set('allRecipes', that.simpleStore.find('foundedRecipe'));
       that.isSearchStarting = false;
       that.isSearchPerformed = true;
     });
