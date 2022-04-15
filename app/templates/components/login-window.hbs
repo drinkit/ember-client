@@ -1,25 +1,26 @@
-<ModalDialog @overlayClass="bg-gray-transparent" @containerClass="p-0" @overlayPosition="sibling" @onClose={{action 'close'}}>
+<ModalDialog @overlayClass="bg-gray-transparent" @containerClass="p-0" @overlayPosition="sibling" @onClose={{this.close}}>
   <div class="w-350px">
     <div>
       <div class="flex justify-between p-4 border-b border-gray-300">
         <h4 class="font-georgia text-lg text-violet">Вход</h4>
-        <button type="button" class="text-gray-500 text-xl font-bold -mt-2 hover:text-gray-700" aria-label="Close" {{action "close"}}>&times;</button>
+        <button type="button" class="text-gray-500 text-xl font-bold -mt-2 hover:text-gray-700" aria-label="Close" {{on "click" this.close}}>&times;</button>
       </div>
-      <form class="p-4 border-b border-gray-300" {{action "login" on="submit"}}>
-        <Input @type="email" @class="block w-full mb-2 border border-gray-500 rounded-4px px-12px py-6px text-sm text-gray-700 italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" @placeholder="Электронный адрес..." @value={{this.email}}/>
-        <Input @type="password" @class="block w-full mb-2 border border-gray-500 rounded-4px px-12px py-6px text-sm italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" @placeholder="Пароль..." @value={{this.password}}/>
+      <div class="p-4 border-b border-gray-300">
+        <Input type="email" class="block w-full mb-2 border border-gray-500 rounded-4px px-12px py-6px text-sm text-gray-700 italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" placeholder="Электронный адрес..." @value={{this.email}}/>
+        <Input type="password" class="block w-full mb-2 border border-gray-500 rounded-4px px-12px py-6px text-sm italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" placeholder="Пароль..." @value={{this.password}}/>
         {{#if this.hasError}}
-          <span>Неправильный логин или пароль</span>
+          <span class="text-sm font-gothic">Неправильный логин или пароль</span>
         {{/if}}
-        <button type="submit" class="block h-37px w-full border greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" disabled={{this.isLogining}}>Войти</button>
-      </form>
+        <button type="button" class="block h-37px w-full border greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200"
+                disabled={{this.isLogining}} {{on "click" this.login}}>Войти</button>
+      </div>
       <div class="flex justify-between p-4 border-b border-gray-300">
-        <button id="googleButton" type="button" class="w-100px h-37px rounded-4px bg-google_red text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{action "socialLogin" "google"}}>Google+</button>
-        <button id="vkButton" type="button" class="w-100px h-37px rounded-4px bg-vk_blue text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{action "socialLogin" "vk"}}>ВКонтакте</button>
-        <button id="fbButton" type="button" class="w-100px h-37px rounded-4px bg-fb_blue text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{action "socialLogin" "facebook"}}>Facebook</button>
+        <button id="googleButton" type="button" class="w-100px h-37px rounded-4px bg-google_red text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{on "click" (fn this.socialLogin "google")}}>Google+</button>
+        <button id="vkButton" type="button" class="w-100px h-37px rounded-4px bg-vk_blue text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{on "click" (fn this.socialLogin "vk")}}>ВКонтакте</button>
+        <button id="fbButton" type="button" class="w-100px h-37px rounded-4px bg-fb_blue text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{on "click" (fn this.socialLogin "facebook")}}>Facebook</button>
       </div>
       <div class="p-4">
-        <button type="button" class="block h-37px w-full border greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" disabled= {{isLogining}} {{action "signUp"}}>Зарегистрироваться</button>
+        <button type="button" class="block h-37px w-full border greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" disabled={{this.isLogining}} {{on "click" this.signUp}}>Зарегистрироваться</button>
       </div>
     </div>
   </div>

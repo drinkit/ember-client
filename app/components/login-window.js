@@ -1,48 +1,49 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import CryptoJS from 'crypto-js';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  session: service(),
-  ajax: service(),
-  oauth: service(),
+export default class LoginWindow extends Component{
+  @service session;
+  @service ajax;
+  @service oauth;
 
-  hasError: false,
-  isLogining: false,
+  @tracked hasError = false;
+  @tracked isLogining = false;
+  @tracked email;
+  @tracked password;
 
-  actions: {
-    login() {
-      this.set('isLogining', true);
-      this.set('hasError', false);
-      let {
-        email,
-        password
-      } = this.getProperties('email', 'password');
-      var self = this;
-      this.get("session").authenticate('autheticator:digest', email,
-        CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
-          self.set('isLogining', false);
-          self.hideDialog('Login');
-        },
-        function() {
-          self.set('hasError', true);
-          self.set('isLogining', false);
-        });
-    },
-
-    socialLogin(socialNetwork) {
-      this.get('oauth').login(socialNetwork);
-      this.hideDialog('Login');
-    },
-
-    signUp() {
-      this.hideDialog('Login');
-      this.showDialog('SignUp');
-    },
-
-    close() {
-      this.hideDialog('Login');
-    }
+  @action
+  login() {
+    this.isLogining = true;
+    this.hasError = false;
+    const self = this;
+    this.session.authenticate('autheticator:digest', this.email,
+      CryptoJS.SHA256("drinkIt" + this.password).toString()).then(function() {
+        self.isLogining = false;
+        self.args.hideDialog('Login');
+      },
+      function() {
+        self.hasError = true;
+        self.isLogining = false;
+      });
   }
 
-});
+  @action
+  socialLogin(socialNetwork) {
+    this.oauth.login(socialNetwork);
+    this.args.hideDialog('Login');
+  }
+
+  @action
+  signUp() {
+    this.args.hideDialog('Login');
+    this.args.showDialog('SignUp');
+  }
+
+  @action
+  close() {
+    this.args.hideDialog('Login');
+  }
+}
