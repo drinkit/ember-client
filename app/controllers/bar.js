@@ -1,4 +1,3 @@
-import { observer } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 import qs from 'qs';
@@ -6,84 +5,61 @@ import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  ajax: service(),
-  modalManager: service(),
-  simpleStore: service(),
-  repository: service(),
+const RuToEnCategory = {
+  'Крепкие алкогольные напитки': 'hardSpirits',
+  'Ликеры': 'liquors',
+  'Слабоалкогольные напитки': 'softSpirits',
+  'Безалкогольные напитки': 'nonSpirits',
+  'Прочее': 'other'
+}
 
-  @tracked selectedIngredientsIds: A(),
-  ingredientsInCategories: {},
-  removedIngredients: A(),
-  suggestedIngredients: A(),
-  ruToEnCategory: {
-    'Крепкие алкогольные напитки': 'hardSpirits',
-    'Ликеры': 'liquors',
-    'Слабоалкогольные напитки': 'softSpirits',
-    'Безалкогольные напитки': 'nonSpirits',
-    'Прочее': 'other'
-  },
+export default class BarController extends Controller {
+  @service ajax;
+  @service modalManager;
+  @service simpleStore;
 
-  barItemsChanged: observer('user.barItems.[]', function() {
-    const store = this.get('simpleStore');
-    let ingredientsIds = [];
-    this.set('ingredientsInCategories', {});
-    this.removedIngredients.clear();
-    const self = this;
+  @tracked suggestedIngredientsInitialized = false;
+  @tracked suggestedIngredients = A();
+
+  constructor(owner, args) {
+    super(owner, args);
+    this.addObserver("user.barItems.[]", () => {
+      this.updateSuggestedIngredients();
+    });
+  }
+
+  get selectedIngredientsIds() {
+    let ingredientsIds;
     if (this.get('user.barItems')) {
       ingredientsIds = this.get('user.barItems').map(function(item) {
         return item.ingredientId;
       });
-    } else {
-      this.get('user').set('barItems', []);
     }
 
-    let ingredients = self.get('user.barItems').map(function(item) {
-      return store.find('ingredient', item.ingredientId);
-    });
-    ingredients.forEach(self.moveIngredientToCategory, self);
-    if (ingredientsIds.length !== self.get('selectedIngredientsIds.length')) {
-      self.selectedIngredientsIds.setObjects(ingredientsIds.toArray());
-    }
-  }),
+    return ingredientsIds;
+  }
 
-  ingredientsIdsChanged: observer('user.barItems.[]', function() {
-    const user = this.get('user');
-    this.set('suggestedIngredientsInitialized', true);
-    if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
-      const repository = this.get('repository');
-      const store = this.get('simpleStore');
-      const self = this;
-      let ingredientsIds = this.get('user.barItems').map(function(item) {
-        return item.ingredientId;
-      });
-      store.clear('suggestedIngredient');
-      self.set('suggestedIngredientsInitialized', false);
-      const suggestSuffix = user.get('role') === 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
-      repository.find('suggestedIngredient', {
-        url: '/ingredients/suggest' + suggestSuffix + qs.stringify({
-          id: ingredientsIds
-        }, { arrayFormat: 'brackets' }),
-        method: 'GET'
-      }).then(function(response) {
-        self.set('suggestedIngredientsInitialized', true);
-        self.suggestedIngredients.setObjects(response.toArray());
-      }, function() {
-        self.set('suggestedIngredientsInitialized', true);
-        self.suggestedIngredients.clear()
-      })
+  get ingredientsInCategories() {
+    let ingredients = this.get('user.barItems').map((item) => this.simpleStore.find('ingredient', item.ingredientId));
+    let categorisedIngredients = {};
+
+    for (const categorisedIngredient of ingredients) {
+      if (!categorisedIngredient) continue;
+      let category = RuToEnCategory[categorisedIngredient.get('category')];
+      if (categorisedIngredients[category]) {
+        categorisedIngredients[category].push(categorisedIngredient);
+      } else {
+        categorisedIngredients[category] = [categorisedIngredient];
+      }
     }
 
-  }),
+    return categorisedIngredients;
+  }
 
   @action
   ingredientSelected(id) {
-    const self = this;
-    self.get('user.barItems').pushObject({
-      ingredientId: id,
-      active: true
-    });
-    this.get('ajax').request({
+    this.addIngredient(id);
+    this.ajax.request({
       url: '/users/' + this.get('user.username') + '/barItems',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
@@ -93,40 +69,32 @@ export default Controller.extend({
         ingredientId: id,
         active: true
       })
-    }, function(response) {
-
-    });
-  },
+    }, function(response) {});
+  }
 
   @action
   showLogin() {
-    this.get('modalManager').showDialog('Login');
-  },
+    this.modalManager.showDialog('Login');
+  }
 
   @action
   itemDeleted(deletedItem) {
-    let self = this;
-    self.deleteIngredient(deletedItem.get('id'));
-    this.get('ajax').request({
+    this.deleteIngredient(deletedItem.get('id'));
+    this.ajax.request({
       url: '/users/' + this.get('user.username') + '/barItems/' + deletedItem.get('id'),
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
       },
       method: 'DELETE'
-    }, function() {
-    });
-  },
+    }, function() {});
+  }
 
-  changeIngredientActivity(id, active) {
-    const barItems = this.get('user.barItems');
-    for (var i = 0; i < barItems.length; i++) {
-      if (barItems[i].ingredientId == id) {
-        barItems[i].active = active;
-        this.get('user').notifyPropertyChange('barItems');
-        return;
-      }
-    }
-  },
+  addIngredient(id) {
+    this.get('user.barItems').pushObject({
+      ingredientId: id,
+      active: true
+    });
+  }
 
   deleteIngredient(id) {
     const barItems = this.get('user.barItems');
@@ -135,32 +103,25 @@ export default Controller.extend({
     if (item) {
       barItems.removeObject(item);
     }
-  },
-
-  moveIngredientToCategory(ingredient) {
-    if (ingredient == null) {
-      return;
-    }
-    if (this.isIngredientActive(ingredient.get('id'))) {
-      let category = this.get('ruToEnCategory')[ingredient.get('category')];
-      if (this.get('ingredientsInCategories')[category]) {
-        this.get('ingredientsInCategories')[category].push(ingredient);
-      } else {
-        this.get('ingredientsInCategories')[category] = [ingredient];
-      }
-    } else {
-      this.get('removedIngredients').push(ingredient);
-    }
-  },
-
-  isIngredientActive(id) {
-    const barItems = this.get('user.barItems');
-    let item = barItems.findBy('ingredientId', id);
-
-    if (item) {
-      return item.active;
-    }
-
-    return true;
   }
-});
+
+  updateSuggestedIngredients() {
+    if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
+      const self = this;
+      this.suggestedIngredientsInitialized = false;
+      const suggestSuffix = this.user.get('role') === 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
+      this.ajax.request({
+        url: '/ingredients/suggest' + suggestSuffix + qs.stringify({
+          id: this.selectedIngredientsIds
+        }, { arrayFormat: 'brackets' }),
+        method: 'GET'
+      }, function(response) {
+        self.suggestedIngredientsInitialized = true;
+        self.suggestedIngredients.setObjects(response.toArray());
+      }, function() {
+        self.suggestedIngredientsInitialized = true;
+        self.suggestedIngredients.clear()
+      });
+    }
+  }
+}

@@ -21,7 +21,6 @@ export default Route.extend({
 
   model() {
     const repository = this.get('repository');
-    const store = this.get('simpleStore');
     return new hash({
       ingredients: repository.find('ingredient', {
         url: '/ingredients',
