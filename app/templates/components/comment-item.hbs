@@ -1,7 +1,7 @@
 <div class="relative">
   <hr class="border-gray-300"/>
   <span class="mr-15px font-bold text-sm font-gothic">{{@comment.author.name}}</span>
-  <span class="whitespace-no-wrap text-xs font-gothic text-gray-700">{{moment-from-now @comment.posted locale='ru'}}</span>
+  <span class="whitespace-nowrap text-xs font-gothic text-gray-700">{{moment-from-now @comment.posted locale='ru'}}</span>
   {{#if this.isCurrentUserAuthor}}
     <span class="absolute right-0 top-0 text-gray-700 font-bold text-lg cursor-pointer hover:text-red-700" {{on "click" this.deleteComment}}>×</span>
   {{/if}}

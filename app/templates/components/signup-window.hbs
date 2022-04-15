@@ -5,11 +5,11 @@
       <button type="button" class="text-gray-500 text-xl font-bold -mt-2 hover:text-gray-700" {{action "close"}} aria-label="Close">&times;</button>
     </div>
     <div class="p-4 border-b border-gray-300">
-      <ValidatedInput @type="text" @model={{this}} @placeholder="Отображаемое имя..." @valuePath="displayName"/>
-      <ValidatedInput @type="email" @model={{this}} @placeholder="Электронный адрес..." @valuePath="email"/>
-      <ValidatedInput @type="password" @model={{this}} @placeholder="Пароль..." @valuePath="password"/>
-      <ValidatedInput @type="password" @model={{this}} @placeholder="Пароль..." @valuePath="passwordConfirmation"/>
-      <button type="button" class="block h-37px w-full border border-greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" disabled={{v-get this 'isInvalid'}} {{action "register"}}>Зарегистрироваться</button>
+      <ValidatedInput @type="text" @model={{this.validationModel}} @placeholder="Отображаемое имя..." @valuePath="displayName"/>
+      <ValidatedInput @type="email" @model={{this.validationModel}} @placeholder="Электронный адрес..." @valuePath="email"/>
+      <ValidatedInput @type="password" @model={{this.validationModel}} @placeholder="Пароль..." @valuePath="password"/>
+      <ValidatedInput @type="password" @model={{this.validationModel}} @placeholder="Пароль..." @valuePath="passwordConfirmation"/>
+      <button type="button" class="block h-37px w-full border border-greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 disabled:cursor-not-allowed disabled:opacity-50" disabled={{v-get this.validationModel 'isInvalid'}} {{action "register"}}>Зарегистрироваться</button>
       {{#if this.hasError}}
         <span class="text-sm text-gray-700 font-gothic">Такой пользователь уже существует</span>
       {{/if}}

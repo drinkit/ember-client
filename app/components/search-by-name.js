@@ -9,8 +9,8 @@ export default class SearchByName extends Component {
   @service router;
   @tracked randomPlaceholder;
 
-  init(...args) {
-    super.init(...args);
+  constructor(owner, args) {
+    super(owner, args);
     this.randomPlaceholder = 'Например, ' + PossibleTips[Math.floor(Math.random() * PossibleTips.length)];
   }
 
@@ -18,7 +18,7 @@ export default class SearchByName extends Component {
   keyPressed(obj, key) {
     if (!obj.selected && (key.which === 13 || key.keyCode === 13)) {
       this.args.onSearch(obj.searchText);
-      document.querySelector('input[type="search"]').blur();
+      // this.element.querySelector('input').blur();
     }
   }
 
@@ -26,7 +26,7 @@ export default class SearchByName extends Component {
   processSearch(term) {
     if (term && term !== "null") {
       this.router.transitionTo(term.route, term.id);
-      document.querySelector('input[type="search"]').blur();
+      // this.element.querySelector('input').blur();
     }
   }
 

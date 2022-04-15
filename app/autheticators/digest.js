@@ -9,7 +9,7 @@ export default Base.extend({
   currentUser: service(),
 
   restore: function(data) {
-    var self = this;
+    const self = this;
     if (data.email && data.password) {
       return new Promise(function(resolve, reject) {
         run(function() {

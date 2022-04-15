@@ -6,7 +6,6 @@ import fetch from 'fetch';
 import {isUnauthorizedResponse} from 'ember-fetch/errors';
 
 export default Service.extend({
-
   host: ENV['server-path'] + '/rest',
 
   session: service('session'),
@@ -106,8 +105,12 @@ export default Service.extend({
         } else {
           self.get('session').get('data').digests = {};
           if (errorHandler != null) {
-            errorHandler(response, status, error);
+            errorHandler(response, response.status);
           }
+        }
+      } else {
+        if (errorHandler != null) {
+          errorHandler(response, response.status);
         }
       }
     }).catch((error) => {

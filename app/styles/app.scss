@@ -43,7 +43,7 @@
 }
 
 body {
-  @apply .antialiased;
+  @apply antialiased;
 }
 
 :focus::-webkit-input-placeholder {
@@ -105,7 +105,7 @@ input::-webkit-input-placeholder {
 }
 
 .active {
-  @apply .text-orange_beach #{!important};
+  @apply text-orange_beach #{!important};
 }
 
 /* POWER SELECT */
@@ -127,58 +127,58 @@ input::-webkit-input-placeholder {
   max-width: 250px !important;
   padding: 2px 16px 2px 8px !important;
   border: 1px solid #ccc !important;
-  @apply .bg-white .text-gray-600 #{!important};
+  @apply bg-white text-gray-600 #{!important};
 }
 
 #mobile .ember-power-select-search-input {
   background-image: url('/assets/search-128.png');
-  @apply .relative .italic .text-transparent .text-md .font-gothic .border-none .p-0 .max-w-42px .min-w-42px .h-42px .bg-right .transition-all .duration-500 .ease-in-out .bg-transparent .bg-contain .bg-no-repeat .outline-none #{!important};
+  @apply relative italic text-transparent text-md font-gothic border-none p-0 max-w-42px min-w-42px h-42px bg-right transition-all duration-500 ease-in-out bg-transparent bg-contain bg-no-repeat outline-none #{!important};
   text-indent: 2px;
 }
 
 @screen md {
   .ember-power-select-search-input {
-    @apply .text-gray-600 .italic .text-sm .font-gothic .border-none .p-0 .w-full .h-full .outline-none #{!important};
+    @apply text-gray-600 italic text-sm font-gothic border-none p-0 w-full h-full outline-none #{!important};
     text-indent: 2px;
   }
 }
 
 .ember-power-select-search-input:focus {
-  @apply .border-none #{!important};
+  @apply border-none #{!important};
 }
 
 #mobile .ember-power-select-trigger {
-  @apply .inline-block .absolute .right-0 .h-42px .bg-transparent .p-0 .border-none .text-sm #{!important};
+  @apply inline-block absolute right-0 h-42px bg-transparent p-0 border-none text-sm #{!important};
 }
 
 .ember-power-select-trigger {
-  @apply .px-2 #{!important};
+  @apply px-2 #{!important};
 }
 
 @screen md {
   .ember-power-select-trigger {
-    @apply .min-w-220px .border-solid .border .border-gray-400 .text-sm #{!important};
+    @apply min-w-220px border-solid border-1 border-gray-400 text-sm #{!important};
   }
 }
 
 .ember-basic-dropdown-content {
-  @apply .font-gothic .text-gray-700 .text-sm #{!important};
+  @apply font-gothic text-gray-700 text-sm #{!important};
 }
 
 .ember-basic-dropdown-trigger {
-  @apply .py-2px #{!important};
+  @apply py-2px #{!important};
 }
 
 .ember-power-select-multiple-option {
-  @apply .text-white .bg-orange_beach .rounded-10px .border-none .px-5px .h-21px .leading-19px .text-13px #{!important};
+  @apply text-white bg-orange_beach rounded-10px border-none px-5px h-21px leading-19px text-13px #{!important};
 }
 
 .ember-power-select-multiple-remove-btn {
-  @apply .text-white .opacity-100 .leading-13px .text-15px #{!important};
+  @apply text-white opacity-100 leading-13px text-15px #{!important};
 }
 
 .ember-power-select-multiple-remove-btn:hover {
-  @apply .text-brick_red #{!important};
+  @apply text-brick_red #{!important};
 }
 
 
@@ -209,17 +209,17 @@ input::-webkit-input-placeholder {
 
 #options-group {
   > .active {
-    @apply .text-white .bg-light_green .rounded-10px .border-none .px-5px .pb-2px .mx-0 .mb-3px #{!important};
+    @apply text-white bg-light_green rounded-10px border-none px-5px pb-2px mx-0 mb-3px #{!important};
   }
 }
 
 /* SEARCH RESULTS */
 .selected-ingredient {
-  @apply .bg-orange_beach #{!important};
+  @apply bg-orange_beach #{!important};
 }
 
 .unselected-ingredient {
-  @apply .bg-gray-300 #{!important};
+  @apply bg-gray-300 #{!important};
 }
 
 /* RECIPE VIEW */

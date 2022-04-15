@@ -18,7 +18,7 @@
 }
 
 .bm-menu {
-  @apply .bg-violet .fixed #{!important};
+  @apply bg-violet fixed #{!important};
 
   > ul {
     list-style-type: none;
@@ -30,7 +30,7 @@
     vertical-align: middle;
 
     > div {
-      @apply .pl-15px .pb-10px #{!important};
+      @apply pl-15px pb-10px #{!important};
 
       a,
       span {
@@ -39,7 +39,7 @@
     }
 
     > a {
-      @apply .block .text-white .font-gothic .text-xl .py-15px .pl-15px #{!important};
+      @apply block text-white font-gothic text-xl py-15px pl-15px #{!important};
     }
   }
 }

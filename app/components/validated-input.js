@@ -1,38 +1,51 @@
-/**
- * Copyright 2016, Yahoo! Inc.
- * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
- */
+import { tracked } from '@glimmer/tracking';
+import Component from '@glimmer/component';
 
-import { oneWay, alias, not, notEmpty, and } from '@ember/object/computed';
+export default class ValidatedInput extends Component {
+  @tracked showValidations = false;
 
-import Component from '@ember/component';
-import { defineProperty, computed } from '@ember/object';
+  get validation() {
+    return this.args.model.validations.attrs[this.args.valuePath];
+  }
 
-export default Component.extend({
-  classNames: ['relative'],
-  classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
-  model: null,
-  value: null,
-  type: 'text',
-  valuePath: '',
-  placeholder: '',
-  validation: null,
-  isTyping: false,
+  get value() {
+    return this.args.model[this.args.valuePath];
+  }
 
-  init() {
-    this._super(...arguments);
-    var valuePath = this.get('valuePath');
-    defineProperty(this, 'validation', oneWay(`model.validations.attrs.${valuePath}`));
-    defineProperty(this, 'value', alias(`model.${valuePath}`));
-  },
+  get notValidating() {
+    return !this.validation.isValidating;
+  }
 
-  notValidating: not('validation.isValidating'),
-  didValidate: oneWay('targetObject.didValidate'),
-  hasContent: notEmpty('value'),
-  isValid: and('hasContent', 'validation.isValid', 'notValidating'),
-  isInvalid: oneWay('validation.isInvalid'),
-  showErrorClass: and('notValidating', 'showMessage', 'hasContent', 'validation'),
-  showMessage: computed('validation.isDirty', 'isInvalid', 'didValidate', function() {
-    return (this.get('validation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
-  })
-});
+  get hasContent() {
+    return !!this.value;
+  }
+
+  get hasWarnings() {
+    return this.validation.warnings.length > 0;
+  }
+
+  get isValid() {
+    return this.hasContent && this.validation.isTruelyValid;
+  }
+
+  get shouldDisplayValidations() {
+    return this.showValidations || this.args.didValidate || this.hasContent;
+  }
+
+  get showErrorClass() {
+    return this.notValidating && this.showErrorMessage && this.hasContent && this.validation;
+  }
+
+  get showErrorMessage() {
+    return this.shouldDisplayValidations && this.validation.isInvalid;
+  }
+
+  get showWarningMessage() {
+    return this.shouldDisplayValidations && this.hasWarnings && this.isValid;
+  }
+
+  focusOut() {
+    super.focusOut();
+    this.showValidations = true;
+  }
+}
