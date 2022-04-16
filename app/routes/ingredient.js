@@ -8,6 +8,11 @@ export default Route.extend({
   headData: service(),
   repository: service(),
   metrics: service(),
+  simpleStore: service(),
+
+  beforeModel() {
+    this.get('simpleStore').clear('suggestedRecipe');
+  },
 
   model(params) {
     const repository = this.get('repository');
@@ -22,6 +27,19 @@ export default Route.extend({
 
   setupController: function(controller, modelHash) {
     controller.setProperties(modelHash);
+    this.get('repository').find('suggestedRecipe', {
+      url: '/recipes',
+      method: 'GET',
+      body: {
+        criteria: JSON.stringify({
+          ingredients: [modelHash.ingredientId],
+          cocktailTypes: [],
+          options: []
+        })
+      }
+    }).then((response) => {
+      controller.set('suggestedRecipes', response);
+    });
   },
 
   afterModel(model) {
