@@ -1,17 +1,13 @@
-import { computed } from '@ember/object';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  classNames: ['px-15px'],
-  maxRecipes: 6,
-  initialized: false,
-  suggestedRecipes: [],
+export default class SuggestRecipes extends Component {
+  maxRecipes = 6;
 
-  filteredSuggestedRecipes: computed('suggestedRecipes.[]', function() {
-    return this.get('suggestedRecipes') ? this.get('suggestedRecipes').slice(0, this.get('maxRecipes')) : [];
-  }),
+  get filteredSuggestedRecipes() {
+    return this.args.suggestedRecipes ? this.args.suggestedRecipes.slice(0, this.maxRecipes) : [];
+  }
 
-  hasData: computed('filteredSuggestedRecipes.[]', function() {
-    return this.get('filteredSuggestedRecipes.length') > 0;
-  })
-});
+  get hasData() {
+    return this.filteredSuggestedRecipes.length > 0;
+  }
+}
