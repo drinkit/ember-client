@@ -38,6 +38,7 @@ export default Route.extend(RememberScrollMixin, {
     const store = this.get('simpleStore');
 
     return new Promise(function(resolve, reject) {
+      store.clear('foundedRecipe');
       self.get('ajax').request({
           url: "/recipes",
           method: "GET",
@@ -46,7 +47,6 @@ export default Route.extend(RememberScrollMixin, {
           }
         },
         function(response) {
-          store.clear('foundedRecipe');
           response.forEach(function(item) {
             if (item.published) {
               store.push('foundedRecipe', item);
@@ -82,7 +82,7 @@ export default Route.extend(RememberScrollMixin, {
         url: '/ingredients',
         method: 'GET'
       }),
-      recipes: store.find('foundedRecipe')
+      allRecipes: store.find('foundedRecipe')
     });
   }
 });

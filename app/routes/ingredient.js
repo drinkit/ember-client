@@ -38,6 +38,7 @@ export default Route.extend({
         })
       }
     }).then((response) => {
+      controller.set('suggestedRecipesInitialized', true);
       controller.set('suggestedRecipes', response);
     });
   },

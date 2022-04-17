@@ -1,7 +1,7 @@
 {{#if this.user.isAuthenticated}}
-  <div class="mx-4 pt-15px">
-    <IngredientChooser class="mx-5px" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="Добавить в бар..." @ingredientSelected={{this.ingredientSelected}}/>
-    <div class="flex flex-wrap mt-10px">
+  <div class="mx-4 pt-[15px]">
+    <IngredientChooser class="mx-[5px]" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="Добавить в бар..." @ingredientSelected={{this.ingredientSelected}}/>
+    <div class="flex flex-wrap mt-[10px]">
       <div id="firstBarColumn" class="flex flex-col flex-1 w-full">
         <BarCategoryBox @title="Крепкие алкогольные напитки" @ingredients={{this.ingredientsInCategories.hardSpirits}} @onRemoveItem={{action "itemDeleted"}} />
         <BarCategoryBox @title="Ликеры" @ingredients={{this.ingredientsInCategories.liquors}} @onRemoveItem={{action "itemDeleted"}}/>

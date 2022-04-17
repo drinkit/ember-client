@@ -1,8 +1,6 @@
-@import "tailwindcss/base";
-
-@import "tailwindcss/components";
-
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /*! purgecss start ignore */
 @import "ember-modal-dialog/ember-modal-structure";
@@ -132,7 +130,7 @@ input::-webkit-input-placeholder {
 
 #mobile .ember-power-select-search-input {
   background-image: url('/assets/search-128.png');
-  @apply relative italic text-transparent text-md font-gothic border-none p-0 max-w-42px min-w-42px h-42px bg-right transition-all duration-500 ease-in-out bg-transparent bg-contain bg-no-repeat outline-none #{!important};
+  @apply relative italic text-transparent text-base font-gothic border-none p-0 max-w-[42px] min-w-[42px] h-[42px] bg-right transition-all duration-500 ease-in-out bg-transparent bg-contain bg-no-repeat outline-none #{!important};
   text-indent: 2px;
 }
 
@@ -148,7 +146,7 @@ input::-webkit-input-placeholder {
 }
 
 #mobile .ember-power-select-trigger {
-  @apply inline-block absolute right-0 h-42px bg-transparent p-0 border-none text-sm #{!important};
+  @apply inline-block absolute right-0 h-[42px] bg-transparent p-0 border-none text-sm #{!important};
 }
 
 .ember-power-select-trigger {
@@ -157,7 +155,7 @@ input::-webkit-input-placeholder {
 
 @screen md {
   .ember-power-select-trigger {
-    @apply min-w-220px border-solid border-1 border-gray-400 text-sm #{!important};
+    @apply min-w-[220px] border-solid border border-gray-400 text-sm #{!important};
   }
 }
 
@@ -166,15 +164,15 @@ input::-webkit-input-placeholder {
 }
 
 .ember-basic-dropdown-trigger {
-  @apply py-2px #{!important};
+  @apply py-[2px] #{!important};
 }
 
 .ember-power-select-multiple-option {
-  @apply text-white bg-orange_beach rounded-10px border-none px-5px h-21px leading-19px text-13px #{!important};
+  @apply text-white bg-orange_beach rounded-[10px] border-none px-[5px] h-[21px] leading-[19px] text-[13px] #{!important};
 }
 
 .ember-power-select-multiple-remove-btn {
-  @apply text-white opacity-100 leading-13px text-15px #{!important};
+  @apply text-white opacity-100 leading-[13px] text-[15px] #{!important};
 }
 
 .ember-power-select-multiple-remove-btn:hover {
@@ -183,13 +181,10 @@ input::-webkit-input-placeholder {
 
 
 /* BURGER */
-/*! purgecss start ignore */
 @import 'ember-burger-menu';
 @import 'burger';
-/*! purgecss end ignore */
 
 /* FILTERS MENU */
-
 #long-cocktail-button {
   background-image: url(/assets/long-64.png);
 }
@@ -209,7 +204,7 @@ input::-webkit-input-placeholder {
 
 #options-group {
   > .active {
-    @apply text-white bg-light_green rounded-10px border-none px-5px pb-2px mx-0 mb-3px #{!important};
+    @apply text-white bg-light_green rounded-[10px] border-none px-[5px] pb-[2px] mx-0 mb-[3px] #{!important};
   }
 }
 

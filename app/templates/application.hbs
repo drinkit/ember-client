@@ -1,14 +1,14 @@
 {{#burger-menu maxSwipeTime=500 width=260 as |burger|}}
   {{#burger.menu dismissOnItemClick=true itemTagName="li" as |menu|}}
-    <img class="ml-10px mt-5px" src="/assets/logo-main.png" width="240" height="80" />
+    <img class="ml-[10px] mt-[5px]" src="/assets/logo-main.png" width="240" height="80" />
     <ul>
       {{#menu.item}}
-        <div class="flex justify-between pr-15px">
+        <div class="flex justify-between pr-[15px]">
           {{#if isLoggedIn}}
-            <span class="font-gothic text-white text-md underline">{{currentUser.displayName}}</span>
-            <p class="cursor-pointer font-gothic text-white text-md underline" {{action "logout"}}>Выйти</p>
+            <span class="font-gothic text-white text-base underline">{{currentUser.displayName}}</span>
+            <p class="cursor-pointer font-gothic text-white text-base underline" {{action "logout"}}>Выйти</p>
           {{else}}
-            <p class="cursor-pointer font-gothic text-white text-md underline" {{action "showDialog" "Login"}}>Войти</p>
+            <p class="cursor-pointer font-gothic text-white text-base underline" {{action "showDialog" "Login"}}>Войти</p>
           {{/if}}
         </div>
       {{/menu.item}}
@@ -25,23 +25,23 @@
   {{/burger.menu}}
   {{#burger.outlet}}
     <div class="max-w-screen-lg h-full min-h-screen bg-white mx-auto bg-clip-padding border-l-0 border-r-0 border-transparent box-border border-b-20 md:border-t-20 border-t-0 pb-px">
-      <div class="flex justify-between w-full h-92px bg-repeat-x bg-contain py-2 px-3" style="background-image: url('/assets/pattern-top-big.png')">
-        <button type="button" class="md:hidden w-42px h-42px px-9px py-11px mt-6px {{burger.state.position}} {{if burger.state.open 'burger-hidden'}}" {{action burger.state.actions.toggle}}>
-          <span class="block mt-6px w-22px h-2px bg-white rounded-sm"></span>
-          <span class="block mt-6px w-22px h-2px bg-white rounded-sm"></span>
-          <span class="block mt-6px w-22px h-2px bg-white rounded-sm"></span>
+      <div class="flex justify-between w-full h-[92px] bg-repeat-x bg-contain py-2 px-3" style="background-image: url('/assets/pattern-top-big.png')">
+        <button type="button" class="md:hidden w-[42px] h-[42px] px-[9px] py-[11px] mt-[6px] {{burger.state.position}} {{if burger.state.open 'burger-hidden'}}" {{action burger.state.actions.toggle}}>
+          <span class="block mt-[6px] w-[22px] h-[2px] bg-white rounded-sm"></span>
+          <span class="block mt-[6px] w-[22px] h-[2px] bg-white rounded-sm"></span>
+          <span class="block mt-[6px] w-[22px] h-[2px] bg-white rounded-sm"></span>
         </button>
         {{#link-to "builder"}}
-          <img src="/assets/logo-main.png" class="xs:w-240px xs:h-80px w-210px h-70px" />
+          <img src="/assets/logo-main.png" class="xs:w-[240px] xs:h-[80px] w-[210px] h-[70px]" />
         {{/link-to}}
-        <SearchByName id="mobile" class="md:hidden inline-block w-42px h-42px mt-10px relative" @options={{this.filteredSearchableItems}} @onSearch={{this.onSearch}} />
+        <SearchByName id="mobile" class="md:hidden inline-block w-[42px] h-[42px] mt-[10px] relative" @options={{this.filteredSearchableItems}} @onSearch={{this.onSearch}} />
         <div class="pt-1 pr-2 hidden md:block">
           {{#if isLoggedIn}}
-            <span class="font-gothic text-white text-sm underline mr-5px">{{currentUser.displayName}}</span>
-            <div class="inline-block w-0 h-16px border-l border-white mt-3px -mb-3px" />
-            <p class="inline-block cursor-pointer font-gothic text-white text-sm underline ml-5px" {{action "logout"}}>Выйти</p>
+            <span class="font-gothic text-white text-sm underline mr-[5px]">{{currentUser.displayName}}</span>
+            <div class="inline-block w-0 h-[16px] border-l border-white mt-[3px] -mb-[3px]" />
+            <p class="inline-block cursor-pointer font-gothic text-white text-sm underline ml-[5px]" {{action "logout"}}>Выйти</p>
           {{else}}
-            <p class="inline-block cursor-pointer font-gothic text-white text-sm underline ml-5px" {{action "showDialog" "Login"}}>Войти</p>
+            <p class="inline-block cursor-pointer font-gothic text-white text-sm underline ml-[5px]" {{action "showDialog" "Login"}}>Войти</p>
           {{/if}}
         </div>
       </div>
@@ -53,8 +53,8 @@
         </div>
         <SearchByName class="block" @options={{this.filteredSearchableItems}} @onSearch={{this.onSearch}}/>
       </div>
-      <hr class="hidden md:block bg-light_green my-2px mx-15px opacity-75 h-px border-none" />
-      <hr class="hidden md:block bg-light_green my-2px mx-15px opacity-75 h-px border-none" />
+      <hr class="hidden md:block bg-light_green my-[2px] mx-[15px] opacity-75 h-px border-none" />
+      <hr class="hidden md:block bg-light_green my-[2px] mx-[15px] opacity-75 h-px border-none" />
       {{outlet}}
     </div>
     {{#if modalManager.isShowLogin}}

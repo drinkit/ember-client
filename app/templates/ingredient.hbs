@@ -1,6 +1,6 @@
 <div itemscope itemtype="http://schema.org/Product">
-	<div id="recipeView" class="flex flex-wrap justify-center pt-5px px-15px">
-		<div class="relative flex-grow-0 w-386px h-full border border-solid border-gray-350 mr-15px">
+	<div id="recipeView" class="flex flex-wrap justify-center pt-[5px] px-[15px]">
+		<div class="relative grow-0 w-[386px] h-full border border-solid border-gray-350 mr-[15px]">
 				{{#if this.currentIngredient.imageUrl}}
 					<img class="w-full h-full" itemprop="image" alt={{this.currentIngredient.name}} src={{this.currentIngredient.fullImageUrl}}>
 					<picture id="emptyImage" class="w-full h-full absolute opacity-0 left-0 top-0" itemprop="image">
@@ -16,19 +16,19 @@
 				</picture>
 				{{/if}}
 			</div>
-		<div class="flex-grow w-555px">
-			<h1 id="ingrName" class="font-georgia font-bold text-center text-28px text-violet leading-tight" itemprop="name">{{this.currentIngredient.name}}</h1>
+		<div class="grow w-[555px]">
+			<h1 id="ingrName" class="font-georgia font-bold text-center text-[28px] text-violet leading-tight" itemprop="name">{{this.currentIngredient.name}}</h1>
 			{{#if this.currentIngredient.originalName}}
-				<h2 id="originalName" class="mt-5px font-georgia font-bold text-center text-22px text-violet leading-tight opacity-75">{{this.currentIngredient.originalName}}</h2>
+				<h2 id="originalName" class="mt-[5px] font-georgia font-bold text-center text-[22px] text-violet leading-tight opacity-75">{{this.currentIngredient.originalName}}</h2>
 			{{/if}}
-			<div class="mt-20px">
+			<div class="mt-[20px]">
 				<ul id="ingrAttrList" class="font-gothic">
-					<li class="mb-5px" itemprop="category">Категория: {{this.currentIngredient.category}}</li>
-          <li class="mb-5px">Крепость: {{this.currentIngredient.vol}}%</li>
+					<li class="mb-[5px]" itemprop="category">Категория: {{this.currentIngredient.category}}</li>
+          <li class="mb-[5px]">Крепость: {{this.currentIngredient.vol}}%</li>
 				</ul>
 			</div>
 			<div itemprop="description">
-				<MarkdownToHtml class="mt-20px font-gothic text-sm whitespace-pre-wrap" @markdown={{this.currentIngredient.description}} @extensions="internal-links"/>
+				<MarkdownToHtml class="mt-[20px] font-gothic text-sm whitespace-pre-wrap" @markdown={{this.currentIngredient.description}} @extensions="internal-links"/>
 			</div>
 		</div>
 	</div>

@@ -2,7 +2,6 @@ import Service, {
   inject as service
 } from '@ember/service';
 import ENV from 'ember-drink-it/config/environment';
-import fetch from 'fetch';
 import {isUnauthorizedResponse} from 'ember-fetch/errors';
 
 export default Service.extend({

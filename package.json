@@ -17,11 +17,10 @@
   },
   "repository": "",
   "devDependencies": {
-    "@csstools/postcss-sass": "^4.0.0",
+    "@csstools/postcss-sass": "^5.0.1",
     "@ember/optional-features": "^1.1.0",
-    "@fullhuman/postcss-purgecss": "^2.3.0",
     "@glimmer/component": "^1.0.1",
-    "autoprefixer": "^9.8.6",
+    "autoprefixer": "^10.4.4",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "crypto-js": "^3.3.0",
@@ -38,12 +37,13 @@
     "ember-cli-htmlbars": "^4.4.0",
     "ember-cli-inject-live-reload": "^2.0.2",
     "ember-cli-moment-shim": "^3.8.0",
-    "ember-cli-postcss": "^5.0.0",
+    "ember-cli-postcss": "^8.0.0",
     "ember-cli-showdown": "^4.5.0",
     "ember-cli-template-lint": "^1.0.0",
     "ember-cli-uglify": "^3.0.0",
     "ember-cp-validations": "^4.0.0-beta.12",
     "ember-export-application-global": "^2.0.1",
+    "ember-fetch": "^8.1.1",
     "ember-href-to": "^3.0.0",
     "ember-load-initializers": "^2.1.1",
     "ember-maybe-import-regenerator": "^0.1.6",
@@ -53,19 +53,20 @@
     "ember-power-select-typeahead": "^0.9.0",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^7.0.0",
-    "ember-simple-auth": "^2.1.1",
+    "ember-simple-auth": "^4.2.2",
     "ember-source": "~3.24.0",
     "eslint-plugin-ember": "^7.13.0",
     "eslint-plugin-node": "^10.0.0",
     "hellojs": "^1.18.4",
     "loader.js": "^4.7.0",
+    "postcss": "^8.4.12",
     "postcss-import": "^12.0.1",
-    "postcss-scss": "^2.1.1",
+    "postcss-scss": "^4.0.3",
     "precss": "^4.0.0",
     "qs": "^6.9.4",
     "showdown": "^1.9.1",
     "stickyfilljs": "^2.1.0",
-    "tailwindcss": "^2.2.16"
+    "tailwindcss": "^3.0.24"
   },
   "engines": {
     "node": "8.* || >= 10.*"
@@ -81,6 +82,7 @@
     ]
   },
   "dependencies": {
-    "postcss-preset-env": "^6.7.0"
+    "postcss-preset-env": "^6.7.0",
+    "sass": "^1.50.0"
   }
 }

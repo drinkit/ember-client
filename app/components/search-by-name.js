@@ -44,4 +44,9 @@ export default class SearchByName extends Component {
       return false;
     }
   }
+
+  @action
+  preventHighlight() {
+    return null;
+  }
 }

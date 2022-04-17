@@ -5,9 +5,8 @@
     @placeholder={{this.randomPlaceholder}}
     @searchField="name"
     @extra={{hash labelPath="name"}}
-    @defaultHighlighted={{null}}
+    @defaultHighlighted={{this.preventHighlight}}
     @options={{@options}}
-    @selected={{this.selected}}
     @onOpen={{this.preventEmptyOpen}}
     @onInput={{this.preventShortSearch}}
     @onkeydown={{this.keyPressed}}

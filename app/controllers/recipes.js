@@ -1,7 +1,11 @@
-import Controller from '@ember/controller';
-import PaginationMixin from '../mixins/pagination';
+import PaginationController from "./pagination";
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend(PaginationMixin, {
-  queryParams: ['search'],
-  search: null
-});
+export default class RecipesController extends PaginationController {
+  queryParams = ['search'];
+  @tracked search = null;
+
+  get recipes() {
+    return this.allRecipes;
+  }
+}

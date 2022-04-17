@@ -1,10 +1,10 @@
 <div class="relative {{if this.showErrorClass "has-error"}} {{if this.isValid "has-success"}}">
-  <Input type={{@type}} @value={{mut (get @model @valuePath)}} placeholder={{@placeholder}} class="block w-full mb-2 border border-gray-500 rounded-4px px-12px py-6px text-sm text-gray-700 italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" name={{@valuePath}}/>
+  <Input type={{@type}} @value={{mut (get @model @valuePath)}} placeholder={{@placeholder}} class="block w-full mb-2 border border-gray-500 rounded-[4px] px-[12px] py-[6px] text-sm text-gray-700 italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" name={{@valuePath}}/>
   {{#if this.isValid}}
-    <span class="absolute inline-flex top-0 right-0 z-10 w-34px h-34px justify-center items-center font-black text-green-600" aria-hidden="true">&#x2713;</span>
+    <span class="absolute inline-flex top-0 right-0 z-10 w-[34px] h-[34px] justify-center items-center font-black text-green-600" aria-hidden="true">&#x2713;</span>
   {{/if}}
   {{#if this.showErrorMessage}}
-    <span class="absolute inline-flex top-0 right-0 z-10 w-34px h-34px justify-center items-center text-lg font-black text-red-700" aria-hidden="true">&times;</span>
+    <span class="absolute inline-flex top-0 right-0 z-10 w-[34px] h-[34px] justify-center items-center text-lg font-black text-red-700" aria-hidden="true">&times;</span>
     <span class="block text-sm font-gothic mb-3 text-red-800">
       {{v-get @model @valuePath 'message'}}
     </span>

@@ -1,9 +1,9 @@
-<div class="font-gothic text-sm text-right mb-20px">
+<div class="font-gothic text-sm text-right mb-[20px]">
   {{#if this.currentUser.isLoggedIn}}
-    <Textarea @value={{this.commentText}} @maxlength="500" class="w-full min-h-60px px-12px py-6px border rounded border-solid border-gray-400" @rows="3" @placeholder="Здесь вы можете оставить комментарий"/>
-    <button type="button" class="inline-block h-37px px-12px py-6px border greengray rounded-4px text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{on "click" this.submitComment}}>Отправить</button>
+    <Textarea @value={{this.commentText}} @maxlength="500" class="w-full min-h-[60px] px-[12px] py-[6px] border rounded border-solid border-gray-400" @rows="3" @placeholder="Здесь вы можете оставить комментарий"/>
+    <button type="button" class="inline-block h-[37px] px-[12px] py-[6px] border greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{on "click" this.submitComment}}>Отправить</button>
   {{else}}
-    <p class="min-h-60px px-12px py-6px border rounded border-solid border-gray-400 text-left">
+    <p class="min-h-[60px] px-[12px] py-[6px] border rounded border-solid border-gray-400 text-left">
       Чтобы оставить комментарий, нужно <span class="cursor-pointer text-blue-600" {{on "click" this.showLogin}}>авторизироваться</span> на сайте.
     </p>
   {{/if}}
