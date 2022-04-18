@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
-import moment from "moment";
 
 const OptionsToTags = {
   1: "fire-32.png",
@@ -22,6 +21,7 @@ export default class RecipeController extends Controller {
   @service ajax;
   @service tooltipsProvider;
   @service repository;
+  @service dayjs;
 
   @action
   changeLike() {
@@ -69,7 +69,7 @@ export default class RecipeController extends Controller {
 
   get sortedComments() {
     return this.comments.toArray().sort((a, b) => {
-      return moment(a.get('posted')).isBefore(b.get('posted')) ? 1 : -1;
+      return this.dayjs.self(a.get('posted')).isBefore(b.get('posted')) ? 1 : -1;
     });
   }
 

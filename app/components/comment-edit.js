@@ -1,14 +1,15 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
-import moment from 'moment';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import utc from 'dayjs/plugin/utc';
 
 export default class CommentEdit extends Component {
   @service currentUser;
   @service ajax;
   @service modalManager;
   @service simpleStore;
+  @service dayjs;
 
   comment = null;
 
@@ -19,10 +20,11 @@ export default class CommentEdit extends Component {
   submitComment() {
     const store = this.simpleStore;
     const ajax = this.ajax;
+    this.dayjs.self.extend(utc);
 
     let comment = {
       recipeId: this.args.recipeId,
-      posted: moment.utc(moment()).toJSON(),
+      posted: this.dayjs.self().utc().toJSON(),
       text: this.commentText,
       author: {
         username: this.currentUser.username,

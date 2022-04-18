@@ -31,10 +31,6 @@ module.exports = function(environment) {
     }
   };
 
-  ENV['moment'] = {
-    includeLocales: ['ru', 'en']
-  };
-
   ENV['simple-auth'] = {
     authorizer: 'authorizer:digest',
     crossOriginWhitelist: ['*']

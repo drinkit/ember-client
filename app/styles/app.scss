@@ -108,19 +108,30 @@ input::-webkit-input-placeholder {
 
 /* POWER SELECT */
 
+@import 'ember-power-select';
+@import 'ember-power-select-typeahead';
+
+.ember-power-select-typeahead-trigger {
+  @apply rounded;
+}
+
+.ember-power-select-typeahead-input {
+  @apply border-none;
+}
+
 .ember-power-select-option[aria-selected="true"] {
   background-color: #ffffff !important;
 }
 
-#mobile .ember-power-select-search-input::placeholder {
+#mobileSearch .ember-power-select-search-input::placeholder {
     color: transparent !important;
 }
 
-#mobile .ember-power-select-search-input:focus::placeholder {
+#mobileSearch .ember-power-select-search-input:focus::placeholder {
     color: #888 !important;
 }
 
-#mobile .ember-power-select-search-input:focus {
+#mobileSearch .ember-power-select-search-input:focus {
   min-width: 250px !important;
   max-width: 250px !important;
   padding: 2px 16px 2px 8px !important;
@@ -128,7 +139,7 @@ input::-webkit-input-placeholder {
   @apply bg-white text-gray-600 #{!important};
 }
 
-#mobile .ember-power-select-search-input {
+#mobileSearch .ember-power-select-search-input {
   background-image: url('/assets/search-128.png');
   @apply relative italic text-transparent text-base font-gothic border-none p-0 max-w-[42px] min-w-[42px] h-[42px] bg-right transition-all duration-500 ease-in-out bg-transparent bg-contain bg-no-repeat outline-none #{!important};
   text-indent: 2px;
@@ -136,7 +147,7 @@ input::-webkit-input-placeholder {
 
 @screen md {
   .ember-power-select-search-input {
-    @apply text-gray-600 italic text-sm font-gothic border-none p-0 w-full h-full outline-none #{!important};
+    @apply text-gray-600 italic text-sm font-gothic w-full h-full outline-none #{!important};
     text-indent: 2px;
   }
 }
@@ -145,12 +156,12 @@ input::-webkit-input-placeholder {
   @apply border-none #{!important};
 }
 
-#mobile .ember-power-select-trigger {
+#mobileSearch .ember-power-select-trigger {
   @apply inline-block absolute right-0 h-[42px] bg-transparent p-0 border-none text-sm #{!important};
 }
 
 .ember-power-select-trigger {
-  @apply px-2 #{!important};
+  @apply px-2 h-[30px] #{!important};
 }
 
 @screen md {
@@ -165,6 +176,10 @@ input::-webkit-input-placeholder {
 
 .ember-basic-dropdown-trigger {
   @apply py-[2px] #{!important};
+}
+
+.ember-power-select-trigger-multiple-input {
+  @apply h-[24px];
 }
 
 .ember-power-select-multiple-option {
