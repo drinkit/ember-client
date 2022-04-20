@@ -8,12 +8,6 @@ export default class ApplicationController extends Controller {
   @service repository;
   @service router;
   @service oauth;
-  @service dayjs;
-
-  constructor(owner, args) {
-    super(owner, args);
-    this.dayjs.setLocale('ru');
-  }
 
 	get filteredSearchableItems() {
 		const user = this.get('currentUser');

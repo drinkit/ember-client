@@ -1,5 +1,5 @@
 export function initialize(applicationInstance) {
-  var oauth = applicationInstance.lookup('service:oauth');
+  const oauth = applicationInstance.lookup('service:oauth');
   oauth.initialize();
 }
 

@@ -10,6 +10,10 @@ module.exports = function(defaults) {
       plugins: ['utc', 'relativeTime'],
     },
 
+    'ember-simple-auth': {
+      useSessionSetupMethod: true,
+    },
+
     fingerprint: {
       enabled: true,
       exclude: ['tags/']

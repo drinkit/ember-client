@@ -1,27 +1,33 @@
 import { schedule } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default Route.extend(ApplicationRouteMixin, {
-  currentUser: service(),
-  repository: service(),
+export default class ApplicationRoute extends Route {
+  @service currentUser;
+  @service repository;
+  @service session;
+  @service dayjs;
 
-  searchableItems: [],
+  searchableItems = [];
 
-  sessionAuthenticated: function() {
+  sessionAuthenticated() {
     console.log("auth success!");
-  },
+  }
 
-  sessionInvalidated: function() {
-    this.get('currentUser').unsetUser();
+  sessionInvalidated() {
+    this.currentUser.unsetUser();
     console.log("logout");
-  },
+  }
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
     controller.set('searchableItems', this.get('searchableItems'));
-  },
+  }
+
+  async beforeModel() {
+    await this.session.setup();
+    this.dayjs.setLocale('ru');
+  }
 
   afterModel(model) {
     const self = this;
@@ -53,7 +59,6 @@ export default Route.extend(ApplicationRouteMixin, {
           }
         });
       }).then((result) => {
-        const user = self.get('currentUser');
         let items = result.map(i => ({
           name: i.get('name'),
           route: 'recipe',
@@ -71,4 +76,4 @@ export default Route.extend(ApplicationRouteMixin, {
       });
     });
   }
-});
+}
