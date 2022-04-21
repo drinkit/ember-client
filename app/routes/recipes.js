@@ -1,45 +1,35 @@
-import { get } from '@ember/object';
+import { action } from '@ember/object';
 import { scheduleOnce } from '@ember/runloop';
 import { Promise, hash } from 'rsvp';
 import { inject as service } from '@ember/service';
-import Route from '@ember/routing/route';
-import RememberScrollMixin from '../mixins/remember-scroll';
+import RememberScrollRoute from "./remember-scroll";
 
-export default Route.extend(RememberScrollMixin, {
-  ajax: service(),
-  currentUser: service(),
-  metrics: service(),
-  simpleStore: service(),
-  repository: service(),
-  headData: service(),
+export default class RecipesRoute extends RememberScrollRoute {
+  @service ajax;
+  @service currentUser;
+  @service metrics;
+  @service simpleStore;
+  @service repository;
+  @service headData;
 
-  afterModel(model, transition) {
-    this.set('headData.title', 'Результаты поиска - drinkIt');
-    this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
-    if (transition.queryParams && transition.queryParams.pageNumber) {
-      this.set('headData.robots', 'noindex, follow');
-    }
-  },
-
-  queryParams: {
+  queryParams = {
     search: {
       refreshModel: true
     }
-  },
+  }
 
-  setupController: function(controller, modelHash) {
+  setupController(controller, modelHash) {
     controller.setProperties(modelHash);
     controller.set('pageNumber', 0);
-  },
+  }
 
-  beforeModel: function() {
+  beforeModel() {
     const params = this.paramsFor('recipes');
     const self = this;
-    const store = this.get('simpleStore');
 
     return new Promise(function(resolve, reject) {
-      store.clear('foundedRecipe');
-      self.get('ajax').request({
+      self.simpleStore.clear('foundedRecipe');
+      self.ajax.request({
           url: "/recipes",
           method: "GET",
           body: {
@@ -49,40 +39,45 @@ export default Route.extend(RememberScrollMixin, {
         function(response) {
           response.forEach(function(item) {
             if (item.published) {
-              store.push('foundedRecipe', item);
+              self.simpleStore.push('foundedRecipe', item);
             } else if (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN') {
-              store.push('foundedRecipe', item);
+              self.simpleStore.push('foundedRecipe', item);
             }
           });
 
           resolve();
         });
     });
-  },
+  }
 
-  actions: {
-    didTransition: function() {
-      scheduleOnce('afterRender', this, () => {
-        const page = document.location.pathname + document.location.search;
-        const title = "Поиск";
-
-        get(this, 'metrics').trackPage({
-          page,
-          title
-        });
-      });
-    }
-  },
-
-  model: function() {
-    const repository = this.get('repository');
-    const store = this.get('simpleStore');
+  model() {
     return new hash({
-      ingredients: repository.find('ingredient', {
+      ingredients: this.repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
       }),
-      allRecipes: store.find('foundedRecipe')
+      allRecipes: this.simpleStore.find('foundedRecipe')
     });
   }
-});
+
+  afterModel(model, transition) {
+    this.set('headData.title', 'Результаты поиска - drinkIt');
+    this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
+    if (transition.queryParams && transition.queryParams.pageNumber) {
+      this.set('headData.robots', 'noindex, follow');
+    }
+  }
+
+  @action
+  didTransition() {
+    scheduleOnce('afterRender', this, () => {
+      const page = document.location.pathname + document.location.search;
+      const title = "Поиск";
+
+      this.metrics.trackPage({
+        page,
+        title
+      });
+    });
+  }
+}
