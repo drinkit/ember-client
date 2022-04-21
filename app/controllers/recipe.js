@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
+import {tracked} from '@glimmer/tracking';
 
 const OptionsToTags = {
   1: "fire-32.png",
@@ -22,6 +23,8 @@ export default class RecipeController extends Controller {
   @service tooltipsProvider;
   @service repository;
   @service dayjs;
+
+  @tracked comments = null;
 
   @action
   changeLike() {
@@ -74,7 +77,7 @@ export default class RecipeController extends Controller {
   }
 
   get isCommentsWorked() {
-    return this.comments != null;
+    return !!this.comments;
   }
 
   get tags() {

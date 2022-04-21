@@ -17,7 +17,7 @@ export default class BuilderRoute extends RememberScrollRoute {
         url: '/ingredients',
         method: 'GET'
       }),
-      allRecipes: repository.find('foundedRecipe', {
+      allRecipes: repository.find('recipe', {
         url: '/recipes',
         method: 'GET',
         body: {
@@ -32,6 +32,7 @@ export default class BuilderRoute extends RememberScrollRoute {
   }
 
   afterModel(model, transition) {
+    this.simpleStore.pushArray('foundedRecipe', model.allRecipes);
     this.set('headData.title', 'Конструктор коктейлей - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
     if (transition.queryParams && transition.queryParams.pageNumber) {

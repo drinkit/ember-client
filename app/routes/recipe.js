@@ -26,10 +26,7 @@ export default class RecipeRoute extends Route {
         url: '/recipes/' + params.recipe_id,
         method: 'GET'
       }),
-      comments: this.repository.find('comment', {
-        url: '/recipes/' + params.recipe_id + '/comments',
-        method: 'GET'
-      })
+      recipeId: params.recipe_id
     });
   }
 
@@ -41,6 +38,17 @@ export default class RecipeRoute extends Route {
 
   setupController(controller, modelHash) {
     controller.setProperties(modelHash);
+    controller.set('comments', null);
+    this.requestComments(modelHash.recipeId).then((response) => {
+      controller.set('comments', response);
+    });
+  }
+
+  requestComments(id) {
+    return this.repository.find('comment', {
+      url: '/recipes/' + id + '/comments',
+      method: 'GET'
+    });
   }
 
   @action
