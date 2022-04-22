@@ -1,12 +1,12 @@
 import Service, { inject as service } from '@ember/service';
 
-export default Service.extend({
-  ajax: service(),
-  simpleStore: service(),
+export default class StatsService extends Service {
+  @service ajax;
+  @service simpleStore;
 
   incrementViewsCount(recipeId) {
-    const store = this.get('simpleStore');
-    this.get('ajax').request({
+    const store = this.simpleStore;
+    this.ajax.request({
       method: 'PATCH',
       url: '/users/me/recipeStats/' + recipeId + '/views?inc=1'
     }, () => {
@@ -16,7 +16,7 @@ export default Service.extend({
       }
       recipe.set('stats.views', recipe.get('stats.views') + 1);
     }, () => {
-
+      // do nothing
     });
   }
-});
+}
