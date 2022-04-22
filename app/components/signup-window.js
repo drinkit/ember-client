@@ -51,7 +51,7 @@ class Form extends Object.extend(Validations) {
 
 export default class SignupWindow extends Component {
   @service ajax;
-  @service session;
+  @service digestSession;
   @service signup;
 
   @tracked hasError = false;

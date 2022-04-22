@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 export default class LoginWindow extends Component{
-  @service session;
+  @service digestSession;
   @service ajax;
   @service oauth;
 
@@ -19,7 +19,7 @@ export default class LoginWindow extends Component{
     this.isLogining = true;
     this.hasError = false;
     const self = this;
-    this.session.authenticate('autheticator:digest', this.email,
+    this.digestSession.authenticate('autheticator:digest', this.email,
       CryptoJS.SHA256("drinkIt" + this.password).toString()).then(function() {
         self.isLogining = false;
         self.args.hideDialog('Login');

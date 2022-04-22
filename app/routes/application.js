@@ -5,7 +5,7 @@ import Route from '@ember/routing/route';
 export default class ApplicationRoute extends Route {
   @service currentUser;
   @service repository;
-  @service session;
+  @service digestSession;
   @service dayjs;
 
   searchableItems = [];
@@ -25,7 +25,7 @@ export default class ApplicationRoute extends Route {
   }
 
   async beforeModel() {
-    await this.session.setup();
+    await this.digestSession.setup();
     this.dayjs.setLocale('ru');
   }
 

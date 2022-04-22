@@ -34,7 +34,7 @@ export default Base.extend({
   },
 
   authenticate: function(email, password, digests) {
-    var self = this;
+    const self = this;
     if (digests) {
       return new Promise(function(resolve, reject) {
         resolve({

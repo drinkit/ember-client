@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import PaginationController from "./pagination";
 
 export default class BuilderController extends PaginationController {
-  @service session;
+  @service digestSession;
   @service simpleStore;
   @service currentUser;
   @service ajax;

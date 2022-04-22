@@ -1,49 +1,46 @@
 import { Promise } from 'rsvp';
 import Service, { inject as service } from '@ember/service';
 
-export default Service.extend({
-  simpleStore: service(),
-  ajax: service(),
+export default class RepositoryService extends Service {
+  @service simpleStore;
+  @service ajax;
 
   find(modelName, ajaxBody, minSize= 1) {
-    const ajax = this.get('ajax');
-    const store = this.get('simpleStore');
-
     return new Promise(function(resolve, reject) {
-      if (store.find(modelName).get('length') > minSize) {
-        resolve(store.find(modelName));
+      if (this.simpleStore.find(modelName).get('length') > minSize) {
+        resolve(this.simpleStore.find(modelName));
         return;
       }
 
-      ajax.request(ajaxBody, function(response) {
-        store.clear(modelName);
+      const self = this;
+
+      this.ajax.request(ajaxBody, function(response) {
+        self.simpleStore.clear(modelName);
         response.forEach(function(item) {
-          store.push(modelName, item);
+          self.simpleStore.push(modelName, item);
         });
-        resolve(store.find(modelName));
+        resolve(self.simpleStore.find(modelName));
       }, reject);
-    });
-  },
+    }, this);
+  }
 
   findOne(modelName, id, ajaxBody) {
-    const ajax = this.get('ajax');
-    const store = this.get('simpleStore');
-
     return new Promise(function(resolve, reject) {
-      if (store.find(modelName, id).get('id') == id) {
-        resolve(store.find(modelName, id));
+      if (this.simpleStore.find(modelName, id).get('id') == id) {
+        resolve(this.simpleStore.find(modelName, id));
         return;
       }
 
-      ajax.request(ajaxBody, function(response) {
-        store.push(modelName, response);
-        resolve(store.find(modelName, id));
+      const self = this;
+
+      this.ajax.request(ajaxBody, function(response) {
+        self.simpleStore.push(modelName, response);
+        resolve(self.simpleStore.find(modelName, id));
       }, reject);
-    });
-  },
+    }, this);
+  }
 
   fetchById(modelName, id) {
-    const store = this.get('simpleStore');
-    return store.find(modelName, id);
+    return this.simpleStore.find(modelName, id);
   }
-});
+}
