@@ -3,21 +3,11 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
 export default class ApplicationRoute extends Route {
-  @service currentUser;
   @service repository;
   @service digestSession;
   @service dayjs;
 
   searchableItems = [];
-
-  sessionAuthenticated() {
-    console.log("auth success!");
-  }
-
-  sessionInvalidated() {
-    this.currentUser.unsetUser();
-    console.log("logout");
-  }
 
   setupController(controller, model) {
     super.setupController(controller, model);

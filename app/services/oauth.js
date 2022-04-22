@@ -45,7 +45,7 @@ export default class OauthService extends Service {
     Hello('google').logout();
     Hello('facebook').logout();
     //
-    this.digestSession.digests = {};
+    this.digestSession.data.digests = {};
     this.digestSession.store.clear();
     this.digestSession.invalidate();
   }

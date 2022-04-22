@@ -4,13 +4,13 @@ import Service, {
 import ENV from 'ember-drink-it/config/environment';
 import {isUnauthorizedResponse} from 'ember-fetch/errors';
 
-export default Service.extend({
-  host: ENV['server-path'] + '/rest',
+export default class AjaxService extends Service {
+  host = ENV['server-path'] + '/rest';
 
-  digestSession: service('digest-session'),
-  digestGenerator: service('digest-generator'),
+  @service digestSession;
+  @service digestGenerator;
 
-  _addDigestHeader: function(ajaxRequestBody, headerName, headerValue) {
+  _addDigestHeader(ajaxRequestBody, headerName, headerValue) {
     if (ajaxRequestBody.headers) {
       ajaxRequestBody.headers[headerName] = headerValue;
     } else {
@@ -20,20 +20,20 @@ export default Service.extend({
     }
 
     return ajaxRequestBody;
-  },
+  }
 
-  _isNonceExpired: function(authResponseHeader) {
+  _isNonceExpired(authResponseHeader) {
     return authResponseHeader.indexOf('stale="true"') > 0;
-  },
+  }
 
-  _getQueryString: function(params) {
+  _getQueryString(params) {
     const esc = encodeURIComponent;
     return Object.keys(params)
       .map(k => esc(k) + '=' + esc(params[k]))
       .join('&');
-  },
+  }
 
-  generateAllDigests: function(username, password, authHeader) {
+  generateAllDigests(username, password, authHeader) {
     const allDigests = {};
     allDigests['GET'] = this.get('digestGenerator').generateDigest(username, password, 'GET', authHeader);
     allDigests['POST'] = this.get('digestGenerator').generateDigest(username, password, 'POST', authHeader);
@@ -41,19 +41,19 @@ export default Service.extend({
     allDigests['PATCH'] = this.get('digestGenerator').generateDigest(username, password, 'PATCH', authHeader);
     allDigests['DELETE'] = this.get('digestGenerator').generateDigest(username, password, 'DELETE', authHeader);
     return allDigests;
-  },
+  }
 
-  request: function(ajaxRequestBody, successHandler, errorHandler, username, password) {
+  request(ajaxRequestBody, successHandler, errorHandler, username, password) {
     if (ajaxRequestBody.url.substring(0, 4) !== 'http') {
       ajaxRequestBody.url = this.get('host') + ajaxRequestBody.url;
     }
 
-    const curUsername = username ? username : this.get('digestSession').get('data').authenticated.email;
-    const curPassword = password ? password : this.get('digestSession').get('data').authenticated.password;
+    const curUsername = username ? username : this.digestSession.data.authenticated.email;
+    const curPassword = password ? password : this.digestSession.data.authenticated.password;
 
     const self = this;
-    let digests = self.get('digestSession').get('data').digests;
-    if (this.get('digestSession').get('isAuthenticated')) {
+    let digests = self.digestSession.data.digests;
+    if (this.digestSession.isAuthenticated) {
     let authDigests = this.get('digestSession.data.authenticated.digests');
       if (authDigests && authDigests[ajaxRequestBody.method]) {
         ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, "Authorization", authDigests[ajaxRequestBody.method]);
@@ -69,11 +69,11 @@ export default Service.extend({
     fetch(ajaxRequestBody.url, ajaxRequestBody).then(function(response) {
       if (response.ok) {
         if (response.status === 204 || response.status === 201) {
-          return successHandler(null, self.get('digestSession').get('data').digests);
+          return successHandler(null, self.digestSession.data.digests);
         } else {
           return response.json()
             .then(function(data) {
-            return successHandler(data, self.get('digestSession').get('data').digests);
+            return successHandler(data, self.digestSession.data.digests);
           });
         }
       } else if (isUnauthorizedResponse(response)) {
@@ -82,11 +82,11 @@ export default Service.extend({
           if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(authHeader)) {
             const allDigests = self.generateAllDigests(curUsername, curPassword, authHeader);
 
-            self.get('digestSession').get('data').digests = allDigests;
+            self.digestSession.data.digests = allDigests;
             digests = allDigests;
 
-            if (self.get('digestSession').get('isAuthenticated')) {
-              self.get('digestSession').authenticate('autheticator:digest', curUsername,
+            if (self.digestSession.isAuthenticated) {
+              self.digestSession.authenticate('autheticator:digest', curUsername,
                 curPassword, digests).then(function() {
                 ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, 'Authorization', digests[ajaxRequestBody.method]);
                 self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
@@ -96,13 +96,13 @@ export default Service.extend({
               self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
             }
           } else {
-            self.get('digestSession').get('data').digests = {};
+            self.digestSession.data.digests = {};
             if (errorHandler != null) {
               errorHandler(response, "Incorrect credentials");
             }
           }
         } else {
-          self.get('digestSession').get('data').digests = {};
+          self.digestSession.data.digests = {};
           if (errorHandler != null) {
             errorHandler(response, response.status);
           }
@@ -116,4 +116,4 @@ export default Service.extend({
       console.log(error);
     });
   }
-});
+}

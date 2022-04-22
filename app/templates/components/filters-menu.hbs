@@ -1,6 +1,6 @@
 <div class="w-[247px] min-w-[247px]">
   <div id="filtersMenu" class="sticky mt-[[15px]] top-[[15px]]">
-    <h3 class="font-georgia font-bold italic text-lg text-light_green text-center my-[[15px]]">Формат коктейля</h3>
+    <h3 class="font-georgia font-bold italic text-lg text-light_green text-center my-[15px]">Формат коктейля</h3>
     <div id="cocktail-types-group" class="flex justify-around">
         <button {{on "click" (fn @toggleType 1)}} id="long-cocktail-button" type="button" class="w-[64px] h-[64px] border rounded-[4px] outline-none border-greengray hover:bg-gray-100 {{if this.isLongTypePressed 'active'}}" data-toggle="button" aria-pressed={{ this.isLongTypePressed }} autocomplete="off" title="лонг" />
         <button {{on "click" (fn @toggleType 2)}} id="short-cocktail-button" type="button" class="w-[64px] h-[64px] border rounded-[4px] outline-none border-greengray hover:bg-gray-100 {{if this.isShortTypePressed 'active'}}" data-toggle="button" aria-pressed={{ this.isShortTypePressed }} autocomplete="off" title="короткий" />

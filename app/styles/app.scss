@@ -2,12 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/*! purgecss start ignore */
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 
 @import "spinkit-three-bounce";
-/*! purgecss end ignore */
 
 /* FONTS */
 
@@ -115,8 +113,12 @@ input::-webkit-input-placeholder {
   @apply rounded;
 }
 
-.ember-power-select-typeahead-input {
+.ember-power-select-typeahead-input, .ember-power-select-typeahead-input:focus {
   @apply border-none;
+}
+
+.ember-power-select-typeahead-input {
+
 }
 
 .ember-power-select-option[aria-selected="true"] {
@@ -147,13 +149,9 @@ input::-webkit-input-placeholder {
 
 @screen md {
   .ember-power-select-search-input {
-    @apply text-gray-600 italic text-sm font-gothic w-full h-full outline-none #{!important};
+    @apply text-gray-600 italic text-sm font-gothic w-full outline-none #{!important};
     text-indent: 2px;
   }
-}
-
-.ember-power-select-search-input:focus {
-  @apply border-none #{!important};
 }
 
 #mobileSearch .ember-power-select-trigger {
@@ -161,7 +159,11 @@ input::-webkit-input-placeholder {
 }
 
 .ember-power-select-trigger {
-  @apply px-2 h-[30px] #{!important};
+  @apply px-2 h-[30px];
+}
+
+.ember-power-select-multiple-trigger {
+  @apply h-auto;
 }
 
 @screen md {

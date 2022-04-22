@@ -23,40 +23,20 @@ export default class RecipesRoute extends RememberScrollRoute {
     controller.set('pageNumber', 0);
   }
 
-  beforeModel() {
-    const params = this.paramsFor('recipes');
-    const self = this;
-
-    return new Promise(function(resolve, reject) {
-      self.simpleStore.clear('foundedRecipe');
-      self.ajax.request({
-          url: "/recipes",
-          method: "GET",
-          body: {
-            namePart: params.search
-          }
-        },
-        function(response) {
-          response.forEach(function(item) {
-            if (item.published) {
-              self.simpleStore.push('foundedRecipe', item);
-            } else if (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN') {
-              self.simpleStore.push('foundedRecipe', item);
-            }
-          });
-
-          resolve();
-        });
-    });
-  }
-
-  model() {
+  model(params) {
+    this.simpleStore.clear('foundedRecipe');
     return new hash({
       ingredients: this.repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
       }),
-      allRecipes: this.simpleStore.find('foundedRecipe')
+      allRecipes: this.repository.find('foundedRecipe', {
+        url: "/recipes",
+        method: "GET",
+        body: {
+          namePart: params.search
+        }
+      })
     });
   }
 

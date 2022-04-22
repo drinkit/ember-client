@@ -26,7 +26,7 @@
 		<span id="recipeName" class="font-georgia font-bold italic leading-none text-base md:text-lg lg:text-xl text-violet">{{@recipe.name}}</span>
 		<div id="ingredients" class="text-left pt-[5px] pr-[5px] leading-tight">
 			{{#each this.sortedIngredients as |ingredient|}}
-				<span title="{{ingredient.tooltip}}" style="{{this.maxIngredientWidthStyle}}" class="inline-block leading-tight font-gothic text-center rounded-[10px] px-[5px] pt-[4px] pb-[5px] h-[25px] border-0 overflow-hidden text-11px md:text-xs {{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
+				<span title="{{ingredient.tooltip}}" style="{{this.maxIngredientWidthStyle}}" class="inline-block leading-tight font-gothic text-center rounded-[10px] px-[5px] pt-[4px] pb-[5px] h-[25px] border-0 overflow-hidden text-[11px] md:text-xs {{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
 			{{/each}}
 		</div>
 		<div id="tags" class="absolute bottom-0 inset-x-0 mb-[4px] ml-[145px] text-left">

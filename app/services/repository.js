@@ -33,11 +33,11 @@ export default class RepositoryService extends Service {
         return;
       }
 
-      this.ajax.request(ajaxBody, function(response) {
+        self.ajax.request(ajaxBody, function(response) {
         self.simpleStore.push(modelName, response);
         resolve(self.simpleStore.find(modelName, id));
       }, reject);
-    }, this);
+    });
   }
 
   fetchById(modelName, id) {

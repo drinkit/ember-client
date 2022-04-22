@@ -30,8 +30,8 @@ export default class BarController extends Controller {
 
   get selectedIngredientsIds() {
     let ingredientsIds;
-    if (this.get('user.barItems')) {
-      ingredientsIds = this.get('user.barItems').map(function(item) {
+    if (this.user.barItems) {
+      ingredientsIds = this.user.barItems.map(function(item) {
         return item.ingredientId;
       });
     }
@@ -40,7 +40,7 @@ export default class BarController extends Controller {
   }
 
   get ingredientsInCategories() {
-    let ingredients = this.get('user.barItems').map((item) => this.simpleStore.find('ingredient', item.ingredientId));
+    let ingredients = this.user.barItems.map((item) => this.simpleStore.find('ingredient', item.ingredientId));
     let categorisedIngredients = {};
 
     for (const categorisedIngredient of ingredients) {
@@ -60,7 +60,7 @@ export default class BarController extends Controller {
   ingredientSelected(id) {
     this.addIngredient(id);
     this.ajax.request({
-      url: '/users/' + this.get('user.username') + '/barItems',
+      url: '/users/' + this.user.username + '/barItems',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
       },
@@ -97,7 +97,7 @@ export default class BarController extends Controller {
   }
 
   deleteIngredient(id) {
-    const barItems = this.get('user.barItems');
+    const barItems = this.user.barItems;
     let item = barItems.findBy('ingredientId', id);
 
     if (item) {
@@ -106,10 +106,11 @@ export default class BarController extends Controller {
   }
 
   updateSuggestedIngredients() {
-    if (this.get('user.barItems') && this.get('user.barItems.length') > 0) {
+    if (this.user.barItems && this.user.barItems.length > 0) {
       const self = this;
+      this.suggestedIngredients.clear();
       this.suggestedIngredientsInitialized = false;
-      const suggestSuffix = this.user.get('role') === 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
+      const suggestSuffix = this.user.role === 'ADMIN' ? '?viewAll=true&' : '?viewAll=false&';
       this.ajax.request({
         url: '/ingredients/suggest' + suggestSuffix + qs.stringify({
           id: this.selectedIngredientsIds
@@ -120,7 +121,7 @@ export default class BarController extends Controller {
         self.suggestedIngredients.setObjects(response.toArray());
       }, function() {
         self.suggestedIngredientsInitialized = true;
-        self.suggestedIngredients.clear()
+        self.suggestedIngredients.clear();
       });
     }
   }
