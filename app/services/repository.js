@@ -6,32 +6,32 @@ export default class RepositoryService extends Service {
   @service ajax;
 
   find(modelName, ajaxBody, minSize= 1) {
+    const self = this;
+
     return new Promise(function(resolve, reject) {
-      if (this.simpleStore.find(modelName).get('length') > minSize) {
-        resolve(this.simpleStore.find(modelName));
+      if (self.simpleStore.find(modelName).get('length') > minSize) {
+        resolve(self.simpleStore.find(modelName));
         return;
       }
 
-      const self = this;
-
-      this.ajax.request(ajaxBody, function(response) {
+      self.ajax.request(ajaxBody, function(response) {
         self.simpleStore.clear(modelName);
         response.forEach(function(item) {
           self.simpleStore.push(modelName, item);
         });
         resolve(self.simpleStore.find(modelName));
       }, reject);
-    }, this);
+    });
   }
 
   findOne(modelName, id, ajaxBody) {
+    const self = this;
+
     return new Promise(function(resolve, reject) {
-      if (this.simpleStore.find(modelName, id).get('id') == id) {
-        resolve(this.simpleStore.find(modelName, id));
+      if (self.simpleStore.find(modelName, id).get('id') == id) {
+        resolve(self.simpleStore.find(modelName, id));
         return;
       }
-
-      const self = this;
 
       this.ajax.request(ajaxBody, function(response) {
         self.simpleStore.push(modelName, response);
