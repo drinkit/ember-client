@@ -1,12 +1,12 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
-  ajax: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
+export default class StatsService extends Service {
+  @service ajax;
+  @service simpleStore;
 
   incrementViewsCount(recipeId) {
-    const store = this.get('simpleStore');
-    this.get('ajax').request({
+    const store = this.simpleStore;
+    this.ajax.request({
       method: 'PATCH',
       url: '/users/me/recipeStats/' + recipeId + '/views?inc=1'
     }, () => {
@@ -16,7 +16,7 @@ export default Ember.Service.extend({
       }
       recipe.set('stats.views', recipe.get('stats.views') + 1);
     }, () => {
-
+      // do nothing
     });
   }
-});
+}

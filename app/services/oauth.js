@@ -1,35 +1,35 @@
-import Ember from 'ember';
-import Hello from 'npm:hellojs';
-import CryptoJS from 'npm:crypto-js';
+import Service, { inject as service } from '@ember/service';
+import Hello from 'hellojs';
+import CryptoJS from 'crypto-js';
 
-export default Ember.Service.extend({
-  session: Ember.inject.service(),
-  signup: Ember.inject.service(),
+export default class OauthService extends Service {
+  @service digestSession;
+  @service signup;
 
-  initialize: function() {
+  initialize() {
     Hello.init({
       google: '24577751850.apps.googleusercontent.com',
       vk: '4425288',
       facebook: '1528690400686454'
     }, {redirect_uri: '/'});
-  },
+  }
 
-  login: function(socialNetwork) {
+  login(socialNetwork) {
     const self = this;
     let onAuth = function(auth) {
       Hello(socialNetwork).api('me').then(function(result) {
         Hello.off('auth.login', onAuth);
-        var login = socialNetwork + result.id;
-        var password = socialNetwork + result.id;
+        const login = socialNetwork + result.id;
+        const password = socialNetwork + result.id;
 
-        self.get("session").authenticate('autheticator:digest', login,
+        self.digestSession.authenticate('autheticator:digest', login,
           CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
             // yeaah!
           },
           function(error) {
             if (error === "Incorrect credentials") {
-              self.get('signup').register(login, password, result.name, function(response) {
-                self.get("session").authenticate('autheticator:digest', login,
+              self.signup.register(login, password, result.name, function(response) {
+                self.digestSession.authenticate('autheticator:digest', login,
                   CryptoJS.SHA256("drinkIt" + password).toString());
               });
             }
@@ -38,15 +38,15 @@ export default Ember.Service.extend({
     };
     Hello.on('auth.login', onAuth);
     Hello(socialNetwork).login();
-  },
+  }
 
-  logout: function() {
+  logout() {
     Hello('vk').logout();
     Hello('google').logout();
     Hello('facebook').logout();
     //
-    this.get('session.data').digests = {};
-    this.get('session.store').clear();
-    this.get('session').invalidate();
+    this.digestSession.data.digests = {};
+    this.digestSession.store.clear();
+    this.digestSession.invalidate();
   }
-});
+}

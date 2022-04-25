@@ -1,12 +1,17 @@
-import Ember from 'ember';
-import CryptoJS from 'npm:crypto-js';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import Object from "@ember/object";
+import CryptoJS from 'crypto-js';
 import {
   validator,
   buildValidations
 }
 from 'ember-cp-validations';
+import { getOwner } from '@ember/application';
 
-var Validations = buildValidations({
+const Validations = buildValidations({
   displayName: validator('presence', {
     presence: true,
     message: 'Это поле не должно быть пустым'
@@ -37,44 +42,57 @@ var Validations = buildValidations({
   ]
 });
 
-export default Ember.Component.extend(Validations, {
-  ajax: Ember.inject.service(),
-  session: Ember.inject.service(),
-  signup: Ember.inject.service(),
+class Form extends Object.extend(Validations) {
+  @tracked displayName = "";
+  @tracked email = "";
+  @tracked password = "";
+  @tracked passwordConfirmation = "";
+}
 
-  hasError: false,
+export default class SignupWindow extends Component {
+  @service ajax;
+  @service digestSession;
+  @service signup;
 
-  actions: {
-    register: function() {
-      var self = this;
-      this.set("hasError", false);
-      let {
-        displayName,
-        email,
-        password
-      } = this.getProperties('displayName', 'email', 'password');
-      this.get('signup').register(email, password, displayName,
-        function(response) {
-          self.sendAction('hideDialog', 'SignUp');
-          self.get("session").authenticate('autheticator:digest', email,
-            CryptoJS.SHA256("drinkIt" + password).toString());
-        },
-        function(xhr, status, error) {
-          if (xhr.status === 403) {
-            self.set("hasError", true);
-          } else {
-            console.log(xhr, status, error);
-          }
-        });
-    },
+  @tracked hasError = false;
 
-    login() {
-      this.sendAction('hideDialog', 'SignUp');
-      this.sendAction('showDialog', 'Login');
-    },
-
-    close() {
-      this.sendAction('hideDialog', 'SignUp');
-    }
+  constructor(owner, args) {
+    super(owner, args);
+    this.validationModel = Form.create(getOwner(this).ownerInjection());
   }
-});
+
+  @action
+  register() {
+    const self = this;
+    this.hasError = false;
+    let {
+      displayName,
+      email,
+      password
+    } = this.validationModel.getProperties('displayName', 'email', 'password');
+    this.signup.register(email, password, displayName,
+      function(response) {
+        self.args.hideDialog('SignUp');
+        self.session.authenticate('autheticator:digest', email,
+          CryptoJS.SHA256("drinkIt" + password).toString());
+      },
+      function(xhr, status, error) {
+        if (xhr.status === 403) {
+          self.hasError = true;
+        } else {
+          console.log(xhr, status, error);
+        }
+      });
+  }
+
+  @action
+  login() {
+    this.args.hideDialog('SignUp');
+    this.args.showDialog('Login');
+  }
+
+  @action
+  close() {
+    this.args.hideDialog('SignUp');
+  }
+}

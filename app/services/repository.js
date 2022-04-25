@@ -1,47 +1,46 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
-  simpleStore: Ember.inject.service(),
-  ajax: Ember.inject.service(),
+export default class RepositoryService extends Service {
+  @service simpleStore;
+  @service ajax;
 
-  find(modelName, ajaxBody, minSize=1) {
-    const ajax = this.get('ajax');
-    const store = this.get('simpleStore');
+  find(modelName, ajaxBody, minSize= 1) {
+    const self = this;
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (store.find(modelName).get('length') >= minSize) {
-        resolve(store.find(modelName));
+    return new Promise(function(resolve, reject) {
+      if (self.simpleStore.find(modelName).get('length') > minSize) {
+        resolve(self.simpleStore.find(modelName));
         return;
       }
 
-      ajax.request(ajaxBody, function(response) {
+      self.ajax.request(ajaxBody, function(response) {
+        self.simpleStore.clear(modelName);
         response.forEach(function(item) {
-          store.push(modelName, item);
+          self.simpleStore.push(modelName, item);
         });
-        resolve(store.find(modelName));
+        resolve(self.simpleStore.find(modelName));
       }, reject);
     });
-  },
+  }
 
   findOne(modelName, id, ajaxBody) {
-    const ajax = this.get('ajax');
-    const store = this.get('simpleStore');
+    const self = this;
 
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (store.find(modelName, id).get('id') == id) {
-        resolve(store.find(modelName, id));
+    return new Promise(function(resolve, reject) {
+      if (self.simpleStore.find(modelName, id).get('id') == id) {
+        resolve(self.simpleStore.find(modelName, id));
         return;
       }
 
-      ajax.request(ajaxBody, function(response) {
-        store.push(modelName, response);
-        resolve(store.find(modelName, id));
+        self.ajax.request(ajaxBody, function(response) {
+        self.simpleStore.push(modelName, response);
+        resolve(self.simpleStore.find(modelName, id));
       }, reject);
     });
-  },
+  }
 
   fetchById(modelName, id) {
-    const store = this.get('simpleStore');
-    return store.find(modelName, id);
+    return this.simpleStore.find(modelName, id);
   }
-});
+}

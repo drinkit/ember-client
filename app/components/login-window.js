@@ -1,47 +1,49 @@
-import Ember from 'ember';
-import CryptoJS from 'npm:crypto-js';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import CryptoJS from 'crypto-js';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Ember.Component.extend({
-  session: Ember.inject.service(),
-  ajax: Ember.inject.service(),
-  oauth: Ember.inject.service(),
+export default class LoginWindow extends Component{
+  @service digestSession;
+  @service ajax;
+  @service oauth;
 
-  hasError: false,
-  isLogining: false,
+  @tracked hasError = false;
+  @tracked isLogining = false;
+  @tracked email;
+  @tracked password;
 
-  actions: {
-    login() {
-      this.set('isLogining', true);
-      this.set('hasError', false);
-      let {
-        email,
-        password
-      } = this.getProperties('email', 'password');
-      var self = this;
-      this.get("session").authenticate('autheticator:digest', email,
-        CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
-          self.set('isLogining', false);
-          self.sendAction('hideDialog', 'Login');
-        },
-        function(reason) {
-          self.set('hasError', true);
-          self.set('isLogining', false);
-        });
-    },
-
-    socialLogin(socialNetwork) {
-      this.get('oauth').login(socialNetwork);
-      this.sendAction('hideDialog', 'Login');
-    },
-
-    signUp() {
-      this.sendAction('hideDialog', 'Login');
-      this.sendAction('showDialog', 'SignUp');
-    },
-
-    close() {
-      this.sendAction('hideDialog', 'Login');
-    }
+  @action
+  login() {
+    this.isLogining = true;
+    this.hasError = false;
+    const self = this;
+    this.digestSession.authenticate('autheticator:digest', this.email,
+      CryptoJS.SHA256("drinkIt" + this.password).toString()).then(function() {
+        self.isLogining = false;
+        self.args.hideDialog('Login');
+      },
+      function() {
+        self.hasError = true;
+        self.isLogining = false;
+      });
   }
 
-});
+  @action
+  socialLogin(socialNetwork) {
+    this.oauth.login(socialNetwork);
+    this.args.hideDialog('Login');
+  }
+
+  @action
+  signUp() {
+    this.args.hideDialog('Login');
+    this.args.showDialog('SignUp');
+  }
+
+  @action
+  close() {
+    this.args.hideDialog('Login');
+  }
+}

@@ -1,30 +1,39 @@
-import Ember from 'ember';
+import Service, {
+  inject as service
+} from '@ember/service';
 import ENV from 'ember-drink-it/config/environment';
+import {isUnauthorizedResponse} from 'ember-fetch/errors';
 
-export default Ember.Service.extend({
+export default class AjaxService extends Service {
+  host = ENV['server-path'] + '/rest';
 
-  host: ENV['server-path'] + '/rest',
+  @service digestSession;
+  @service digestGenerator;
 
-  session: Ember.inject.service('session'),
-  digestGenerator: Ember.inject.service('digest-generator'),
-
-  _addDigestHeader: function(ajaxRequestBody, headerName, headerValue) {
+  _addDigestHeader(ajaxRequestBody, headerName, headerValue) {
     if (ajaxRequestBody.headers) {
       ajaxRequestBody.headers[headerName] = headerValue;
     } else {
-      var headers = {};
+      const headers = {};
       headers[headerName] = headerValue;
       ajaxRequestBody.headers = headers;
     }
 
     return ajaxRequestBody;
-  },
+  }
 
-  _isNonceExpired: function(authResponseHeader) {
+  _isNonceExpired(authResponseHeader) {
     return authResponseHeader.indexOf('stale="true"') > 0;
-  },
+  }
 
-  generateAllDigests: function(username, password, authHeader) {
+  _getQueryString(params) {
+    const esc = encodeURIComponent;
+    return Object.keys(params)
+      .map(k => esc(k) + '=' + esc(params[k]))
+      .join('&');
+  }
+
+  generateAllDigests(username, password, authHeader) {
     const allDigests = {};
     allDigests['GET'] = this.get('digestGenerator').generateDigest(username, password, 'GET', authHeader);
     allDigests['POST'] = this.get('digestGenerator').generateDigest(username, password, 'POST', authHeader);
@@ -32,43 +41,52 @@ export default Ember.Service.extend({
     allDigests['PATCH'] = this.get('digestGenerator').generateDigest(username, password, 'PATCH', authHeader);
     allDigests['DELETE'] = this.get('digestGenerator').generateDigest(username, password, 'DELETE', authHeader);
     return allDigests;
-  },
+  }
 
-  request: function(ajaxRequestBody, successHandler, errorHandler, username, password) {
+  request(ajaxRequestBody, successHandler, errorHandler, username, password) {
     if (ajaxRequestBody.url.substring(0, 4) !== 'http') {
       ajaxRequestBody.url = this.get('host') + ajaxRequestBody.url;
     }
 
-    var curUsername = username ? username : this.get('session').get('data').authenticated.email;
-    var curPassword = password ? password : this.get('session').get('data').authenticated.password;
+    const curUsername = username ? username : this.digestSession.data.authenticated.email;
+    const curPassword = password ? password : this.digestSession.data.authenticated.password;
 
     const self = this;
-    let digests = self.get('session').get('data').digests;
-    if (this.get('session').get('isAuthenticated')) {
-      this.get('session').authorize('authorizer:digest', (headerName, headerValues) => {
-        if (headerValues[ajaxRequestBody.method]) {
-          ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, headerName, headerValues[ajaxRequestBody.method]);
-        }
-      });
+    let digests = self.digestSession.data.digests;
+    if (this.digestSession.isAuthenticated) {
+    let authDigests = this.get('digestSession.data.authenticated.digests');
+      if (authDigests && authDigests[ajaxRequestBody.method]) {
+        ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, "Authorization", authDigests[ajaxRequestBody.method]);
+      }
     }
 
-    // ajaxRequestBody.xhrFields = {
-    //   withCredentials: true
-    // };
 
-    Ember.$.ajax(ajaxRequestBody).then(function(response) {
-      successHandler(response, self.get('session').get('data').digests);
-    }, function(xhr, status, error) {
-      if (xhr.status === 401) { // auth error
+    if (ajaxRequestBody.method === 'GET' && ajaxRequestBody.body) {
+      ajaxRequestBody.url += '?' + self._getQueryString(ajaxRequestBody.body);
+      ajaxRequestBody.body = null;
+    }
+
+    fetch(ajaxRequestBody.url, ajaxRequestBody).then(function(response) {
+      if (response.ok) {
+        if (response.status === 204 || response.status === 201) {
+          return successHandler(null, self.digestSession.data.digests);
+        } else {
+          return response.json()
+            .then(function(data) {
+            return successHandler(data, self.digestSession.data.digests);
+          });
+        }
+      } else if (isUnauthorizedResponse(response)) {
         if (curPassword) {
-          if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(xhr.getResponseHeader("WWW-Authenticate"))) {
-            const allDigests = self.generateAllDigests(curUsername, curPassword, xhr.getResponseHeader("WWW-Authenticate"));
+          const authHeader = response.headers.get("www-authenticate");
+          if (!(digests && digests[ajaxRequestBody.method]) || self._isNonceExpired(authHeader)) {
+            const allDigests = self.generateAllDigests(curUsername, curPassword, authHeader);
 
-            self.get('session').get('data').digests = allDigests;
+            self.digestSession.data.digests = allDigests;
             digests = allDigests;
 
-            if (self.get('session').get('isAuthenticated')) {
-              self.get('session').authenticate('autheticator:digest', curUsername,
+            if (self.digestSession.isAuthenticated) {
+              self.digestSession.authenticate('autheticator:digest', curUsername,
                 curPassword, digests).then(function() {
                 ajaxRequestBody = self._addDigestHeader(ajaxRequestBody, 'Authorization', digests[ajaxRequestBody.method]);
                 self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
@@ -78,19 +96,24 @@ export default Ember.Service.extend({
               self.request(ajaxRequestBody, successHandler, errorHandler, curUsername, curPassword);
             }
           } else {
-            self.get('session').get('data').digests = {};
+            self.digestSession.data.digests = {};
             if (errorHandler != null) {
-              errorHandler(xhr, "Incorrect credentials", error);
+              errorHandler(response, "Incorrect credentials");
             }
           }
-
+        } else {
+          self.digestSession.data.digests = {};
+          if (errorHandler != null) {
+            errorHandler(response, response.status);
+          }
         }
       } else {
-        self.get('session').get('data').digests = {};
         if (errorHandler != null) {
-          errorHandler(xhr, status, error);
+          errorHandler(response, response.status);
         }
       }
+    }).catch((error) => {
+      console.log(error);
     });
   }
-});
+}

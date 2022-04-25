@@ -1,14 +1,12 @@
-<div class="container-fluid">
-  <div class="row">
+<div class="flex flex-wrap px-[12px] pt-[10px] mb-[10px]">
     {{#each-in ingredientsInCategories as |category ingredients|}}
-      <div class="ingredients-col col-md-5ths col-sm-6 col-xs-12">
-        <h3>{{category}}</h3>
+      <div class="flex-1 min-w-[200px] px-[2px]">
+        <h3 class="h-[45px] text-orange_beach test-md font-georgia font-bold italic subpixel-antialiased">{{category}}</h3>
         <ul class="ingredients-list">
           {{#each ingredients as |ingr|}}
-            <li><a class="local-link" href="{{href-to 'ingredient' ingr.id}}">{{ingr.name}}</a></li>
+            <li class="mb-[5px]"><a class="font-gothic underline text-black text-sm" href="{{href-to 'ingredient' ingr.id}}">{{ingr.name}}</a></li>
           {{/each}}
         </ul>
       </div>
     {{/each-in}}
-  </div>
 </div>

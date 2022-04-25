@@ -1,41 +1,49 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import { action } from '@ember/object';
+import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
-export default Ember.Component.extend({
-  scrollSelector: window,
-  classNames: ['suggestions-box'],
-  simpleStore: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
-  initialized: false,
-  suggestionsCount: 3,
+export default class SuggestIngredients extends Component {
+  @service simpleStore;
+  @service currentUser;
 
-  actions: {
-    getMoreSuggestion() {
-      this.set('suggestionsCount', this.get('suggestionsCount') + 3);
-      let self = this;
-      Ember.run.next(function() {
-        Ember.$(self.scrollSelector).scrollTop(Ember.$(self.scrollSelector).scrollTop() + 666);
-      });
-    }
-  },
+  @tracked
+  suggestionsCount = 3;
 
-  hasData: Ember.computed('suggestedIngredients.[]', function() {
-    return this.get('suggestedIngredients.length') > 0;
-  }),
+  constructor(owner, args) {
+    super(owner, args);
+    this.scrollSelector = window;
+  }
 
-  showButtonForExtraSuggestion: Ember.computed('suggestedIngredients.[]', 'suggestionsCount', function() {
-    return this.get('suggestedIngredients.length') > this.get('suggestionsCount');
-  }),
+  @action
+  getMoreSuggestion() {
+    this.suggestionsCount += 3;
+    let self = this;
+    next(function() {
+      self.scrollSelector.scrollTo(0, document.body.scrollHeight);
+    });
+  }
 
-  ingredientsCocktails: Ember.computed('suggestedIngredients.[]', 'suggestionsCount', function() {
+  get hasData() {
+    return this.args.suggestedIngredients.length> 0;
+  }
+
+  get showButtonForExtraSuggestion() {
+    return this.args.suggestedIngredients.length > this.suggestionsCount;
+  }
+
+  get ingredientsCocktails() {
     let ingredientsCocktails = [];
-    const store = this.get('simpleStore');
-    const user = this.get('currentUser');
-    let suggestionsLen = Math.min(this.get('suggestionsCount'), this.get('suggestedIngredients.length'));
-    for (var i = 0; i < suggestionsLen; i++) {
-      let sugIngredient = this.get('suggestedIngredients').objectAt(i);
-      let ingredient = store.find('ingredient', sugIngredient.get('ingredientId'));
-      let recipesIds = sugIngredient.get('recipeIds');
-      let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') == 'ADMIN'));
+    const store = this.simpleStore;
+    const user = this.currentUser;
+    let suggestionsLen = Math.min(this.suggestionsCount, this.args.suggestedIngredients.length);
+    for (let i = 0; i < suggestionsLen; i++) {
+      let sugIngredient = this.args.suggestedIngredients.objectAt(i);
+      let ingredient = store.find('ingredient', sugIngredient.ingredientId);
+      let recipesIds = sugIngredient.recipeIds;
+      let sugRecipes = store.find('recipe', (item) => recipesIds.includes(item.get('id')) && (item.get('published') || user.get('role') === 'ADMIN'));
       ingredientsCocktails.push({
         id: ingredient.get('id'),
         name: ingredient.get('name'),
@@ -45,20 +53,20 @@ export default Ember.Component.extend({
     }
 
     return ingredientsCocktails;
-  }),
+  }
 
-  wholePhrases: Ember.computed('ingredientsCocktails.[]', function() {
+  get wholePhrases() {
     let phrases = [];
     const cocktailsCount = 3;
-    for (var i = 0; i < this.get('ingredientsCocktails.length'); i++) {
-      let ingredient = this.get('ingredientsCocktails')[i];
+    for (let i = 0; i < this.ingredientsCocktails.length; i++) {
+      let ingredient = this.ingredientsCocktails[i];
       if (!ingredient.hasData) {
         continue;
       }
       let phrase = '**[' + ingredient.name + '](/ingredients/' + ingredient.id + ')** - ';
       let cocktails = ingredient.recipes;
-      for (var k = 0; k < cocktails.length; k++) {
-        if (k == cocktailsCount) {
+      for (let k = 0; k < cocktails.length; k++) {
+        if (k === cocktailsCount) {
           break;
         }
         phrase += '[' + cocktails[k].get('name') + '](/recipes/' + cocktails[k].get('id') + '), ';
@@ -72,11 +80,11 @@ export default Ember.Component.extend({
       phrases.push(phrase);
     }
     return phrases;
-  }),
+  }
 
   getCocktailsEnding(number) {
     if (number >= 11 && number <= 19) {
-      return Ember.String.htmlSafe(number.toString() + ' коктейлей.');
+      return htmlSafe(number.toString() + ' коктейлей.');
     }
     switch (number % 10) {
       case 0:
@@ -85,13 +93,13 @@ export default Ember.Component.extend({
       case 7:
       case 8:
       case 9:
-        return Ember.String.htmlSafe(number.toString() + ' коктейлей.');
+        return htmlSafe(number.toString() + ' коктейлей.');
       case 1:
-        return Ember.String.htmlSafe(number.toString() + ' коктейль.');
+        return htmlSafe(number.toString() + ' коктейль.');
       case 2:
       case 3:
       case 4:
-        return Ember.String.htmlSafe(number.toString() + ' коктейля.');
+        return htmlSafe(number.toString() + ' коктейля.');
     }
   }
-});
+}

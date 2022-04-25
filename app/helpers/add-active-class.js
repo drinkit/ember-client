@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function addActiveClass(isActive) {
   return isActive[0] ? "active" : "";
 }
 
-export default Ember.Helper.helper(addActiveClass);
+export default buildHelper(addActiveClass);

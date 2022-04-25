@@ -1,16 +1,13 @@
-import Ember from 'ember';
+import Component from '@glimmer/component';
 
-export default Ember.Component.extend({
-  classNames: ['suggest-recipes'],
-  maxRecipes: 6,
-  initialized: false,
-  suggestedRecipes: [],
+export default class SuggestRecipes extends Component {
+  maxRecipes = 6;
 
-  filteredSuggestedRecipes: Ember.computed('suggestedRecipes.[]', function() {
-    return this.get('suggestedRecipes') ? this.get('suggestedRecipes').slice(0, this.get('maxRecipes')) : [];
-  }),
+  get filteredSuggestedRecipes() {
+    return this.args.suggestedRecipes ? this.args.suggestedRecipes.slice(0, this.maxRecipes) : [];
+  }
 
-  hasData: Ember.computed('filteredSuggestedRecipes.[]', function() {
-    return this.get('filteredSuggestedRecipes.length') > 0;
-  })
-});
+  get hasData() {
+    return this.filteredSuggestedRecipes.length > 0;
+  }
+}

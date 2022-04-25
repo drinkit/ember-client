@@ -1,83 +1,73 @@
 <div itemscope itemtype="http://schema.org/Recipe">
-	<div id="recipeView" class="row">
-		<div id="imageCon" class="col-md-5">
-			<div>
-				{{#if recipe.imageUrl}}
-					<img itemprop="image" alt={{recipe.name}} src={{recipe.fullImageUrl}}>
-					<picture id="emptyImage" itemprop="image">
-						<source srcset="/assets/bigcocktail.webp" type="image/webp">
-						<source srcset="/assets/bigcocktail.png" type="image/jpeg">
-						<img id="emptyImage" src="/assets/bigcocktail.png">
-					</picture>
+	<div id="recipeView" class="flex flex-wrap justify-center pt-[10px] px-[15px]">
+		<div class="relative grow-0 min-w-[386px] w-[386px] h-full border border-solid border-gray-350 sm:mr-[15px]">
+			{{#if this.recipe.imageUrl}}
+				<img class="w-full h-full" itemprop="image" alt={{this.recipe.name}} src={{this.recipe.fullImageUrl}}>
+				<picture class="w-full h-full absolute opacity-0 left-0 top-0" id="emptyImage" itemprop="image">
+					<source srcset="/assets/bigcocktail.webp" type="image/webp">
+					<source srcset="/assets/bigcocktail.png" type="image/jpeg">
+					<img class="w-full h-full absolute opacity-0 left-0 top-0" src="/assets/bigcocktail.png">
+				</picture>
+			{{else}}
+				<picture itemprop="image">
+					<source srcset="/assets/bigcocktail.webp" type="image/webp">
+					<source srcset="/assets/bigcocktail.png" type="image/jpeg">
+					<img itemprop="image" src="/assets/bigcocktail.png">
+				</picture>
+			{{/if}}
+			<div class="absolute left-0 top-0 ml-[15px] mt-[10px] opacity-75">
+				<img class="inline w-[16px] h-[16px]" src="/assets/views-icon.svg">
+				<span class="font-gothic text-[13px]">{{safe-val this.recipe.stats.views 0}}</span>
+			</div>
+			<div class="absolute flex items-center right-0 top-0 mr-[20px] mt-[10px] opacity-75">
+				{{#if this.currentUser.isLoggedIn}}
+					<div class="w-[16px] h-[16px] mr-[3px] cursor-pointer {{if this.isLiked "rating-heart-liked" "rating-heart-unliked"}}" {{on "click" this.changeLike}} />
 				{{else}}
-					<picture itemprop="image">
-						<source srcset="/assets/bigcocktail.webp" type="image/webp">
-						<source srcset="/assets/bigcocktail.png" type="image/jpeg">
-						<img itemprop="image" src="/assets/bigcocktail.png">
-					</picture>
+					<div class="w-[16px] h-[16px] mr-[3px] cursor-pointer rating-heart-unliked" title="Доступно только для зарегистрированных пользователей" />
 				{{/if}}
-				<div class="views-icon-container">
-					<img src="/assets/views-icon.svg">
-					<span>{{safe-val recipe.stats.views 0}}</span>
-				</div>
-				<div class="rating-icon-container">
-					{{#if currentUser.isLoggedIn}}
-						<div class="{{if isLiked "rating-heart-liked" "rating-heart-unliked"}}" {{action "changeLike"}} />
-					{{else}}
-						<div class="rating-heart-unliked" title="Доступно только для зарегистрированных пользователей" />
-					{{/if}}
-					<span>{{safe-val recipe.stats.likes 0}}</span>
-				</div>
+				<span class="font-gothic text-[13px]">{{safe-val this.recipe.stats.likes 0}}</span>
 			</div>
 		</div>
-		<div class="col-md-7 description">
-			<h1 id="recipeName" itemprop="name">{{recipe.name}}</h1>
-			{{#if recipe.originalName}}
-				<h2 id="originalName">{{recipe.originalName}}</h2>
+		<div class="grow w-[555px]">
+			<h1 id="recipeName" class="font-georgia font-bold text-center text-[28px] text-violet leading-tight" itemprop="name">{{this.recipe.name}}</h1>
+			{{#if this.recipe.originalName}}
+				<h2 id="originalName" class="mt-[5px] font-georgia font-bold text-center text-[22px] text-violet leading-tight opacity-75">{{this.recipe.originalName}}</h2>
 			{{/if}}
-			<div>
-				<hr class="darkLine">
-				<div class="consistRow">
-					<div class="leftColumn">
-						<span id="recipeConsist">Состав</span>
-					</div>
-					<div class="rightColumn">
-						<div id="tags">
-							{{#each tags as |tag|}}
-								<img src= {{tag.img}} title="{{tag.tooltip}}">
-							{{/each}}
-						</div>
+			<div class="mt-[20px]">
+				<hr class="border-gray-400">
+				<div class="flex justify-between h-[42px] w-full px-[5px]">
+					<span id="recipeConsist" class="font-gothic font-bold text-[15px] leading-[42px]">Состав</span>
+					<div id="tags" class="flex items-center">
+						{{#each this.tags as |tag|}}
+							<img class="w-[32px] h-[32px] mx-[2px]" src={{tag.img}} title={{tag.tooltip}}>
+						{{/each}}
 					</div>
 				</div>
-				<hr>
-				{{#each recipeIngredients as |ingredient|}}
-					<div class="consistRow">
-						<div class="leftColumn">
-							<a class="local-link" itemprop="recipeIngredient" href={{href-to 'ingredient' ingredient.id}}><span>{{ingredient.name}}</span></a>
-						</div>
-						<div class="rightColumn">
-							<span>{{humanize-quantity ingredient.quantity ingredient.unit}}</span>
-						</div>
+				<hr class="border-gray-300">
+				{{#each this.recipeIngredients as |ingredient|}}
+					<div class="flex justify-between h-[42px] w-full px-[5px]">
+						<a class="font-gothic text-[15px] leading-[42px] underline" itemprop="recipeIngredient" href={{href-to 'ingredient' ingredient.id}}><span>{{ingredient.name}}</span></a>
+						<span class="font-gothic text-[15px] leading-[42px]">{{humanize-quantity ingredient.quantity ingredient.unit}}</span>
 					</div>
-					<hr>
+					<hr class="border-gray-300">
 				{{/each}}
 			</div>
-			<div itemprop="description">
-				{{markdown-to-html recipe.description extensions="internal-links"}}
+			<div class="font-gothic text-justify whitespace-pre-wrap text-[15px] pl-[3px] leading-snug" itemprop="description">
+				<MarkdownToHtml @markdown={{this.recipe.description}} @extensions="internal-links"/>
 			</div>
 		</div>
 	</div>
-	{{#if isCommentsWorked}}
-		<div id="commentsView" itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+	{{#if this.isCommentsWorked}}
+		<div id="commentsView" class="px-[15px] mt-[30px] mb-[20px] pb-[15px]" itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
 			<meta itemprop="interactionType" content="http://schema.org/CommentAction" />
-			<meta itemprop="userInteractionCount" content= {{sortedComments.length}} />
-			<div class="comment-and-share">
-				<h2>Комментарии</h2>
-				{{share-panel adaptive=true buttons="vk, facebook, twitter" labels="Поделиться,Поделиться,Твитнуть" title=shareTitle image=recipe.fullImageUrl text=shareDescription}}
+			<meta itemprop="userInteractionCount" content={{this.sortedComments.length}} />
+			<div class="flex justify-between items-center mb-[10px]">
+				<h2 class="font-gothic text-[22px]">Комментарии</h2>
+				<SharePanel @adaptive={{true}} @buttons="vk, facebook, twitter" @labels="Поделиться,Поделиться,Твитнуть" @title={{this.shareTitle}} @image={{this.recipe.fullImageUrl}} @text={{this.shareDescription}} />
 			</div>
-			{{comment-edit recipeId=recipe.id}}
-			{{#each sortedComments as |comment|}}
-				{{comment-item comment=comment recipeId=recipe.id}}
+			<CommentEdit class="mb-[20px]" @recipeId={{this.recipe.id}}/>
+			{{#each this.sortedComments as |comment|}}
+				<CommentItem @comment={{comment}} @recipeId={{this.recipe.id}}/>
 			{{/each}}
 		</div>
 	{{/if}}

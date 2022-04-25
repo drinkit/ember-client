@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import { attr, Model } from 'ember-cli-simple-store/model';
 import ENV from 'ember-drink-it/config/environment';
 
@@ -12,10 +13,10 @@ export default Model.extend({
   published: attr(),
   thumbnailUrl: attr(),
   stats: attr(),
-  fullImageUrl: Ember.computed('imageUrl', function() {
+  fullImageUrl: computed('imageUrl', function() {
     return this.get('imageUrl');
   }),
-  fullThumbnailUrl: Ember.computed('thumbnailUrl', function() {
+  fullThumbnailUrl: computed('thumbnailUrl', function() {
     return this.get('thumbnailUrl');
   })
 });

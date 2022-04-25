@@ -1,41 +1,45 @@
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+'use strict';
+
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
-    sassOptions: {
-      includePaths: [
-        'app/styles'
-      ]
+  let app = new EmberApp(defaults, {
+
+    'ember-dayjs': {
+      locales: ['ru'],
+      plugins: ['utc', 'relativeTime'],
     },
+
+    'ember-simple-auth': {
+      useSessionSetupMethod: true,
+    },
+
     fingerprint: {
       enabled: true,
       exclude: ['tags/']
+    },
+
+    postcssOptions: {
+      compile: {
+        cacheInclude: [/.*\.(css|scss|hbs)$/, /.tailwind\.config\.js$/],
+        extension: 'scss',
+        enabled: true,
+        parser: require('postcss-scss'),
+        plugins: [
+          {
+            module: require('@csstools/postcss-sass'),
+            options: {
+              includePaths: ['node_modules']
+            }
+          },
+          require('autoprefixer'),
+          require('tailwindcss/nesting'),
+          require('tailwindcss')
+        ]
+      }
     }
   });
 
-  app.import('bower_components/bootstrap/dist/css/bootstrap.min.css');
-  app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
-  app.import('bower_components/bootstrap/dist/css/bootstrap.css.map', {
-      destDir: 'assets'
-  });
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot', {
-      destDir: 'fonts'
-  });
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf', {
-      destDir: 'fonts'
-  });
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg', {
-      destDir: 'fonts'
-  });
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', {
-      destDir: 'fonts'
-  });
-  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', {
-      destDir: 'fonts'
-  });
-
-  // app.import('node_modules/bootbox/bootbox.min.js');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

@@ -1,24 +1,25 @@
-<div id="builder-view" class="row">
-  {{filters-menu clearFilters="clearFilters" changeIngredients="changeIngredients" toggleType="toggleType" toggleOption="toggleOption" selectedIngredientsIds=selectedIngredientsIds ingredients=ingredients cocktailOptions=cocktailOptions cocktailTypes=cocktailTypes}}
-
-  <div class="search-results col-md-9 col-sm-8">
-    {{#if isSearchStarting}}
-      {{spinkit-three-bounce}}
-    {{else if foundCocktails}}
-      <div class="row">
+<div id="builder-view" class="flex flex-wrap mx-4 md:flex-nowrap">
+  <FiltersMenu @clearFilters={{action "clearFilters"}} @changeIngredients={{action "changeIngredients"}}
+      @toggleType={{action "toggleType"}} @toggleOption={{action "toggleOption"}} @selectedIngredientsIds= {{this.selectedIngredientsIds}}
+      @ingredients= {{this.ingredients}} @cocktailOptions= {{this.cocktailOptions}} @cocktailTypes= {{this.cocktailTypes}} />
+  <div class="w-full pl-[5px] pt-[15px]">
+    {{#if this.isSearchStarting}}
+      <SpinkitThreeBounce/>
+    {{else if this.foundCocktails}}
+      <div class="flex flex-wrap">
         {{#each recipesOnPage as |recipe|}}
-          {{recipe-item recipe=recipe store=store selectedIngredients=selectedIngredientsIds}}
+          <RecipeItem @recipe={{recipe}} @selectedIngredients={{this.selectedIngredientsIds}}/>
         {{/each}}
       </div>
-      {{#if isPreviousPageExist}}
-        {{#link-to 'builder' (query-params pageNumber=previousPageNumber) id="prevPageButton" class="btn btn-default" rel="prev" }}Назад{{/link-to}}
+      {{#if this.isPreviousPageExist}}
+        {{#link-to 'builder' (query-params pageNumber=previousPageNumber) id="prevPageButton" class="float-left h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" rel="prev" }}Назад{{/link-to}}
       {{/if}}
-      {{#if isNextPageExist}}
-        {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="btn btn-default" rel="next" }}Еще коктейлей{{/link-to}}
+      {{#if this.isNextPageExist}}
+        {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="float-right h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" rel="next" }}Еще коктейлей{{/link-to}}
       {{/if}}
-      {{else if isSearchPerformed}}
-      <img src="/assets/sadcocktail.png" />
-      <p>Коктейлей по заданным критериям не найдено... Нам очень жаль :(</p>
+    {{else if this.isSearchPerformed}}
+      <img src="/assets/sadcocktail.png" class="block mx-auto" />
+      <p class="mx-auto text-[24px] font-gothic text-center">Коктейлей по заданным критериям не найдено... Нам очень жаль :(</p>
     {{/if}}
   </div>
 </div>

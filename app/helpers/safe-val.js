@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function safeVal([value, defaultValue]) {
   return value || defaultValue;
 }
 
-export default Ember.Helper.helper(safeVal);
+export default buildHelper(safeVal);

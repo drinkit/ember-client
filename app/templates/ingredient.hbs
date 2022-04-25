@@ -1,38 +1,36 @@
 <div itemscope itemtype="http://schema.org/Product">
-	<div id="recipeView" class="row">
-		<div id="imageCon" class="col-md-5">
-			<div>
-				{{#if currentIngredient.imageUrl}}
-					<img itemprop="image" alt={{recipe.name}} src={{model.fullImageUrl}}>
-					<picture id="emptyImage" itemprop="image">
+	<div id="recipeView" class="flex flex-wrap justify-center pt-[5px] px-[15px]">
+		<div class="relative grow-0 w-[386px] h-full border border-solid border-gray-350 mr-[15px]">
+				{{#if this.currentIngredient.imageUrl}}
+					<img class="w-full h-full" itemprop="image" alt={{this.currentIngredient.name}} src={{this.currentIngredient.fullImageUrl}}>
+					<picture id="emptyImage" class="w-full h-full absolute opacity-0 left-0 top-0" itemprop="image">
 						<source srcset="/assets/bigcocktail.webp" type="image/webp">
 						<source srcset="/assets/bigcocktail.png" type="image/jpeg">
-						<img id="emptyImage" src="/assets/bigcocktail.png">
+						<img id="emptyImage" class="w-full h-full absolute opacity-0 left-0 top-0" src="/assets/bigcocktail.png">
 					</picture>
 				{{else}}
-				<picture itemprop="image" itemprop="image">
+				<picture itemprop="image">
 					<source srcset="/assets/bigcocktail.webp" type="image/webp">
 					<source srcset="/assets/bigcocktail.png" type="image/jpeg">
 					<img itemprop="image" src="/assets/bigcocktail.png">
 				</picture>
 				{{/if}}
 			</div>
-		</div>
-		<div class="col-md-7 description">
-			<h1 id="ingrName" itemprop="name">{{currentIngredient.name}}</h1>
-			{{#if currentIngredient.originalName}}
-				<h2 id="originalName">{{currentIngredient.originalName}}</h2>
+		<div class="grow w-[555px]">
+			<h1 id="ingrName" class="font-georgia font-bold text-center text-[28px] text-violet leading-tight" itemprop="name">{{this.currentIngredient.name}}</h1>
+			{{#if this.currentIngredient.originalName}}
+				<h2 id="originalName" class="mt-[5px] font-georgia font-bold text-center text-[22px] text-violet leading-tight opacity-75">{{this.currentIngredient.originalName}}</h2>
 			{{/if}}
-			<div>
-				<ul id="ingrAttrList">
-					<li itemprop="category">Категория: {{currentIngredient.category}}</li>
-          <li>Крепость: {{currentIngredient.vol}}%</li>
+			<div class="mt-[20px]">
+				<ul id="ingrAttrList" class="font-gothic">
+					<li class="mb-[5px]" itemprop="category">Категория: {{this.currentIngredient.category}}</li>
+          <li class="mb-[5px]">Крепость: {{this.currentIngredient.vol}}%</li>
 				</ul>
 			</div>
 			<div itemprop="description">
-				{{markdown-to-html currentIngredient.description extensions="internal-links"}}
+				<MarkdownToHtml class="mt-[20px] font-gothic text-sm whitespace-pre-wrap" @markdown={{this.currentIngredient.description}} @extensions="internal-links"/>
 			</div>
 		</div>
 	</div>
-  {{suggest-recipes suggestedRecipes=suggestedRecipes initialized=suggestedRecipesInitialized}}
+  <SuggestRecipes @suggestedRecipes={{this.suggestedRecipes}} @initialized={{this.suggestedRecipesInitialized}} />
 </div>

@@ -1,45 +1,28 @@
-import Ember from 'ember';
-import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
+import { schedule } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend(ApplicationRouteMixin, {
-  currentUser: Ember.inject.service(),
-  oauth: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default class ApplicationRoute extends Route {
+  @service repository;
+  @service digestSession;
+  @service dayjs;
 
-  searchableItems: [],
-
-  actions: {
-    logout: function() {
-      this.get('oauth').logout();
-    },
-
-    search: function(searchString) {
-      this.transitionTo('recipes', {
-        queryParams: {
-          search: searchString
-        }
-      });
-    }
-  },
-
-  sessionAuthenticated: function() {
-    console.log("auth success!");
-  },
-
-  sessionInvalidated: function() {
-    this.get('currentUser').unsetUser();
-    console.log("logout");
-  },
+  searchableItems = [];
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
     controller.set('searchableItems', this.get('searchableItems'));
-  },
+  }
+
+  async beforeModel() {
+    await this.digestSession.setup();
+    this.dayjs.setLocale('ru');
+  }
 
   afterModel(model) {
     const self = this;
     let options = [];
-    Ember.run.schedule('afterRender', this, function() {
+    schedule('afterRender', this, function() {
       const repository = self.get('repository');
       repository.find('ingredient', {
         url: '/ingredients',
@@ -57,7 +40,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         return repository.find('recipe', {
           url: '/recipes',
           method: 'GET',
-          data: {
+          body: {
             criteria: JSON.stringify({
               ingredients: [],
               cocktailTypes: [],
@@ -66,7 +49,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
           }
         });
       }).then((result) => {
-        const user = self.get('currentUser');
         let items = result.map(i => ({
           name: i.get('name'),
           route: 'recipe',
@@ -84,4 +66,4 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       });
     });
   }
-});
+}

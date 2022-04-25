@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Ember.Component.extend({
-  classNames: ['bar-category-box'],
-  title: '',
-  category: '',
-
-  actions: {
-    removeItem: function(item) {
-      this.get('onRemoveItem')(item);
-    }
+export default class BarCategoryBox extends Component {
+  @action
+  removeItem(item) {
+    this.args.onRemoveItem(item);
   }
-});
+};

@@ -1,16 +1,18 @@
+import { run } from '@ember/runloop';
+import { Promise } from 'rsvp';
+import { inject as service } from '@ember/service';
 import Base from 'ember-simple-auth/authenticators/base';
-import Ember from 'ember';
 
 export default Base.extend({
 
-  ajax: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
+  ajax: service(),
+  currentUser: service(),
 
   restore: function(data) {
-    var self = this;
+    const self = this;
     if (data.email && data.password) {
-      return new Ember.RSVP.Promise(function(resolve, reject) {
-        Ember.run(function() {
+      return new Promise(function(resolve, reject) {
+        run(function() {
           self.get('ajax').request({
             url: "/users/me",
             method: "GET"
@@ -21,7 +23,7 @@ export default Base.extend({
               digests: digests
             });
             self.get('currentUser').setUser(response);
-          }, function(xhr, status, error) {
+          }, function(response, status) {
             if (status === "Incorrect credentials") {
               reject();
             }
@@ -32,9 +34,9 @@ export default Base.extend({
   },
 
   authenticate: function(email, password, digests) {
-    var self = this;
+    const self = this;
     if (digests) {
-      return new Ember.RSVP.Promise(function(resolve, reject) {
+      return new Promise(function(resolve, reject) {
         resolve({
           email: email,
           password: password,
@@ -42,8 +44,8 @@ export default Base.extend({
         });
       });
     } else {
-      return new Ember.RSVP.Promise(function(resolve, reject) {
-        Ember.run(function() {
+      return new Promise(function(resolve, reject) {
+        run(function() {
           self.get('ajax').request({
             url: "/users/me",
             method: "GET"
@@ -54,8 +56,7 @@ export default Base.extend({
               digests: digests
             });
             self.get('currentUser').setUser(response);
-            Ember.$('#loginWindow').modal('hide');
-          }, function(xhr, status, error) {
+          }, function(response, status) {
             if (status === "Incorrect credentials") {
               reject(status);
             }

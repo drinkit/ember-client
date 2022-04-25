@@ -5,7 +5,7 @@ export function initialize(/* application */) {
   return [{
     type: 'html',
     regex: '<a href=',
-    replace: '<a class="ember-href-to" href='
+    replace: '<a class="underline text-black" href='
   }];
 });
 }

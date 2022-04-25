@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Service from '@ember/service';
 
-export default Ember.Service.extend({
+export default class TooltipsProviderService extends Service {
   getTagTooltip(tagId) {
     switch (tagId) {
       case 1:
@@ -16,7 +16,7 @@ export default Ember.Service.extend({
       default:
         return '';
     }
-  },
+  }
 
   getTypeTooltip(typeId) {
     switch (typeId) {
@@ -30,4 +30,4 @@ export default Ember.Service.extend({
         return '';
     }
   }
-});
+}

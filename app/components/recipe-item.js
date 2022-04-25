@@ -1,38 +1,53 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/template';
+import { schedule } from '@ember/runloop';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
-export default Ember.Component.extend({
-  currentUser: Ember.inject.service(),
-  tooltipsProvider: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  classNames: ['col-md-6'],
-  typesToTags: {
+export default class RecipeItem extends Component {
+  @service currentUser;
+  @service tooltipsProvider;
+  @service simpleStore;
+
+  typesToTags = {
     1: "long-32.png",
     2: "short-32.png",
     3: "shot-32.png"
-  },
-  optionsToTags: {
+  };
+  optionsToTags = {
     1: "fire-32.png",
     2: "ice-32.png",
     3: "recommend-32.png",
     4: "iba-32.png",
     5: "layer-32.png"
-  },
-  maxIngredientWidth: 999999,
-  sortedIngredients: [],
-  getTextWidth: function(text, font) {
+  };
+
+  @tracked
+  maxIngredientWidth = 999999;
+
+  @tracked
+  sortedIngredients = [];
+
+  constructor(owner, args) {
+    super(owner, args);
+    this.reorderElements();
+  }
+
+  getTextWidth(text, font) {
     var canvas = document.getElementById("canvas") || document.createElement("canvas");
     var context = canvas.getContext("2d");
     context.font = font;
     var metrics = context.measureText(text);
     return metrics.width;
-  },
-  didInsertElement: function() {
+  }
+
+  reorderElements() {
     var that = this;
-    Ember.run.schedule('afterRender', this, function() {
+    schedule('afterRender', this, function() {
       var sortedIngredients = [];
-      var selectedIngredients = that.get("selectedIngredients");
-      var store = that.get("simpleStore");
-      var recipe = that.get("recipe");
+      var selectedIngredients = that.args.selectedIngredients;
+      var store = that.simpleStore;
+      var recipe = this.args.recipe;
       var cocktailIngredients = recipe.get("ingredientsWithQuantities");
       cocktailIngredients.forEach(function(item) {
         var ingr = store.find("ingredient", item.ingredientId);
@@ -45,15 +60,16 @@ export default Ember.Component.extend({
       //
       var gapBetweenIngredients = 5;
       //
-      var recipeBoxHeight = that.$().find(".recipe-box").height();
-      var tagsHeight = that.$().find("#tags").height();
-      var recipeNameHeight = that.$().find(".recipe-name-text").height();
+      const curElem = document.querySelector(".recipe-item");
+      var recipeBoxHeight = curElem.clientHeight;
+      var tagsHeight = curElem.querySelector("#tags").clientHeight;
+      var recipeNameHeight = curElem.querySelector("#recipeName").offsetHeight;
       var paddingTop = 4 + recipeNameHeight;
       var paddingBottom = 4 + tagsHeight;
 
       var availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
       ////
-      var recipeBoxWidth = that.$().find(".recipe-box").width();
+      var recipeBoxWidth = curElem.clientWidth;
       var imageWidth = 5 + 134 + 5;
       var paddingRight = 5;
       var availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
@@ -104,7 +120,6 @@ export default Ember.Component.extend({
       }
 
       if (ingredientsWithWidths.length > 0) {
-
         var dotsWidth = 30;
         var dots = {
           name: "...",
@@ -133,40 +148,37 @@ export default Ember.Component.extend({
         }
       }
 
-      that.set('maxIngredientWidth', availableWidth - 4);
-      that.set("sortedIngredients", newOrder);
+      that.maxIngredientWidth = availableWidth - 4;
+      that.sortedIngredients = newOrder;
     });
-  },
+  }
 
-  tags: Ember.computed({
-    get() {
-      let self = this;
-      let tags = [];
-      let recipe = this.get("recipe");
-      const typesToTags = this.get("typesToTags");
-      const optionsToTags = this.get("optionsToTags");
+  get tags() {
+    let self = this;
+    let tags = [];
+    let recipe = this.args.recipe;
+    const typesToTags = this.typesToTags;
+    const optionsToTags = this.optionsToTags;
+    tags.push({
+      img: "/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")],
+      tooltip: self.tooltipsProvider.getTypeTooltip(recipe.get("cocktailTypeId"))
+    });
+    recipe.get("options").forEach(function(item) {
       tags.push({
-        img: "/assets/tags/" + typesToTags[recipe.get("cocktailTypeId")],
-        tooltip: self.get('tooltipsProvider').getTypeTooltip(recipe.get("cocktailTypeId"))
+        img: "/assets/tags/" + optionsToTags[item],
+        tooltip: self.tooltipsProvider.getTagTooltip(item)
       });
-      recipe.get("options").forEach(function(item) {
-        tags.push({
-          img: "/assets/tags/" + optionsToTags[item],
-          tooltip: self.get('tooltipsProvider').getTagTooltip(item)
-        });
-      });
-      return tags;
-    }
-  }),
+    });
+    return tags;
+  }
 
-  isLiked: Ember.computed('currentUser.recipeStatsMap', function() {
-    const userRecipeStats = this.get('currentUser').get('recipeStatsMap');
-    const recipeId = parseInt(this.get('recipe').get('id'));
+  get isLiked() {
+    const userRecipeStats = this.currentUser.get('recipeStatsMap');
+    const recipeId = parseInt(this.args.recipe.get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
-  }),
+  }
 
-  maxIngredientWidthStyle: Ember.computed('maxIngredientWidth',
-    function() {
-      return Ember.String.htmlSafe('max-width:' + this.get('maxIngredientWidth') + 'px;');
-    })
-});
+  get maxIngredientWidthStyle() {
+    return htmlSafe('max-width:' + this.maxIngredientWidth + 'px;');
+  }
+}

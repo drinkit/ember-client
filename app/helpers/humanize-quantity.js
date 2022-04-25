@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function humanizeQuantity([quantity, unit]) {
   return quantity ? quantity + ' ' + (unit ? unit : 'мл') : 'немного';
 }
 
-export default Ember.Helper.helper(humanizeQuantity);
+export default buildHelper(humanizeQuantity);

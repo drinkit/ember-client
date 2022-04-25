@@ -1,13 +1,44 @@
-import Ember from 'ember';
-import RememberScrollMixin from '../mixins/remember-scroll';
+import { action } from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
+import { Promise, hash } from 'rsvp';
+import { inject as service } from '@ember/service';
+import RememberScrollRoute from "./remember-scroll";
 
-export default Ember.Route.extend(RememberScrollMixin, {
-  ajax: Ember.inject.service(),
-  currentUser: Ember.inject.service(),
-  metrics: Ember.inject.service(),
-  simpleStore: Ember.inject.service(),
-  repository: Ember.inject.service(),
-  headData: Ember.inject.service(),
+export default class RecipesRoute extends RememberScrollRoute {
+  @service ajax;
+  @service currentUser;
+  @service metrics;
+  @service simpleStore;
+  @service repository;
+  @service headData;
+
+  queryParams = {
+    search: {
+      refreshModel: true
+    }
+  }
+
+  setupController(controller, modelHash) {
+    controller.setProperties(modelHash);
+    controller.set('pageNumber', 0);
+  }
+
+  model(params) {
+    this.simpleStore.clear('foundedRecipe');
+    return new hash({
+      ingredients: this.repository.find('ingredient', {
+        url: '/ingredients',
+        method: 'GET'
+      }),
+      allRecipes: this.repository.find('foundedRecipe', {
+        url: "/recipes",
+        method: "GET",
+        body: {
+          namePart: params.search
+        }
+      })
+    });
+  }
 
   afterModel(model, transition) {
     this.set('headData.title', 'Результаты поиска - drinkIt');
@@ -15,70 +46,18 @@ export default Ember.Route.extend(RememberScrollMixin, {
     if (transition.queryParams && transition.queryParams.pageNumber) {
       this.set('headData.robots', 'noindex, follow');
     }
-  },
+  }
 
-  queryParams: {
-    search: {
-      refreshModel: true
-    }
-  },
+  @action
+  didTransition() {
+    scheduleOnce('afterRender', this, () => {
+      const page = document.location.pathname + document.location.search;
+      const title = "Поиск";
 
-  setupController: function(controller, modelHash) {
-    controller.setProperties(modelHash);
-    controller.set('pageNumber', 0);
-  },
-
-  beforeModel: function() {
-    const params = this.paramsFor('recipes');
-    const self = this;
-    const store = this.get('simpleStore');
-
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      self.get('ajax').request({
-          url: "/recipes",
-          method: "GET",
-          data: {
-            namePart: params.search
-          }
-        },
-        function(response) {
-          store.clear('foundedRecipe');
-          response.forEach(function(item) {
-            if (item.published) {
-              store.push('foundedRecipe', item);
-            } else if (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN') {
-              store.push('foundedRecipe', item);
-            }
-          });
-
-          resolve();
-        });
-    });
-  },
-
-  actions: {
-    didTransition: function() {
-      Ember.run.scheduleOnce('afterRender', this, () => {
-        const page = document.location.pathname + document.location.search;
-        const title = "Поиск";
-
-        Ember.get(this, 'metrics').trackPage({
-          page,
-          title
-        });
+      this.metrics.trackPage({
+        page,
+        title
       });
-    }
-  },
-
-  model: function() {
-    const repository = this.get('repository');
-    const store = this.get('simpleStore');
-    return new Ember.RSVP.hash({
-      ingredients: repository.find('ingredient', {
-        url: '/ingredients',
-        method: 'GET'
-      }),
-      recipes: store.find('foundedRecipe')
     });
   }
-});
+}

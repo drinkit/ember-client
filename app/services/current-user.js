@@ -1,37 +1,39 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import { A } from '@ember/array';
+import {tracked} from '@glimmer/tracking';
 
-export default Ember.Service.extend({
-  session: Ember.inject.service("session"),
+export default class CurrentUserService extends Service {
+  @service digestSession;
 
-  username: "",
-  password: "",
-  displayName: "",
-  role: "",
-  barItems: [],
-  recipeStatsMap: {},
-  isLoggedIn: false,
+  @tracked username = "";
+  @tracked password = "";
+  @tracked displayName = "";
+  @tracked role = "";
+  @tracked barItems = A();
+  @tracked recipeStatsMap = {};
+  @tracked isLoggedIn = false;
 
-  isAuthenticated: function() {
-    return this.get("isLoggedIn") && this.get('session').isAuthenticated;
-  }.property('isLoggedIn', 'session.isAuthenticated'),
-
-  setUser: function(userInfo) {
-    this.set("username", userInfo.username);
-    this.set("password", userInfo.password);
-    this.set("displayName", userInfo.displayName);
-    this.set("role", userInfo.role);
-    this.set("barItems", userInfo.barItems);
-    this.set("recipeStatsMap", userInfo.recipeStatsMap || {});
-    this.set("isLoggedIn", true);
-  },
-
-  unsetUser: function() {
-    this.set("username", "");
-    this.set("password", "");
-    this.set("displayName", "");
-    this.set("role", "");
-    this.set("barItems", []);
-    this.set("recipeStatsMap", {});
-    this.set("isLoggedIn", false);
+  get isAuthenticated() {
+    return this.isLoggedIn && this.digestSession.isAuthenticated;
   }
-});
+
+  setUser(userInfo) {
+    this.username = userInfo.username;
+    this.password = userInfo.password;
+    this.displayName = userInfo.displayName;
+    this.role = userInfo.role;
+    this.barItems = userInfo.barItems;
+    this.recipeStatsMap = userInfo.recipeStatsMap || {};
+    this.isLoggedIn = true;
+  }
+
+  unsetUser() {
+    this.username = "";
+    this.password = "";
+    this.displayName = "";
+    this.role = "";
+    this.barItems = A();
+    this.recipeStatsMap = {};
+    this.isLoggedIn = false;
+  }
+}

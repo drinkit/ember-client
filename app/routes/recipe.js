@@ -1,67 +1,73 @@
-import Ember from 'ember';
-import RememberScrollMixin from '../mixins/remember-scroll';
+import { scheduleOnce } from '@ember/runloop';
+import { htmlSafe } from '@ember/template';
+import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend(RememberScrollMixin, {
-  simpleStore: Ember.inject.service(),
-  repository: Ember.inject.service(),
+export default class RecipeRoute extends Route {
+  @service simpleStore;
+  @service repository;
+  @service headData;
+  @service metrics;
+  @service stats;
 
   beforeModel() {
-    const store = this.get('simpleStore');
-    store.clear('comment');
-  },
+    this.simpleStore.clear('comment');
+  };
 
   model(params) {
-    const repository = this.get('repository');
-
-    return new Ember.RSVP.hash({
-      ingredients: repository.find('ingredient', {
+    return new hash({
+      ingredients: this.repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
       }),
-      recipe: repository.findOne('recipe', params.recipe_id, {
+      recipe: this.repository.findOne('recipe', params.recipe_id, {
         url: '/recipes/' + params.recipe_id,
         method: 'GET'
       }),
-      comments: repository.find('comment', {
-        url: '/recipes/' + params.recipe_id + '/comments',
-        method: 'GET'
-      })
+      recipeId: params.recipe_id
     });
-  },
-
-  headData: Ember.inject.service(),
+  }
 
   afterModel(model) {
     this.set('headData.title', 'Рецепт коктейля «' + model.recipe.get('name') + '» - drinkIt');
-    this.set('headData.description', Ember.String.htmlSafe(model.recipe.get('description')));
+    this.set('headData.description', htmlSafe(model.recipe.get('description')));
     this.set('headData.image', model.recipe.get('fullImageUrl'));
-  },
+  }
 
-  setupController: function(controller, modelHash) {
+  setupController(controller, modelHash) {
     controller.setProperties(modelHash);
-  },
+    controller.set('comments', null);
+    this.requestComments(modelHash.recipeId).then((response) => {
+      controller.set('comments', response);
+    });
+  }
 
-  metrics: Ember.inject.service(),
-  stats: Ember.inject.service(),
-  adapterContext: Ember.inject.service(),
+  requestComments(id) {
+    return this.repository.find('comment', {
+      url: '/recipes/' + id + '/comments',
+      method: 'GET'
+    });
+  }
 
-  actions: {
-    didTransition() {
-      Ember.run.scheduleOnce('afterRender', this, () => {
-        const page = document.location.pathname;
-        const title = this.get('currentModel').recipe.get('name');
-        Ember.get(this, 'metrics').trackPage({
-          page,
-          title
-        });
-        this.get('stats').incrementViewsCount(this.get('currentModel').recipe.get('id'));
+  @action
+  didTransition() {
+    scheduleOnce('afterRender', this, () => {
+      const page = document.location.pathname;
+      const title = this.get('currentModel').recipe.get('name');
+      this.metrics.trackPage({
+        page,
+        title
       });
-    },
+      this.stats.incrementViewsCount(this.get('currentModel').recipe.get('id'));
+    });
+  }
 
-    error(error, transition) {
-      if (error && error.status === 404) {
-        this.transitionTo('/error404');
-      }
+  @action
+  error(error, transition) {
+    if (error && error.status === 404) {
+      this.transitionTo('/error404');
     }
   }
-});
+}
