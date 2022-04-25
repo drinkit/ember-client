@@ -22,7 +22,7 @@ export default class OauthService extends Service {
         const login = socialNetwork + result.id;
         const password = socialNetwork + result.id;
 
-        self.get("session").authenticate('autheticator:digest', login,
+        self.digestSession.authenticate('autheticator:digest', login,
           CryptoJS.SHA256("drinkIt" + password).toString()).then(function() {
             // yeaah!
           },
