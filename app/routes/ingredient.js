@@ -51,6 +51,11 @@ export default class IngredientRoute extends Route {
     });
   }
 
+  activate() {
+    window.scrollTo(0, 0);
+  }
+
+
   @action
   didTransition() {
     this.repository.findOne('ingredient', this.currentModel.ingredientId).then((ingredient) => {

@@ -64,6 +64,10 @@ export default class RecipeRoute extends Route {
     });
   }
 
+  activate() {
+    window.scrollTo(0, 0);
+  }
+
   @action
   error(error, transition) {
     if (error && error.status === 404) {
