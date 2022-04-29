@@ -221,7 +221,7 @@ input::-webkit-input-placeholder {
 
 #options-group {
   > .active {
-    @apply text-white bg-light_green rounded-[10px] border-none px-[5px] pb-[2px] mx-0 mb-[3px] #{!important};
+    @apply text-white bg-light_green rounded-[10px] border-none px-[5px] pb-[2px] mx-0 mb-[5px] #{!important};
   }
 }
 

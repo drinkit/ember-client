@@ -32,7 +32,10 @@ export default class BuilderRoute extends RememberScrollRoute {
   }
 
   afterModel(model, transition) {
-    this.simpleStore.pushArray('foundedRecipe', model.allRecipes);
+    if (this.simpleStore.find('foundedRecipe').length === 0) {
+      this.simpleStore.pushArray('foundedRecipe', model.allRecipes);
+    }
+
     this.set('headData.title', 'Конструктор коктейлей - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
     if (transition.queryParams && transition.queryParams.pageNumber) {
@@ -42,11 +45,6 @@ export default class BuilderRoute extends RememberScrollRoute {
 
   setupController(controller, modelHash) {
     controller.setProperties(modelHash);
-    if (controller.get('cocktailTypes.length') > 0 ||
-        controller.get('cocktailOptions.length') > 0 ||
-        controller.get('selectedIngredientsIds.length') > 0) {
-      controller.performSearch();
-    }
   }
 
   @action

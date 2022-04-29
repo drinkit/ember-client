@@ -1,29 +1,57 @@
 import {inject as service} from '@ember/service';
 import {A} from '@ember/array';
-import {tracked} from '@glimmer/tracking';
+import {tracked, cached} from '@glimmer/tracking';
 import { action } from '@ember/object';
 import PaginationController from "./pagination";
 
 export default class BuilderController extends PaginationController {
-  @service digestSession;
   @service simpleStore;
   @service currentUser;
   @service ajax;
-  @service headData;
 
-  cocktailTypes = A([]);
-  cocktailOptions = A([]);
+  @tracked cocktailTypes = A([]);
+  @tracked cocktailOptions = A([]);
+  @tracked onlyLiked = false;
 
   @tracked selectedIngredientsIds = A([]);
   @tracked isSearchPerformed = false;
   @tracked isSearchStarting = false;
 
+  @cached
   get recipes() {
     let self = this;
     const allFoundedRecipes = this.simpleStore.find('foundedRecipe');
+    const filters = [this.filterByPublish];
+    if (this.cocktailTypes.length > 0) {
+      filters.push(this.filterByType);
+    }
+    if (this.cocktailOptions.length > 0) {
+      filters.push(this.filterByOptions);
+    }
+    if (this.onlyLiked) {
+      filters.push(this.filterByLiked);
+    }
     return allFoundedRecipes.filter(item => {
-      return item.get('published') || (self.get('currentUser.isAuthenticated') && self.get('currentUser.role') === 'ADMIN')
+      return filters.reduce((res, fn) => res && fn(item, self), true);
     });
+  }
+
+  filterByPublish(item, target) {
+    return item.get('published') || (target.currentUser.isAuthenticated && target.currentUser.role === 'ADMIN');
+  }
+
+  filterByType(item, target) {
+    return target.cocktailTypes.includes(item.get("cocktailTypeId"));
+  }
+
+  filterByOptions(item, target) {
+    return target.cocktailOptions.every(i => item.get("options").includes(i));
+  }
+
+  filterByLiked(item, target) {
+    return target.currentUser.isAuthenticated &&
+      target.currentUser.recipeStatsMap.hasOwnProperty(item.get("id")) &&
+      target.currentUser.recipeStatsMap[item.get("id")].liked;
   }
 
   performSearch() {
@@ -34,23 +62,20 @@ export default class BuilderController extends PaginationController {
       method: "GET",
       body: {
         criteria: JSON.stringify({
-          ingredients: this.selectedIngredientsIds || [],
-          cocktailTypes: this.cocktailTypes || [],
-          options: this.cocktailOptions || []
+          ingredients: this.selectedIngredientsIds || []
         })
       }
     }, function(result) {
       that.simpleStore.clear('foundedRecipe');
-      result.forEach(function(item) {
-        if (item.published) {
-          that.simpleStore.push('foundedRecipe', item);
-        } else if (that.get('currentUser.isAuthenticated') && that.get('currentUser.role') === 'ADMIN') {
-          that.simpleStore.push('foundedRecipe', item);
-        }
-      });
+      that.simpleStore.pushArray('foundedRecipe', result);
       that.isSearchStarting = false;
       that.isSearchPerformed = true;
     });
+  }
+
+  @action
+  toggleOnlyLiked() {
+    this.onlyLiked = !this.onlyLiked;
   }
 
   @action
@@ -64,7 +89,6 @@ export default class BuilderController extends PaginationController {
     }
 
     this.pageNumber = 0;
-    this.performSearch();
   }
 
   @action
@@ -78,7 +102,6 @@ export default class BuilderController extends PaginationController {
     }
 
     this.pageNumber = 0;
-    this.performSearch();
   }
 
   @action
@@ -92,8 +115,12 @@ export default class BuilderController extends PaginationController {
   clearFilters() {
     this.cocktailTypes.clear();
     this.cocktailOptions.clear();
-    this.selectedIngredientsIds.clear();
+    this.onlyLiked = false;
+    if (this.selectedIngredientsIds.length > 0) {
+      this.selectedIngredientsIds.clear();
+      this.performSearch();
+    }
+
     this.pageNumber = 0;
-    this.performSearch();
   }
 }
