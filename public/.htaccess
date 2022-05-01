@@ -1,0 +1,81 @@
+# Set the cache-control max-age
+# 1 year
+<FilesMatch ".(ico|pdf|flv|jpg|jpeg|png|webp|gif|js|css|swf|ttf|svg|woff)$">
+Header set Cache-Control "max-age=31449600, public"
+</FilesMatch>
+# 2 DAYS
+<FilesMatch ".(xml|txt)$">
+Header set Cache-Control "max-age=172800, public, must-revalidate"
+</FilesMatch>
+# 4 HOURS
+<FilesMatch ".(html|htm)$">
+Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+Header set Pragma "no-cache"
+</FilesMatch>
+# Turn off the ETags
+Header unset ETag
+FileETag None
+
+# Turn off the Last Modified header except for html docs
+<FilesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|svg)$">
+Header unset Last-Modified
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+### Map sitemap.xml
+RewriteRule ^sitemap.xml$ /sitemap.php [L]
+
+### If the request contains the _escaped_fragment_ query parameter, set a flag to proxify the request to SEO4Ajax
+RewriteCond %{ENV:PROXIFY} !true
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{QUERY_STRING} _escaped_fragment_= [NC]
+RewriteRule .* - [E=PROXIFY:true,E=REQUEST_PATH:%{REQUEST_URI}]
+
+### If the request is issued by another known bot, set a flag to proxify the request to SEO4Ajax
+### Note: the 5 following lines can be commented if you are using #! URLs
+RewriteCond %{ENV:PROXIFY} !true
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{HTTP_USER_AGENT} !(googlebot/|googlebot-mobile|yandexbot|pinterest.*ios|mail\.ru|seznambot|screaming) [NC]
+RewriteCond %{HTTP_USER_AGENT} (bot|spider|pinterest|crawler|archiver|flipboardproxy|mediapartners|facebookexternalhit|quora|Twitterbot|rogerbot) [NC]
+RewriteRule .* - [E=PROXIFY:true,E=REQUEST_PATH:%{REQUEST_URI}]
+
+### Proxify the request to SEO4Ajax
+RewriteCond %{ENV:PROXIFY} true
+RewriteRule ^(.*)$ /s4a.php [QSA,L]
+
+### Give EmberJS possibility to render page
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) index.html [L]
+
+
+</IfModule>
+
+Addtype application/x-font-truetype .ttf
+<IfModule mod_deflate.c>
+  # Compress HTML, CSS, JavaScript, Text, XML and fonts
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+  AddOutputFilterByType DEFLATE application/x-font
+  AddOutputFilterByType DEFLATE application/x-font-opentype
+  AddOutputFilterByType DEFLATE application/x-font-otf
+  AddOutputFilterByType DEFLATE application/x-font-truetype
+  AddOutputFilterByType DEFLATE application/x-font-ttf
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE font/opentype
+  AddOutputFilterByType DEFLATE font/otf
+  AddOutputFilterByType DEFLATE font/ttf
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE image/x-icon
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+</IfModule>
