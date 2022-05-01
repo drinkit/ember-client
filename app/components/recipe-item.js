@@ -33,32 +33,39 @@ export default class RecipeItem extends Component {
     this.reorderElements();
   }
 
+  isIngredientInBar(id) {
+    return this.currentUser.barItems.some(item => item.ingredientId === id);
+  }
+
   getTextWidth(text, font) {
-    var canvas = document.getElementById("canvas") || document.createElement("canvas");
-    var context = canvas.getContext("2d");
+    const canvas = document.getElementById("canvas") || document.createElement("canvas");
+    const context = canvas.getContext("2d");
     context.font = font;
-    var metrics = context.measureText(text);
+    const metrics = context.measureText(text);
     return metrics.width;
   }
 
   reorderElements() {
-    var that = this;
+    const that = this;
     schedule('afterRender', this, function() {
-      var sortedIngredients = [];
-      var selectedIngredients = that.args.selectedIngredients;
-      var store = that.simpleStore;
-      var recipe = this.args.recipe;
-      var cocktailIngredients = recipe.get("ingredientsWithQuantities");
+      const sortedIngredients = [];
+      const selectedIngredients = that.args.selectedIngredients;
+      const store = that.simpleStore;
+      const recipe = this.args.recipe;
+      const cocktailIngredients = recipe.get("ingredientsWithQuantities");
       cocktailIngredients.forEach(function(item) {
-        var ingr = store.find("ingredient", item.ingredientId);
-        var type = selectedIngredients && selectedIngredients.includes(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
+        const ingr = store.find("ingredient", item.ingredientId);
+        const type = selectedIngredients && selectedIngredients.includes(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
+        const isInBar = that.currentUser.barItems.some(barItem => barItem.ingredientId === item.ingredientId);
         sortedIngredients.push({
           name: ingr.get("name"),
-          className: type
+          className: type,
+          isInBar: isInBar,
+          tooltip: isInBar ? "есть в вашем баре" : ""
         });
       });
       //
-      var gapBetweenIngredients = 5;
+      const gapBetweenIngredients = 5;
       //
       const curElem = document.querySelector(".recipe-item");
       var recipeBoxHeight = curElem.clientHeight;
@@ -74,10 +81,9 @@ export default class RecipeItem extends Component {
       var paddingRight = 5;
       var availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
       ////
-      var ingredients = sortedIngredients;
-      var ingredientsWithWidths = [];
+      let ingredientsWithWidths = [];
 
-      ingredients.forEach(function(item) {
+      sortedIngredients.forEach(function(item) {
         ingredientsWithWidths.push({
           item: item,
           width: that.getTextWidth(item.name, "12px Century Gothic") + 10
@@ -91,14 +97,14 @@ export default class RecipeItem extends Component {
       var rendererHeight = 25 + gapBetweenIngredients;
       while (totalHeight + rendererHeight <= availableHeight && ingredientsWithWidths.length !== 0) {
         curRowWidth = 0;
-        var rowIsNotFilled = true;
-        var curIngredient = ingredientsWithWidths.shift();
+        let rowIsNotFilled = true;
+        const curIngredient = ingredientsWithWidths.shift();
         newOrder.push(curIngredient.item);
         curRowWidth += curIngredient.width + gapBetweenIngredients;
         while (rowIsNotFilled) {
-          var maxItem = -1;
-          var maxSize = 0;
-          for (var i = 0; i < ingredientsWithWidths.length; i++) {
+          let maxItem = -1;
+          let maxSize = 0;
+          for (let i = 0; i < ingredientsWithWidths.length; i++) {
             if (curRowWidth + ingredientsWithWidths[i].width < availableWidth) {
               if (curRowWidth + ingredientsWithWidths[i].width > maxSize) {
                 maxSize = curRowWidth + ingredientsWithWidths[i].width;
@@ -120,14 +126,14 @@ export default class RecipeItem extends Component {
       }
 
       if (ingredientsWithWidths.length > 0) {
-        var dotsWidth = 30;
-        var dots = {
+        const dotsWidth = 30;
+        const dots = {
           name: "...",
           className: "unselected-ingredient",
           tooltip: ""
         };
 
-        var deletedElement;
+        let deletedElement;
 
         if (curRowWidth + dotsWidth <= availableWidth) {
           newOrder.push(dots);
@@ -136,8 +142,8 @@ export default class RecipeItem extends Component {
           newOrder.push(dots);
         }
 
-        for (var l = 0; l < ingredientsWithWidths.length; l++) {
-          var item = ingredientsWithWidths[l];
+        for (let l = 0; l < ingredientsWithWidths.length; l++) {
+          const item = ingredientsWithWidths[l];
           dots.tooltip += item.item.name + "\n";
         }
 
@@ -173,7 +179,7 @@ export default class RecipeItem extends Component {
   }
 
   get isLiked() {
-    const userRecipeStats = this.currentUser.get('recipeStatsMap');
+    const userRecipeStats = this.currentUser.recipeStatsMap;
     const recipeId = parseInt(this.args.recipe.get('id'));
     return userRecipeStats && userRecipeStats[recipeId] && userRecipeStats[recipeId].liked;
   }

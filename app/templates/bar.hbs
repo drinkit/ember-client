@@ -1,15 +1,16 @@
 {{#if this.user.isAuthenticated}}
   <div class="mx-4 pt-[15px]">
-    <IngredientChooser class="mx-[5px]" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="Добавить в бар..." @ingredientSelected={{this.ingredientSelected}}/>
+    <IngredientChooser class="mb-[5px]" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="Добавить в бар..." @ingredientSelected={{this.ingredientSelected}}/>
+    <Hint @name="ingredientInBar" @text="Полезно знать: после добавления ингредиентов в бар, они будут отмечаться в результатах поиска с помощью серебряной рамки, даже если не учавствуют в фильтрах." />
     <div class="flex flex-wrap mt-[10px]">
       <div id="firstBarColumn" class="flex flex-col flex-1 w-full">
-        <BarCategoryBox @title="Крепкие алкогольные напитки" @ingredients={{this.ingredientsInCategories.hardSpirits}} @onRemoveItem={{action "itemDeleted"}} />
-        <BarCategoryBox @title="Ликеры" @ingredients={{this.ingredientsInCategories.liquors}} @onRemoveItem={{action "itemDeleted"}}/>
+        <BarCategoryBox @title="Крепкие алкогольные напитки" class="ml-0" @ingredients={{this.ingredientsInCategories.hardSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Ликеры" class="ml-0" @ingredients={{this.ingredientsInCategories.liquors}} @onRemoveItem={{action "itemDeleted"}}/>
       </div>
       <div id="secondBarColumn" class="flex flex-col flex-1 w-full">
-        <BarCategoryBox @title="Слабоалкогольные напитки" @ingredients={{this.ingredientsInCategories.softSpirits}} @onRemoveItem={{action "itemDeleted"}} />
-        <BarCategoryBox @title="Безалкогольные напитки" @ingredients={{this.ingredientsInCategories.nonSpirits}} @onRemoveItem={{action "itemDeleted"}} />
-        <BarCategoryBox @title="Прочее" @ingredients={{this.ingredientsInCategories.other}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Слабоалкогольные напитки" class="mr-0" @ingredients={{this.ingredientsInCategories.softSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Безалкогольные напитки" class="mr-0" @ingredients={{this.ingredientsInCategories.nonSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title="Прочее" class="mr-0" @ingredients={{this.ingredientsInCategories.other}} @onRemoveItem={{action "itemDeleted"}} />
       </div>
     </div>
   </div>

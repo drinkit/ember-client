@@ -185,15 +185,19 @@ input::-webkit-input-placeholder {
 }
 
 .ember-power-select-multiple-option {
-  @apply text-white bg-orange_beach rounded-[10px] border-none px-[5px] h-[21px] leading-[19px] text-[13px] #{!important};
+  @apply text-black bg-orange_beach rounded-[10px] border-none px-[4px] h-[21px] leading-[19px] text-[13px] #{!important};
+}
+
+.remove-btn {
+  @apply inline-flex items-baseline indent-[-0.5px] w-[13.5px] leading-[4px] p-[3px] text-[15px] rounded-full cursor-pointer;
 }
 
 .ember-power-select-multiple-remove-btn {
-  @apply text-white opacity-100 leading-[13px] text-[15px] #{!important};
+  @apply bg-amber-600 text-white opacity-100 remove-btn #{!important};
 }
 
 .ember-power-select-multiple-remove-btn:hover {
-  @apply text-brick_red #{!important};
+  @apply bg-amber-800 #{!important};
 }
 
 
