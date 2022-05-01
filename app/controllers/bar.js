@@ -18,7 +18,7 @@ export default class BarController extends Controller {
   @service modalManager;
   @service simpleStore;
 
-  @tracked suggestedIngredientsInitialized = false;
+  @tracked suggestedIngredientsInitialized = true;
   @tracked suggestedIngredients = A();
 
   constructor(owner, args) {
