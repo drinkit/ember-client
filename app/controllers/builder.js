@@ -76,6 +76,7 @@ export default class BuilderController extends PaginationController {
   @action
   toggleOnlyLiked() {
     this.onlyLiked = !this.onlyLiked;
+    this.pageNumber = 0;
   }
 
   @action
