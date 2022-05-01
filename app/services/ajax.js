@@ -68,14 +68,14 @@ export default class AjaxService extends Service {
 
     fetch(ajaxRequestBody.url, ajaxRequestBody).then(function(response) {
       if (response.ok) {
-        if (response.status === 204 || response.status === 201) {
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
           return successHandler(null, self.digestSession.data.digests);
-        } else {
-          return response.json()
-            .then(function(data) {
-            return successHandler(data, self.digestSession.data.digests);
-          });
         }
+        return response.json()
+          .then(data => {
+            return successHandler(data, self.digestSession.data.digests);
+        });
       } else if (isUnauthorizedResponse(response)) {
         if (curPassword) {
           const authHeader = response.headers.get("www-authenticate");

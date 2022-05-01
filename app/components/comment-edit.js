@@ -19,7 +19,6 @@ export default class CommentEdit extends Component {
   @action
   submitComment() {
     const store = this.simpleStore;
-    const ajax = this.ajax;
     this.dayjs.self.extend(utc);
 
     let comment = {
@@ -32,7 +31,7 @@ export default class CommentEdit extends Component {
       }
     };
 
-    ajax.request({
+    this.ajax.request({
       url: '/recipes/' + this.args.recipeId + '/comments',
       method: 'POST',
       headers: {

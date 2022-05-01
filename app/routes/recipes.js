@@ -20,17 +20,16 @@ export default class RecipesRoute extends RememberScrollRoute {
 
   setupController(controller, modelHash) {
     controller.setProperties(modelHash);
-    controller.set('pageNumber', 0);
   }
 
   model(params) {
-    this.simpleStore.clear('foundedRecipe');
+    this.simpleStore.clear('foundedByNameRecipe');
     return new hash({
       ingredients: this.repository.find('ingredient', {
         url: '/ingredients',
         method: 'GET'
       }),
-      allRecipes: this.repository.find('foundedRecipe', {
+      allRecipes: this.repository.find('foundedByNameRecipe', {
         url: "/recipes",
         method: "GET",
         body: {

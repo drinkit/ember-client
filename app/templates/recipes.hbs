@@ -1,4 +1,4 @@
-<div class="pt-4 px-2">
+<div class="flex flex-col pt-4 px-2">
   {{#if foundCocktails}}
     <span class="inline-block ml-[5px] mb-[10px] font-gothic text-md">По запросу "{{this.search}}" найдено {{this.recipes.length}} результатов</span>
     <div class="flex flex-wrap col-lg-6">
@@ -6,12 +6,12 @@
         <RecipeItem @recipe={{recipe}} @selectedIngredients={{this.selectedIngredientsIds}}/>
       {{/each}}
     </div>
-    {{#if this.isPreviousPageExist}}
-      {{#link-to 'builder' (query-params pageNumber=previousPageNumber) id="prevPageButton" class="float-left h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" rel="prev" }}Назад{{/link-to}}
-    {{/if}}
-    {{#if this.isNextPageExist}}
-      {{#link-to 'builder' (query-params pageNumber=nextPageNumber) id="nextPageButton" class="float-right h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" rel="next" }}Еще коктейлей{{/link-to}}
-    {{/if}}
+    <div class="flex justify-between">
+      <a href={{href-to 'recipes' (query-params pageNumber=this.previousPageNumber)}} id="prevPageButton"
+         class="place-self-start h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 {{if this.isPreviousPageExist "visible" "invisible"}}" rel="prev">Назад</a>
+      <a href={{href-to 'recipes' (query-params pageNumber=this.nextPageNumber)}} id="nextPageButton"
+         class="place-self-end h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 {{if this.isNextPageExist "visible" "invisible"}}" rel="next">Еще коктейлей</a>
+    </div>
   {{else}}
     <img src="/assets/sadcocktail.png" class="block mx-auto" />
     <p class="mx-auto text-[26px] font-gothic text-center">Коктейлей по запросу "{{this.search}}" не найдено... Нам очень жаль :(</p>

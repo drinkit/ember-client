@@ -36,6 +36,14 @@ export default class FiltersMenu extends Component {
     return this.args.cocktailOptions ? this.args.cocktailOptions.indexOf(3) >= 0 : false;
   }
 
+  get showOnlyLikedButton() {
+    return this.currentUser.isAuthenticated;
+  }
+
+  get isOnlyLikedPressed() {
+    return this.args.onlyLiked;
+  }
+
   get isLongTypePressed() {
     return this.args.cocktailTypes ? this.args.cocktailTypes.indexOf(1) >= 0 : false;
   }
