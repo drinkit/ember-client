@@ -11,8 +11,8 @@ module.exports = function(environment) {
       'font-src': "'self' localhost https://fonts.gstatic.com/l/font https://aws-server.drinkit.guru",
       'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://aws-server.drinkit.guru",
       'script-src': "'self' 'unsafe-eval' www.google-analytics.com api.vk.com https://aws-server.drinkit.guru",
-      'connect-src': "'self' https://static.78.49.203.116.clients.your-server.de http://localhost:8080 www.google-analytics.com https://aws-server.drinkit.guru https://drinkit-stg.eu-central-1.elasticbeanstalk.com/ https://server.drinkit.guru https://graph.facebook.com",
-      'img-src': "'self' https://static.78.49.203.116.clients.your-server.de https://server.drinkit.guru https://s3.eu-central-1.amazonaws.com https://drinkit-stg.eu-central-1.elasticbeanstalk.com/ www.google-analytics.com data:"
+      'connect-src': "'self' https://d28tpskzrtecde.cloudfront.net https://static.78.49.203.116.clients.your-server.de http://localhost:8080 www.google-analytics.com https://aws-server.drinkit.guru https://drinkit-stg.eu-central-1.elasticbeanstalk.com/ https://server.drinkit.guru https://graph.facebook.com",
+      'img-src': "'self' https://d28tpskzrtecde.cloudfront.net https://static.78.49.203.116.clients.your-server.de https://server.drinkit.guru https://s3.eu-central-1.amazonaws.com https://drinkit-stg.eu-central-1.elasticbeanstalk.com/ www.google-analytics.com data:"
     },
     EmberENV: {
       FEATURES: {

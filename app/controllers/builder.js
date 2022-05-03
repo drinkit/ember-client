@@ -17,6 +17,13 @@ export default class BuilderController extends PaginationController {
   @tracked isSearchPerformed = false;
   @tracked isSearchStarting = false;
 
+  init(...args) {
+    super.init(...args);
+    this.addObserver('currentUser.barItems', () => {
+      this.performSearch();
+    });
+  }
+
   @cached
   get recipes() {
     let self = this;
@@ -28,7 +35,7 @@ export default class BuilderController extends PaginationController {
     if (this.cocktailOptions.length > 0) {
       filters.push(this.filterByOptions);
     }
-    if (this.onlyLiked) {
+    if (this.currentUser.isAuthenticated && this.onlyLiked) {
       filters.push(this.filterByLiked);
     }
     return allFoundedRecipes.filter(item => {

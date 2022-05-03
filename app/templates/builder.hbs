@@ -13,9 +13,9 @@
       </div>
       <div class="flex justify-between">
         <a href={{href-to 'builder' (query-params pageNumber=this.previousPageNumber)}} id="prevPageButton"
-                class="place-self-start h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 {{if this.isPreviousPageExist "visible" "invisible"}}" rel="prev">Назад</a>
+                class="place-self-start h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 {{if this.isPreviousPageExist "visible" "invisible"}}" rel={{if this.isPreviousPageExist "prev"}}>Назад</a>
         <a href={{href-to 'builder' (query-params pageNumber=this.nextPageNumber)}} id="nextPageButton"
-                class="place-self-end h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 {{if this.isNextPageExist "visible" "invisible"}}" rel="next">Еще коктейлей</a>
+                class="place-self-end h-[36px] my-[10px] mr-[5px] block px-[12px] py-[6px] text-sm border border-greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200 {{if this.isNextPageExist "visible" "invisible"}}" rel={{if this.isNextPageExist "next"}}>Еще коктейлей</a>
       </div>
     {{else if this.isSearchPerformed}}
       <img src="/assets/sadcocktail.png" class="block mx-auto" />

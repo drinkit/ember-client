@@ -3,6 +3,7 @@ import { schedule } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 
 export default class RecipeItem extends Component {
   @service currentUser;
@@ -26,15 +27,20 @@ export default class RecipeItem extends Component {
   maxIngredientWidth = 999999;
 
   @tracked
-  sortedIngredients = [];
+  sortedIngredients = A();
 
   constructor(owner, args) {
     super(owner, args);
     this.reorderElements();
   }
 
-  isIngredientInBar(id) {
-    return this.currentUser.barItems.some(item => item.ingredientId === id);
+  get sortedAndHighlightedIngredients() {
+    this.sortedIngredients.forEach(i => {
+      i.isInBar = this.currentUser.isAuthenticated ? this.currentUser.barItems.some(barItem => barItem.ingredientId === i.id) : false;
+      i.tooltip = i.isInBar ? "есть в вашем баре" : "";
+    }, this);
+
+    return this.sortedIngredients;
   }
 
   getTextWidth(text, font) {
@@ -57,29 +63,30 @@ export default class RecipeItem extends Component {
         const ingr = store.find("ingredient", item.ingredientId);
         const type = selectedIngredients && selectedIngredients.includes(parseInt(ingr.get("id"))) ? "selected-ingredient" : "unselected-ingredient";
         const isInBar = that.currentUser.barItems.some(barItem => barItem.ingredientId === item.ingredientId);
-        sortedIngredients.push({
-          name: ingr.get("name"),
-          className: type,
-          isInBar: isInBar,
-          tooltip: isInBar ? "есть в вашем баре" : ""
-        });
+        sortedIngredients.push(new Ingredient(
+          item.ingredientId,
+          ingr.get("name"),
+          type,
+          isInBar,
+          isInBar ? "есть в вашем баре" : ""
+        ));
       });
       //
       const gapBetweenIngredients = 5;
       //
       const curElem = document.querySelector(".recipe-item");
-      var recipeBoxHeight = curElem.clientHeight;
-      var tagsHeight = curElem.querySelector("#tags").clientHeight;
-      var recipeNameHeight = curElem.querySelector("#recipeName").offsetHeight;
-      var paddingTop = 4 + recipeNameHeight;
-      var paddingBottom = 4 + tagsHeight;
+      const recipeBoxHeight = curElem.clientHeight;
+      const tagsHeight = curElem.querySelector("#tags").clientHeight;
+      const recipeNameHeight = curElem.querySelector("#recipeName").offsetHeight;
+      const paddingTop = 4 + recipeNameHeight;
+      const paddingBottom = 4 + tagsHeight;
 
-      var availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
+      const availableHeight = recipeBoxHeight - paddingBottom - paddingTop + gapBetweenIngredients;
       ////
-      var recipeBoxWidth = curElem.clientWidth;
-      var imageWidth = 5 + 134 + 5;
-      var paddingRight = 5;
-      var availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
+      const recipeBoxWidth = curElem.clientWidth;
+      const imageWidth = 5 + 134 + 5;
+      const paddingRight = 5;
+      const availableWidth = recipeBoxWidth - imageWidth - paddingRight + gapBetweenIngredients;
       ////
       let ingredientsWithWidths = [];
 
@@ -91,10 +98,10 @@ export default class RecipeItem extends Component {
       });
       ingredientsWithWidths = ingredientsWithWidths.sortBy("width");
       //
-      var newOrder = [];
-      var curRowWidth = 0;
-      var totalHeight = 0;
-      var rendererHeight = 25 + gapBetweenIngredients;
+      const newOrder = [];
+      let curRowWidth = 0;
+      let totalHeight = 0;
+      const rendererHeight = 25 + gapBetweenIngredients;
       while (totalHeight + rendererHeight <= availableHeight && ingredientsWithWidths.length !== 0) {
         curRowWidth = 0;
         let rowIsNotFilled = true;
@@ -138,7 +145,7 @@ export default class RecipeItem extends Component {
         if (curRowWidth + dotsWidth <= availableWidth) {
           newOrder.push(dots);
         } else {
-          deletedElement = ingredientsWithWidths.pop();
+          deletedElement = newOrder.pop();
           newOrder.push(dots);
         }
 
@@ -186,5 +193,21 @@ export default class RecipeItem extends Component {
 
   get maxIngredientWidthStyle() {
     return htmlSafe('max-width:' + this.maxIngredientWidth + 'px;');
+  }
+}
+
+class Ingredient {
+  id;
+  name;
+  className;
+  @tracked isInBar;
+  @tracked tooltip;
+
+  constructor(id, name, className, isInBar, tooltip) {
+    this.id = id;
+    this.name = name;
+    this.className = className;
+    this.isInBar = isInBar;
+    this.tooltip = tooltip;
   }
 }

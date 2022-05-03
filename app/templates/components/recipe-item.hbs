@@ -25,7 +25,7 @@
     <div class="relative text-center h-full">
       <span id="recipeName" class="font-georgia font-bold italic leading-none text-base md:text-lg lg:text-xl text-violet">{{@recipe.name}}</span>
       <div id="ingredients" class="text-left pt-[5px] pr-[5px] leading-tight">
-        {{#each this.sortedIngredients as |ingredient|}}
+        {{#each this.sortedAndHighlightedIngredients as |ingredient|}}
           <span title="{{ingredient.tooltip}}" style="{{this.maxIngredientWidthStyle}}"
                 class="inline-block leading-tight font-gothic text-center rounded-[10px] px-[5px] pt-[4px] pb-[5px] border-0 overflow-hidden text-[11px] md:text-xs {{if ingredient.isInBar "ring-1 ring-zinc-500 ring-inset"}} {{ingredient.className}}">{{to-lower-case ingredient.name}}</span>
         {{/each}}
