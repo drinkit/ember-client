@@ -36,7 +36,7 @@ export default class RecipeRoute extends Route {
     this.set('headData.description', htmlSafe(model.recipe.get('description')));
     this.set('headData.image', model.recipe.get('fullImageUrl'));
     transition.then(() => {
-      this.set('headData.canonical', window.location.href);
+      this.set('headData.canonical', document.location.origin + document.location.pathname);
     });
   }
 

@@ -46,7 +46,7 @@ export default class RecipesRoute extends RememberScrollRoute {
       this.set('headData.robots', 'noindex, follow');
     }
     transition.then(() => {
-      this.set('headData.canonical', window.location.href);
+      this.set('headData.canonical', document.location.origin + document.location.pathname);
     });
   }
 
