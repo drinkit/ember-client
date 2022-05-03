@@ -43,11 +43,15 @@ export default class IngredientRoute extends Route {
     });
   }
 
-  afterModel(model) {
+  afterModel(model, transition) {
     const repository = this.get('repository');
     repository.findOne('ingredient', model.ingredientId).then((ingredient) => {
       this.set('headData.title', ingredient.get('name') + ' - drinkIt');
       this.set('headData.description', ingredient.get('description'));
+    });
+
+    transition.then(() => {
+      this.set('headData.canonical', window.location.href);
     });
   }
 

@@ -1,6 +1,7 @@
+<HeadLayout />
 {{#burger-menu maxSwipeTime=500 width=260 as |burger|}}
   {{#burger.menu dismissOnItemClick=true itemTagName="li" as |menu|}}
-    <img class="ml-[10px] mt-[5px]" src="/assets/logo-main.png" width="240" height="80" />
+    <img class="ml-[10px] mt-[5px]" src="/assets/logo-main.png" alt="site logo" width="240" height="80" />
     <ul>
       {{#menu.item}}
         <div class="flex justify-between pr-[15px]">
@@ -32,7 +33,7 @@
           <span class="block mt-[6px] w-[22px] h-[2px] bg-white rounded-sm"></span>
         </button>
         <a href={{href-to "builder"}}>
-          <img src="/assets/logo-main.png" class="xs:w-[240px] xs:h-[80px] w-[210px] h-[70px]" />
+          <img src="/assets/logo-main.png" alt="site logo" class="xs:w-[240px] xs:h-[80px] w-[210px] h-[70px]" />
         </a>
         <SearchByName id="mobileSearch" class="md:hidden inline-block w-[42px] h-[42px] mt-[10px] relative" @options={{this.filteredSearchableItems}} @onSearch={{this.onSearch}} />
         <div class="pt-1 pr-2 hidden md:block">

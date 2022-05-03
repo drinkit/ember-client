@@ -3,17 +3,20 @@
   here. The 'model' available in this template can be populated by
   setting values on the 'head-data' service.
 --}}
-<title>{{model.title}}</title>
-<meta property="description" name="description" content={{model.description}} >
+<title>{{this.model.title}}</title>
+{{#if this.model.canonical}}
+  <link rel=“canonical” href={{this.model.canonical}} />
+{{/if}}
+<meta property="description" name="description" content={{this.model.description}} >
 <meta property="twitter:card" name="twitter:card" content="summary">
 <meta property="twitter:site" name="twitter:site" content="@drinkit_guru">
 <meta property="twitter:creator" name="twitter:creator" content="@drinkit_guru">
-<meta property="twitter:title" name="twitter:title" content={{model.title}}>
-<meta property="twitter:description" name="twitter:description" content={{model.description}}>
-<meta property="twitter:image" name="twitter:image" content={{model.image}}>
-{{#if model.robots}}
-  <meta property="robots" name="robots" content={{model.robots}}>
+<meta property="twitter:title" name="twitter:title" content={{this.model.title}}>
+<meta property="twitter:description" name="twitter:description" content={{this.model.description}}>
+<meta property="twitter:image" name="twitter:image" content={{this.model.image}}>
+{{#if this.model.robots}}
+  <meta property="robots" name="robots" content={{this.model.robots}}>
 {{/if}}
-<meta property="og:image" name="og:image" content={{model.image}}>
+<meta property="og:image" name="og:image" content={{this.model.image}}>
 <meta property="og:locale" name="og:image" content="ru_RU">
 <meta property="fb:app_id" name="fb:app_id" content="1528690400686454">

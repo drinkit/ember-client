@@ -12,8 +12,11 @@ export default class IngredientsRoute extends Route {
     });
   }
 
-  afterModel(model) {
+  afterModel(model, transition) {
     this.set('headData.title', 'Ингредиенты - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
+    transition.then(() => {
+      this.set('headData.canonical', window.location.href);
+    });
   }
 }

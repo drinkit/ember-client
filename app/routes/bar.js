@@ -32,9 +32,12 @@ export default class BarRoute extends Route {
     });
   }
 
-  afterModel() {
+  afterModel(model, transition) {
     this.set('headData.title', 'Мой бар - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
+    transition.then(() => {
+      this.set('headData.canonical', window.location.href);
+    });
   }
 
   setupController(controller, modelHash) {

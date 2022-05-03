@@ -11,6 +11,7 @@ export default class RecipeRoute extends Route {
   @service headData;
   @service metrics;
   @service stats;
+  @service router;
 
   beforeModel() {
     this.simpleStore.clear('comment');
@@ -30,10 +31,13 @@ export default class RecipeRoute extends Route {
     });
   }
 
-  afterModel(model) {
+  afterModel(model, transition) {
     this.set('headData.title', 'Рецепт коктейля «' + model.recipe.get('name') + '» - drinkIt');
     this.set('headData.description', htmlSafe(model.recipe.get('description')));
     this.set('headData.image', model.recipe.get('fullImageUrl'));
+    transition.then(() => {
+      this.set('headData.canonical', window.location.href);
+    });
   }
 
   setupController(controller, modelHash) {
