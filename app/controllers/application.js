@@ -9,6 +9,15 @@ export default class ApplicationController extends Controller {
   @service router;
   @service oauth;
 
+  get isActive() {
+    let currentRoute = this.router.currentRouteName;
+    let isRouteActive = {};
+    for (let route of ['builder', 'bar', 'ingredients']) {
+      isRouteActive[route] = currentRoute.includes(route);
+    }
+    return isRouteActive;
+  }
+
 	get filteredSearchableItems() {
 		const user = this.get('currentUser');
 		let filteredItems = [];

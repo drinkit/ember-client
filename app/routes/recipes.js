@@ -42,9 +42,12 @@ export default class RecipesRoute extends RememberScrollRoute {
   afterModel(model, transition) {
     this.set('headData.title', 'Результаты поиска - drinkIt');
     this.set('headData.description', 'Конструктор для составления коктейлей. Более 200 рецептов, удобные фильтры, умный поиск. Сохранение барного листа и подбор коктейлей по содержимому бара.');
-    if (transition.queryParams && transition.queryParams.pageNumber) {
+    if (transition.to.queryParams && transition.to.queryParams.pageNumber) {
       this.set('headData.robots', 'noindex, follow');
     }
+    transition.then(() => {
+      this.set('headData.canonical', document.location.origin + document.location.pathname);
+    });
   }
 
   @action

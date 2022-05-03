@@ -6,9 +6,9 @@
         <a class="w-[134px] h-[216px] mx-[18px] mb-[15px] relative" href={{href-to 'recipe' recipe.id}}>
           <div class="h-[216px] rounded shadow-recipe overflow-hidden">
             {{#if recipe.thumbnailUrl}}
-              <img class="absolute bottom-0 w-[134px] h-[178px]" alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
+              <img class="absolute bottom-0 w-[134px] h-[178px] rounded" alt={{recipe.name}} src={{recipe.fullThumbnailUrl}}>
             {{else}}
-              <img class="absolute bottom-0 w-[134px] h-[178px]" alt={{recipe.name}} src="/assets/emptycocktail.png">
+              <img class="absolute bottom-0 w-[134px] h-[178px] rounded" alt={{recipe.name}} src="/assets/emptycocktail.png">
             {{/if}}
             <span class="absolute top-0 text-center flex min-h-[30px] w-[134px] px-[3px] items-center justify-center leading-4 text-sm font-georgia font-bold text-violet italic">{{recipe.name}}</span>
           </div>

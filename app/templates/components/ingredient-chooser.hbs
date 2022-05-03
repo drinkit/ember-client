@@ -1,4 +1,4 @@
-<div class="font-gothic text-sm">
+<div class="font-gothic text-sm" ...attributes>
   {{#if @multiple}}
     <PowerSelectMultiple @searchEnabled={{true}} @selected={{this.selectedIngredients}} @searchField="name" @placeholder={{@placeholder}} @options={{this.filteredIngredients}} @onChange={{this.changeIngredients}} as |ingredient|>
       {{ingredient.name}} {{ingredient.description}}
