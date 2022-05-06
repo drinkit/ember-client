@@ -10,6 +10,14 @@ module.exports = function(defaults) {
       plugins: ['utc', 'relativeTime'],
     },
 
+    'ember-cli-terser': {
+      terser: {
+        compress: {
+          drop_console: true
+        }
+      }
+    },
+
     'ember-simple-auth': {
       useSessionSetupMethod: true,
     },

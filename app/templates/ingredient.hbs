@@ -27,6 +27,7 @@
           <li class="mb-[5px]">Крепость: {{this.currentIngredient.vol}}%</li>
 				</ul>
 			</div>
+      <meta itemprop="review" content={{this.currentIngredient.description}} />
 			<div itemprop="description">
 				<MarkdownToHtml class="mt-[20px] font-gothic text-sm whitespace-pre-wrap" @markdown={{this.currentIngredient.description}} @extensions="internal-links"/>
 			</div>

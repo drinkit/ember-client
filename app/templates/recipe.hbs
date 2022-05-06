@@ -1,4 +1,5 @@
 <div itemscope itemtype="http://schema.org/Recipe">
+  <meta itemprop="recipeCategory" content="cocktail" />
 	<div id="recipeView" class="flex flex-wrap justify-center pt-[10px] px-[15px]">
 		<div class="relative grow-0 min-w-[386px] w-[386px] h-[514px] border border-solid border-gray-350 md:mr-[15px]">
 			{{#if this.recipe.imageUrl}}
@@ -46,7 +47,7 @@
 				<hr class="border-gray-300">
 				{{#each this.recipeIngredients as |ingredient|}}
 					<div class="flex justify-between h-[42px] w-full px-[5px]">
-						<a class="font-gothic text-[15px] leading-[42px] underline" itemprop="recipeIngredient" href={{href-to 'ingredient' ingredient.id}}><span>{{ingredient.name}}</span></a>
+						<a class="font-gothic text-[15px] leading-[42px] underline" href={{href-to 'ingredient' ingredient.id}}><span itemprop="recipeIngredient">{{ingredient.name}}</span></a>
 						<span class="font-gothic text-[15px] leading-[42px]">{{humanize-quantity ingredient.quantity ingredient.unit}}</span>
 					</div>
 					<hr class="border-gray-300">
