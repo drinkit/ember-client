@@ -73,7 +73,7 @@ export default class SignupWindow extends Component {
     this.signup.register(email, password, displayName,
       function(response) {
         self.args.hideDialog('SignUp');
-        self.session.authenticate('autheticator:digest', email,
+        self.digestSession.authenticate('autheticator:digest', email,
           CryptoJS.SHA256("drinkIt" + password).toString());
       },
       function(xhr, status, error) {

@@ -5,6 +5,11 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+const NoDataMode = {
+  Warning: "warning",
+  Hide: "hide"
+}
+
 export default class SuggestIngredients extends Component {
   @service simpleStore;
   @service currentUser;
@@ -26,8 +31,16 @@ export default class SuggestIngredients extends Component {
     });
   }
 
+  get showPanel() {
+    return this.hasData || this.args.noDataMode === NoDataMode.Warning;
+  }
+
+  get showWarning() {
+    return !this.hasData && this.args.initialized && this.args.noDataMode === NoDataMode.Warning;
+  }
+
   get hasData() {
-    return this.args.suggestedIngredients.length> 0;
+    return this.args.suggestedIngredients.length > 0;
   }
 
   get showButtonForExtraSuggestion() {
