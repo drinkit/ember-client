@@ -18,4 +18,8 @@ Router.map(function() {
   this.route('ingredient', {
     path: '/ingredients/:ingredient_id'
   });
+
+  this.route('facebook', function() {
+    this.route('data-deletion');
+  });
 });
