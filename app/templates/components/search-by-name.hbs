@@ -11,6 +11,7 @@
     @onOpen={{this.preventEmptyOpen}}
     @onInput={{this.preventShortSearch}}
     @onkeydown={{this.keyPressed}}
+    @onFocus={{this.clearSearch}}
     @onChange={{this.processSearch}} as |option|>
     {{option.name}}
   </PowerSelectTypeahead>

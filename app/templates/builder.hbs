@@ -1,12 +1,12 @@
 <div id="builder-view" class="flex flex-wrap justify-center mx-[10px] md:flex-nowrap">
-  <FiltersMenu @clearFilters={{action "clearFilters"}} @changeIngredients={{action "changeIngredients"}}
+  <FiltersMenu id="filtersMenu" @clearFilters={{action "clearFilters"}} @changeIngredients={{action "changeIngredients"}}
       @toggleType={{action "toggleType"}} @toggleOption={{action "toggleOption"}} @toggleOnlyLiked={{action "toggleOnlyLiked"}} @selectedIngredientsIds={{this.selectedIngredientsIds}}
       @ingredients={{this.ingredients}} @cocktailOptions= {{this.cocktailOptions}} @cocktailTypes={{this.cocktailTypes}} @onlyLiked={{this.onlyLiked}} />
   <div class="flex flex-col w-full pl-[5px] pt-[15px]">
     {{#if this.isSearchStarting}}
       <SpinkitThreeBounce/>
     {{else if this.foundCocktails}}
-      <div class="flex flex-wrap">
+      <div id="searchResults" class="flex flex-wrap">
         {{#each recipesOnPage as |recipe|}}
           <RecipeItem @recipe={{recipe}} @selectedIngredients={{this.selectedIngredientsIds}}/>
         {{/each}}

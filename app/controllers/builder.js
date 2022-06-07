@@ -24,6 +24,20 @@ export default class BuilderController extends PaginationController {
     });
   }
 
+  // get scrollOffset() {
+  //   const bodyOffset = document.body.getBoundingClientRect().top;
+  //   const filtersMenu = document.getElementById('filtersMenu');
+  //   const searchResults = document.getElementById('searchResults');
+  //   if (filtersMenu && searchResults) {
+  //     const fmTop = filtersMenu.getBoundingClientRect().top;
+  //     if (fmTop < searchResults.getBoundingClientRect().top) {
+  //       return searchResults.getBoundingClientRect().top - bodyOffset;
+  //     }
+  //   }
+  //
+  //   return 0;
+  // }
+
   @cached
   get recipes() {
     let self = this;
