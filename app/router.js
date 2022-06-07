@@ -22,4 +22,5 @@ Router.map(function() {
   this.route('facebook', function() {
     this.route('data-deletion');
   });
+  this.route('privacy-policy');
 });
