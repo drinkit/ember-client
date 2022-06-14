@@ -140,25 +140,18 @@ export default class RecipeItem extends Component {
           tooltip: ""
         };
 
-        let deletedElement;
-
-        if (curRowWidth + dotsWidth <= availableWidth) {
-          newOrder.push(dots);
-        } else {
-          deletedElement = newOrder.pop();
-          newOrder.push(dots);
+        if (curRowWidth + dotsWidth > availableWidth) {
+          ingredientsWithWidths.push({item: newOrder.pop()});
         }
+
+        newOrder.push(dots);
 
         for (let l = 0; l < ingredientsWithWidths.length; l++) {
           const item = ingredientsWithWidths[l];
           dots.tooltip += item.item.name + "\n";
         }
 
-        if (deletedElement) {
-          dots.tooltip += deletedElement.item.name;
-        } else {
-          dots.tooltip = dots.tooltip.slice(0, dots.tooltip.length - 1);
-        }
+        dots.tooltip = dots.tooltip.slice(0, dots.tooltip.length - 1);
       }
 
       that.maxIngredientWidth = availableWidth - 4;

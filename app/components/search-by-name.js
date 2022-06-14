@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { scheduleOnce } from '@ember/runloop';
 
 const PossibleTips = ['ром и кола', 'мартини', 'водка + ликер', 'дайкири', 'с соком'];
 
@@ -20,6 +21,11 @@ export default class SearchByName extends Component {
       this.args.onSearch(obj.searchText);
       document.querySelector('input[type="search"]').blur();
     }
+  }
+
+  @action
+  clearSearch(select) {
+    select.actions.search('');
   }
 
   @action

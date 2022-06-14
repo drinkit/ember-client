@@ -13,8 +13,12 @@ export default class PaginationController extends Controller {
     });
   }
 
+  get scrollOffset() {
+    return 0;
+  }
+
   scrollOnPageChange() {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, this.scrollOffset);
   }
 
   get recipes() {

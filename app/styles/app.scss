@@ -189,7 +189,7 @@ input::-webkit-input-placeholder {
 }
 
 .remove-btn {
-  @apply inline-flex items-baseline indent-[-0.5px] w-[13.5px] leading-[4px] p-[3px] text-[15px] rounded-full cursor-pointer;
+  @apply inline-block indent-[-0.5px] w-[13.5px] h-[13.5px] leading-[4px] p-[3px] text-[15px] rounded-full cursor-pointer;
 }
 
 .ember-power-select-multiple-remove-btn {
