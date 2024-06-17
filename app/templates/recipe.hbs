@@ -24,7 +24,7 @@
 				{{#if this.currentUser.isLoggedIn}}
 					<div class="w-[16px] h-[16px] mr-[3px] cursor-pointer {{if this.isLiked "rating-heart-liked" "rating-heart-unliked"}}" {{on "click" this.changeLike}} />
 				{{else}}
-					<div class="w-[16px] h-[16px] mr-[3px] cursor-pointer rating-heart-unliked" title="Доступно только для зарегистрированных пользователей" />
+					<div class="w-[16px] h-[16px] mr-[3px] cursor-pointer rating-heart-unliked" title={{localized ru='Доступно только для зарегистрированных пользователей' en='Available only for registered users' uk='Доступно тільки для зареєстрованих користувачів'}} />
 				{{/if}}
 				<span class="font-gothic text-[13px]">{{safe-val this.recipe.stats.likes 0}}</span>
 			</div>
@@ -63,8 +63,8 @@
 			<meta itemprop="interactionType" content="http://schema.org/CommentAction" />
 			<meta itemprop="userInteractionCount" content={{this.sortedComments.length}} />
 			<div class="flex justify-between items-center mb-[10px]">
-				<h2 class="font-gothic text-[22px]">Комментарии</h2>
-				<SharePanel @adaptive={{true}} @buttons="vk, facebook, twitter" @labels="Поделиться,Поделиться,Твитнуть" @title={{this.shareTitle}} @image={{this.recipe.fullImageUrl}} @text={{this.shareDescription}} />
+				<h2 class="font-gothic text-[22px]">{{localized ru='Комментарии' en='Comments' uk='Коментарі'}}</h2>
+				<SharePanel @adaptive={{true}} @buttons="vk, facebook, twitter" @labels={{localized ru='Поделиться,Поделиться,Твитнуть' en='Share,Share,Tweet' uk='Поділитися,Поділитися,Твітнути'}} @title={{this.shareTitle}} @image={{this.recipe.fullImageUrl}} @text={{this.shareDescription}} />
 			</div>
 			<CommentEdit class="mb-[20px]" @recipeId={{this.recipe.id}}/>
 			{{#each this.sortedComments as |comment|}}

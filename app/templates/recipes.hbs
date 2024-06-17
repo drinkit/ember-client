@@ -1,6 +1,8 @@
 <div class="flex flex-col pt-4 px-2">
   {{#if foundCocktails}}
-    <span class="inline-block ml-[5px] mb-[10px] font-gothic text-md">По запросу "{{this.search}}" найдено {{this.recipes.length}} результатов</span>
+    <span class="inline-block ml-[5px] mb-[10px] font-gothic text-md">
+      {{concat (localized ru='По запросу "' en='Found results for "' uk='За запитом "') this.search (localized ru='" найдено ' en='" found ' uk='" знайдено ') this.recipes.length (localized ru=' результатов' en=' results' uk=' результатів')}}
+    </span>
     <div class="flex flex-wrap col-lg-6">
       {{#each this.recipesOnPage as |recipe|}}
         <RecipeItem @recipe={{recipe}} @selectedIngredients={{this.selectedIngredientsIds}}/>
@@ -14,6 +16,8 @@
     </div>
   {{else}}
     <img src="/assets/sadcocktail.png" class="block mx-auto" />
-    <p class="mx-auto text-[26px] font-gothic text-center">Коктейлей по запросу "{{this.search}}" не найдено... Нам очень жаль :(</p>
+    <p class="mx-auto text-[26px] font-gothic text-center">
+      {{concat (localized ru='Коктейлей по запросу "' en='No cocktails found for "' uk='Коктейлів за запитом "') this.search (localized ru='" не найдено... Нам очень жаль :(' en='"... We are very sorry :(' uk='" не знайдено... Нам дуже шкода :(')}}
+    </p>
   {{/if}}
 </div>

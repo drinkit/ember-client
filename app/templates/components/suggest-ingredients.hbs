@@ -1,14 +1,14 @@
 <div class="flex-1 p-[5px] mx-4 mt-[20px] mb-[15px] rounded-[5px] shadow-recipe font-gothic">
   {{#if this.hasData}}
-    <span class="block ml-[5px] text-sm">Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!</span>
+    <span class="block ml-[5px] text-sm">{{localized ru='Если бы в вашем баре были следующие ингредиенты, вы бы смогли приготовить больше коктейлей!' en='If you had the following ingredients in your bar, you could make more cocktails!' uk='Якби у вашому барі були наступні інгредієнти, ви могли б приготувати більше коктейлів!'}}</span>
     {{#each this.wholePhrases as |suggestion|}}
       <MarkdownToHtml class="ml-[5px] mt-[10px] text-sm" @markdown={{suggestion}} @extensions="internal-links" />
     {{/each}}
     {{#if this.showButtonForExtraSuggestion}}
-      <button type="button" class="block mt-[10px] ml-[5px] mb-[5px] px-[12px] py-[6px] h-[36px] border border-greengray rounded-[4px] text-light_green font-gothic font-bold text-sm focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{on "click" (fn this.getMoreSuggestion)}}>Еще рекомендаций</button>
+      <button type="button" class="block mt-[10px] ml-[5px] mb-[5px] px-[12px] py-[6px] h-[36px] border border-greengray rounded-[4px] text-light_green font-gothic font-bold text-sm focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{on "click" (fn this.getMoreSuggestion)}}>{{localized ru='Еще рекомендаций' en='More recommendations' uk='Ще рекомендацій'}}</button>
     {{/if}}
   {{else if @initialized}}
-    <span class="block ml-[5px] text-sm">К сожалению, в вашем баре слишком мало ингредиентов, чтобы мы могли вам что-то посоветовать.</span>
+    <span class="block ml-[5px] text-sm">{{localized ru='К сожалению, в вашем баре слишком мало ингредиентов, чтобы мы могли вам что-то посоветовать.' en='Unfortunately, there are too few ingredients in your bar for us to suggest anything.' uk='На жаль, у вашому барі занадто мало інгредієнтів, щоб ми могли вам щось порадити.'}}</span>
   {{else}}
     <SpinkitThreeBounce/>
   {{/if}}
