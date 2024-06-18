@@ -1,10 +1,10 @@
 <div class="font-gothic text-sm text-right mb-[20px]">
   {{#if this.currentUser.isLoggedIn}}
-    <Textarea @value={{this.commentText}} @maxlength="500" class="w-full min-h-[60px] px-[12px] py-[6px] border rounded border-solid border-gray-400" @rows="3" @placeholder="Здесь вы можете оставить комментарий"/>
-    <button type="button" class="inline-block h-[37px] px-[12px] py-[6px] border greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{on "click" this.submitComment}}>Отправить</button>
+    <Textarea @value={{this.commentText}} @maxlength="500" class="w-full min-h-[60px] px-[12px] py-[6px] border rounded border-solid border-gray-400" @rows="3" @placeholder={{localized ru='Здесь вы можете оставить комментарий' en='Here you can leave a comment' uk='Тут ви можете залишити коментар'}}/>
+    <button type="button" class="inline-block h-[37px] px-[12px] py-[6px] border greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" {{on "click" this.submitComment}}>{{localized ru='Отправить' en='Send' uk='Надіслати'}}</button>
   {{else}}
     <p class="min-h-[60px] px-[12px] py-[6px] border rounded border-solid border-gray-400 text-left">
-      Чтобы оставить комментарий, нужно <span class="cursor-pointer text-blue-600" {{on "click" this.showLogin}}>авторизироваться</span> на сайте.
+      {{localized ru='Чтобы оставить комментарий, нужно' en='To leave a comment, you need to' uk='Щоб залишити коментар, вам потрібно'}} <span class="cursor-pointer text-blue-600" {{on "click" this.showLogin}}>{{localized ru='авторизироваться' en='log in' uk='увійти в систему'}}</span> {{localized ru='на сайте.' en='on the site.' uk='на сайті.'}}
     </p>
   {{/if}}
 </div>

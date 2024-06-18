@@ -4,6 +4,7 @@ import { hash } from 'rsvp';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import localize from "../utils/localize";
 
 export default class RecipeRoute extends Route {
   @service simpleStore;
@@ -32,7 +33,7 @@ export default class RecipeRoute extends Route {
   }
 
   afterModel(model, transition) {
-    this.set('headData.title', 'Рецепт коктейля «' + model.recipe.get('name') + '» - drinkIt');
+    this.set('headData.title', `${localize('Рецепт коктейля', 'Cocktail recipe', 'Рецепт коктейлю')} «` + model.recipe.get('name') + '» - drinkIt');
     this.set('headData.description', htmlSafe(model.recipe.get('description')));
     this.set('headData.image', model.recipe.get('fullImageUrl'));
     transition.then(() => {

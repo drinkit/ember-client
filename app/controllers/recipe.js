@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import {tracked} from '@glimmer/tracking';
+import localize from "../utils/localize";
 
 const OptionsToTags = {
   1: "fire-32.png",
@@ -103,7 +104,7 @@ export default class RecipeController extends Controller {
   }
 
   get shareTitle() {
-    return `Рецепт коктейля "${this.get('recipe.name')}"`;
+    return `${localize('Рецепт коктейля', 'Cocktail recipe', 'Рецепт коктейлю')} "${this.get('recipe.name')}"`;
   }
 
   get shareDescription() {

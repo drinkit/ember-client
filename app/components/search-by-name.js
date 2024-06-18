@@ -1,10 +1,16 @@
-import { inject as service } from '@ember/service';
+import {inject as service} from '@ember/service';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import { scheduleOnce } from '@ember/runloop';
+import {action} from '@ember/object';
+import {tracked} from '@glimmer/tracking';
+import localize from "../utils/localize";
 
-const PossibleTips = ['ром и кола', 'мартини', 'водка + ликер', 'дайкири', 'с соком'];
+const PossibleTips = [
+  localize('ром и кола', 'rum and cola', 'ром і кола'),
+  localize('мартини', 'martini', 'мартіні'),
+  localize('водка + ликер', 'vodka + liqueur', 'водка + лікер'),
+  localize('дайкири', 'daiquiri', 'дайкірі'),
+  localize('с соком', 'with juice', 'з соком'),
+];
 
 export default class SearchByName extends Component {
   @service router;
@@ -12,7 +18,8 @@ export default class SearchByName extends Component {
 
   constructor(owner, args) {
     super(owner, args);
-    this.randomPlaceholder = 'Например, ' + PossibleTips[Math.floor(Math.random() * PossibleTips.length)];
+    this.randomPlaceholder = localize('Например', 'For example', 'Наприклад')
+      + ", " + PossibleTips[Math.floor(Math.random() * PossibleTips.length)];
   }
 
   @action
