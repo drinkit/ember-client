@@ -1,8 +1,6 @@
 import Controller from '@ember/controller';
 
 export default class IngredientsController extends Controller {
-  categories = ['Крепкие алкогольные напитки', 'Ликеры', 'Слабоалкогольные напитки', 'Безалкогольные напитки', 'Прочее'];
-
   clear() {
     const ingredientsInCategories = this.get('ingredientsInCategories');
     for (let category in this.ingredientsInCategories) {
@@ -13,19 +11,17 @@ export default class IngredientsController extends Controller {
   }
 
   get ingredientsInCategories() {
-    const res = {
-      'Крепкие алкогольные напитки': [],
-      'Ликеры': [],
-      'Слабоалкогольные напитки': [],
-      'Безалкогольные напитки': [],
-      'Прочее': []
-    };
+    const res = {};
 
     const ingredients = this.model.toArray();
 
     for (const ingredient of ingredients) {
-      if (ingredient.get('category')) {
-        res[ingredient.get('category')].push(ingredient);
+      var category = ingredient.get('category');
+      if (!res[category]) {
+        res[category] = []; // Add category to res if it doesn't exist
+      }
+      if (category) {
+        res[category].push(ingredient);
       }
     }
 

@@ -23,8 +23,8 @@
 			{{/if}}
 			<div class="mt-[20px]">
 				<ul id="ingrAttrList" class="font-gothic">
-					<li class="mb-[5px]" itemprop="category">Категория: {{this.currentIngredient.category}}</li>
-          <li class="mb-[5px]">Крепость: {{this.currentIngredient.vol}}%</li>
+					<li class="mb-[5px]" itemprop="category">{{localized ru='Категория' en='Category' uk='Категорія'}}: {{this.currentIngredient.category}}</li>
+          <li class="mb-[5px]">{{localized ru='Крепость' en='Volume' uk='Міцність'}}: {{this.currentIngredient.vol}}%</li>
 				</ul>
 			</div>
       <meta itemprop="review" content={{this.currentIngredient.description}} />
