@@ -1,6 +1,6 @@
 <div class="px-[15px]">
   {{#if this.hasData}}
-    <span class="block font-gothic text-lg mt-[15px] mb-[10px]">Коктейли с этим ингредиентом:</span>
+    <span class="block font-gothic text-lg mt-[15px] mb-[10px]">{{localized ru='Коктейли с этим ингредиентом' en='Cocktails with this ingredient' uk='Коктейлі з цим інгредієнтом'}}</span>
     <div class="flex flex-wrap justify-start -ml-[18px] -mr-[15px]">
       {{#each this.filteredSuggestedRecipes as |recipe|}}
         <a class="w-[134px] h-[216px] mx-[18px] mb-[15px] relative" href={{href-to 'recipe' recipe.id}}>

@@ -2,17 +2,17 @@
   <div class="w-[350px]">
     <div>
       <div class="flex justify-between p-4 border-b border-gray-300">
-        <h4 class="font-georgia text-lg text-violet">Вход</h4>
+        <h4 class="font-georgia text-lg text-violet">{{localized ru='Вход' en='Login' uk='Вхід'}}</h4>
         <button type="button" class="text-gray-500 text-xl font-bold -mt-2 hover:text-gray-700" aria-label="Close" {{on "click" this.close}}>&times;</button>
       </div>
       <div class="p-4 border-b border-gray-300">
-        <Input type="email" class="block w-full mb-2 border border-gray-500 rounded-[4px] px-[12px] py-[6px] text-sm text-gray-700 italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" placeholder="Электронный адрес..." @value={{this.email}}/>
-        <Input type="password" class="block w-full mb-2 border border-gray-500 rounded-[4px] px-[12px] py-[6px] text-sm italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" placeholder="Пароль..." @value={{this.password}}/>
+        <Input type="email" class="block w-full mb-2 border border-gray-500 rounded-[4px] px-[12px] py-[6px] text-sm text-gray-700 italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" placeholder={{localized ru='Электронный адрес...' en='Email address...' uk='Електронна адреса...'}} @value={{this.email}}/>
+        <Input type="password" class="block w-full mb-2 border border-gray-500 rounded-[4px] px-[12px] py-[6px] text-sm italic font-gothic focus:outline-none focus:border-blue-400 focus:shadow-input" placeholder={{localized ru='Пароль...' en='Password...' uk='Пароль...'}} @value={{this.password}}/>
         {{#if this.hasError}}
-          <span class="text-sm font-gothic">Неправильный логин или пароль</span>
+          <span class="text-sm font-gothic">{{localized ru='Неправильный логин или пароль' en='Incorrect login or password' uk='Неправильний логін або пароль'}}</span>
         {{/if}}
         <button type="button" class="block h-[37px] w-full border greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200"
-                disabled={{this.isLogining}} {{on "click" this.login}}>Войти</button>
+                disabled={{this.isLogining}} {{on "click" this.login}}>{{localized ru='Войти' en='Login' uk='Увійти'}}</button>
       </div>
       <div class="flex justify-between p-4 border-b border-gray-300">
         <button id="googleButton" type="button" class="w-[100px] h-[37px] rounded-[4px] bg-google_red text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{on "click" (fn this.socialLogin "google")}}>Google+</button>
@@ -20,7 +20,7 @@
         <button id="fbButton" type="button" class="w-[100px] h-[37px] rounded-[4px] bg-fb_blue text-white font-gothic font-bold text-sm" disabled={{this.isLogining}} {{on "click" (fn this.socialLogin "facebook")}}>Facebook</button>
       </div>
       <div class="p-4">
-        <button type="button" class="block h-[37px] w-full border greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" disabled={{this.isLogining}} {{on "click" this.signUp}}>Зарегистрироваться</button>
+        <button type="button" class="block h-[37px] w-full border greengray rounded-[4px] text-light_green font-gothic font-bold focus:outline-none hover:bg-gray-200 active:shadow-inner active:bg-green-200" disabled={{this.isLogining}} {{on "click" this.signUp}}>{{localized ru='Зарегистрироваться' en='Register' uk='Зареєструватися'}}</button>
       </div>
     </div>
   </div>

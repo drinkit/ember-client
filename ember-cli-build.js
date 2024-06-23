@@ -6,7 +6,7 @@ module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
 
     'ember-dayjs': {
-      locales: ['ru'],
+      locales: ['ru', "en", "uk"],
       plugins: ['utc', 'relativeTime'],
     },
 

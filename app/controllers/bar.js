@@ -45,7 +45,7 @@ export default class BarController extends Controller {
 
     for (const categorisedIngredient of ingredients) {
       if (!categorisedIngredient) continue;
-      let category = RuToEnCategory[categorisedIngredient.get('category')];
+      let category = RuToEnCategory[categorisedIngredient.get('_category')];
       if (categorisedIngredients[category]) {
         categorisedIngredients[category].push(categorisedIngredient);
       } else {

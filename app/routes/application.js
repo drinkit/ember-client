@@ -1,6 +1,7 @@
 import { schedule } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { getFirstSupportedLanguage } from '../utils/localize';
 
 export default class ApplicationRoute extends Route {
   @service repository;
@@ -16,7 +17,7 @@ export default class ApplicationRoute extends Route {
 
   async beforeModel() {
     await this.digestSession.setup();
-    this.dayjs.setLocale('ru');
+    this.dayjs.setLocale(getFirstSupportedLanguage());
   }
 
   afterModel(model) {

@@ -1,22 +1,22 @@
 {{#if this.user.isAuthenticated}}
   <div class="mx-4 pt-[15px]">
-    <IngredientChooser class="mb-[5px]" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="Добавить в бар..." @ingredientSelected={{this.ingredientSelected}}/>
-    <Hint @name="ingredientInBar" @text="Полезно знать: после добавления ингредиентов в бар, они будут отмечаться в результатах поиска с помощью серебряной рамки, даже если не учавствуют в фильтрах." />
+    <IngredientChooser class="mb-[5px]" @multiple={{false}} @initSelectedIds={{this.selectedIngredientsIds}} @selectedIngredientsIds={{this.selectedIngredientsIds}} @ingredients={{this.ingredients}} @placeholder="{{localized ru='Добавить в бар' en='Add to the bar' uk='Додати до бару'}}..." @ingredientSelected={{this.ingredientSelected}}/>
+    <Hint @name="ingredientInBar" @text={{localized ru='Полезно знать: после добавления ингредиентов в бар, они будут отмечаться в результатах поиска с помощью серебряной рамки, даже если не учавствуют в фильтрах.' en='Good to know: after adding ingredients to the bar, they will be marked in the search results with a silver frame, even if they do not participate in the filters.' uk='Корисно знати: після додавання інгредієнтів до бару, вони будуть позначатися в результатах пошуку за допомогою срібної рамки, навіть якщо вони не беруть участь у фільтрах.'}} />
     <div class="flex flex-wrap mt-[10px]">
       <div id="firstBarColumn" class="flex flex-col flex-1 w-full">
-        <BarCategoryBox @title="Крепкие алкогольные напитки" class="ml-0" @ingredients={{this.ingredientsInCategories.hardSpirits}} @onRemoveItem={{action "itemDeleted"}} />
-        <BarCategoryBox @title="Ликеры" class="ml-0" @ingredients={{this.ingredientsInCategories.liquors}} @onRemoveItem={{action "itemDeleted"}}/>
+        <BarCategoryBox @title={{localized ru='Крепкие алкогольные напитки' en='Strong alcoholic drinks' uk='Міцні алкогольні напої'}} class="ml-0" @ingredients={{this.ingredientsInCategories.hardSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title={{localized ru='Ликеры' en='Liqueurs' uk='Лікери'}} class="ml-0" @ingredients={{this.ingredientsInCategories.liquors}} @onRemoveItem={{action "itemDeleted"}}/>
       </div>
       <div id="secondBarColumn" class="flex flex-col flex-1 w-full">
-        <BarCategoryBox @title="Слабоалкогольные напитки" class="mr-0" @ingredients={{this.ingredientsInCategories.softSpirits}} @onRemoveItem={{action "itemDeleted"}} />
-        <BarCategoryBox @title="Безалкогольные напитки" class="mr-0" @ingredients={{this.ingredientsInCategories.nonSpirits}} @onRemoveItem={{action "itemDeleted"}} />
-        <BarCategoryBox @title="Прочее" class="mr-0" @ingredients={{this.ingredientsInCategories.other}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title={{localized ru='Слабоалкогольные напитки' en='Low-alcohol drinks' uk='Слабоалкогольні напої'}} class="mr-0" @ingredients={{this.ingredientsInCategories.softSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title={{localized ru='Безалкогольные напитки' en='Non-alcoholic drinks' uk='Безалкогольні напої'}} class="mr-0" @ingredients={{this.ingredientsInCategories.nonSpirits}} @onRemoveItem={{action "itemDeleted"}} />
+        <BarCategoryBox @title={{localized ru='Прочее' en='Other' uk='Інше'}} class="mr-0" @ingredients={{this.ingredientsInCategories.other}} @onRemoveItem={{action "itemDeleted"}} />
       </div>
     </div>
   </div>
   <SuggestIngredients @suggestedIngredients={{this.suggestedIngredients}} @initialized={{this.suggestedIngredientsInitialized}} />
 {{else}}
   <span class="block text-center text-xl font-gothic mt-5">
-    Чтобы воспользоваться баром, нужно <a class="text-blue-700 cursor-pointer hover:underline" {{on "click" (fn this.showLogin)}}>авторизироваться</a> на сайте.
+  {{localized ru='Чтобы воспользоваться баром, нужно' en='To use the bar, you need to' uk='Щоб скористатися баром, потрібно'}} <a class="text-blue-700 cursor-pointer hover:underline" {{on "click" (fn this.showLogin)}}>{{localized ru='авторизироваться' en='log in' uk='авторизуватися'}}</a> {{localized ru='на сайте.' en='to the site.' uk='на сайті.'}}
   </span>
 {{/if}}
