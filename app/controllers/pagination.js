@@ -18,7 +18,7 @@ export default class PaginationController extends Controller {
   }
 
   scrollOnPageChange() {
-    window.scrollTo(0, this.scrollOffset);
+    // window.scrollTo(0, this.scrollOffset);
   }
 
   get recipes() {
@@ -47,14 +47,17 @@ export default class PaginationController extends Controller {
 
   get pages() {
     const pages = [];
-    const that = this;
     if (this.recipes != null) {
       const allRecipes = this.recipes;
       let index = 0;
       let curPageIndex = 0;
       while (index < allRecipes.get('length')) {
         const page = [];
-        while (index < (curPageIndex + 1) * that.get('pageSize') && index < allRecipes.get('length')) {
+        // If it's not the first page, add all elements of the previous page to the current page
+        if (curPageIndex > 0) {
+          page.push(...pages[curPageIndex - 1]);
+        }
+        while (page.length < (curPageIndex + 1) * this.get('pageSize') && index < allRecipes.get('length')) {
           page.push(allRecipes.objectAt(index));
           index++;
         }

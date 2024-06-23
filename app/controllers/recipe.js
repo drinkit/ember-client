@@ -110,7 +110,7 @@ export default class RecipeController extends Controller {
   get shareDescription() {
     let truncatedDesc = this.get('recipe.description');
     let res = this.get('recipe.description').match(/^(?:.*\n){1,3}/);
-    if (res.length > 0) {
+    if (res && res.length > 0) {
       truncatedDesc = res[0].replace('\n', ' ').trim() + '..';
     }
     return truncatedDesc;
